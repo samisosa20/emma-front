@@ -1,9 +1,10 @@
 import { twMerge } from "tailwind-merge";
 
 // Interface
-import { ButtonProps } from './button.interface';
+import { ButtonProps } from './Button.interface';
+
 // Style
-import { useTheme } from './button.styles';
+import { useTheme } from './Button.styles';
 
 const Button = (props: ButtonProps) => {
   const {
