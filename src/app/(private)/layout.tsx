@@ -30,7 +30,7 @@ export default function RootLayout({
             </ul>
           </aside>
 
-          <main className='py-8 px-4 lg:px-16'>{children}</main>
+          <main className='py-8 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto'>{children}</main>
         </div>
       </body>
     </html>
