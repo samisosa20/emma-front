@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 //components
-import useComponents from '@/components';
+import useComponents from '@/share/components';
 
 // Interface
 import { ListItems } from './ListItems.interface';

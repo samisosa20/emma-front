@@ -1,5 +1,5 @@
 //components
-import useComponents from '@/components';
+import useComponents from '@/share/components';
 import useComponentsLayout from "../components";
 
 const Dashboard = () => {

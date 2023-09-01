@@ -1,5 +1,5 @@
 //components
-import useComponents from '@/components';
+import useComponents from '@/share/components';
 
 // Interface
 import { CardsProps } from './Cards.interface';

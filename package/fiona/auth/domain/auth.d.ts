@@ -1,16 +1,7 @@
 import * as z from 'zod';
-import { loginSchema } from './auth.schema';
+import { loginSchema, authSchema } from './auth.schema';
 
 type Login = z.infer<typeof loginSchema>;
+type Auth = z.infer<typeof authSchema>;
 
-export type { Login };
-
-export interface AuthModel {
-  data: {
-    name: string;
-    email: string;
-    currrency: number;
-    transfer_id: number;
-  };
-  token: string;
-}
+export type { Login, Auth };

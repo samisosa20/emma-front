@@ -1,8 +1,7 @@
-import type { Login } from "./auth.d";
-import { AuthModel } from "./auth.d";
+import type { Login, Auth } from "./auth.d";
 
 interface AuthRepository {
-    postLogin({ email, password }: Login): Promise<AuthModel>,
+    postLogin({ email, password }: Login): Promise<Auth>,
 }
 
 export type { AuthRepository }

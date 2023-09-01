@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import imgLogo from '../../../../../public/img/logo.png';
 
 // Components
-import useComponents from '@/components';
+import useComponents from '@/share/components';
 
 const Header = () => {
   const { Typography } = useComponents();
