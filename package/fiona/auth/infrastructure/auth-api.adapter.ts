@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 import type { AuthAdapter } from "../domain/auth.adapter.d";
 import type { Login, Auth } from "../domain/auth.d";
