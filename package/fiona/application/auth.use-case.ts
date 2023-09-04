@@ -1,6 +1,6 @@
-import type { AuthAdapter } from '../domain/auth.adapter';
-import type { Login } from "../domain/auth.d";
-import type { AuthRepository } from '../domain/auth.repository';
+import type { AuthAdapter } from '../domain/auth/auth.adapter';
+import type { Login } from "../domain/auth/auth.d";
+import type { AuthRepository } from '../domain/auth/auth.repository';
 
 class AuthUseCase implements AuthRepository {
     private authAdapter: AuthAdapter;

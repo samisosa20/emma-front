@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
-import type { AuthAdapter } from "../domain/auth.adapter.d";
-import type { Login, Auth } from "../domain/auth.d";
+import type { AuthAdapter } from "../domain/auth/auth.adapter.d";
+import type { Login, Auth } from "../domain/auth/auth.d";
 
 import HttpService from './http.service'; // Abstracted http service
 

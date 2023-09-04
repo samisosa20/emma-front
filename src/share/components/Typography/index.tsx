@@ -1,9 +1,9 @@
 import { twMerge } from "tailwind-merge";
 
 // Interface
-import { TypographyProps } from './typography.interface';
+import { TypographyProps } from './Typography.interface';
 // Style
-import { useTheme } from './typography.styles';
+import { useTheme } from './Typography.styles';
 
 const Button = (props: TypographyProps) => {
   const {

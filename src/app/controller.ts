@@ -8,8 +8,8 @@ import { toast } from 'react-toastify';
 import { loginSchema } from '@/share/validation';
 import type { LoginSchema } from '@/share/validation';
 
-import { AuthUseCase } from '../../package/fiona/auth/application/auth.use-case';
-import { AuthApiAdapter } from '../../package/fiona/auth/infrastructure/auth-api.adapter';
+import { AuthUseCase } from '../../package/fiona/application/auth.use-case';
+import { AuthApiAdapter } from '../../package/fiona/infrastructure/auth-api.adapter';
 
 const useLogin = () => {
   const router = useRouter();
