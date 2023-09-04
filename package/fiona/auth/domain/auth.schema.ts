@@ -11,6 +11,8 @@ const authSchema = z.object({
     currency: z.number(),
     transfer_id: z.number(),
     token: z.string(),
+    error: z.boolean(),
+    message: z.string(),
 })
 
 export { loginSchema, authSchema }

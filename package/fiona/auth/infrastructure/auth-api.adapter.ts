@@ -12,22 +12,25 @@ interface AuthApiAdapterOptions {
 
 class AuthApiAdapter implements AuthAdapter {
     private httpService: HttpService;
-    private baseUrl: string;
 
     constructor(options: AuthApiAdapterOptions) {
         this.httpService = new HttpService(options.baseUrl, options.customConfig);
-        this.baseUrl = options.baseUrl;
     }
 
 
     async postLogin({ email, password }: Login): Promise<Auth> {
-        const result: any = await this.httpService.post<Login>(`${this.baseUrl}login`, { email, password });
+        const result: any = await this.httpService.post<Login>(`login`, { email, password });
+        if(result.error) {
+            return result
+        }
         return {
             name: result.data.name,
             email: result.data.email,
             token: result.token,
             currency: result.data.currency,
             transfer_id: result.data.transfer_id,
+            error: false,
+            message: ''
         }
     }
 

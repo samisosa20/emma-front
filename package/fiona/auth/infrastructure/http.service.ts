@@ -4,7 +4,7 @@
  * @module HttpService
  */
 
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 class HttpService {
   private instance: AxiosInstance;
@@ -28,9 +28,17 @@ class HttpService {
    * @param {string} url - The URL to send the GET request to.
    * @returns {Promise<any>} The response data.
    */
-  async get<T>(url: string): Promise<T> {
-    const response = await this.instance.get<T>(url);
-    return response.data;
+  async get<T>(url: string): Promise<T | { error: boolean; message: string }> {
+    try {
+      const response = await this.instance.get<T>(url);
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        return { ...error.response.data, error: true };
+      } else {
+        return { error: true, message: "Error desconocido" };
+      }
+    }
   }
 
   /**
@@ -40,9 +48,20 @@ class HttpService {
    * @param {any} data - The data to be sent in the request body.
    * @returns {Promise<any>} The response data.
    */
-  async post<T>(url: string, data: any): Promise<T> {
-    const response = await this.instance.post<T>(url, data);
-    return response.data;
+  async post<T>(
+    url: string,
+    data: any
+  ): Promise<T | { error: boolean; message: string }> {
+    try {
+      const response = await this.instance.post<T>(url, data);
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        return { ...error.response.data, error: true };
+      } else {
+        return { error: true, message: "Error desconocido" };
+      }
+    }
   }
 
   /**
@@ -52,9 +71,17 @@ class HttpService {
    * @param {any} data - The data to be sent in the request body.
    * @returns {Promise<any>} The response data.
    */
-  async put<T>(url: string, data: any): Promise<T> {
-    const response = await this.instance.put<T>(url, data);
-    return response.data;
+  async put<T>(url: string, data: any): Promise<T | { error: boolean; message: string }> {
+    try {
+      const response = await this.instance.put<T>(url, data);
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        return { ...error.response.data, error: true };
+      } else {
+        return { error: true, message: "Error desconocido" };
+      }
+    }
   }
 
   /**
