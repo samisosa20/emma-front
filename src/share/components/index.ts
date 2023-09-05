@@ -6,6 +6,7 @@ const Modal = lazy(() => import("./Modal"));
 const Input = lazy(() => import("./Input"));
 const FormControl = lazy(() => import("./FormControl"));
 const Toast = lazy(() => import("./Toast"));
+const Switch = lazy(() => import("./Switch"));
 
 const useComponents = () => {
     return {
@@ -15,6 +16,7 @@ const useComponents = () => {
         Input,
         FormControl,
         Toast,
+        Switch,
     }
 }
 

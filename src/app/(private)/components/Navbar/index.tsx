@@ -78,10 +78,10 @@ const Header = () => {
         <Image src={imgLogo} alt='Logo fiona' />
       </Link>
       <ul className='mt-4 text-white'>
-        {links.map((link) => {
+        {links.map((link, index) => {
           const Icon = link.icon;
           return (
-            <Link href={link.link}>
+            <Link href={link.link} key={index}>
               <li className={`${pathname === link.link ? 'text-secondary' : 'text-white'} mb-2 flex space-x-4 items-center hover:text-secondary`}>
                 <Icon />
                 <Typography variant="h3" className={`${pathname === link.link ? 'text-secondary' : 'text-white'} hover:text-secondary`}>{link.name}</Typography>

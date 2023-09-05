@@ -30,6 +30,8 @@ const balanceSchema = z.object({
 const accountSchema = z.object({
     accounts: z.array(accountsSchema),
     balances: z.array(balanceSchema),
+    status: z.number().optional()
+    .transform(e => e === 0 ? undefined : e),
 })
 
 export { accountSchema };

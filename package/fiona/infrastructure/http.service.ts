@@ -34,7 +34,7 @@ class HttpService {
       return response.data;
     } catch (error: any) {
       if (error.response) {
-        return { ...error.response.data, error: true };
+        return { ...error.response.data, error: true, status: error.response.status};
       } else {
         return { error: true, message: "Error desconocido" };
       }
