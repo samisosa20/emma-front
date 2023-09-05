@@ -5,48 +5,49 @@ import { useParams } from 'next/navigation';
 import useComponents from '@/share/components';
 import useComponentsLayout from '../../components';
 
-import { data } from './tem';
+import useAccount from './controller';
 
 const AccountDetail = () => {
-  const param = useParams();
-  console.log(param.id);
   const { Typography } = useComponents();
   const { Cards } = useComponentsLayout();
-  const balances = [
-    {
-      title: 'Balance del mes actual',
-      values: [data.balances[0].month],
-    },
-    {
-      title: 'Balance del año actual',
-      values: [data.balances[0].year],
-    },
-    {
-      title: 'Balance total',
-      values: [data.balances[0].balance],
-    },
-  ];
+
+  const { isLoading, data, formatCurrency } = useAccount();
+
+  if (isLoading || data === undefined) {
+    return <Typography>Cargando...</Typography>;
+  }
+
   return (
     <div>
       <Typography variant='h1'>{`${data.account.name} ${data.account.currency.code}`}</Typography>
       <Typography>Detalle cuenta</Typography>
       <div className='mt-6'>
-        <Cards data={balances} />
+        <Cards data={data.balances} />
       </div>
-      <div className='mt-6 bg-white rounded shadow-sm'>
-        <div className='border-b border-gray-300 py-2 px-1'>
-          <div className='flex justify-between items-center'>
-            <div className='font-bold'>{''}</div>
-            <div className="{{$movement->amount > 0 s? 'text-green-500' : 'text-red-500'}}">
-              {''}
+      <div className='mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto'>
+        {data.movements.data.map((movement) => (
+          <div className='border-b border-gray-300 py-2 px-1' key={movement.id}>
+            <div className='flex justify-between items-center'>
+              <div className='font-bold'>{movement.category.name}</div>
+              <div
+                className={
+                  movement.amount > 0 ? 'text-green-500' : 'text-red-500'
+                }
+              >
+                {formatCurrency.format(movement.amount)}
+              </div>
             </div>
+            <div className='flex justify-between items-center pb-1'>
+              <Typography>{movement.date_purchase}</Typography>
+              <Typography>{movement.event?.name}</Typography>
+            </div>
+            {movement.description && (
+              <div className='border-t pt-1'>
+                <Typography variant="h5">{movement.description}</Typography>
+              </div>
+            )}
           </div>
-          <div className='flex justify-between items-center pb-1'>
-            <div>{''}</div>
-            <div>{''}</div>
-          </div>
-          <div className='border-t pt-1'>{''}</div>
-        </div>
+        ))}
       </div>
     </div>
   );

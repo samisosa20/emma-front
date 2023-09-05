@@ -1,7 +1,9 @@
-import * as z from "zod";
-import { currencySchema } from "../general/geneal.schema";
+import * as z from 'zod';
+import { currencySchema } from '../general/geneal.schema';
+import { eventSchema } from '../event/event.schema';
+import { categorySchema } from '../category/category.schema';
 
-const accountsSchema = z.object({
+const accountSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
@@ -15,23 +17,69 @@ const accountsSchema = z.object({
 });
 
 const balanceSchema = z.object({
-  currency: z.string().optional()
-  .transform(e => e === "" ? undefined : e),
-  balance: z.string().optional()
-  .transform(e => e === "" ? undefined : e),
-  month: z.string().optional()
-  .transform(e => e === "" ? undefined : e),
-  year: z.string().optional()
-  .transform(e => e === "" ? undefined : e),
+  currency: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  balance: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  month: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  year: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
   title: z.string(),
   values: z.array(z.string()),
 });
 
-const accountSchema = z.object({
-    accounts: z.array(accountsSchema),
-    balances: z.array(balanceSchema),
-    status: z.number().optional()
-    .transform(e => e === 0 ? undefined : e),
-})
+const listAccountSchema = z.object({
+  accounts: z.array(accountSchema),
+  balances: z.array(balanceSchema),
+  status: z
+    .number()
+    .optional()
+    .transform((e) => (e === 0 ? undefined : e)),
+});
 
-export { accountSchema };
+const balancesAccountSchema = z.object({
+  name: z.string(),
+  values: z.array(z.number()),
+  labels: z.array(z.string()),
+});
+
+const movementSchema = z.object({
+  id: z.number(),
+  description: z.string().nullable(),
+  amount: z.number(),
+  trm: z.number(),
+  date_purchase: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  account: accountSchema,
+  category: categorySchema,
+  event: eventSchema.nullable(),
+  transfer_out: z.nullable(z.unknown()),
+  transfer_in: z.nullable(z.unknown()),
+});
+
+const AccountDetailSchema = z.object({
+  balances: z.array(balanceSchema),
+  balancesAccount: z.array(balancesAccountSchema),
+  movements: z.object({
+    current_page: z.number(),
+    last_page: z.number(),
+    data: z.array(movementSchema),
+  }),
+  account: accountSchema,
+  status: z
+    .number()
+    .optional()
+    .transform((e) => (e === 0 ? undefined : e)),
+});
+
+export { listAccountSchema, AccountDetailSchema };

@@ -11,6 +11,9 @@ class AccountUseCase implements AccountRepository {
     listAccounts = () => {
         return this.authAdapter.listAccounts();
     }
+    getAccountDetail = (id: number) => {
+        return this.authAdapter.getAccountDetail(id);
+    }
 }
 
 export { AccountUseCase }
