@@ -1,40 +1,42 @@
-"use client";
-import Link from "next/link";
-import { Controller } from "react-hook-form";
-import { MdArrowBack } from "react-icons/md";
+'use client';
+import Link from 'next/link';
+import { Controller } from 'react-hook-form';
+import { MdArrowBack } from 'react-icons/md';
 
 // Controller
-import useAccountCreate from "./controller";
+import useAccountCreate from './controller';
 
 //components
-import useComponents from "@/share/components";
+import useComponents from '@/share/components';
 
 const Accounts = () => {
-  const { Typography, FormControl, Input, Select } = useComponents();
+  const { Typography, FormControl, Input, Select, Button } = useComponents();
 
-  const { handleSubmit, onSubmit, control, typeOptions } =
+  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions } =
     useAccountCreate();
 
   return (
     <div>
-      <div className="flex items-center justify-between w-full">
-        <div className="flex items-center space-x-2">
-          <Link href={"/accounts"}>
+      <div className='flex items-center justify-between w-full'>
+        <div className='flex items-center space-x-2'>
+          <Link href={'/accounts'}>
             <MdArrowBack />
           </Link>
-          <Typography variant="h1">Creacion de Cuentas</Typography>
+          <Typography variant='h1'>Creacion de Cuentas</Typography>
         </div>
       </div>
-      <div className="mt-6 bg-white w-full">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <div className='mt-6 bg-white w-full px-6 py-4'>
+        <form onSubmit={handleSubmit(onSubmit)} className='w-full lg:grid grid-cols-2 gap-x-8 justify-between'>
           <Controller
-            name={"name"}
+            name={'name'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState}>
+              <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type="text"
-                  placeholder="Nombre de la cuenta"
+                  type='text'
+                  placeholder='Nombre de la cuenta'
+                  label='Nombre de la cuenta'
+                  id='name'
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -45,13 +47,15 @@ const Accounts = () => {
             )}
           />
           <Controller
-            name={"description"}
+            name={'description'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState}>
+              <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type="text"
-                  placeholder="Descripcion (opcional)"
+                  type='text'
+                  placeholder='Descripcion (opcional)'
+                  label='Descripcion (opcional)'
+                  id='description'
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -62,13 +66,14 @@ const Accounts = () => {
             )}
           />
           <Controller
-            name={"type_id"}
+            name={'type_id'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState}>
+              <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  type="text"
-                  placeholder="Email"
+                  label='Tipo de cuenta'
+                  placeholder='Seleciona una opcion'
+                  id='type_id'
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -80,14 +85,34 @@ const Accounts = () => {
             )}
           />
           <Controller
-            name={"init_amount"}
+            name={'badge_id'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState}>
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Select
+                  label='Moneda'
+                  placeholder='Seleciona una opcion'
+                  id='badge_id'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  options={currencyOptions}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'init_amount'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type="number"
+                  type='number'
                   step={0.01}
-                  placeholder="Monto inicial"
+                  placeholder='Monto inicial'
+                  label='Monto inicial'
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -97,6 +122,27 @@ const Accounts = () => {
               </FormControl>
             )}
           />
+          <Controller
+            name={'limit'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='number'
+                  step={0.01}
+                  placeholder='Limite trajeta de credito'
+                  label='Limite trajeta de credito'
+                  id='limit'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Button type='submit' className="mt-8 col-span-2 w-full lg:w-[350px] mx-auto">Guardar</Button>
         </form>
       </div>
     </div>

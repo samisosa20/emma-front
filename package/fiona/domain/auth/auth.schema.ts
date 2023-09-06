@@ -13,6 +13,18 @@ const authSchema = z.object({
     token: z.string(),
     error: z.boolean(),
     message: z.string(),
+    accounts_type: z.array(z.object({
+        value: z.string(),
+        label: z.string(),
+    })),
+    periods: z.array(z.object({
+        value: z.string(),
+        label: z.string(),
+    })),
+    currencies: z.array(z.object({
+        value: z.string(),
+        label: z.string(),
+    }))
 })
 
 export { loginSchema, authSchema }

@@ -29,6 +29,9 @@ class AuthApiAdapter implements AuthAdapter {
             token: result.token,
             currency: result.data.currency,
             transfer_id: result.data.transfer_id,
+            accounts_type: result.accounts_type.map((t: any) => { return {label: t.name, value: t.id}}),
+            currencies: result.currencies.map((c: any) => { return {label: c.code, value: c.id}}),
+            periods: Object.entries(result.periods).map(([key, label]) => ({ value: key, label: label as string })),
             error: false,
             message: ''
         }

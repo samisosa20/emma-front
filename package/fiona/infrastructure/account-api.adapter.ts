@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { AccountAdapter } from '../domain/account/account.adapter';
-import type { Account, AccountDetail } from '../domain/account/account';
+import type { Account, AccountDetail, AccountCreate } from '../domain/account/account';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -87,6 +87,16 @@ class AccountApiAdapter implements AccountAdapter {
     };
   }
 
+  async createAccount(data: AccountCreate): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.post(`accounts`, data);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
   // Additional methods with error handling
 }
 

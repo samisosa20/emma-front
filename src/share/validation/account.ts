@@ -1,14 +1,20 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 const accountSchema = z.object({
-    name: z.string(),
-    description: z.string().nullable(),
-    type_id: z.string(),
-    badge_id: z.string(),
-    init_amount: z.number(),
-    limit: z.number().nullable(),
-})
+  name: z.string(),
+  description: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+  type_id: z.string(),
+  badge_id: z.string(),
+  init_amount: z.string(),
+  limit: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
+});
 
-export type accountSchema = z.infer<typeof accountSchema>; 
+export type AccountSchema = z.infer<typeof accountSchema>;
 
-export { accountSchema }
+export { accountSchema };
