@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter, useParams } from 'next/navigation';
 
-import { AccountUseCase } from '../../../../../package/fiona/application/account.use-case';
-import { AccountApiAdapter } from '../../../../../package/fiona/infrastructure/account-api.adapter';
+import { AccountUseCase } from '../../../../../../../package/fiona/application/account.use-case';
+import { AccountApiAdapter } from '../../../../../../../package/fiona/infrastructure/account-api.adapter';
 
 const useAccount = () => {
   const param = useParams();
@@ -12,10 +12,6 @@ const useAccount = () => {
 
   const [search, setSearch] = useState('');
 
-  const formatCurrency = new Intl.NumberFormat('es-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   const { isLoading, data } = useQuery({
     queryKey: ['account'],
@@ -59,7 +55,6 @@ const useAccount = () => {
     isLoading,
     search,
     setSearch,
-    formatCurrency,
   };
 };
 

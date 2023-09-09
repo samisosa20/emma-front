@@ -97,6 +97,16 @@ class AccountApiAdapter implements AccountAdapter {
       error: false
     };
   }
+  async editAccount(id: number, data: AccountCreate): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.put(`accounts/${id}`, data);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
   // Additional methods with error handling
 }
 

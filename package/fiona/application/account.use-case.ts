@@ -18,6 +18,9 @@ class AccountUseCase implements AccountRepository {
     createAccount = (data: AccountCreate) => {
         return this.authAdapter.createAccount(data);
     }
+    editAccount = (id: number, data: AccountCreate) => {
+        return this.authAdapter.editAccount(id, data);
+    }
 }
 
 export { AccountUseCase }

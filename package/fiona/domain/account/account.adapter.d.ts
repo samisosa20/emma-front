@@ -19,6 +19,12 @@ interface AccountAdapter {
      * @returns {Promise<{message:string}>} A Promise containing the list of todos.
      */
     createAccount(data: AccountCreate): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     * @returns {Promise<{message:string}>} A Promise containing the list of todos.
+     */
+    editAccount(id: number, data: AccountCreate): Promise<{message:string, error: boolean}>,
 
 }
 
