@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter, useParams } from 'next/navigation';
 
-import { AccountUseCase } from '../../../../../../../package/fiona/application/account.use-case';
-import { AccountApiAdapter } from '../../../../../../../package/fiona/infrastructure/account-api.adapter';
+import { AccountUseCase } from '@@/application/account.use-case';
+import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
 
 const useAccount = () => {
   const param = useParams();

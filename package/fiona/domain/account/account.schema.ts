@@ -1,7 +1,6 @@
 import * as z from 'zod';
 import { currencySchema } from '../general/geneal.schema';
-import { eventSchema } from '../event/event.schema';
-import { categorySchema } from '../category/category.schema';
+import { movementSchema } from '../movements/movement.schema';
 
 const accountSchema = z.object({
   id: z.number(),
@@ -52,20 +51,7 @@ const balancesAccountSchema = z.object({
   labels: z.array(z.string()),
 });
 
-const movementSchema = z.object({
-  id: z.number(),
-  description: z.string().nullable(),
-  amount: z.number(),
-  trm: z.number(),
-  date_purchase: z.string(),
-  created_at: z.string(),
-  updated_at: z.string(),
-  account: accountSchema,
-  category: categorySchema,
-  event: eventSchema.nullable(),
-  transfer_out: z.nullable(z.unknown()),
-  transfer_in: z.nullable(z.unknown()),
-});
+
 
 const AccountDetailSchema = z.object({
   balances: z.array(balanceSchema),
@@ -97,4 +83,4 @@ const accountCreateSchema = z.object({
     .transform((e) => (e === '' ? undefined : e)),
 })
 
-export { listAccountSchema, AccountDetailSchema, accountCreateSchema };
+export { accountSchema, listAccountSchema, AccountDetailSchema, accountCreateSchema };
