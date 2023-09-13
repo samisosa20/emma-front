@@ -5,51 +5,58 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { accountSchema } from '@/share/validation';
-import type { AccountSchema } from '@/share/validation';
+import { eventSchema } from '@/share/validation';
+import type { EventSchema } from '@/share/validation';
 
-import { AccountUseCase } from '@@/application/account.use-case';
-import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
+import { EventUseCase } from '@@/application/event.use-case';
+import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-const useAccountCreate = () => {
+export default function investmentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [typeOptions, setTypeOptions] = useState([]);
+  const [title, setTitle] = useState('Creacion de Inversiones');
+  const [listMovements, setListMovements] = useState<any>([]);
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [title, setTitle] = useState('Creacion de Cuentas');
 
   const { handleSubmit, control, reset } = useForm({
-    resolver: zodResolver(accountSchema),
+    resolver: zodResolver(eventSchema),
   });
 
   const mutation = useMutation({
-    mutationFn: async (data: AccountSchema) => {
-      const { createAccount } = new AccountUseCase(
-        new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-          customConfig: customConfigHeader(),
-        })
-      );
-      const result = await createAccount(data);
-      if (result.error) {
-        console.log(result);
-        toast.error(result.message);
-        return;
+    mutationFn: async (data: EventSchema) => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { createEvent } = new EventUseCase(
+          new EventApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const result = await createEvent(data);
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        router.back();
       }
-      toast.success(result.message);
-      router.back();
     },
   });
 
   const mutationEdit = useMutation({
-    mutationFn: async (data: AccountSchema) => {
+    mutationFn: async (data: EventSchema) => {
       const user = localStorage.getItem('user');
       if (user) {
-        const { editAccount } = new AccountUseCase(
-          new AccountApiAdapter({
+        const { editEvent } = new EventUseCase(
+          new EventApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
             customConfig: {
               headers: {
@@ -61,7 +68,7 @@ const useAccountCreate = () => {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await editAccount(id, data);
+        const result = await editEvent(id, data);
         if (result.error) {
           console.log(result);
           toast.error(result.message);
@@ -74,25 +81,20 @@ const useAccountCreate = () => {
   });
 
   const { data } = useQuery({
-    queryKey: ['accountDetail'],
+    queryKey: ['investmentDetail'],
     queryFn: async () => {
-      const user = localStorage.getItem('user');
-      if (user && param.id) {
-        const { getAccountDetail } = new AccountUseCase(
-          new AccountApiAdapter({
+      if (param.id) {
+        const { getEventDetail } = new EventUseCase(
+          new EventApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await getAccountDetail(id);
+        const result = await getEventDetail(id);
 
         if (result.status === 401) {
           localStorage.clear();
@@ -107,7 +109,6 @@ const useAccountCreate = () => {
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
-      description: data.description ? data.description : '',
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -123,22 +124,17 @@ const useAccountCreate = () => {
       router.push('/');
     } else {
       const userjson = JSON.parse(user);
-      setTypeOptions(userjson.accounts_type);
       setCurrencyOptions(userjson.currencies);
       if (param.id) {
-        setTitle('Edicion de Cuentas');
+        setTitle('Edicion de Inversiones');
       }
     }
   }, []);
 
   useEffect(() => {
     if (data) {
-      reset({
-        ...data.account,
-        type_id: data.account.type_id.toString(),
-        badge_id: data.account.badge_id.toString(),
-        init_amount: data.account.init_amount.toString(),
-      });
+      reset(data);
+      setListMovements(data.movements);
     }
   }, [data]);
 
@@ -146,10 +142,8 @@ const useAccountCreate = () => {
     handleSubmit,
     onSubmit,
     control,
-    typeOptions,
-    currencyOptions,
     title,
+    listMovements,
+    currencyOptions,
   };
 };
-
-export default useAccountCreate;

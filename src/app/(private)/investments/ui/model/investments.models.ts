@@ -7,10 +7,10 @@ import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-const useEvents = () => {
+export default function investmentsViewModel(){
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['events'],
+    queryKey: ['investments'],
     queryFn: async () => {
       const { listEvents } = new EventUseCase(
         new EventApiAdapter({
@@ -39,5 +39,3 @@ const useEvents = () => {
     isLoading,
   };
 };
-
-export default useEvents;

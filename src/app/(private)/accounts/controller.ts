@@ -5,25 +5,21 @@ import { useRouter } from 'next/navigation';
 import { AccountUseCase } from '@@/application/account.use-case';
 import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
 
+import { customConfigHeader } from '@/share/helpers';
+
 const useAccounts = () => {
   const router = useRouter();
 
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState('');
 
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, isError } = useQuery({
     queryKey: ['accounts'],
     queryFn: async () => {
-      const user = localStorage.getItem('user');
-      if (user) {
         const { listAccounts } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await listAccounts();
@@ -32,7 +28,6 @@ const useAccounts = () => {
           router.push('/');
         }
         return result;
-      }
     },
   });
 
@@ -42,12 +37,8 @@ const useAccounts = () => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      localStorage.clear();
-      router.push('/');
-    }
-  }, []);
+    if (isError) router.push('/');
+  }, [isError]);
   return {
     data,
     isLoading,

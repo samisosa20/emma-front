@@ -46,8 +46,9 @@ const Events = (props: any) => {
                 <div className='flex items-center justify-between'>
                   <Typography variant='h2'>{event.name}</Typography>
                 </div>
-                {event.balance.map((balance) => (
+                {event.balance.map((balance, index) => (
                   <Typography
+                    key={index}
                     variant='h6'
                     className={
                       balance.movements < 0 ? 'text-red-500' : 'text-green-500'

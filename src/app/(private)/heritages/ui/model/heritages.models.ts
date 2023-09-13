@@ -2,24 +2,24 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { useRouter } from 'next/navigation';
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
+import { HeritageUseCase } from '@@/application/heritage.use-case';
+import { HeritageApiAdapter } from '@@/infrastructure/heritage-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-const useEvents = () => {
+export default function heritagesViewModel(){
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['events'],
+    queryKey: ['heritages'],
     queryFn: async () => {
-      const { listEvents } = new EventUseCase(
-        new EventApiAdapter({
+      const { listHeritages } = new HeritageUseCase(
+        new HeritageApiAdapter({
           baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
           customConfig: customConfigHeader(),
         })
       );
 
-      const result = await listEvents();
+      const result = await listHeritages();
 
       if (result.status === 401) {
         localStorage.clear();
@@ -39,5 +39,3 @@ const useEvents = () => {
     isLoading,
   };
 };
-
-export default useEvents;

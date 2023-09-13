@@ -42,31 +42,31 @@ const Header = () => {
     },
     {
       name: 'Inversiones',
-      link: '/moves',
+      link: '/investments',
       show: true,
       icon: MdOutlineStackedLineChart,
     },
     {
       name: 'Presupuesto',
-      link: '/moves',
-      show: true,
+      link: '/budgets',
+      show: false,
       icon: MdAttachMoney,
     },
     {
       name: 'Patrimonio',
-      link: '/moves',
+      link: '/heritages',
       show: true,
       icon: MdAccountBalance,
     },
     {
       name: 'Categorias',
-      link: '/moves',
+      link: '/categories',
       show: true,
       icon: MdOutlineCategory,
     },
     {
       name: 'Pagos',
-      link: '/moves',
+      link: '/payments',
       show: true,
       icon: MdOutlinePayment,
     },
@@ -78,7 +78,7 @@ const Header = () => {
         <Image src={imgLogo} alt='Logo fiona' />
       </Link>
       <ul className='mt-4 text-white'>
-        {links.map((link, index) => {
+        {links.filter(v => v.show).map((link, index) => {
           const Icon = link.icon;
           return (
             <Link href={link.link} key={index}>
