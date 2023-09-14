@@ -40,7 +40,7 @@ const Accounts = () => {
       </div>
       <div className="mt-6">{data && <Cards data={data.balances} />}</div>
       <div className="mt-6 flex space-x-4 items-center justify-end">
-        <div className="w-[250px]">
+        <div className="lg:w-[250px]">
           <Input
             placeholder="Nombre de la cuenta"
             value={search}

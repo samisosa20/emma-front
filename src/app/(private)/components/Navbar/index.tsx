@@ -18,7 +18,7 @@ import imgLogo from '../../../../../public/img/logo.png';
 // Components
 import useComponents from '@/share/components';
 
-const Header = () => {
+export default function Navbar() {
   const { Typography } = useComponents();
   const pathname = usePathname();
   const links = [
@@ -93,5 +93,3 @@ const Header = () => {
     </aside>
   );
 };
-
-export default Header;

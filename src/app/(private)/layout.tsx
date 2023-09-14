@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 
 // Component
-import Header from "./components/Navbar";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 
 export const metadata: Metadata = {
   title: 'Fiona',
@@ -17,6 +18,7 @@ export default function RootLayout({
     <div>
         <div className='grid lg:grid-cols-[200px_1fr] h-screen'>
           <Header/>
+          <Navbar/>
 
           <main className='py-8 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto'>{children}</main>
         </div>
