@@ -52,7 +52,7 @@ const HeritageYear = (props: any) => {
       >
         {data &&
           data.map((heritage: HeritageList) => (
-            <Link href={`/heritages/${heritage.id}/editar`} key={heritage.id}>
+            <Link href={`/heritages/${heritage.id}/edit`} key={heritage.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">
                   <Typography variant="h2">{heritage.name}</Typography>

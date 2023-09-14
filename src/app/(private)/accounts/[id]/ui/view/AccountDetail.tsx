@@ -42,7 +42,7 @@ const AccountDetail = (props: any) => {
         </div>
         <div>
           <Link
-            href={`/accounts/${data.account.id}/editar`}
+            href={`/accounts/${data.account.id}/edit`}
             className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
           >
             <MdOutlineCreate />

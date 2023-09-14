@@ -24,6 +24,10 @@ const authSchema = z.object({
     currencies: z.array(z.object({
         value: z.string(),
         label: z.string(),
+    })),
+    groups_category: z.array(z.object({
+        value: z.string(),
+        label: z.string(),
     }))
 })
 
