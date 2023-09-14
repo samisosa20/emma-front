@@ -1,20 +1,20 @@
 "use client";
-import AccountDetail from './ui/view/AccountDetail'
+import HeritageYear from './ui/view/HeritageYear'
 
 //components
 import useComponents from "@/share/components";
 
-import useAccount from "./ui/model/accountDetail.models";
+import useHeritageYear from "./ui/model/heritageYear.models";
 
 const Page = () => {
     const { Typography } = useComponents();
-    const { isLoading, data } = useAccount();
+    const { isLoading, data } = useHeritageYear();
 
     if (isLoading || data === undefined) {
         return <Typography>Cargando...</Typography>;
       }
 
-    return <AccountDetail data={data}/>
+    return <HeritageYear data={data}/>
 }
 
 export default Page

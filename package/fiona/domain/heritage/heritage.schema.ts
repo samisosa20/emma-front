@@ -18,6 +18,10 @@ const createHeritageSchema = z.object({
   legal_amount: z.string(),
   badge_id: z.string(),
   year: z.string(),
+  status: z
+    .number()
+    .optional()
+    .transform((e) => (e === 0 ? undefined : e)),
 });
 
 const listHeritageSchema = z.object({

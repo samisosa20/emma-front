@@ -1,7 +1,7 @@
 'use client';
-import InvestmentsCreate from './ui/view/InvestmentsCreate';
+import HeritagesCreate from './ui/view/HeritagesCreate';
 
-import investmentsCreateViewModel from './ui/model/investmentsCreate.models';
+import heritagesCreateViewModel from './ui/model/heritagesCreate.models';
 
 const Page = () => {
   const {
@@ -10,9 +10,9 @@ const Page = () => {
     control,
     title,
     currencyOptions,
-  } = investmentsCreateViewModel();
+  } = heritagesCreateViewModel();
   return (
-    <InvestmentsCreate
+    <HeritagesCreate
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}

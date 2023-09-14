@@ -24,6 +24,9 @@ class HeritageUseCase implements HeritageRepository {
     editHeritage = (id: number, data: HeritageCreate) => {
         return this.authAdapter.editHeritage(id, data);
     }
+    deleteHeritage = (id: number) => {
+        return this.authAdapter.deleteHeritage(id);
+    }
 }
 
 export { HeritageUseCase }

@@ -63,6 +63,16 @@ class HeritageApiAdapter implements HeritageAdapter {
       error: false
     };
   }
+  async deleteHeritage(id: number): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.delete(`heritages/${id}`);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
   // Additional methods with error handling
 }
 

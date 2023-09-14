@@ -34,7 +34,11 @@ class HttpService {
       return response.data;
     } catch (error: any) {
       if (error.response) {
-        return { ...error.response.data, error: true, status: error.response.status};
+        return {
+          ...error.response.data,
+          error: true,
+          status: error.response.status,
+        };
       } else {
         return { error: true, message: "Error desconocido" };
       }
@@ -71,7 +75,10 @@ class HttpService {
    * @param {any} data - The data to be sent in the request body.
    * @returns {Promise<any>} The response data.
    */
-  async put<T>(url: string, data: any): Promise<T | { error: boolean; message: string }> {
+  async put<T>(
+    url: string,
+    data: any
+  ): Promise<T | { error: boolean; message: string }> {
     try {
       const response = await this.instance.put<T>(url, data);
       return response.data;
@@ -89,8 +96,17 @@ class HttpService {
    *
    * @param {string} url - The URL to send the DELETE request to.
    */
-  async delete(url: string): Promise<void> {
-    await this.instance.delete(url);
+  async delete(url: string): Promise<{ error: boolean; message: string }> {
+    try {
+      const response = await this.instance.delete(url);
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        return { ...error.response.data, error: true };
+      } else {
+        return { error: true, message: "Error desconocido" };
+      }
+    }
   }
 }
 

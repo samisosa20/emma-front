@@ -31,6 +31,12 @@ interface HeritageAdapter {
      * @returns {Promise<{message:string}>} A Promise containing the list of todos.
      */
     editHeritage(id: number, data: HeritageCreate): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     * @returns {Promise<{message:string}>} A Promise containing the list of todos.
+     */
+    deleteHeritage(id: number): Promise<{message:string, error: boolean}>,
 
 }
 

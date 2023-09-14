@@ -1,18 +1,19 @@
 'use client';
-import EventCreate from '@/app/(private)/events/create/ui/view/EventsCreate';
+import HeritageCreate from '@/app/(private)/heritages/create/ui/view/HeritagesCreate';
 
-import useEventCreate from '@/app/(private)/events/create/ui/model/eventsCreate.models';
+import useHeritageViewModel from '@/app/(private)/heritages/create/ui/model/heritagesCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, listMovements } = useEventCreate();
+  const { handleSubmit, onSubmit, control, title, currencyOptions, handleDelete } = useHeritageViewModel();
 
   return (
-    <EventCreate
+    <HeritageCreate
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
       title={title}
-      listMovements={listMovements}
+      currencyOptions={currencyOptions}
+      handleDelete={handleDelete}
     />
   );
 };
