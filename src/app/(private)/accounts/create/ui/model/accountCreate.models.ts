@@ -118,16 +118,13 @@ const useAccountCreate = () => {
 
   useEffect(() => {
     const user = localStorage.getItem('user');
-    if (!user) {
-      localStorage.clear();
-      router.push('/');
-    } else {
+    if (user) {
       const userjson = JSON.parse(user);
       setTypeOptions(userjson.accounts_type);
       setCurrencyOptions(userjson.currencies);
-      if (param.id) {
-        setTitle('Edicion de Cuentas');
-      }
+    }
+    if (param.id) {
+      setTitle('Edicion de Cuentas');
     }
   }, []);
 
