@@ -5,3 +5,7 @@
 body {
   @apply bg-neutral-100
 }
+
+.w-profile {
+  width: calc(100% - 3rem);
+}
