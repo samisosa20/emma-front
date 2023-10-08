@@ -5,7 +5,7 @@ import useComponents from '@/share/components';
 import useComponentsLayout from '@/app/(private)/components';
 
 export default function Dashboard(props: any) {
-  const { data, currencyOptions = [], control, onSubmit, handleSubmit } = props;
+  const { data, currencyOptions = [], control, onSubmit, handleSubmit, getMovements, getMovementsGroup, listMovements } = props;
   const { Typography, Input, Select, FormControl, Button } = useComponents();
   const { Cards, ListItems, Filters } = useComponentsLayout();
 
@@ -72,7 +72,7 @@ export default function Dashboard(props: any) {
               </FormControl>
             )}
           />
-          <Button type="submit" className="w-full absolute bottom-0">
+          <Button type='submit' className='w-full absolute bottom-0'>
             Aplicar
           </Button>
         </form>
@@ -81,14 +81,28 @@ export default function Dashboard(props: any) {
         <Cards data={data.metrics} />
       </div>
       <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <ListItems title='Movimientos por grupo' data={data.group_expensive} />
-        <ListItems title='Lista de ingresos' data={data.list_incomes} />
+        <ListItems
+          title='Movimientos por grupo'
+          data={data.group_expensive}
+          variant='modal'
+          onClickModal={getMovementsGroup}
+          dataModal={listMovements}
+        />
+        <ListItems
+          title='Lista de ingresos'
+          data={data.list_incomes}
+          variant='modal'
+          onClickModal={getMovements}
+          dataModal={listMovements}
+        />
       </div>
       <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
         <ListItems
           title='Lista de egresos'
           data={data.list_expensives}
           variant='modal'
+          onClickModal={getMovements}
+          dataModal={listMovements}
         />
         <ListItems
           title='Utilización de tarjeta de crédito'

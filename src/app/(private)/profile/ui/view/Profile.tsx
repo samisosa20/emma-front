@@ -5,7 +5,7 @@ import { MdOutlineExitToApp } from 'react-icons/md';
 import useComponents from '@/share/components';
 
 export default function Profile(props: any) {
-  const { data, currencyOptions = [], control, onSubmit, handleSubmit } = props;
+  const { handleLogout, currencyOptions = [], control, onSubmit, handleSubmit } = props;
   const { Typography, Input, Select, FormControl, Button } = useComponents();
 
   return (
@@ -16,7 +16,7 @@ export default function Profile(props: any) {
           <Typography>Edita tu informacion</Typography>
         </div>
         <div>
-          <Button className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm'>
+          <Button className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm' onClick={handleLogout}>
             <MdOutlineExitToApp />
             <Typography>Cerrar sesion</Typography>
           </Button>

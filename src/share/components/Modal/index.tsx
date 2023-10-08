@@ -21,7 +21,7 @@ const Modal = (props: ModalProps) => {
             <Typography variant='h3'>{title}</Typography>
             {onClose && <button onClick={onClose} className={modal.button}>X</button>}
           </div>
-          <div className=''>{children}</div>
+          <div className='max-h-[50vh] overflow-y-auto'>{children}</div>
         </div>
       </div>
     </div>

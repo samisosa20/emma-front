@@ -6,7 +6,7 @@ import Profile from './ui/view/Profile';
 import dashboardViewModel from './ui/model/dashboard.models';
 
 export default function Page() {
-  const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit } =
+  const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, handleLogout } =
     dashboardViewModel();
   const { Typography } = useComponents();
 
@@ -21,6 +21,7 @@ export default function Page() {
       currencyOptions={currencyOptions}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
+      handleLogout={handleLogout}
     />
   );
 }

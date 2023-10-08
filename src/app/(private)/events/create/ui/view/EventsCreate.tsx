@@ -6,14 +6,13 @@ import { useRouter } from 'next/navigation';
 import useComponents from '@/share/components';
 
 // Helpers
-import { formatCurrency } from "@/share/helpers";
-
+import { formatCurrency } from '@/share/helpers';
 
 const EventsCreate = (props: any) => {
   const router = useRouter();
   const { Typography, Button, Input, FormControl } = useComponents();
 
-  const { handleSubmit, onSubmit, control, title, listMovements } = props;
+  const { handleSubmit, onSubmit, control, title, listMovements, listCategories } = props;
 
   return (
     <div>
@@ -67,7 +66,7 @@ const EventsCreate = (props: any) => {
               </FormControl>
             )}
           />
-          <div className="text-center">
+          <div className='text-center'>
             <Button
               type='submit'
               className='mt-8 col-span-2 w-full lg:w-[350px]'
@@ -77,31 +76,69 @@ const EventsCreate = (props: any) => {
           </div>
         </form>
       </div>
-      {!!listMovements && <Typography variant="h2" className="my-4">Movimientos</Typography>}
-      <div className="mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto">
-        {listMovements && listMovements.map((movement: any) => (
-          <div className="border-b border-gray-300 py-2 px-1" key={movement.id}>
-            <div className="flex justify-between items-center">
-              <div className="font-bold">{movement.category.name}</div>
+      {!!listCategories && (
+        <Typography variant='h2' className='my-4'>
+          Categorias
+        </Typography>
+      )}
+      <div className='mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto'>
+        {listCategories &&
+          listCategories.map((category: any) => (
+            <div
+              className='border-b border-gray-300 py-2 px-1'
+              key={category.name + category.badge_id}
+            >
+              <div className='flex justify-between items-center'>
+                <div className='font-bold'>{category.name}</div>
+                <Typography variant="p"
+                >
+                  {formatCurrency.format(category.balance)  + ' ' + category.currency}
+                </Typography>
+              </div>
+              <div className='w-full bg-gray-200 rounded'>
               <div
-                className={
-                  movement.amount > 0 ? "text-green-500" : "text-red-500"
-                }
-              >
-                {formatCurrency.format(movement.amount)}
-              </div>
+                className='h-3 bg-red-500 rounded'
+                style={{
+                  width: `${category.percentage}`,
+                }}
+              ></div>
             </div>
-            <div className="flex justify-between items-center pb-1">
-              <Typography>{movement.date_purchase}</Typography>
-              <Typography>{movement.account?.name}</Typography>
             </div>
-            {movement.description && (
-              <div className="border-t pt-1">
-                <Typography variant="h5">{movement.description}</Typography>
+          ))}
+      </div>
+      {!!listMovements && (
+        <Typography variant='h2' className='my-4'>
+          Movimientos
+        </Typography>
+      )}
+      <div className='mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto'>
+        {listMovements &&
+          listMovements.map((movement: any) => (
+            <div
+              className='border-b border-gray-300 py-2 px-1'
+              key={movement.id}
+            >
+              <div className='flex justify-between items-center'>
+                <div className='font-bold'>{movement.category.name}</div>
+                <div
+                  className={
+                    movement.amount > 0 ? 'text-green-500' : 'text-red-500'
+                  }
+                >
+                  {formatCurrency.format(movement.amount)}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+              <div className='flex justify-between items-center pb-1'>
+                <Typography>{movement.date_purchase}</Typography>
+                <Typography>{movement.account?.name}</Typography>
+              </div>
+              {movement.description && (
+                <div className='border-t pt-1'>
+                  <Typography variant='h5'>{movement.description}</Typography>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );

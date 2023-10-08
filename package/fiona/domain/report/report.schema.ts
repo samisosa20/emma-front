@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { movementSchema } from '../movements/movement.schema';
 
 const incomeSchema = z.object({
   name: z.string(),
@@ -77,6 +78,16 @@ const reportParamsSchema = z.object({
   badge_id: z.string().nullable(),
   start_date: z.string().nullable(),
   end_date: z.string().nullable(),
+  group_id: z.string().nullable(),
+  category_id: z.string().nullable(),
 })
 
-export { reportSchema, reportParamsSchema };
+const reportMovementSchema = z.object({
+  movements: z.array(movementSchema),
+  status: z
+    .number()
+    .optional()
+    .transform((e) => (e === 0 ? undefined : e)),
+})
+
+export { reportSchema, reportParamsSchema, reportMovementSchema };

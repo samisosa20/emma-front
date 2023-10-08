@@ -19,6 +19,7 @@ const useEventCreate = () => {
 
   const [title, setTitle] = useState('Creacion de eventos');
   const [listMovements, setListMovements] = useState<any>([]);
+  const [listCategories, setListCategories] = useState<any>([]);
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(eventSchema),
@@ -126,6 +127,7 @@ const useEventCreate = () => {
     if (data) {
       reset(data);
       setListMovements(data.movements);
+      setListCategories(data.categories);
     }
   }, [data]);
 
@@ -135,6 +137,7 @@ const useEventCreate = () => {
     control,
     title,
     listMovements,
+    listCategories,
   };
 };
 

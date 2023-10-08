@@ -12,6 +12,12 @@ class ReportUseCase implements ReportRepository {
     getReport = (params: ReportParams) => {
         return this.authAdapter.getReport(params);
     }
+    getReportGroup = (params: ReportParams) => {
+        return this.authAdapter.getReportGroup(params);
+    }
+    getReportCategory = (params: ReportParams) => {
+        return this.authAdapter.getReportCategory(params);
+    }
 }
 
 export { ReportUseCase }

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { ReportAdapter } from '../domain/report/report.adapter';
-import type { Report, ReportParams } from '../domain/report/report';
+import type { Report, ReportParams, ReportMovement } from '../domain/report/report';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -53,13 +53,13 @@ class ReportApiAdapter implements ReportAdapter {
       ...result,
       metrics: metrics,
       group_expensive: result.group_expensive.map((group: any) => {
-        return { title: group.name, value: group.amount };
+        return { title: group.name, value: group.amount, id: group.id };
       }),
       list_expensives: result.list_expensives.map((expensive: any) => {
-        return { title: expensive.category, value: expensive.amount };
+        return { title: expensive.category, value: expensive.amount, id: expensive.id };
       }),
       list_incomes: result.list_incomes.map((income: any) => {
-        return { title: income.category, value: income.amount };
+        return { title: income.category, value: income.amount, id: income.id };
       }),
       credit_carts: result.credit_carts.map((card: any) => {
         return {
@@ -73,6 +73,39 @@ class ReportApiAdapter implements ReportAdapter {
         };
       }),
     };
+  }
+
+  async getReportCategory(params: ReportParams): Promise<ReportMovement> {
+    const queryString = Object.entries(params)
+      .map(([key, value]) => {
+        if (value &&
+          value !==
+            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+    const result: any = await this.httpService.get(`report/category?${queryString}`);
+    if (result.error) {
+      return result;
+    }
+
+
+    return result
+  }
+  async getReportGroup(params: ReportParams): Promise<ReportMovement> {
+    const queryString = Object.entries(params)
+      .map(([key, value]) => {
+        if (value &&
+          value !==
+            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+    const result: any = await this.httpService.get(`report/group?${queryString}`);
+    if (result.error) {
+      return result;
+    }
+
+
+    return result
   }
   // Additional methods with error handling
 }

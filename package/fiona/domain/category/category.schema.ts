@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 const categorySchema = z.object({
   id: z.number(),
@@ -9,7 +9,7 @@ const categorySchema = z.object({
   deleted_at: z.string().nullable(),
   sub_categories: z.number(),
   group: z.object({
-    name: z.string()
+    name: z.string(),
   }),
   status: z
     .number()
@@ -19,9 +19,9 @@ const categorySchema = z.object({
 
 const categoryCreateSchema = z.object({
   name: z.string(),
-  description: z.string().nullable(),
-  group_id: z.string(),
-  category_id: z.string().nullable(),
+  description: z.union([z.null(), z.string(), z.undefined(), z.number()]),
+  group_id: z.union([z.string(), z.number()]),
+  category_id: z.union([z.null(), z.string(), z.undefined(), z.number()]),
   status: z
     .number()
     .optional()
@@ -32,16 +32,24 @@ const categoryDetailSchema = z.object({
   categories: z.array(categorySchema).nullable(),
   category_father: categorySchema.nullable(),
   ...categorySchema.shape,
-})
+});
 
-const listCategorySchemas = z.array(z.object({
-  id: z.number(),
-  title: z.string(),
+const listCategorySchemas = z.object({
+  categories: z.array(
+    z.object({
+      id: z.number(),
+      title: z.string(),
+    })
+  ),
   status: z
     .number()
     .optional()
     .transform((e) => (e === 0 ? undefined : e)),
-}))
+});
 
-
-export { categorySchema, categoryDetailSchema, categoryCreateSchema, listCategorySchemas };
+export {
+  categorySchema,
+  categoryDetailSchema,
+  categoryCreateSchema,
+  listCategorySchemas,
+};

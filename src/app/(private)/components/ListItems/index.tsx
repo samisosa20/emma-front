@@ -70,11 +70,12 @@ const ListUtil = (props: ListItems) => {
 };
 
 const ListModal = (props: ListItems) => {
-  const { data, title } = props;
+  const { data, title, onClickModal, dataModal } = props;
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleSelectItem = () => {
+  const handleSelectItem = async(id: number) => {
+    onClickModal && await onClickModal(id)
     setIsOpen(true)
   }
 
@@ -83,7 +84,7 @@ const ListModal = (props: ListItems) => {
       <Typography className='mb-4'>{title}</Typography>
       <div className='h-[243px] overflow-y-auto'>
         {data?.map((card, index) => (
-          <div className={`mb-2 pt-2 ${index > 0 ? 'border-t' : ''}`} key={"ListModal" + index} onClick={()=>handleSelectItem()}>
+          <div className={`mb-2 pt-2 ${index > 0 ? 'border-t' : ''} cursor-pointer`} key={"ListModal" + index} onClick={()=>handleSelectItem(card.id)}>
             <Typography variant='h5'>{card.title}</Typography>
             <Typography
               variant='h3'
@@ -97,21 +98,33 @@ const ListModal = (props: ListItems) => {
         ))}
       </div>
       <Modal title='Listado de movimientos' isOpen={isOpen} onClose={()=> setIsOpen(false)}>
-        <p>hisdufjsdfh</p>
+        {dataModal && dataModal.map((data, index) => (
+          <div className={`${index > 0 ? 'border-t' : ''} py-3`} key={index}>
+            <div className="flex items-center justify-between">
+            <Typography>{formatoMoneda.format(data.amount)}</Typography>
+            <Typography>{data.account.name}</Typography>
+            </div>
+            <div className="flex items-center justify-between">
+            <Typography>{data.date_purchase}</Typography>
+            {data.event && <Typography>{data.event.name}</Typography>}
+            </div>
+            {data.description && <Typography>{data.description}</Typography>}
+          </div>
+        ))}
       </Modal>
     </div>
   );
 };
 
 const ListItems = (props: ListItems) => {
-  const { data, title, variant = 'default' } = props;
+  const { data, title, variant = 'default', onClickModal, dataModal = [] } = props;
 
   if (variant === 'default') {
     return <ListDefault data={data} title={title} />;
   } else if (variant === 'utilization') {
     return <ListUtil data={data} title={title} />;
   } else if (variant === 'modal') {
-    return <ListModal data={data} title={title} />;
+    return <ListModal data={data} title={title} onClickModal={onClickModal} dataModal={dataModal} />;
   }
 };
 

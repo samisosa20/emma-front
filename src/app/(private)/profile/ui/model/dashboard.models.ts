@@ -16,6 +16,8 @@ export default function dashboardViewModel() {
     badge_id: null,
     start_date: null,
     end_date: null,
+    category_id: null,
+    group_id: null,
   });
 
   const { handleSubmit, control } = useForm();
@@ -45,6 +47,11 @@ export default function dashboardViewModel() {
     setFilters(data)
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push('/');
+  }
+
   useEffect(() => {
     if (isError) router.push('/');
   }, [isError]);
@@ -64,6 +71,7 @@ export default function dashboardViewModel() {
     control,
     handleSubmit,
     onSubmit,
+    handleLogout,
   };
 };
 

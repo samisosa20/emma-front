@@ -28,9 +28,17 @@ const listEventsSchema = z.object({
   events: z.array(eventSchema)
 })
 
+const categorySchema = z.object({
+  currency: z.string(),
+  name: z.string(),
+  balance: z.string(),
+  percentage: z.string(),
+})
+
 const eventDetailSchema = z.object({
   ...eventSchema.shape,
   movements: movementSchema,
+  categories: z.array(categorySchema),
   status: z
     .number()
     .optional()
