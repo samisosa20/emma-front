@@ -21,3 +21,12 @@ export function customConfigHeader() {
       },
     };
 }
+
+export function getDateString() {
+  const currentDate = new Date();
+  const timeZoneOffsetMinutes = currentDate.getTimezoneOffset();
+
+  currentDate.setMinutes(currentDate.getMinutes() - timeZoneOffsetMinutes);
+
+  return currentDate.toISOString().slice(0, 16);
+}

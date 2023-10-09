@@ -15,8 +15,8 @@ type EventList = {
 };
 
 export default function Movements(props: any) {
-  const { handleSubmit, onSubmit, control, currencyOptions, title } = props;
-  const { Typography, FormControl, Input, Select, Button } = useComponents();
+  const { handleSubmit, onSubmit, control, currencyOptions, title, listAccounts } = props;
+  const { Typography, FormControl, Input, Select, Button, RadioGroup } = useComponents();
 
   return (
     <div>
@@ -31,19 +31,30 @@ export default function Movements(props: any) {
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
         <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
           <Controller
-            name={'name'}
+            name={'type'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Input
-                  type='text'
-                  placeholder='Nombre de la inversion'
-                  label='Nombre de la inversion'
-                  id='name'
-                  onChange={(e) => {
+                <RadioGroup
+                  name='type'
+                  label='Tipo de movimiento'
+                  options={[
+                    {
+                      label: 'Ingreso',
+                      value: '1',
+                    },
+                    {
+                      label: 'Egreso',
+                      value: '-1',
+                    },
+                    {
+                      label: 'Transferencia',
+                      value: '0',
+                    }
+                  ]}
+                  handleRadioChange={(e) => {
                     onChange(e);
                   }}
-                  iserror={!!fieldState.error}
                   value={value}
                 />
               </FormControl>
@@ -101,7 +112,7 @@ export default function Movements(props: any) {
                   onChange={(e) => {
                     onChange(e);
                   }}
-                  options={currencyOptions}
+                  options={listAccounts}
                   iserror={!!fieldState.error}
                   value={value}
                 />

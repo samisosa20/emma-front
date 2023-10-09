@@ -8,6 +8,7 @@ const FormControl = lazy(() => import("./FormControl"));
 const Toast = lazy(() => import("./Toast"));
 const Switch = lazy(() => import("./Switch"));
 const Select = lazy(() => import("./Select"));
+const RadioGroup = lazy(() => import("./RadioGroup"));
 
 const useComponents = () => {
     return {
@@ -19,6 +20,7 @@ const useComponents = () => {
         Toast,
         Switch,
         Select,
+        RadioGroup,
     }
 }
 

@@ -6,7 +6,7 @@ import Movements from './ui/view/Movements';
 import movementsViewModel from './ui/model/movements.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, currencyOptions, title } =
+  const { handleSubmit, onSubmit, control, currencyOptions, title, listAccounts } =
   movementsViewModel();
 
   return (
@@ -16,6 +16,7 @@ const Page = () => {
       control={control}
       title={title}
       currencyOptions={currencyOptions}
+      listAccounts={listAccounts}
     />
   );
 };
