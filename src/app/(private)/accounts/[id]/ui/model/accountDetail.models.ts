@@ -105,7 +105,7 @@ const useAccount = () => {
 
   useEffect(() => {
     if (isError || isErrorEvents) router.push('/');
-  }, [isError, isErrorEvents]);
+  }, [isError, isErrorEvents, router]);
 
   useEffect(() => {
     if (dataListEvents && Array.isArray(dataListEvents)) {

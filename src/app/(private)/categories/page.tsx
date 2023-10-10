@@ -4,10 +4,10 @@
 import useComponents from "@/share/components";
 import Categories from './ui/view/Categories';
 
-import categoriesViewModel from './ui/model/categories.models';
+import useCategoriesViewModel from './ui/model/categories.models';
 
 const Page = () => {
-  const { data, isLoading, setSearch, handleToggle, search, isChecked  } = categoriesViewModel();
+  const { data, isLoading, setSearch, handleToggle, search, isChecked  } = useCategoriesViewModel();
 
   const { Typography } = useComponents();
 

@@ -23,7 +23,7 @@ import {
   formatDateISOToYMDHIS,
 } from '@/share/helpers';
 
-export default function movementsViewModel() {
+export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
 

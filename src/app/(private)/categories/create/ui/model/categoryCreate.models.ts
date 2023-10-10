@@ -13,7 +13,7 @@ import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function categoryCreateViewModel() {
+export default function useCategoryCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 

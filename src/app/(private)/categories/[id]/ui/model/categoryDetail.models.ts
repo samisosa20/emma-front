@@ -7,7 +7,7 @@ import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function categoryDetailViewModel() {
+export default function useCategoryDetailViewModel() {
   const param = useParams();
 
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function categoryDetailViewModel() {
   
   useEffect(() => {
     if (isError) router.push('/');
-  }, [isError]);
+  }, [isError, router]);
 
   return {
     isLoading, data, setSearch, handleToggle, search, isChecked

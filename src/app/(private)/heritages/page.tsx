@@ -4,10 +4,10 @@
 import useComponents from "@/share/components";
 import Heritages from './ui/view/Heritages';
 
-import heritagesViewModel from './ui/model/heritages.models';
+import useHeritagesViewModel from './ui/model/heritages.models';
 
 const Page = () => {
-  const { data, isLoading } = heritagesViewModel();
+  const { data, isLoading } = useHeritagesViewModel();
 
   const { Typography } = useComponents();
 

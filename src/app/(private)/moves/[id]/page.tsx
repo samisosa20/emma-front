@@ -3,7 +3,7 @@
 //components
 import Movements from '../ui/view/Movements';
 
-import movementsViewModel from '../ui/model/movements.models';
+import useMovementsViewModel from '../ui/model/movements.models';
 
 const Page = () => {
   const {
@@ -19,7 +19,7 @@ const Page = () => {
     typeWatch,
     accountEndWatch,
     accountWatch,
-  } = movementsViewModel();
+  } = useMovementsViewModel();
 
   return (
     <Movements

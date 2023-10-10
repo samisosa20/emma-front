@@ -4,10 +4,10 @@
 import useComponents from "@/share/components";
 import Investments from './ui/view/Investments';
 
-import investmentsViewModel from './ui/model/investments.models';
+import useInvestmentsViewModel from './ui/model/investments.models';
 
 const Page = () => {
-  const { data, isLoading } = investmentsViewModel();
+  const { data, isLoading } = useInvestmentsViewModel();
 
   const { Typography } = useComponents();
 

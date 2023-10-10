@@ -7,7 +7,7 @@ import { HeritageApiAdapter } from '@@/infrastructure/heritage-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function heritagesViewModel(){
+export default function useHeritagesViewModel(){
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
     queryKey: ['heritages'],

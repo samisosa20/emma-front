@@ -38,7 +38,7 @@ const useAccounts = () => {
 
   useEffect(() => {
     if (isError) router.push('/');
-  }, [isError]);
+  }, [isError, router]);
   return {
     data,
     isLoading,

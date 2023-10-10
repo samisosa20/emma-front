@@ -7,7 +7,7 @@ import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function categoriesViewModel() {
+export default function useCategoriesViewModel() {
   const router = useRouter();
   
   const [isChecked, setIsChecked] = useState(true);
@@ -41,7 +41,7 @@ export default function categoriesViewModel() {
 
   useEffect(() => {
     if (isError) router.push('/');
-  }, [isError]);
+  }, [isError, router]);
 
   return {
     data,

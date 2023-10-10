@@ -8,7 +8,7 @@ import { ReportApiAdapter } from '@@/infrastructure/report-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function dashboardViewModel() {
+export default function useDashboardViewModel() {
   const router = useRouter();
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [listMovements, setListMovements] = useState<any[]>([]);

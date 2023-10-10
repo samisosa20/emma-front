@@ -13,7 +13,7 @@ import { HeritageApiAdapter } from "@@/infrastructure/heritage-api.adapter";
 
 import { customConfigHeader } from "@/share/helpers";
 
-export default function heritagesCreateViewModel() {
+export default function useHeritagesCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 

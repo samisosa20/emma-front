@@ -7,7 +7,7 @@ import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function investmentsViewModel(){
+export default function useInvestmentsViewModel(){
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
     queryKey: ['investments'],

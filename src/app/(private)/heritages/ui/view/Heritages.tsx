@@ -45,8 +45,9 @@ export default function Heritages(props: any) {
                 <div className='flex items-center justify-between'>
                   <Typography variant='h2'>{heritage.year}</Typography>
                 </div>
-                {heritage.balance.map(balance =>  <Typography
+                {heritage.balance.map((balance, i) =>  <Typography
                   variant='h5'
+                  key={i}
                   className={balance.amount + balance.movements > 0 ? 'text-green-500' : 'text-red-500'}
                 >
                   {formatCurrency.format(balance.amount + balance.movements)} {balance.currency}

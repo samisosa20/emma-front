@@ -13,7 +13,7 @@ import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function investmentsCreateViewModel() {
+export default function useInvestmentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 

@@ -3,11 +3,11 @@
 import useComponents from '@/share/components';
 import Profile from './ui/view/Profile';
 
-import dashboardViewModel from './ui/model/dashboard.models';
+import useDashboardViewModel from './ui/model/dashboard.models';
 
 export default function Page() {
   const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, handleLogout } =
-    dashboardViewModel();
+    useDashboardViewModel();
   const { Typography } = useComponents();
 
   if (isLoading) {

@@ -7,7 +7,6 @@ import useComponents from '@/share/components';
 // Interface
 import { ListItems } from './ListItems.interface';
 
-const { Typography, Modal } = useComponents();
 const formatoMoneda = new Intl.NumberFormat('es-US', {
   style: 'currency',
   currency: 'USD',
@@ -15,6 +14,7 @@ const formatoMoneda = new Intl.NumberFormat('es-US', {
 
 const ListDefault = (props: ListItems) => {
   const { data, title } = props;
+  const { Typography, Modal } = useComponents();
   return (
     <div className='bg-white p-4 shadow-sm rounded'>
       <Typography className='mb-4'>{title}</Typography>
@@ -39,6 +39,7 @@ const ListDefault = (props: ListItems) => {
 
 const ListUtil = (props: ListItems) => {
   const { data, title } = props;
+  const { Typography, Modal } = useComponents();
   return (
     <div className='bg-white p-4 shadow-sm rounded'>
       <Typography className='mb-4'>{title}</Typography>
@@ -71,6 +72,7 @@ const ListUtil = (props: ListItems) => {
 
 const ListModal = (props: ListItems) => {
   const { data, title, onClickModal, dataModal } = props;
+  const { Typography, Modal } = useComponents();
 
   const [isOpen, setIsOpen] = useState(false)
 

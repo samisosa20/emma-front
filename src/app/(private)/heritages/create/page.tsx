@@ -1,7 +1,7 @@
 'use client';
 import HeritagesCreate from './ui/view/HeritagesCreate';
 
-import heritagesCreateViewModel from './ui/model/heritagesCreate.models';
+import useHeritagesCreateViewModel from './ui/model/heritagesCreate.models';
 
 const Page = () => {
   const {
@@ -10,7 +10,7 @@ const Page = () => {
     control,
     title,
     currencyOptions,
-  } = heritagesCreateViewModel();
+  } = useHeritagesCreateViewModel();
   return (
     <HeritagesCreate
       handleSubmit={handleSubmit}

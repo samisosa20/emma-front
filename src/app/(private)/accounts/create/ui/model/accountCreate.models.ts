@@ -126,7 +126,7 @@ const useAccountCreate = () => {
     if (param.id) {
       setTitle('Edicion de Cuentas');
     }
-  }, []);
+  }, [param.id]);
 
   useEffect(() => {
     if (data) {
@@ -137,7 +137,7 @@ const useAccountCreate = () => {
         init_amount: data.account.init_amount.toString(),
       });
     }
-  }, [data]);
+  }, [data, reset]);
 
   return {
     handleSubmit,

@@ -1,7 +1,7 @@
 'use client';
 import InvestmentsCreate from './ui/view/InvestmentsCreate';
 
-import investmentsCreateViewModel from './ui/model/investmentsCreate.models';
+import useInvestmentsCreateViewModel from './ui/model/investmentsCreate.models';
 
 const Page = () => {
   const {
@@ -10,7 +10,7 @@ const Page = () => {
     control,
     title,
     currencyOptions,
-  } = investmentsCreateViewModel();
+  } = useInvestmentsCreateViewModel();
   return (
     <InvestmentsCreate
       handleSubmit={handleSubmit}

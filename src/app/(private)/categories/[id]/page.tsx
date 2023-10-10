@@ -4,11 +4,11 @@ import CategoryDetail from './ui/view/CategoryDetail'
 //components
 import useComponents from "@/share/components";
 
-import categoryDetailViewModel from "./ui/model/categoryDetail.models";
+import useCategoryDetailViewModel from "./ui/model/categoryDetail.models";
 
 const Page = () => {
     const { Typography } = useComponents();
-    const { isLoading, data, setSearch, handleToggle, search, isChecked } = categoryDetailViewModel();
+    const { isLoading, data, setSearch, handleToggle, search, isChecked } = useCategoryDetailViewModel();
 
     if (isLoading || data === undefined) {
         return <Typography>Cargando...</Typography>;
