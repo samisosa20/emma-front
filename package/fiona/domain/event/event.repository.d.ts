@@ -1,4 +1,4 @@
-import type { Event, EventDetail, EventCreate } from "./event"; // Import the Auth type
+import type { Event, EventDetail, EventCreate, EventSelect } from "./event"; // Import the Auth type
 
 
 interface EventRepository {
@@ -7,6 +7,11 @@ interface EventRepository {
      * @returns {Promise<Event>} A Promise containing the list of todos.
      */
     listEvents(): Promise<Event>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @returns {Promise<EventSelect>} A Promise containing the list of todos.
+     */
+    listSelectEvents(): Promise<EventSelect>,
     /**
      * Retrieves a list of todos from the data source.
      * @param {id} number - The unique identifier of the todo.

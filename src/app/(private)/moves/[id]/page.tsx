@@ -1,9 +1,9 @@
 'use client';
 
 //components
-import Movements from './ui/view/Movements';
+import Movements from '../ui/view/Movements';
 
-import movementsViewModel from './ui/model/movements.models';
+import movementsViewModel from '../ui/model/movements.models';
 
 const Page = () => {
   const {
@@ -15,6 +15,7 @@ const Page = () => {
     listEvents,
     listInvestments,
     title,
+    handleDelete,
     typeWatch,
     accountEndWatch,
     accountWatch,
@@ -30,6 +31,7 @@ const Page = () => {
       listCategories={listCategories}
       listEvents={listEvents}
       listInvestments={listInvestments}
+      handleDelete={handleDelete}
       typeWatch={typeWatch}
       accountWatch={accountWatch}
       accountEndWatch={accountEndWatch}

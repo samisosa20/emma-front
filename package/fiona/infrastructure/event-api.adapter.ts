@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { EventAdapter } from '../domain/event/event.adapter';
-import type { Event, EventDetail, EventCreate } from '../domain/event/event';
+import type { Event, EventDetail, EventCreate, EventSelect } from '../domain/event/event';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -19,6 +19,14 @@ class EventApiAdapter implements EventAdapter {
 
   async listEvents(): Promise<Event> {
     const result: any = await this.httpService.get(`events`);
+    if (result.error) {
+      return result;
+    }
+    return result;
+  }
+  
+  async listSelectEvents(): Promise<EventSelect> {
+    const result: any = await this.httpService.get(`events/active`);
     if (result.error) {
       return result;
     }

@@ -9,3 +9,13 @@ body {
 .w-profile {
   width: calc(100% - 3rem);
 }
+
+.auto-complete .wrapper {
+  @apply px-4;
+  border-radius: 0.5rem !important;
+    border-width: 2px !important;
+}
+
+.auto-complete.iserror .wrapper {
+  @apply border-red-500;
+}

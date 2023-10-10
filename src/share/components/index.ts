@@ -9,6 +9,7 @@ const Toast = lazy(() => import("./Toast"));
 const Switch = lazy(() => import("./Switch"));
 const Select = lazy(() => import("./Select"));
 const RadioGroup = lazy(() => import("./RadioGroup"));
+const AutoComplete = lazy(() => import("./AutoComplete"));
 
 const useComponents = () => {
     return {
@@ -21,6 +22,7 @@ const useComponents = () => {
         Switch,
         Select,
         RadioGroup,
+        AutoComplete,
     }
 }
 

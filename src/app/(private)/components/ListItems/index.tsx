@@ -48,7 +48,7 @@ const ListUtil = (props: ListItems) => {
             <Typography variant='h5'>{card.title}</Typography>
             <div className='flex justify-between items- center'>
               <Typography variant='p' className={`text-right`}>
-                {formatoMoneda.format(card.value)}{` (${card.percentage}%)`}
+                {formatoMoneda.format(card.value)}{` (${Math.abs(card.percentage ?? 0)}%)`}
               </Typography>
               <Typography variant='p' className={`text-right`}>
                 {formatoMoneda.format(card.limit ?? 0)}
@@ -58,7 +58,7 @@ const ListUtil = (props: ListItems) => {
               <div
                 className='h-3 bg-red-500 rounded'
                 style={{
-                  width: `${card.percentage}%`,
+                  width: `${Math.abs(card.percentage ?? 0)}%`,
                 }}
               ></div>
             </div>

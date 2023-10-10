@@ -28,7 +28,7 @@ export default function Navbar() {
     return iniciales.join('');
   };
 
-  const user = JSON.parse(localStorage.getItem('user') ?? '').name ?? '';
+  const user = JSON.parse(localStorage.getItem('user') ?? '{}').name ?? 'Demo';
 
   const links = [
     {

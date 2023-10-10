@@ -1,22 +1,26 @@
-import Link from 'next/link';
-import { MdAddCircleOutline } from 'react-icons/md';
+import { MdDeleteOutline } from 'react-icons/md';
 import { Controller } from 'react-hook-form';
 
 //components
 import useComponents from '@/share/components';
 
-// Helpers
-import { formatCurrency } from '@/share/helpers';
-
-type EventList = {
-  id: number;
-  name: string;
-  balance: { movements: number; currency: string }[];
-};
-
 export default function Movements(props: any) {
-  const { handleSubmit, onSubmit, control, currencyOptions, title, listAccounts } = props;
-  const { Typography, FormControl, Input, Select, Button, RadioGroup } = useComponents();
+  const {
+    handleSubmit,
+    onSubmit,
+    control,
+    listAccounts,
+    listCategories,
+    listEvents,
+    listInvestments,
+    title,
+    handleDelete,
+    typeWatch,
+    accountEndWatch,
+    accountWatch,
+  } = props;
+  const { Typography, FormControl, Input, Button, RadioGroup, AutoComplete } =
+    useComponents();
 
   return (
     <div>
@@ -24,7 +28,22 @@ export default function Movements(props: any) {
         <div className='flex items-center justify-between w-full'>
           <div>
             <Typography variant='h1'>{title}</Typography>
-            <Typography>Agrega un movimiento o transfiere de una cuenta a otra</Typography>
+            {!handleDelete && (
+              <Typography>
+                Agrega un movimiento o transfiere de una cuenta a otra
+              </Typography>
+            )}
+          </div>
+          <div>
+            {handleDelete && (
+              <Button
+                onClick={handleDelete}
+                className='flex items-center space-x-2 bg-red-500 p-2 rounded shadow-sm text-white'
+              >
+                <MdDeleteOutline />
+                <Typography className='text-white'>Eliminar</Typography>
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -50,9 +69,9 @@ export default function Movements(props: any) {
                     {
                       label: 'Transferencia',
                       value: '0',
-                    }
+                    },
                   ]}
-                  handleRadioChange={(e) => {
+                  handleRadioChange={(e: any) => {
                     onChange(e);
                   }}
                   value={value}
@@ -72,7 +91,7 @@ export default function Movements(props: any) {
                   id='amount'
                   step='0.01'
                   min='0'
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     onChange(e);
                   }}
                   iserror={!!fieldState.error}
@@ -101,15 +120,14 @@ export default function Movements(props: any) {
             )}
           />
           <Controller
-            name={'account_id'}
+            name={'account'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
-                  label='Cuenta'
+                <AutoComplete
+                  label={typeWatch !== '0' ? 'Cuenta' : 'Cuenta saliente'}
                   placeholder='Seleciona una opcion'
-                  id='account_id'
-                  onChange={(e) => {
+                  handleOnChange={(e: any) => {
                     onChange(e);
                   }}
                   options={listAccounts}
@@ -119,63 +137,123 @@ export default function Movements(props: any) {
               </FormControl>
             )}
           />
-          <Controller
-            name={'category_id'}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
-                  label='Categoria'
-                  placeholder='Seleciona una opcion'
-                  id='category_id'
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  options={currencyOptions}
-                  iserror={!!fieldState.error}
-                  value={value}
+          {typeWatch !== '0' ? (
+            <>
+              <Controller
+                name={'category'}
+                control={control}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState,
+                }) => (
+                  <FormControl fieldState={fieldState} withLabel={true}>
+                    <AutoComplete
+                      label='Categoria'
+                      placeholder='Seleciona una opcion'
+                      handleOnChange={(e: any) => {
+                        onChange(e);
+                      }}
+                      options={listCategories}
+                      iserror={!!fieldState.error}
+                      value={value}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name={'event'}
+                control={control}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState,
+                }) => (
+                  <FormControl fieldState={fieldState} withLabel={true}>
+                    <AutoComplete
+                      label='Evento'
+                      placeholder='Seleciona una opcion'
+                      handleOnChange={(e: any) => {
+                        onChange(e);
+                      }}
+                      options={listEvents}
+                      iserror={!!fieldState.error}
+                      value={value}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name={'investment'}
+                control={control}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState,
+                }) => (
+                  <FormControl fieldState={fieldState} withLabel={true}>
+                    <AutoComplete
+                      label='Inversion'
+                      placeholder='Seleciona una opcion'
+                      handleOnChange={(e: any) => {
+                        onChange(e);
+                      }}
+                      options={listInvestments}
+                      iserror={!!fieldState.error}
+                      value={value}
+                    />
+                  </FormControl>
+                )}
+              />
+            </>
+          ) : (
+            <>
+              <Controller
+                name={'account_end'}
+                control={control}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState,
+                }) => (
+                  <FormControl fieldState={fieldState} withLabel={true}>
+                    <AutoComplete
+                      label='Cuenta destino'
+                      placeholder='Seleciona una opcion'
+                      handleOnChange={(e: any) => {
+                        onChange(e);
+                      }}
+                      options={listAccounts}
+                      iserror={!!fieldState.error}
+                      value={value}
+                    />
+                  </FormControl>
+                )}
+              />
+              {accountEndWatch && accountWatch && accountEndWatch.badge_id !== accountWatch.badge_id && (
+                <Controller
+                  name={'amount_end'}
+                  control={control}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState,
+                  }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <Input
+                        type='number'
+                        placeholder='Monto recibido'
+                        label='Monto recibido'
+                        id='amount_end'
+                        step='0.01'
+                        min='0'
+                        onChange={(e: any) => {
+                          onChange(e);
+                        }}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
                 />
-              </FormControl>
-            )}
-          />
-          <Controller
-            name={'event_id'}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
-                  label='Evento'
-                  placeholder='Seleciona una opcion'
-                  id='event_id'
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  options={currencyOptions}
-                  iserror={!!fieldState.error}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
-          <Controller
-            name={'investment_id'}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
-                  label='Inversion'
-                  placeholder='Seleciona una opcion'
-                  id='investment_id'
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  options={currencyOptions}
-                  iserror={!!fieldState.error}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
+              )}
+            </>
+          )}
           <Controller
             name={'description'}
             control={control}
@@ -195,7 +273,7 @@ export default function Movements(props: any) {
               </FormControl>
             )}
           />
-          <div className="text-center">
+          <div className='text-center'>
             <Button
               type='submit'
               className='mt-8 col-span-2 w-full lg:w-[350px]'

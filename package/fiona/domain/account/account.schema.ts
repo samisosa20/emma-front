@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { currencySchema } from '../general/geneal.schema';
-import { movementSchema } from '../movements/movement.schema';
+import { movementSchema } from '../movement/movement.schema';
 
 const accountSchema = z.object({
   id: z.number(),

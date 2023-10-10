@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { movementSchema } from '../movements/movement.schema';
+import { movementSchema } from '../movement/movement.schema';
 
 const balanceSchema = z.object({
   currency: z.string(),
@@ -28,6 +28,8 @@ const listEventsSchema = z.object({
   events: z.array(eventSchema)
 })
 
+const listEventsSelectSchema = z.array(eventSchema)
+
 const categorySchema = z.object({
   currency: z.string(),
   name: z.string(),
@@ -45,4 +47,4 @@ const eventDetailSchema = z.object({
     .transform((e) => (e === 0 ? undefined : e)),
 })
 
-export { eventSchema, listEventsSchema, createEventSchema, eventDetailSchema };
+export { eventSchema, listEventsSchema, createEventSchema, eventDetailSchema, listEventsSelectSchema };

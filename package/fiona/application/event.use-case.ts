@@ -12,6 +12,9 @@ class EventUseCase implements EventRepository {
     listEvents = () => {
         return this.authAdapter.listEvents();
     }
+    listSelectEvents = () => {
+        return this.authAdapter.listSelectEvents();
+    }
     getEventDetail = (id: number) => {
         return this.authAdapter.getEventDetail(id);
     }

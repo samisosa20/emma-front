@@ -134,7 +134,7 @@ export default function categoryCreateViewModel() {
 
       const result = await listSelectCategories();
 
-      if (result.status === 401) {
+      if (Array.isArray(result)) {
         localStorage.clear();
         router.push('/');
       }

@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { movementSchema } from '../movements/movement.schema';
+import { movementSchema } from '../movement/movement.schema';
 
 const incomeSchema = z.object({
   name: z.string(),

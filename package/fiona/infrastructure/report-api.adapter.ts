@@ -33,19 +33,19 @@ class ReportApiAdapter implements ReportAdapter {
     const metrics = [
       {
         title: 'Balance inicial',
-        values: [result.metrics.open_balance],
+        values: [result.metrics.open_balance + ' ' + result.currency.code],
       },
       {
         title: 'Ingresos',
-        values: [result.metrics.income],
+        values: [result.metrics.income + ' ' + result.currency.code],
       },
       {
         title: 'Egresos',
-        values: [result.metrics.expensive],
+        values: [result.metrics.expensive + ' ' + result.currency.code],
       },
       {
         title: 'Balance final',
-        values: [result.metrics.utility],
+        values: [result.metrics.utility + ' ' + result.currency.code],
       },
     ];
 

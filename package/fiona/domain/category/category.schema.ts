@@ -34,18 +34,12 @@ const categoryDetailSchema = z.object({
   ...categorySchema.shape,
 });
 
-const listCategorySchemas = z.object({
-  categories: z.array(
+const listCategorySchemas = z.array(
     z.object({
-      id: z.number(),
-      title: z.string(),
+      value: z.number(),
+      label: z.string(),
     })
-  ),
-  status: z
-    .number()
-    .optional()
-    .transform((e) => (e === 0 ? undefined : e)),
-});
+  );
 
 export {
   categorySchema,
