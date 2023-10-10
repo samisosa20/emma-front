@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 3030",
     "lint": "next lint",
-    "deploy:prod": "npm run build && pm2 startOrRestart pm2.production.config.js --env prod"
+    "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.config.js --env prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
