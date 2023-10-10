@@ -66,7 +66,8 @@ export default function useDashboardViewModel() {
         router.push('/');
       }
 
-      setListMovements(result.movements);
+      // @ts-ignore
+      setListMovements(result);
     } else {
       setListMovements([]);
     }
@@ -91,7 +92,8 @@ export default function useDashboardViewModel() {
         router.push('/');
       }
 
-      setListMovements(result.movements);
+      // @ts-ignore
+      setListMovements(result);
     } else {
       setListMovements([]);
     }
