@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { Controller } from 'react-hook-form';
 import { useRouter } from "next/navigation";
-import { MdOutlineCreate, MdArrowBack } from "react-icons/md";
+import { MdOutlineCreate, MdArrowBack, MdFilterListOff } from "react-icons/md";
 
 //components
 import useComponents from "@/share/components";
@@ -23,10 +24,10 @@ type movements = {
 };
 
 const AccountDetail = (props: any) => {
-  const { data } = props;
+  const { data, control, handleSubmit, onSubmit, listEvents, handleResetFilters, showDelete } = props;
   const router = useRouter();
-  const { Typography } = useComponents();
-  const { Cards } = useComponentsLayout();
+  const { Typography, Select, FormControl, Input, Button } = useComponents();
+  const { Cards, Filters } = useComponentsLayout();
 
   return (
     <div>
@@ -50,8 +51,129 @@ const AccountDetail = (props: any) => {
           </Link>
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 mb-4">
         <Cards data={data.balances} />
+      </div>
+      <div className="flex space-x-4 items-center justify-end">
+        {showDelete && <Typography className="text-primary cursor-pointer underline" onClick={handleResetFilters}>Borrar filtros</Typography>}
+      <Filters>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name={'event_id'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Select
+                  label='Evento'
+                  placeholder='Seleciona una opcion'
+                  id='event_id'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  options={listEvents}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'category'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='text'
+                  placeholder='Categoria'
+                  label='Categoria'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'amount'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='text'
+                  placeholder='Monto'
+                  label='Monto'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'description'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='text'
+                  placeholder='Descripcion'
+                  label='Descripcion'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'start_date'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='date'
+                  step={0.01}
+                  placeholder='Fecha inicial'
+                  label='Fecha inicial'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={'end_date'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='date'
+                  step={0.01}
+                  placeholder='Fecha final'
+                  label='Fecha final'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Button type='submit' className='w-full absolute bottom-0'>
+            Aplicar
+          </Button>
+        </form>
+      </Filters>
       </div>
       <div className="mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto">
         {data.movements.data.map((movement: movements) => (
@@ -79,6 +201,7 @@ const AccountDetail = (props: any) => {
             </div>
           </Link>
         ))}
+        {data.movements.data.length === 0 && <Typography className="text-center py-6">Sin resultados</Typography>}
       </div>
     </div>
   );

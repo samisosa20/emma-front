@@ -83,4 +83,13 @@ const accountCreateSchema = z.object({
     .transform((e) => (e === '' ? undefined : e)),
 })
 
-export { accountSchema, listAccountSchema, AccountDetailSchema, accountCreateSchema };
+const accountParamsSchema = z.object({
+  event_id: z.string().nullable(),
+  start_date: z.string().nullable(),
+  end_date: z.string().nullable(),
+  amount: z.string().nullable(),
+  description: z.string().nullable(),
+  category: z.string().nullable(),
+})
+
+export { accountSchema, listAccountSchema, AccountDetailSchema, accountCreateSchema, accountParamsSchema };

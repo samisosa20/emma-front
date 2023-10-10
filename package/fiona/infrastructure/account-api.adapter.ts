@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { AccountAdapter } from '../domain/account/account.adapter';
-import type { Account, AccountDetail, AccountCreate } from '../domain/account/account';
+import type { Account, AccountDetail, AccountCreate, AccountParams } from '../domain/account/account';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -51,8 +51,15 @@ class AccountApiAdapter implements AccountAdapter {
     };
   }
 
-  async getAccountDetail(id: number): Promise<AccountDetail> {
-    const result: any = await this.httpService.get(`accounts/${id}`);
+  async getAccountDetail(id: number, filters: AccountParams): Promise<AccountDetail> {
+    const queryString = Object.entries(filters)
+      .map(([key, value]) => {
+        if (value &&
+          value !==
+            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+    const result: any = await this.httpService.get(`accounts/${id}?${queryString}`);
     if (result.error) {
       return result;
     }

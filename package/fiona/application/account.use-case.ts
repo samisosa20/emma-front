@@ -1,6 +1,6 @@
 import type { AccountAdapter } from '../domain/account/account.adapter';
 import type { AccountRepository } from '../domain/account/account.repository';
-import type { AccountCreate } from '../domain/account/account.d';
+import type { AccountCreate, AccountParams } from '../domain/account/account.d';
 
 class AccountUseCase implements AccountRepository {
     private authAdapter: AccountAdapter;
@@ -12,8 +12,8 @@ class AccountUseCase implements AccountRepository {
     listAccounts = () => {
         return this.authAdapter.listAccounts();
     }
-    getAccountDetail = (id: number) => {
-        return this.authAdapter.getAccountDetail(id);
+    getAccountDetail = (id: number, filters?: AccountParams) => {
+        return this.authAdapter.getAccountDetail(id, filters);
     }
     createAccount = (data: AccountCreate) => {
         return this.authAdapter.createAccount(data);

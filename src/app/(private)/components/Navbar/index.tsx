@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,15 +16,18 @@ export default function Navbar() {
   const { Typography } = useComponents();
   const pathname = usePathname();
 
+  const [userName, setUserName] = useState('Demo');
+
   const obtenerIniciales = (name: string) => {
     const partesDelNombre = name.split(' ');
     const iniciales = partesDelNombre.map((parte) => parte[0].toUpperCase());
     return iniciales.join('');
   };
 
-  const user = JSON.parse(localStorage.getItem('user') ?? '{}').name ?? 'Demo';
-
-  
+  useEffect(()=>{
+    if(localStorage.getItem('user'))
+    setUserName(JSON.parse(localStorage.getItem('user') ?? '{}').name)
+  }, [])
 
   return (
     <aside className='hidden lg:block bg-primary p-4'>
@@ -59,10 +63,10 @@ export default function Navbar() {
           <Link href={'/profile'}>
             <div className='bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]'>
               <div className='w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0'>
-                {obtenerIniciales(user)}
+                {obtenerIniciales(userName)}
               </div>
               <span className='ml-2 text-white font-medium text-sm truncate'>
-                {user}
+                {userName}
               </span>
             </div>
           </Link>

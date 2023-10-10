@@ -1,4 +1,4 @@
-import type { Account, AccountDetail, AccountCreate } from "./account"; // Import the Auth type
+import type { Account, AccountDetail, AccountCreate, AccountParams } from "./account"; // Import the Auth type
 
 interface AccountRepository {
   /**
@@ -11,7 +11,7 @@ interface AccountRepository {
    * @param {id} number - The unique identifier of the todo.
    * @returns {Promise<AccountDetail>} A Promise containing the list of todos.
    */
-  getAccountDetail(id: number): Promise<AccountDetail>;
+  getAccountDetail(id: number, filters?: AccountParams): Promise<AccountDetail>;
   /**
    * Retrieves a list of todos from the data source.
    * @param {data} AccountCreate - The unique identifier of the todo.
