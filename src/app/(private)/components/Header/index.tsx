@@ -3,13 +3,6 @@ import {useState} from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  MdAttachMoney,
-  MdAccountBalanceWallet,
-  MdEventNote,
-  MdOutlineStackedLineChart,
-  MdAccountBalance,
-  MdOutlinePayment,
-  MdOutlineCategory,
   MdMenu,
   MdOutlineClose,
 } from 'react-icons/md';
@@ -20,6 +13,8 @@ import imgLogo from '../../../../../public/img/logo.png';
 
 // Components
 import useComponents from '@/share/components';
+
+import { links } from '@/share/helpers'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -34,56 +29,7 @@ const Header = () => {
 
   const user = JSON.parse(localStorage.getItem('user') ?? '{}').name ?? 'Demo';
 
-  const links = [
-    {
-      name: 'Movimientos',
-      link: '/moves',
-      show: true,
-      icon: MdAttachMoney,
-    },
-    {
-      name: 'Cuentas',
-      link: '/accounts',
-      show: true,
-      icon: MdAccountBalanceWallet,
-    },
-    {
-      name: 'Eventos',
-      link: '/events',
-      show: true,
-      icon: MdEventNote,
-    },
-    {
-      name: 'Inversiones',
-      link: '/investments',
-      show: true,
-      icon: MdOutlineStackedLineChart,
-    },
-    {
-      name: 'Presupuesto',
-      link: '/budgets',
-      show: false,
-      icon: MdAttachMoney,
-    },
-    {
-      name: 'Patrimonio',
-      link: '/heritages',
-      show: true,
-      icon: MdAccountBalance,
-    },
-    {
-      name: 'Categorias',
-      link: '/categories',
-      show: true,
-      icon: MdOutlineCategory,
-    },
-    {
-      name: 'Pagos',
-      link: '/payments',
-      show: true,
-      icon: MdOutlinePayment,
-    },
-  ];
+  
 
   return (
     <nav className='lg:hidden bg-primary p-4'>

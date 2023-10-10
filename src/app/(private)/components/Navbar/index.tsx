@@ -1,15 +1,6 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  MdAttachMoney,
-  MdAccountBalanceWallet,
-  MdEventNote,
-  MdOutlineStackedLineChart,
-  MdAccountBalance,
-  MdOutlinePayment,
-  MdOutlineCategory,
-} from 'react-icons/md';
 import { usePathname } from 'next/navigation';
 
 // Assets
@@ -17,6 +8,8 @@ import imgLogo from '../../../../../public/img/logo.png';
 
 // Components
 import useComponents from '@/share/components';
+
+import { links } from '@/share/helpers'
 
 export default function Navbar() {
   const { Typography } = useComponents();
@@ -30,56 +23,7 @@ export default function Navbar() {
 
   const user = JSON.parse(localStorage.getItem('user') ?? '{}').name ?? 'Demo';
 
-  const links = [
-    {
-      name: 'Movimientos',
-      link: '/moves',
-      show: true,
-      icon: MdAttachMoney,
-    },
-    {
-      name: 'Cuentas',
-      link: '/accounts',
-      show: true,
-      icon: MdAccountBalanceWallet,
-    },
-    {
-      name: 'Eventos',
-      link: '/events',
-      show: true,
-      icon: MdEventNote,
-    },
-    {
-      name: 'Inversiones',
-      link: '/investments',
-      show: true,
-      icon: MdOutlineStackedLineChart,
-    },
-    {
-      name: 'Presupuesto',
-      link: '/budgets',
-      show: false,
-      icon: MdAttachMoney,
-    },
-    {
-      name: 'Patrimonio',
-      link: '/heritages',
-      show: true,
-      icon: MdAccountBalance,
-    },
-    {
-      name: 'Categorias',
-      link: '/categories',
-      show: true,
-      icon: MdOutlineCategory,
-    },
-    {
-      name: 'Pagos',
-      link: '/payments',
-      show: false,
-      icon: MdOutlinePayment,
-    },
-  ];
+  
 
   return (
     <aside className='hidden lg:block bg-primary p-4'>

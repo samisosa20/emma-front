@@ -1,3 +1,13 @@
+import {
+  MdAttachMoney,
+  MdAccountBalanceWallet,
+  MdEventNote,
+  MdOutlineStackedLineChart,
+  MdAccountBalance,
+  MdOutlinePayment,
+  MdOutlineCategory,
+} from 'react-icons/md';
+
 export const formatCurrency = new Intl.NumberFormat('es-US', {
   style: 'currency',
   currency: 'USD',
@@ -42,3 +52,48 @@ export function formatDateISOToYMDHIS(dateStr: string) {
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
+export const links = [
+  {
+    name: 'Cuentas',
+    link: '/accounts',
+    show: true,
+    icon: MdAccountBalanceWallet,
+  },
+  {
+    name: 'Eventos',
+    link: '/events',
+    show: true,
+    icon: MdEventNote,
+  },
+  {
+    name: 'Inversiones',
+    link: '/investments',
+    show: true,
+    icon: MdOutlineStackedLineChart,
+  },
+  {
+    name: 'Presupuesto',
+    link: '/budgets',
+    show: false,
+    icon: MdAttachMoney,
+  },
+  {
+    name: 'Patrimonio',
+    link: '/heritages',
+    show: true,
+    icon: MdAccountBalance,
+  },
+  {
+    name: 'Categorias',
+    link: '/categories',
+    show: true,
+    icon: MdOutlineCategory,
+  },
+  {
+    name: 'Pagos',
+    link: '/payments',
+    show: false,
+    icon: MdOutlinePayment,
+  },
+];
