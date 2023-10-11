@@ -33,13 +33,13 @@ export default function useMovementsViewModel() {
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [listInvestments, setListInvestments] = useState<any[]>([]);
 
-  const { handleSubmit, control, reset, watch, setValue } = useForm({
+  const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       date_purchase: getDateString(),
       type: '-1',
       account: null,
-      account_end: null,
+      account_end: undefined,
     },
   });
 

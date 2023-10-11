@@ -8,7 +8,7 @@ const movementSchema = z.object({
   }),
   amount_end: z.string().refine((value) => !value.includes("-"), {
     message: "Solo valores positivos",
-  }),
+  }).optional(),
   account: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
@@ -16,7 +16,7 @@ const movementSchema = z.object({
   account_end: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
-  }),
+  }).optional(),
   category: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
@@ -34,6 +34,12 @@ const movementSchema = z.object({
 }).refine((data) =>  {
   if (data.type !== '0') {
     return data.category !== undefined && data.category !== null && data.category.value !== undefined && data.category.value !== null;
+  }
+  // Si type es '0', category puede ser opcional
+  return true;
+}).refine((data) =>  {
+  if (data.type === '0') {
+    return data.account_end !== undefined && data.account_end !== null;
   }
   // Si type no es '0', category puede ser opcional
   return true;
