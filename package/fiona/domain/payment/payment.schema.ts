@@ -7,7 +7,7 @@ const paymentParamsSchema = z.object({
   amount: z.union([z.string(), z.number()]),
   account_id: z.union([z.string(), z.number()]),
   category_id: z.union([z.string(), z.number()]),
-  start_date: z.union([z.string(), z.number()]),
+  start_date: z.string(),
   end_date: z.union([z.null(), z.string()]),
   specific_day: z.string(),
 });

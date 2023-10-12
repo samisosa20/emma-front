@@ -93,7 +93,7 @@ export const links = [
   {
     name: 'Pagos',
     link: '/payments',
-    show: false,
+    show: true,
     icon: MdOutlinePayment,
   },
 ];
