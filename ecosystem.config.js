@@ -3,7 +3,7 @@ module.exports = {
       {
         name: 'FionaNextApp',
         exec_mode: 'cluster',
-        instances: 'max', // Or a number of instances
+        instances: '2', // Or a number of instances
         script: 'node_modules/next/dist/bin/next',
         args: 'start -p 3030',
         env_local: {
