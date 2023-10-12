@@ -4,7 +4,15 @@ import PaymentsCreate from '@/app/(private)/payments/create/ui/view/PaymentsCrea
 import usePaymentsCreateViewModel from '@/app/(private)/payments/create/ui/model/paymentsCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, listMovements, currencyOptions, handleDelete } = usePaymentsCreateViewModel();
+  const {
+    handleSubmit,
+    onSubmit,
+    control,
+    title,
+    listAccounts,
+    listCategories,
+    handleDelete,
+  } = usePaymentsCreateViewModel();
 
   return (
     <PaymentsCreate
@@ -12,8 +20,8 @@ const Page = () => {
       onSubmit={onSubmit}
       control={control}
       title={title}
-      listMovements={listMovements}
-      currencyOptions={currencyOptions}
+      listAccounts={listAccounts}
+      listCategories={listCategories}
       handleDelete={handleDelete}
     />
   );
