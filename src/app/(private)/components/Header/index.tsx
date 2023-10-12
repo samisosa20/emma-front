@@ -71,7 +71,7 @@ const Header = () => {
                   >
                     <Icon />
                     <Typography
-                      variant='h3'
+                      variant='h2'
                       className={`${
                         pathname === link.link ? 'text-secondary' : 'text-white'
                       } hover:text-secondary`}
