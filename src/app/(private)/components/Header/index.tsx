@@ -43,7 +43,7 @@ const Header = () => {
       <div
         className={`${
           isOpen ? 'h-screen' : 'hidden h-0'
-        } fixed inset-0 w-screen bg-primary px-6 pt-8 transition-all z-10`}
+        } fixed inset-0 w-screen bg-primary px-4 pt-4 transition-all z-10`}
       >
         <div className='flex items-center justify-between'>
           <Link href='/dashboard' onClick={() => setIsOpen(false)}>

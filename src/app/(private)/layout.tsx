@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <div>
-      <div className='grid lg:grid-cols-[200px_1fr] h-screen'>
+      <div className='grid grid-rows-[80px_1fr] lg:grid-rows-none lg:grid-cols-[200px_1fr] h-screen'>
         <Header />
         <Navbar />
         <main className='pt-8 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between'>
