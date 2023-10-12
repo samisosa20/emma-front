@@ -16,6 +16,8 @@ import { EventUseCase } from '@@/application/event.use-case';
 import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 import { MovementUseCase } from '@@/application/movement.use-case';
 import { MovementApiAdapter } from '@@/infrastructure/movement-api.adapter';
+import { InvestmentUseCase } from '@@/application/investment.use-case';
+import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
 
 import {
   customConfigHeader,
@@ -114,6 +116,21 @@ export default function useMovementsViewModel() {
       const result = await listSelectEvents();
 
       return result;
+    },
+  });
+  
+  const { data: dataListInvestments, isError: isErrorInvestments } = useQuery({
+    queryKey: ['investmentsMove'],
+    queryFn: async () => {
+      const { listInvestments } = new InvestmentUseCase(
+        new InvestmentApiAdapter({
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          customConfig: customConfigHeader(),
+        })
+      );
+      const result = await listInvestments();
+
+      return result.investments;
     },
   });
 
@@ -259,13 +276,23 @@ export default function useMovementsViewModel() {
       );
     }
   }, [dataListEvents]);
+  
+  useEffect(() => {
+    if (dataListInvestments && Array.isArray(dataListInvestments)) {
+      setListInvestments(
+        dataListInvestments.map((investment) => {
+          return { label: investment.name, value: investment.id };
+        })
+      );
+    }
+  }, [dataListInvestments]);
 
   useEffect(() => {
-    if (isErrorAccount || isErrorCategory || isErrorEvents) {
+    if (isErrorAccount || isErrorCategory || isErrorEvents || isErrorInvestments) {
       localStorage.clear();
       router.push('/');
     }
-  }, [isErrorAccount, isErrorCategory, isErrorEvents]);
+  }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);
 
   useEffect(() => {
     if (data) {

@@ -1,5 +1,6 @@
-import { MdDeleteOutline } from 'react-icons/md';
+import { MdDeleteOutline, MdArrowBack } from 'react-icons/md';
 import { Controller } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 //components
 import useComponents from '@/share/components';
@@ -19,6 +20,9 @@ export default function Movements(props: any) {
     accountEndWatch,
     accountWatch,
   } = props;
+
+  const router = useRouter();
+
   const { Typography, FormControl, Input, Button, RadioGroup, AutoComplete } =
     useComponents();
 
@@ -27,7 +31,12 @@ export default function Movements(props: any) {
       <div>
         <div className='flex items-center justify-between w-full'>
           <div>
-            <Typography variant='h1'>{title}</Typography>
+            <div className='flex items-center space-x-2'>
+              <div onClick={() => router.back()}>
+                <MdArrowBack />
+              </div>
+              <Typography variant='h1'>{title}</Typography>
+            </div>
             {!handleDelete && (
               <Typography>
                 Agrega un movimiento o transfiere de una cuenta a otra
@@ -226,32 +235,34 @@ export default function Movements(props: any) {
                   </FormControl>
                 )}
               />
-              {accountEndWatch && accountWatch && accountEndWatch.badge_id !== accountWatch.badge_id && (
-                <Controller
-                  name={'amount_end'}
-                  control={control}
-                  render={({
-                    field: { onChange, onBlur, value },
-                    fieldState,
-                  }) => (
-                    <FormControl fieldState={fieldState} withLabel={true}>
-                      <Input
-                        type='number'
-                        placeholder='Monto recibido'
-                        label='Monto recibido'
-                        id='amount_end'
-                        step='0.01'
-                        min='0'
-                        onChange={(e: any) => {
-                          onChange(e);
-                        }}
-                        iserror={!!fieldState.error}
-                        value={value}
-                      />
-                    </FormControl>
-                  )}
-                />
-              )}
+              {accountEndWatch &&
+                accountWatch &&
+                accountEndWatch.badge_id !== accountWatch.badge_id && (
+                  <Controller
+                    name={'amount_end'}
+                    control={control}
+                    render={({
+                      field: { onChange, onBlur, value },
+                      fieldState,
+                    }) => (
+                      <FormControl fieldState={fieldState} withLabel={true}>
+                        <Input
+                          type='number'
+                          placeholder='Monto recibido'
+                          label='Monto recibido'
+                          id='amount_end'
+                          step='0.01'
+                          min='0'
+                          onChange={(e: any) => {
+                            onChange(e);
+                          }}
+                          iserror={!!fieldState.error}
+                          value={value}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                )}
             </>
           )}
           <Controller

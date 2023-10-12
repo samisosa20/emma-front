@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack, MdDeleteOutline } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 
 //components
@@ -13,7 +13,7 @@ export default function InvestmentsCreate(props: any) {
   const router = useRouter();
   const { Typography, Button, Input, FormControl, Select } = useComponents();
 
-  const { handleSubmit, onSubmit, control, title, listMovements, currencyOptions = [] } = props;
+  const { handleSubmit, onSubmit, control, title, listMovements, currencyOptions = [], handleDelete } = props;
 
   return (
     <div>
@@ -24,6 +24,15 @@ export default function InvestmentsCreate(props: any) {
               <MdArrowBack />
             </div>
             <Typography variant='h1'>{title}</Typography>
+          </div>
+          <div>
+            {handleDelete && <Button
+              onClick={handleDelete}
+              className="flex items-center space-x-2 bg-red-500 p-2 rounded shadow-sm text-white"
+            >
+              <MdDeleteOutline />
+              <Typography className="text-white">Eliminar</Typography>
+            </Button>}
           </div>
         </div>
       </div>
@@ -161,6 +170,8 @@ export default function InvestmentsCreate(props: any) {
             )}
           </div>
         ))}
+        {listMovements &&
+          listMovements.length === 0 && <Typography className="text-center py-6">Sin resultados</Typography>}
       </div>
     </div>
   );

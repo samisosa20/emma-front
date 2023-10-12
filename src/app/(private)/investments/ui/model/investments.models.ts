@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { useRouter } from 'next/navigation';
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
+import { InvestmentUseCase } from '@@/application/investment.use-case';
+import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
@@ -12,14 +12,14 @@ export default function useInvestmentsViewModel(){
   const { isLoading, data, isError } = useQuery({
     queryKey: ['investments'],
     queryFn: async () => {
-      const { listEvents } = new EventUseCase(
-        new EventApiAdapter({
+      const { listInvestments } = new InvestmentUseCase(
+        new InvestmentApiAdapter({
           baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
           customConfig: customConfigHeader(),
         })
       );
 
-      const result = await listEvents();
+      const result = await listInvestments();
 
       if (result.status === 401) {
         localStorage.clear();

@@ -7,12 +7,6 @@ import useComponents from '@/share/components';
 // Helpers
 import { formatCurrency } from '@/share/helpers';
 
-type EventList = {
-  id: number;
-  name: string;
-  balance: { movements: number; currency: string }[];
-};
-
 export default function Investments(props: any) {
   const { data } = props;
   const { Typography } = useComponents();
@@ -40,42 +34,44 @@ export default function Investments(props: any) {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.map((event: EventList) => (
-            <Link href={`/investments/${event.id}`} key={event.id}>
+          data.investments?.map((investment: any) => (
+            <Link href={`/investments/${investment.id}`} key={investment.id}>
               <div className='bg-white rounded shadow-sm p-4'>
                 <div className='flex items-center justify-between'>
-                  <Typography variant='h2'>Inversion</Typography>
-                  <Typography variant='h5'>COP</Typography>
+                  <Typography variant='h2'>{investment.name}</Typography>
+                  <Typography variant='h5'>{investment.currency.code}</Typography>
                 </div>
                 <Typography
                   variant='h5'
-                  className={500000000 > 0 ? 'text-green-500' : 'text-red-500'}
+                  className={investment.end_amount > 0 ? 'text-green-500' : 'text-red-500'}
                 >
-                  {formatCurrency.format(500000000)}
+                  {formatCurrency.format(investment.end_amount)}
                 </Typography>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h5' className='font-semibold'>
                     Val.
                   </Typography>
-                  <Typography variant='h6'>-125.45%</Typography>
+                  <Typography variant='h6'>{investment.valorization}</Typography>
                 </div>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h5' className='font-semibold'>
                     Rend.
                   </Typography>
                   <Typography variant='h6'>
-                    {formatCurrency.format(15500000)}
+                    {formatCurrency.format(investment.returns)}
                   </Typography>
                 </div>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h5' className='font-semibold'>
                     Total
                   </Typography>
-                  <Typography variant='h6'>-125.45%</Typography>
+                  <Typography variant='h6'>{investment.total_rate}</Typography>
                 </div>
               </div>
             </Link>
           ))}
+          {data &&
+          data.investments.length === 0 && <Typography className="text-center py-6">Sin resultados</Typography>}
       </div>
     </div>
   );

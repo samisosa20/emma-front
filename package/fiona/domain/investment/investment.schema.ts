@@ -1,5 +1,6 @@
 import * as z from "zod";
 import { currencySchema } from '../general/geneal.schema';
+import { movementSchema } from '../movement/movement.schema';
 
 const investmentParamsSchema = z.object({
   name: z.string(),
@@ -15,6 +16,8 @@ const investmentSchema = z.object({
   valorization: z.string(),
   total_rate: z.string(),
   currency: currencySchema,
+  movements: z.array(movementSchema),
+  id: z.string(),
 });
 
 const listInvestmentSchema = z.object({

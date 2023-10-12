@@ -1,18 +1,20 @@
 'use client';
-import EventCreate from '@/app/(private)/events/create/ui/view/EventsCreate';
+import InvestmentsCreate from '@/app/(private)/investments/create/ui/view/InvestmentsCreate';
 
-import useEventCreate from '@/app/(private)/events/create/ui/model/eventsCreate.models';
+import useInvestmentsCreateViewModel from '@/app/(private)/investments/create/ui/model/investmentsCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, listMovements } = useEventCreate();
+  const { handleSubmit, onSubmit, control, title, listMovements, currencyOptions, handleDelete } = useInvestmentsCreateViewModel();
 
   return (
-    <EventCreate
+    <InvestmentsCreate
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
       title={title}
       listMovements={listMovements}
+      currencyOptions={currencyOptions}
+      handleDelete={handleDelete}
     />
   );
 };

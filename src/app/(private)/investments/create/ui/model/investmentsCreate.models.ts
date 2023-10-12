@@ -5,11 +5,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { eventSchema } from '@/share/validation';
-import type { EventSchema } from '@/share/validation';
+import { investmentSchema } from '@/share/validation';
+import type { InvestmentSchema } from '@/share/validation';
 
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
+import { InvestmentUseCase } from '@@/application/investment.use-case';
+import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
@@ -22,15 +22,22 @@ export default function useInvestmentsCreateViewModel() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
   const { handleSubmit, control, reset } = useForm({
-    resolver: zodResolver(eventSchema),
+    resolver: zodResolver(investmentSchema),
+    defaultValues: {
+      name: '',
+      init_amount: '',
+      end_amount: '',
+      badge_id: '',
+      date_investment: '',
+    },
   });
 
   const mutation = useMutation({
-    mutationFn: async (data: EventSchema) => {
+    mutationFn: async (data: InvestmentSchema) => {
       const user = localStorage.getItem('user');
       if (user) {
-        const { createEvent } = new EventUseCase(
-          new EventApiAdapter({
+        const { createInvestment } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
             customConfig: {
               headers: {
@@ -39,7 +46,7 @@ export default function useInvestmentsCreateViewModel() {
             },
           })
         );
-        const result = await createEvent(data);
+        const result = await createInvestment(data);
         if (result.error) {
           console.log(result);
           toast.error(result.message);
@@ -52,11 +59,11 @@ export default function useInvestmentsCreateViewModel() {
   });
 
   const mutationEdit = useMutation({
-    mutationFn: async (data: EventSchema) => {
+    mutationFn: async (data: InvestmentSchema) => {
       const user = localStorage.getItem('user');
       if (user) {
-        const { editEvent } = new EventUseCase(
-          new EventApiAdapter({
+        const { editInvestment } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
             customConfig: {
               headers: {
@@ -68,7 +75,7 @@ export default function useInvestmentsCreateViewModel() {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await editEvent(id, data);
+        const result = await editInvestment(id, data);
         if (result.error) {
           console.log(result);
           toast.error(result.message);
@@ -80,12 +87,36 @@ export default function useInvestmentsCreateViewModel() {
     },
   });
 
+  const mutationDelete = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { deleteInvestment } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: customConfigHeader(),
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await deleteInvestment(id);
+        if (result.error) {
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        router.back();
+      }
+    },
+  });
+
   const { data } = useQuery({
-    queryKey: ['investmentDetail'],
+    queryKey: ['investmentDetail', param.id],
     queryFn: async () => {
       if (param.id) {
-        const { getEventDetail } = new EventUseCase(
-          new EventApiAdapter({
+        const { getInvestmentDetail } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
             customConfig: customConfigHeader(),
           })
@@ -94,15 +125,11 @@ export default function useInvestmentsCreateViewModel() {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await getEventDetail(id);
-
-        if (result.status === 401) {
-          localStorage.clear();
-          router.push('/');
-        }
+        const result = await getInvestmentDetail(id);
 
         return result;
       }
+      return null
     },
   });
 
@@ -116,6 +143,10 @@ export default function useInvestmentsCreateViewModel() {
       mutation.mutate(formData);
     }
   };
+
+  const handleDelete = () => {
+    mutationDelete.mutate();
+  }
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -133,7 +164,13 @@ export default function useInvestmentsCreateViewModel() {
 
   useEffect(() => {
     if (data) {
-      reset(data);
+      reset({
+        name: data.name,
+        init_amount: data.init_amount.toString(),
+        end_amount: data.end_amount.toString(),
+        badge_id: data.badge_id.toString(),
+        date_investment: data.date_investment,
+      });
       setListMovements(data.movements);
     }
   }, [data]);
@@ -145,5 +182,6 @@ export default function useInvestmentsCreateViewModel() {
     title,
     listMovements,
     currencyOptions,
+    handleDelete,
   };
-};
+}
