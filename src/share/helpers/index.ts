@@ -97,3 +97,26 @@ export const links = [
     icon: MdOutlinePayment,
   },
 ];
+
+export const colors = [
+  "#36A2EB",
+  "#FF6384",
+  "#4BC0C0",
+  "#FF9F40",
+  "#9966FF",
+  "#FFCD56",
+  "#C9CBCF",
+  "#33FFFF",
+  "#9900FF",
+  "#FFFF33",
+  "#0099FF",
+  "#FF33CC",
+  "#33CCFF",
+  "#CC33FF",
+  "#FFCC33",
+  "#33FFCC",
+  "#CC33CC",
+  "#66FF33",
+  "#33FF66",
+  "#CC6633"
+];

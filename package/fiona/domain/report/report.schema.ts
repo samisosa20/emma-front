@@ -2,21 +2,18 @@ import * as z from "zod";
 import { movementSchema } from '../movement/movement.schema';
 
 const incomeSchema = z.object({
-  name: z.string(),
-  values: z.array(z.number()),
-  labels: z.array(z.string()),
+  category: z.string(),
+  amount: z.number(),
 });
 
 const expenseSchema = z.object({
-  name: z.string(),
-  values: z.array(z.number()),
-  labels: z.array(z.string()),
+  category: z.string(),
+  amount: z.number(),
 });
 
 const balanceSchema = z.object({
-  name: z.string(),
-  values: z.array(z.number()),
-  labels: z.array(z.string()),
+  date: z.string(),
+  amount: z.number(),
 });
 
 const groupExpenseSchema = z.object({
