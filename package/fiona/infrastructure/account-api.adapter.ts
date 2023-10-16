@@ -1,9 +1,14 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from "axios";
 
-import type { AccountAdapter } from '../domain/account/account.adapter';
-import type { Account, AccountDetail, AccountCreate, AccountParams } from '../domain/account/account';
+import type { AccountAdapter } from "../domain/account/account.adapter";
+import type {
+  Account,
+  AccountDetail,
+  AccountCreate,
+  AccountParams,
+} from "../domain/account/account";
 
-import HttpService from './http.service'; // Abstracted http service
+import HttpService from "./http.service"; // Abstracted http service
 
 interface AuthApiAdapterOptions {
   baseUrl: string;
@@ -23,7 +28,7 @@ class AccountApiAdapter implements AccountAdapter {
       return result;
     }
     const transformedData = Object.keys(result.balances[0])
-      .filter((key) => key !== 'i' && key !== 'currency')
+      .filter((key) => key !== "i" && key !== "currency")
       .map((key) => ({
         title: key,
         values: result.balances.map(
@@ -35,36 +40,43 @@ class AccountApiAdapter implements AccountAdapter {
       accounts: result.accounts,
       balances: [
         {
-          title: 'Balance del mes actual',
-          values: transformedData.filter((v) => v.title === 'month')[0].values,
+          title: "Balance del mes actual",
+          values: transformedData.filter((v) => v.title === "month")[0].values,
         },
         {
-          title: 'Balance del año actual',
-          values: transformedData.filter((v) => v.title === 'year')[0].values,
+          title: "Balance del año actual",
+          values: transformedData.filter((v) => v.title === "year")[0].values,
         },
         {
-          title: 'Balance total',
-          values: transformedData.filter((v) => v.title === 'balance')[0]
+          title: "Balance total",
+          values: transformedData.filter((v) => v.title === "balance")[0]
             .values,
         },
       ],
     };
   }
 
-  async getAccountDetail(id: number, filters: AccountParams): Promise<AccountDetail> {
-    const queryString = Object.entries(filters)
-      .map(([key, value]) => {
-        if (value &&
-          value !==
-            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-      })
-      .join('&');
-    const result: any = await this.httpService.get(`accounts/${id}?${queryString}`);
+  async getAccountDetail(
+    id: number,
+    filters?: AccountParams
+  ): Promise<AccountDetail> {
+    let queryString = null;
+    if (filters) {
+      queryString = Object.entries(filters)
+        .map(([key, value]) => {
+          if (value && value !== undefined)
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        })
+        .join("&");
+    }
+    const result: any = await this.httpService.get(
+      `accounts/${id}?${queryString}`
+    );
     if (result.error) {
       return result;
     }
     const transformedData = Object.keys(result.balances[0])
-      .filter((key) => key !== 'i' && key !== 'currency')
+      .filter((key) => key !== "i" && key !== "currency")
       .map((key) => ({
         title: key,
         values: result.balances.map(
@@ -78,40 +90,45 @@ class AccountApiAdapter implements AccountAdapter {
       account: result.account,
       balances: [
         {
-          title: 'Balance del mes actual',
-          values: transformedData.filter((v) => v.title === 'month')[0].values,
+          title: "Balance del mes actual",
+          values: transformedData.filter((v) => v.title === "month")[0].values,
         },
         {
-          title: 'Balance del año actual',
-          values: transformedData.filter((v) => v.title === 'year')[0].values,
+          title: "Balance del año actual",
+          values: transformedData.filter((v) => v.title === "year")[0].values,
         },
         {
-          title: 'Balance total',
-          values: transformedData.filter((v) => v.title === 'balance')[0]
+          title: "Balance total",
+          values: transformedData.filter((v) => v.title === "balance")[0]
             .values,
         },
       ],
     };
   }
 
-  async createAccount(data: AccountCreate): Promise<{message:string, error: boolean}> {
+  async createAccount(
+    data: AccountCreate
+  ): Promise<{ message: string; error: boolean }> {
     const result: any = await this.httpService.post(`accounts`, data);
     if (result.error) {
       return result;
     }
     return {
       message: result.message,
-      error: false
+      error: false,
     };
   }
-  async editAccount(id: number, data: AccountCreate): Promise<{message:string, error: boolean}> {
+  async editAccount(
+    id: number,
+    data: AccountCreate
+  ): Promise<{ message: string; error: boolean }> {
     const result: any = await this.httpService.put(`accounts/${id}`, data);
     if (result.error) {
       return result;
     }
     return {
       message: result.message,
-      error: false
+      error: false,
     };
   }
   // Additional methods with error handling
