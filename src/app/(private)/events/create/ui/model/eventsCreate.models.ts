@@ -97,7 +97,7 @@ const useEventCreate = () => {
         const result = await getEventDetail(id);
 
         if (result.status === 401) {
-          localStorage.clear();
+          localStorage.removeItem("user");
           router.push('/');
         }
 

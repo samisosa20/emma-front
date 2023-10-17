@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify';
 const inter = Inter({ subsets: ['latin'] });
 import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: 'Fiona',
@@ -19,23 +21,29 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <link rel='manifest' href='/manifest.json' />
+        <link rel='apple-touch-icon' href='/icon.png'></link>
+        <meta name='theme-color' content='#fff' />
+      </head>
       <body className={inter.className}>
+        <Suspense fallback={<Loading/>}>
         <Providers>
           <ToastContainer
             position='top-right'
             autoClose={4000}
-            hideProgressBar={true}
+            hideProgressBar={false}
             newestOnTop={false}
             rtl={false}
-            pauseOnFocusLoss
             draggable={false}
-            limit={10}
+            limit={3}
             pauseOnHover
             theme='colored'
             style={{ width: 'auto' }}
           />
           {children}
         </Providers>
+        </Suspense>
       </body>
     </html>
   );

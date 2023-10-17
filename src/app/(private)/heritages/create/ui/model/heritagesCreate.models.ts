@@ -113,7 +113,7 @@ export default function useHeritagesCreateViewModel() {
         const result = await getHeritageDetail(id);
 
         if (result.status === 401) {
-          localStorage.clear();
+          localStorage.removeItem("user");
           router.push("/");
         }
 

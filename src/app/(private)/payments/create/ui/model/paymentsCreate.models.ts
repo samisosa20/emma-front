@@ -193,7 +193,7 @@ export default function usePaymentsCreateViewModel() {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) {
-      localStorage.clear();
+      localStorage.removeItem("user");
       router.push('/');
     } else {
       if (param.id) {

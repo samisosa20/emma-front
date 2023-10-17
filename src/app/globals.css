@@ -19,3 +19,65 @@ body {
 .auto-complete.iserror .wrapper {
   @apply border-red-500;
 }
+
+/* The container */
+.fiona-container-checkbox {
+  @apply block relative cursor-pointer mb-3 pl-7 text-sm;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.fiona-container-checkbox  input {
+  @apply absolute opacity-0 cursor-pointer h-0 w-0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  @apply absolute top-0 left-0 h-5 w-5 border border-primary rounded;
+
+}
+
+/* On mouse-over, add a grey background color */
+.fiona-container-checkbox:hover input ~ .checkmark {
+  @apply bg-yellow-400 border-none;
+}
+
+/* When the checkbox is checked, add a blue background */
+.fiona-container-checkbox  input:checked ~ .checkmark {
+  @apply bg-yellow-400 border-none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  @apply hidden absolute;
+  content: "";
+}
+
+/* Show the checkmark when checked */
+.fiona-container-checkbox  input:checked ~ .checkmark:after {
+  @apply block;
+}
+
+/* Style the checkmark/indicator */
+.fiona-container-checkbox  .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+@media (max-width: 480px) {
+  .Toastify__toast-container--top-right {
+    top: 1em !important;
+    left: 1em !important;
+  }
+}

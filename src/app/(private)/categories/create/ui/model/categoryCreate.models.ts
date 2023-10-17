@@ -113,7 +113,7 @@ export default function useCategoryCreateViewModel() {
         const result = await getCategoryDetail(id);
 
         if (result.status === 401) {
-          localStorage.clear();
+          localStorage.removeItem("user");
           router.push('/');
         }
 
@@ -135,7 +135,7 @@ export default function useCategoryCreateViewModel() {
       const result = await listSelectCategories();
 
       if (Array.isArray(result)) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 

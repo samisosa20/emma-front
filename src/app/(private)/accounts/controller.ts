@@ -24,7 +24,7 @@ const useAccounts = () => {
         );
         const result = await listAccounts();
         if (result.status === 401) {
-          localStorage.clear();
+          localStorage.removeItem("user");
           router.push('/');
         }
         return result;

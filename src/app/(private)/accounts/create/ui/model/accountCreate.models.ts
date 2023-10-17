@@ -95,7 +95,7 @@ const useAccountCreate = () => {
         const result = await getAccountDetail(id);
 
         if (result.status === 401) {
-          localStorage.clear();
+          localStorage.removeItem("user");
           router.push('/');
         }
 
@@ -135,6 +135,7 @@ const useAccountCreate = () => {
         type_id: data.account.type_id.toString(),
         badge_id: data.account.badge_id.toString(),
         init_amount: data.account.init_amount.toString(),
+        description: data.account.description ? data.account.description : '',
       });
     }
   }, [data, reset]);

@@ -14,11 +14,12 @@ import { AuthApiAdapter } from '@@/infrastructure/auth-api.adapter';
 const useLogin = () => {
   const router = useRouter();
 
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
+      remind: false,
     },
   });
 
@@ -36,16 +37,28 @@ const useLogin = () => {
   })
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
+    if(data.remind){
+      localStorage.setItem('remind', data.email)
+    } else {
+      localStorage.removeItem("remind");
+    }
     mutation.mutate(data)
   };
 
   useEffect(() => {
     const user = localStorage.getItem('user')
+    const remind = localStorage.getItem('remind')
     if(user) {
       const token = JSON.parse(user).token
       if(token) {
         router.push('/dashboard')
       }
+    }
+    if(remind) {
+      reset({
+        email: remind,
+        remind: true,
+      })
     }
   }, [])
   return {

@@ -29,7 +29,7 @@ const useHeritageYear = () => {
           const result = await getListPerYearDetail(id);
 
           if (result.status === 401) {
-            localStorage.clear();
+            localStorage.removeItem("user");
             router.push('/');
           }
 

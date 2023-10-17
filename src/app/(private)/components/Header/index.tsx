@@ -25,10 +25,10 @@ const Header = () => {
     return iniciales.join('');
   };
 
-  useEffect(()=>{
-    if(localStorage.getItem('user'))
-    setUserName(JSON.parse(localStorage.getItem('user') ?? '{}').name)
-  }, [])
+  useEffect(() => {
+    if (localStorage.getItem('user'))
+      setUserName(JSON.parse(localStorage.getItem('user') ?? '{}').name);
+  }, []);
 
   return (
     <nav className='lg:hidden bg-primary p-4'>
@@ -58,28 +58,47 @@ const Header = () => {
             .filter((v) => v.show)
             .map((link, index) => {
               const Icon = link.icon;
+              if (typeof link.link === 'string') {
+                return (
+                  <Link
+                    href={link.link}
+                    key={index}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <li
+                      className={`${
+                        pathname === link.link ? 'text-secondary' : 'text-white'
+                      } mb-2 flex space-x-4 items-center hover:text-secondary`}
+                    >
+                      <Icon />
+                      <Typography
+                        variant='h2'
+                        className={`${
+                          pathname === link.link
+                            ? 'text-secondary'
+                            : 'text-white'
+                        } hover:text-secondary`}
+                      >
+                        {link.name}
+                      </Typography>
+                    </li>
+                  </Link>
+                );
+              }
               return (
-                <Link
-                  href={link.link}
-                  key={index}
-                  onClick={() => setIsOpen(false)}
-                >
+                <div onClick={link.onClick} key={index}>
                   <li
-                    className={`${
-                      pathname === link.link ? 'text-secondary' : 'text-white'
-                    } mb-2 flex space-x-4 items-center hover:text-secondary`}
+                    className={`text-white mb-2 flex space-x-4 items-center hover:text-secondary cursor-pointer`}
                   >
                     <Icon />
                     <Typography
-                      variant='h2'
-                      className={`${
-                        pathname === link.link ? 'text-secondary' : 'text-white'
-                      } hover:text-secondary`}
+                      variant='h3'
+                      className={`text-white hover:text-secondary`}
                     >
                       {link.name}
                     </Typography>
                   </li>
-                </Link>
+                </div>
               );
             })}
           <li>

@@ -81,7 +81,7 @@ export default function useMovementsViewModel() {
       const result = await listAccounts();
 
       if (result.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 
@@ -236,7 +236,7 @@ export default function useMovementsViewModel() {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) {
-      localStorage.clear();
+      localStorage.removeItem("user");
       router.push('/');
     } else {
       if (param.id) {
@@ -289,7 +289,7 @@ export default function useMovementsViewModel() {
 
   useEffect(() => {
     if (isErrorAccount || isErrorCategory || isErrorEvents || isErrorInvestments) {
-      localStorage.clear();
+      localStorage.removeItem("user");
       router.push('/');
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);

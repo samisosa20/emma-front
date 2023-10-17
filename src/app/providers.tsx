@@ -15,6 +15,26 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   useEffect(() => {
     if (!isLogin() && pathname !== '/') router.push('/');
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('Service Worker registrado con éxito:', registration);
+          })
+          .catch((error) => {
+            console.error('Error al registrar el Service Worker:', error);
+          });
+      });
+    }
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          // El usuario otorgó permiso para mostrar notificaciones
+        } else if (permission === 'denied') {
+          // El usuario denegó el permiso
+        }
+      });
+    }
   }, [pathname])
   return (
     <QueryClientProvider client={queryClient}>

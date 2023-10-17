@@ -11,7 +11,7 @@ import useComponents from '@/share/components';
 import useLogin from './controller';
 
 const Login = () => {
-  const { Button, Typography, Input, FormControl } = useComponents();
+  const { Button, Typography, Input, FormControl, Checbox } = useComponents();
 
   const { handleSubmit, onSubmit, control } = useLogin();
 
@@ -58,6 +58,23 @@ const Login = () => {
                     iserror={!!fieldState.error}
                     value={value}
                   />
+                </FormControl>
+              )}
+            />
+            <Controller
+              name={'remind'}
+              control={control}
+              render={({ field: { onChange, onBlur, value }, fieldState }) => (
+                <FormControl withOutHeight fieldState={fieldState}>
+                  <div className="h-[45px] ml-auto w-min">
+                    <Checbox
+                      label='Recordarme'
+                      handleCheckboxChange={(e: any) => {
+                        onChange(e);
+                      }}
+                      isChecked={!!value}
+                    />
+                  </div>
                 </FormControl>
               )}
             />

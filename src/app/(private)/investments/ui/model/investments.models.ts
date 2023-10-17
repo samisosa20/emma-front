@@ -22,7 +22,7 @@ export default function useInvestmentsViewModel(){
       const result = await listInvestments();
 
       if (result.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 

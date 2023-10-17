@@ -10,6 +10,7 @@ const Switch = lazy(() => import("./Switch"));
 const Select = lazy(() => import("./Select"));
 const RadioGroup = lazy(() => import("./RadioGroup"));
 const AutoComplete = lazy(() => import("./AutoComplete"));
+const Checbox = lazy(() => import("./Checkbox"));
 
 const useComponents = () => {
     return {
@@ -23,6 +24,7 @@ const useComponents = () => {
         Select,
         RadioGroup,
         AutoComplete,
+        Checbox,
     }
 }
 

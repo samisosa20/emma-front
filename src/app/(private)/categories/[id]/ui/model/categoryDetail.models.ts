@@ -30,7 +30,7 @@ export default function useCategoryDetailViewModel() {
           const result = await getCategoryDetail(id);
 
           if (result.status === 401) {
-            localStorage.clear();
+            localStorage.removeItem("user");
             router.push('/');
           }
 

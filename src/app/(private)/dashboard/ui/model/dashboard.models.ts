@@ -35,7 +35,7 @@ export default function useDashboardViewModel() {
       const result = await getReport(filters);
 
       if (result.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 
@@ -62,7 +62,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 
@@ -88,7 +88,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.push('/');
       }
 
