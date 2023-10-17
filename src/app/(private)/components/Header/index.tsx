@@ -92,7 +92,7 @@ const Header = () => {
                   >
                     <Icon />
                     <Typography
-                      variant='h3'
+                      variant='h2'
                       className={`text-white hover:text-secondary`}
                     >
                       {link.name}
