@@ -9,6 +9,11 @@
     "description": "Manejo de finanzas perosnales",
     "icons": [
         {
+            "src": "/icon-64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
             "src": "/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
