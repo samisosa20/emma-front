@@ -21,6 +21,15 @@ class AccountUseCase implements AccountRepository {
     editAccount = (id: number, data: AccountCreate) => {
         return this.authAdapter.editAccount(id, data);
     }
+    desactiveAccount = (id: number) => {
+        return this.authAdapter.desactiveAccount(id);
+    }
+    activeAccount = (id: number) => {
+        return this.authAdapter.activeAccount(id);
+    }
+    deleteAccount = (id: number) => {
+        return this.authAdapter.deleteAccount(id);
+    }
 }
 
 export { AccountUseCase }

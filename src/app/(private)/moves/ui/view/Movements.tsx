@@ -47,7 +47,7 @@ export default function Movements(props: any) {
             {handleDelete && (
               <Button
                 onClick={handleDelete}
-                className='flex items-center space-x-2 bg-red-500 p-2 rounded shadow-sm text-white'
+                className='flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white'
               >
                 <MdDeleteOutline />
                 <Typography className='text-white'>Eliminar</Typography>
@@ -70,14 +70,17 @@ export default function Movements(props: any) {
                     {
                       label: 'Ingreso',
                       value: '1',
+                      disabled: !!handleDelete && typeWatch === '0',
                     },
                     {
                       label: 'Egreso',
                       value: '-1',
+                      disabled: !!handleDelete && typeWatch === '0',
                     },
                     {
                       label: 'Transferencia',
                       value: '0',
+                      disabled: !!handleDelete && typeWatch !== '0',
                     },
                   ]}
                   handleRadioChange={(e: any) => {
@@ -146,7 +149,7 @@ export default function Movements(props: any) {
               </FormControl>
             )}
           />
-          {typeWatch !== '0' ? (
+          {typeWatch !== '0' && (
             <>
               <Controller
                 name={'category'}
@@ -212,8 +215,8 @@ export default function Movements(props: any) {
                 )}
               />
             </>
-          ) : (
-            <>
+          )}
+            <div className={typeWatch !== '0' ? 'hidden' : ''}>
               <Controller
                 name={'account_end'}
                 control={control}
@@ -263,8 +266,7 @@ export default function Movements(props: any) {
                     )}
                   />
                 )}
-            </>
-          )}
+            </div>
           <Controller
             name={'description'}
             control={control}

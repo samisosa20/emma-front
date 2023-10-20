@@ -18,6 +18,7 @@ const useAccountCreate = () => {
   const param = useParams();
 
   const [typeOptions, setTypeOptions] = useState([]);
+  const [isDesactivate, setIsDesactivate] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [title, setTitle] = useState('Creacion de Cuentas');
 
@@ -73,6 +74,93 @@ const useAccountCreate = () => {
     },
   });
 
+  const mutationDelete = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { deleteAccount } = new AccountUseCase(
+          new AccountApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await deleteAccount(id);
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        router.push('/accounts');
+      }
+    },
+  });
+
+  const mutationDesactive = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { desactiveAccount } = new AccountUseCase(
+          new AccountApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await desactiveAccount(id);
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        router.back();
+      }
+    },
+  });
+
+  const mutationRestore = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { activeAccount } = new AccountUseCase(
+          new AccountApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await activeAccount(id);
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        router.back();
+      }
+    },
+  });
+
   const { data } = useQuery({
     queryKey: ['accountDetail'],
     queryFn: async () => {
@@ -116,6 +204,18 @@ const useAccountCreate = () => {
     }
   };
 
+  const handleDelete = () => {
+    if(isDesactivate) {
+      mutationDelete.mutate()
+    } else {
+      mutationDesactive.mutate()
+    }
+  }
+  
+  const handleReActivate = () => {
+    mutationRestore.mutate()
+  }
+
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
@@ -136,7 +236,9 @@ const useAccountCreate = () => {
         badge_id: data.account.badge_id.toString(),
         init_amount: data.account.init_amount.toString(),
         description: data.account.description ? data.account.description : '',
+        limit: data.account.limit ? data.account.limit : '',
       });
+      setIsDesactivate(!!data.account.deleted_at);
     }
   }, [data, reset]);
 
@@ -147,6 +249,9 @@ const useAccountCreate = () => {
     typeOptions,
     currencyOptions,
     title,
+    handleDelete,
+    handleReActivate,
+    isDesactivate,
   };
 };
 

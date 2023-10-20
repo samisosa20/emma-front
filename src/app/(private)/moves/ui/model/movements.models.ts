@@ -221,6 +221,7 @@ export default function useMovementsViewModel() {
         amount_end: data.type == 0 ? data.amount_end : null,
         account_end_id: data.type == 0 ? data.account_end.value : null,
       }),
+      description: data.description !== undefined ? data.description : null
     };
     if (param.id) {
       mutationEdit.mutate(formData);

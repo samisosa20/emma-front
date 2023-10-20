@@ -30,7 +30,7 @@ export default function RootLayout({
         <Suspense fallback={<Loading/>}>
         <Providers>
           <ToastContainer
-            position='top-right'
+            position={'top-center'}
             autoClose={4000}
             hideProgressBar={false}
             newestOnTop={false}

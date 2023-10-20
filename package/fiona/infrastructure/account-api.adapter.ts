@@ -131,6 +131,42 @@ class AccountApiAdapter implements AccountAdapter {
       error: false,
     };
   }
+  async desactiveAccount(
+    id: number,
+  ): Promise<{ message: string; error: boolean }> {
+    const result: any = await this.httpService.delete(`accounts/${id}`);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false,
+    };
+  }
+  async activeAccount(
+    id: number,
+  ): Promise<{ message: string; error: boolean }> {
+    const result: any = await this.httpService.post(`accounts/restore/${id}`, {});
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false,
+    };
+  }
+  async deleteAccount(
+    id: number,
+  ): Promise<{ message: string; error: boolean }> {
+    const result: any = await this.httpService.delete(`accounts/delete/${id}`);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false,
+    };
+  }
   // Additional methods with error handling
 }
 

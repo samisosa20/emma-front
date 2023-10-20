@@ -25,6 +25,21 @@ interface AccountAdapter {
      * @returns {Promise<{message:string}>} A Promise containing the list of todos.
      */
     editAccount(id: number, data: AccountCreate): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     */
+    desactiveAccount(id: number): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     */
+    activeAccount(id: number): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     */
+    deleteAccount(id: number): Promise<{message:string, error: boolean}>,
 
 }
 

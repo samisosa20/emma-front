@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { Controller } from 'react-hook-form';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack, MdDeleteOutline, MdPower, MdPowerOff } from 'react-icons/md';
 
 //components
 import useComponents from '@/share/components';
@@ -9,16 +9,34 @@ const Accounts = (props: any) => {
   const router = useRouter();
   const { Typography, FormControl, Input, Select, Button } = useComponents();
 
-  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title } = props;
+  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate } = props;
 
   return (
     <div>
       <div className='flex items-center justify-between w-full'>
-        <div className='flex items-center space-x-2'>
-          <div onClick={() => router.back()}>
-            <MdArrowBack />
+      <div className="flex items-center justify-between w-full">
+          <div className="flex items-center space-x-2">
+            <div onClick={() => router.back()}>
+              <MdArrowBack />
+            </div>
+            <Typography variant="h1">{title}</Typography>
           </div>
-          <Typography variant='h1'>{title}</Typography>
+          <div className="flex items-center space-x-2">
+            {isDesactivate && <Button
+              onClick={handleReActivate}
+              className="flex items-center space-x-2 bg-green-500 hover:bg-green-300 p-2 rounded shadow-sm text-white"
+            >
+              <MdPower />
+              <Typography className="text-white">Activar</Typography>
+            </Button>}
+            {handleDelete && <Button
+              onClick={handleDelete}
+              className="flex items-center space-x-2 bg-red-500 p-2 rounded shadow-sm text-white hover:bg-red-300"
+            >
+              {isDesactivate ? <MdDeleteOutline /> : <MdPowerOff />}
+              <Typography className="text-white">{isDesactivate ? 'Eliminar' : 'Desactivar'}</Typography>
+            </Button>}
+          </div>
         </div>
       </div>
       <div className='mt-6 bg-white w-full px-6 py-4'>

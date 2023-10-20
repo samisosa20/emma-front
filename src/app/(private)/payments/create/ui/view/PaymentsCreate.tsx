@@ -28,7 +28,7 @@ export default function PaymentsCreate(props: any) {
           <div>
             {handleDelete && <Button
               onClick={handleDelete}
-              className="flex items-center space-x-2 bg-red-500 p-2 rounded shadow-sm text-white"
+              className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
             >
               <MdDeleteOutline />
               <Typography className="text-white">Eliminar</Typography>

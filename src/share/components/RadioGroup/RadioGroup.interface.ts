@@ -6,5 +6,6 @@ export interface SwitchProps {
     options: {
       value: string;
       label: string;
+      disabled?: boolean;
     }[]
   }

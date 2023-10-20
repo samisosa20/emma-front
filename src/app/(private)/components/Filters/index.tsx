@@ -20,7 +20,7 @@ export default function Filters(props: FiltersProps) {
           <MdFilterList className='w-[24px] h-[24px] ml-auto cursor-pointer' onClick={() => setIsOpen(true)} />
         </div>
       </div>
-      <div className={`bg-white h-screen fixed top-0 right-0 px-4 py-6 ${isOpen ? 'w-screen md:w-[350px]' : 'w-0 hidden'}`}>
+      <div className={`bg-white h-screen fixed top-0 right-0 px-4 py-6 z-10 shadow-lg ${isOpen ? 'w-screen md:w-[350px]' : 'w-0 hidden'}`}>
         <div className='flex items-center justify-between'>
           <Typography variant='h2'>Filtros:</Typography>
           <div onClick={() => setIsOpen(false)}>
