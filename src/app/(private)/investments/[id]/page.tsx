@@ -21,6 +21,7 @@ const Page = () => {
     handleEditAppretiation,
     idAppretiation,
     handleDeleteAppre,
+    metrics,
   } = useInvestmentsCreateViewModel();
 
   return (
@@ -42,6 +43,7 @@ const Page = () => {
       handleEditAppretiation={handleEditAppretiation}
       idAppretiation={idAppretiation}
       handleDeleteAppre={handleDeleteAppre}
+      metrics={metrics}
     />
   );
 };

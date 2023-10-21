@@ -11,7 +11,7 @@ import type { InvestmentSchema, InvestmentAppretiaitonSchema } from '@/share/val
 import { InvestmentUseCase } from '@@/application/investment.use-case';
 import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader, formatCurrency } from '@/share/helpers';
 
 export default function useInvestmentsCreateViewModel() {
   const router = useRouter();
@@ -21,6 +21,7 @@ export default function useInvestmentsCreateViewModel() {
   const [listMovements, setListMovements] = useState<any>([]);
   const [listAppretiations, setListAppretiations] = useState<any>([]);
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [metrics, setMetrics] = useState<any>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [idAppretiation, setIdAppretiation] = useState<number>();
 
@@ -29,7 +30,7 @@ export default function useInvestmentsCreateViewModel() {
     defaultValues: {
       name: '',
       init_amount: '',
-      end_amount: '',
+      end_amount: '0',
       badge_id: '',
       date_investment: '',
     },
@@ -299,6 +300,24 @@ export default function useInvestmentsCreateViewModel() {
       });
       setListMovements(data.movements);
       setListAppretiations(data.appreciations);
+      setMetrics([
+        {
+          title: 'Saldo actual',
+          values: [formatCurrency.format(Number(data.end_amount))]
+        },
+        {
+          title: 'Rendimientos Acu.',
+          values: [formatCurrency.format(data.returns)]
+        },
+        {
+          title: 'Valorizacion',
+          values: [data.valorization]
+        },
+        {
+          title: 'Valorizacion + Rendimientos',
+          values: [data.total_rate]
+        },
+      ])
     }
   }, [data]);
 
@@ -319,5 +338,6 @@ export default function useInvestmentsCreateViewModel() {
     handleEditAppretiation,
     idAppretiation,
     handleDeleteAppre,
+    metrics,
   };
 }

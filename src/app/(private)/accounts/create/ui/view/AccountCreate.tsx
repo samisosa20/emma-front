@@ -21,7 +21,7 @@ const Accounts = (props: any) => {
             </div>
             <Typography variant="h1">{title}</Typography>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col space-y-2 items-end lg:flex-row lg:items-center lg:space-y-0 space-x-2">
             {isDesactivate && <Button
               onClick={handleReActivate}
               className="flex items-center space-x-2 bg-green-500 hover:bg-green-300 p-2 rounded shadow-sm text-white"

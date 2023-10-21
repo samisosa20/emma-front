@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 //components
 import useComponents from '@/share/components';
+import useComponentsLayout from '@/app/(private)/components';
 
 // Helpers
 import { formatCurrency } from '@/share/helpers';
@@ -12,6 +13,8 @@ export default function InvestmentsCreate(props: any) {
   const router = useRouter();
   const { Typography, Button, Input, FormControl, Select, Modal } =
     useComponents();
+
+    const { Cards } = useComponentsLayout();
 
   const {
     handleSubmit,
@@ -31,6 +34,7 @@ export default function InvestmentsCreate(props: any) {
     handleEditAppretiation = () =>{},
     idAppretiation,
     handleDeleteAppre = () =>{},
+    metrics = []
   } = props;
 
   return (
@@ -65,6 +69,9 @@ export default function InvestmentsCreate(props: any) {
           </div>
         </div>
       </div>
+      {handleDelete && <div className='mt-6'>
+        <Cards data={metrics} />
+      </div>}
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
         <form id="form-investment" key={1} onSubmit={handleSubmit(onSubmit)} className='w-full'>
           <Controller
@@ -106,7 +113,7 @@ export default function InvestmentsCreate(props: any) {
               </FormControl>
             )}
           />
-          <Controller
+          {/* <Controller
             name={'end_amount'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
@@ -122,10 +129,11 @@ export default function InvestmentsCreate(props: any) {
                   }}
                   iserror={!!fieldState.error}
                   value={value}
+                  disabled
                 />
               </FormControl>
             )}
-          />
+          /> */}
           <Controller
             name={'badge_id'}
             control={control}
@@ -176,7 +184,7 @@ export default function InvestmentsCreate(props: any) {
       </div>
       {!!listAppretiations && (
         <Typography variant='h2' className='my-4'>
-          Valorizaciones
+          Historico valorizacion
         </Typography>
       )}
       <div className='mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto'>
@@ -188,18 +196,19 @@ export default function InvestmentsCreate(props: any) {
               onClick={()=>handleEditAppretiation(appretiation.id)}
             >
               <div className='flex justify-between items-center'>
-                <div className='font-bold'>{appretiation.date_appreciation}</div>
-                <div
+                <Typography
+                variant="h4"
                   className={
                     appretiation.amount > 0 ? 'text-green-500' : 'text-red-500'
                   }
                 >
                   {formatCurrency.format(appretiation.amount)}
-                </div>
+                </Typography>
+                <Typography>{appretiation.date_appreciation}</Typography>
               </div>
             </div>
           ))}
-        {listMovements && listMovements.length === 0 && (
+        {listAppretiations && listAppretiations.length === 0 && (
           <Typography className='text-center py-6'>Sin resultados</Typography>
         )}
       </div>
@@ -216,7 +225,7 @@ export default function InvestmentsCreate(props: any) {
               key={movement.id}
             >
               <div className='flex justify-between items-center'>
-                <div className='font-bold'>{movement.category.name}</div>
+                <div className='font-bold'>{movement.category.name} {movement.add_withdrawal && ' (Retiro/Abono)'}</div>
                 <div
                   className={
                     movement.amount > 0 ? 'text-green-500' : 'text-red-500'

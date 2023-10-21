@@ -48,7 +48,7 @@ export default function Heritages(props: any) {
                 {heritage.balance.map((balance, i) =>  <Typography
                   variant='h5'
                   key={i}
-                  className={balance.amount > 0 ? 'text-green-500' : 'text-red-500'}
+                  className={`text-right ${balance.amount > 0 ? 'text-green-500' : 'text-red-500'}`}
                 >
                   {formatCurrency.format(balance.amount)} {balance.currency}
                 </Typography>)}
