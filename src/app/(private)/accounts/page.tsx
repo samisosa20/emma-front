@@ -1,13 +1,13 @@
-"use client";
-import Link from "next/link";
-import {MdAddCircleOutline} from "react-icons/md"
+'use client';
+import Link from 'next/link';
+import { MdAddCircleOutline } from 'react-icons/md';
 
 // Controller
-import useAccounts from "./controller";
+import useAccounts from './controller';
 
 //components
-import useComponents from "@/share/components";
-import useComponentsLayout from "../components";
+import useComponents from '@/share/components';
+import useComponentsLayout from '../components';
 
 const Accounts = () => {
   const { Typography, Switch, Input } = useComponents();
@@ -16,9 +16,9 @@ const Accounts = () => {
   const { data, isLoading, handleToggle, isChecked, search, setSearch } =
     useAccounts();
 
-  const formatoMoneda = new Intl.NumberFormat("es-US", {
-    style: "currency",
-    currency: "USD",
+  const formatoMoneda = new Intl.NumberFormat('es-US', {
+    style: 'currency',
+    currency: 'USD',
   });
 
   if (isLoading) {
@@ -27,22 +27,26 @@ const Accounts = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between w-full">
+      <div className='flex items-center justify-between w-full'>
         <div>
-          <Typography variant="h1">Cuentas</Typography>
+          <Typography variant='h1'>Cuentas</Typography>
           <Typography>Listado de cuentas</Typography>
         </div>
         <div>
-          <Link href={'/accounts/create'} className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm">
-          <MdAddCircleOutline/><Typography>Crear cuenta</Typography>
+          <Link
+            href={'/accounts/create'}
+            className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm'
+          >
+            <MdAddCircleOutline />
+            <Typography>Crear cuenta</Typography>
           </Link>
         </div>
       </div>
-      <div className="mt-6">{data && <Cards data={data.balances} />}</div>
-      <div className="mt-6 flex space-x-4 items-center justify-end">
-        <div className="lg:w-[250px]">
+      <div className='mt-6'>{data && <Cards data={data.balances} />}</div>
+      <div className='mt-6 flex space-x-4 items-center justify-end'>
+        <div className='lg:w-[250px]'>
           <Input
-            placeholder="Nombre de la cuenta"
+            placeholder='Nombre de la cuenta'
             value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)
@@ -52,7 +56,7 @@ const Accounts = () => {
         <Switch
           isChecked={isChecked}
           handleCheckboxChange={handleToggle}
-          label={isChecked ? "Activos" : "Inactivos"}
+          label={isChecked ? 'Activos' : 'Inactivos'}
         />
       </div>
       <div
@@ -61,7 +65,7 @@ const Accounts = () => {
         {data &&
           data.accounts
             ?.filter((account) => {
-              if (search !== "") {
+              if (search !== '') {
                 return isChecked
                   ? !account.deleted_at &&
                       account.name.toUpperCase().includes(search.toUpperCase())
@@ -72,26 +76,29 @@ const Accounts = () => {
             })
             .map((account) => (
               <Link href={`/accounts/${account.id}`} key={account.id}>
-                <div className="bg-white rounded shadow-sm p-4">
-                  <div className="flex items-center justify-between">
-                    <Typography variant="h2">{account.name}</Typography>
-                    <Typography variant="p">{account.currency.code}</Typography>
+                <div className='bg-white rounded shadow-sm p-4'>
+                  <div className='flex items-center justify-between'>
+                    <Typography variant='h2'>{account.name}</Typography>
+                    <Typography variant='p'>{account.currency.code}</Typography>
                   </div>
-                  <Typography variant="h6" className="h-[40px]">
+                  <Typography variant='h6' className='h-[40px]'>
                     {account.description}
                   </Typography>
-                  <Typography
-                    variant="p"
-                    className={`text-right ${
-                      account.balance + account.init_amount >= 0
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {formatoMoneda.format(
-                      account.balance + account.init_amount
-                    )}
-                  </Typography>
+                  <div className='flex items-center justify-between'>
+                    <Typography>{account.type.name}</Typography>
+                    <Typography
+                      variant='p'
+                      className={`text-right ${
+                        account.balance + account.init_amount >= 0
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      }`}
+                    >
+                      {formatoMoneda.format(
+                        account.balance + account.init_amount
+                      )}
+                    </Typography>
+                  </div>
                 </div>
               </Link>
             ))}

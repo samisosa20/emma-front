@@ -1,5 +1,6 @@
 export interface SwitchProps {
     isChecked: boolean;
     label: string;
-    handleCheckboxChange: () => any;
+    name?: string;
+    handleCheckboxChange: (e?: any) => any;
   }

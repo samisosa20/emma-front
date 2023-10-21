@@ -19,6 +19,7 @@ const Page = () => {
     typeWatch,
     accountEndWatch,
     accountWatch,
+    investmentWatch,
   } = useMovementsViewModel();
 
   return (
@@ -35,6 +36,7 @@ const Page = () => {
       typeWatch={typeWatch}
       accountWatch={accountWatch}
       accountEndWatch={accountEndWatch}
+      investmentWatch={investmentWatch}
     />
   );
 };

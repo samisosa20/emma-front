@@ -4,7 +4,24 @@ import InvestmentsCreate from '@/app/(private)/investments/create/ui/view/Invest
 import useInvestmentsCreateViewModel from '@/app/(private)/investments/create/ui/model/investmentsCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, listMovements, currencyOptions, handleDelete } = useInvestmentsCreateViewModel();
+  const {
+    handleSubmit,
+    onSubmit,
+    control,
+    title,
+    listMovements,
+    currencyOptions,
+    handleDelete,
+    handleAppretiation,
+    isOpen,
+    onSubmitAppre,
+    handleSubmitAppre,
+    controlAppre,
+    listAppretiations,
+    handleEditAppretiation,
+    idAppretiation,
+    handleDeleteAppre,
+  } = useInvestmentsCreateViewModel();
 
   return (
     <InvestmentsCreate
@@ -15,6 +32,16 @@ const Page = () => {
       listMovements={listMovements}
       currencyOptions={currencyOptions}
       handleDelete={handleDelete}
+      handleAppretiation={handleAppretiation}
+      handleClose={handleAppretiation}
+      isOpen={isOpen}
+      onSubmitAppre={onSubmitAppre}
+      handleSubmitAppre={handleSubmitAppre}
+      controlAppre={controlAppre}
+      listAppretiations={listAppretiations}
+      handleEditAppretiation={handleEditAppretiation}
+      idAppretiation={idAppretiation}
+      handleDeleteAppre={handleDeleteAppre}
     />
   );
 };

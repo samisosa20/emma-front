@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { InvestmentAdapter } from '../domain/investment/investment.adapter';
-import type { Investment, InvestmentDetail, InvestmentParams  } from '../domain/investment/investment';
+import type { Investment, InvestmentDetail, InvestmentParams, Appretiation, AppretiationParams  } from '../domain/investment/investment';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -56,6 +56,45 @@ class InvestmentApiAdapter implements InvestmentAdapter {
   }
   async deleteInvestment(id: number): Promise<{message:string, error: boolean}> {
     const result: any = await this.httpService.delete(`investments/${id}`);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
+  
+  async listAppretiations(): Promise<Appretiation> {
+    const result: any = await this.httpService.get(`appretiations`);
+    if (result.error) {
+      return result;
+    }
+
+    return result;
+  }
+  async createAppretiation(data: AppretiationParams): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.post(`appretiations`, data);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
+  async editAppretiation(id: number, data: AppretiationParams): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.put(`appretiations/${id}`, data);
+    if (result.error) {
+      return result;
+    }
+    return {
+      message: result.message,
+      error: false
+    };
+  }
+  async deleteAppretiation(id: number): Promise<{message:string, error: boolean}> {
+    const result: any = await this.httpService.delete(`appretiations/${id}`);
     if (result.error) {
       return result;
     }

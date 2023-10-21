@@ -1,4 +1,4 @@
-import type { Investment, InvestmentDetail, InvestmentParams } from "./investment";
+import type { Investment, InvestmentDetail, InvestmentParams, Appretiation, AppretiationParams } from "./investment";
 
 
 interface InvestmentAdapter {
@@ -33,6 +33,29 @@ interface InvestmentAdapter {
      */
     deleteInvestment(id: number): Promise<{message:string, error: boolean}>,
 
+     /**
+     * Retrieves a list of todos from the data source.
+     * @returns {Promise<Appretiation>} A Promise containing the list of todos.
+     */
+     listAppretiations(): Promise<Appretiation>,
+     /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     * @returns {Promise<{message:string}>} A Promise containing the list of todos.
+     */
+    createAppretiation(data: AppretiationParams): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     * @returns {Promise<{message:string}>} A Promise containing the list of todos.
+     */
+    editAppretiation(id: number, data: AppretiationParams): Promise<{message:string, error: boolean}>,
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} number - The unique identifier of the todo.
+     * @returns {Promise<{message:string}>} A Promise containing the list of todos.
+     */
+    deleteAppretiation(id: number): Promise<{message:string, error: boolean}>,
 }
 
 export type { InvestmentAdapter };

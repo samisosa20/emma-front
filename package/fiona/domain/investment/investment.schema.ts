@@ -10,6 +10,12 @@ const investmentParamsSchema = z.object({
   date_investment: z.string(),
 });
 
+const appretiationParamsSchema = z.object({
+  investment_id: z.union([z.string(), z.number()]),
+  amount: z.union([z.string(), z.number()]),
+  date_appreciation: z.string(),
+});
+
 const investmentSchema = z.object({
   ...investmentParamsSchema.shape,
   returns: z.number(),
@@ -17,6 +23,7 @@ const investmentSchema = z.object({
   total_rate: z.string(),
   currency: currencySchema,
   movements: z.array(movementSchema),
+  appreciations: z.array(appretiationParamsSchema),
   id: z.string(),
 });
 
@@ -34,5 +41,12 @@ const listInvestmentSchema = z.object({
     })
 })
 
+const listAppretiationSchema = z.object({
+  status: z
+    .number()
+    .optional()
+    .transform((e) => (e === 0 ? undefined : e)),
+    appretiations: z.array(appretiationParamsSchema),
+})
 
-export { investmentSchema, listInvestmentSchema, investmentParamsSchema };
+export { investmentSchema, listInvestmentSchema, investmentParamsSchema, appretiationParamsSchema, listAppretiationSchema };

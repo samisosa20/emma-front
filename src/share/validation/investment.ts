@@ -8,6 +8,12 @@ const investmentSchema = z.object({
   date_investment: z.string(),
 });
 
-export type InvestmentSchema = z.infer<typeof investmentSchema>;
+const investmentAppretiationSchema = z.object({
+  amount: z.union([z.string(), z.number()]),
+  date_appreciation: z.string(),
+});
 
-export { investmentSchema };
+export type InvestmentSchema = z.infer<typeof investmentSchema>;
+export type InvestmentAppretiaitonSchema = z.infer<typeof investmentAppretiationSchema>;
+
+export { investmentSchema, investmentAppretiationSchema };

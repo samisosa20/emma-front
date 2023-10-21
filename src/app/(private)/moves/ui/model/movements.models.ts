@@ -42,12 +42,14 @@ export default function useMovementsViewModel() {
       type: '-1',
       account: null,
       account_end: undefined,
+      investment: undefined,
     },
   });
 
   const typeWatch = watch('type');
   const accountEndWatch = watch('account_end');
   const accountWatch = watch('account');
+  const investmentWatch = watch('investment');
 
   const { data } = useQuery({
     queryKey: ['movementDetail', param.id],
@@ -299,6 +301,7 @@ export default function useMovementsViewModel() {
     if (data) {
       // @ts-ignore
       reset({
+        add_withdrawal: data.add_withdrawal,
         amount: data.transfer_out || data.transfer_in
         ? data.transfer_out ? Math.abs(data.transfer_out.amount ?? 0).toString() : Math.abs(data.amount ?? 0).toString() : Math.abs(data.amount ?? 0).toString(),
         type:
@@ -330,7 +333,7 @@ export default function useMovementsViewModel() {
                   value: data.account.id,
                   badge_id: data.account.badge_id,
                 }
-            : { label: data.account.name, value: data.account.id },
+            : { label: data.account.name, value: data.account.id, badge_id: data.account.badge_id, },
         ...((data.transfer_out || data.transfer_in) && {
           account_end: data.transfer_in
             ? {
@@ -375,5 +378,6 @@ export default function useMovementsViewModel() {
     typeWatch,
     accountEndWatch,
     accountWatch,
+    investmentWatch,
   };
 }

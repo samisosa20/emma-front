@@ -1,14 +1,14 @@
 import { SwitchProps } from './Switch.interface';
 
 const Switch = (props: SwitchProps) => {
-  const { handleCheckboxChange, isChecked, label } = props;
+  const { handleCheckboxChange, isChecked, label, name = 'autoSaver' } = props;
 
   return (
     <>
       <label className='autoSaverSwitch relative inline-flex cursor-pointer select-none items-center'>
         <input
           type='checkbox'
-          name='autoSaver'
+          name={name}
           className='sr-only'
           checked={isChecked}
           onChange={handleCheckboxChange}

@@ -19,12 +19,20 @@ export default function Movements(props: any) {
     typeWatch,
     accountEndWatch,
     accountWatch,
+    investmentWatch,
   } = props;
 
   const router = useRouter();
 
-  const { Typography, FormControl, Input, Button, RadioGroup, AutoComplete } =
-    useComponents();
+  const {
+    Typography,
+    FormControl,
+    Input,
+    Button,
+    RadioGroup,
+    AutoComplete,
+    Switch,
+  } = useComponents();
 
   return (
     <div>
@@ -214,59 +222,79 @@ export default function Movements(props: any) {
                   </FormControl>
                 )}
               />
-            </>
-          )}
-            <div className={typeWatch !== '0' ? 'hidden' : ''}>
-              <Controller
-                name={'account_end'}
-                control={control}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState,
-                }) => (
-                  <FormControl fieldState={fieldState} withLabel={true}>
-                    <AutoComplete
-                      label='Cuenta destino'
-                      placeholder='Seleciona una opcion'
-                      handleOnChange={(e: any) => {
-                        onChange(e);
-                      }}
-                      options={listAccounts}
-                      iserror={!!fieldState.error}
-                      value={value}
-                    />
-                  </FormControl>
-                )}
-              />
-              {accountEndWatch &&
-                accountWatch &&
-                accountEndWatch.badge_id !== accountWatch.badge_id && (
+              {!!investmentWatch && (
+                <div className="mb-4">
                   <Controller
-                    name={'amount_end'}
+                    name={'add_withdrawal'}
                     control={control}
                     render={({
                       field: { onChange, onBlur, value },
                       fieldState,
                     }) => (
-                      <FormControl fieldState={fieldState} withLabel={true}>
-                        <Input
-                          type='number'
-                          placeholder='Monto recibido'
-                          label='Monto recibido'
-                          id='amount_end'
-                          step='0.01'
-                          min='0'
-                          onChange={(e: any) => {
+                      <FormControl fieldState={fieldState} withOutHeight>
+                        <Switch
+                          label='Es un retiro o una adicion o reinversion?'
+                          name={'add_withdrawal'}
+                          handleCheckboxChange={(e) => {
                             onChange(e);
                           }}
-                          iserror={!!fieldState.error}
-                          value={value}
+                          isChecked={value}
                         />
                       </FormControl>
                     )}
                   />
-                )}
-            </div>
+                </div>
+              )}
+            </>
+          )}
+          <div className={typeWatch !== '0' ? 'hidden' : ''}>
+            <Controller
+              name={'account_end'}
+              control={control}
+              render={({ field: { onChange, onBlur, value }, fieldState }) => (
+                <FormControl fieldState={fieldState} withLabel={true}>
+                  <AutoComplete
+                    label='Cuenta destino'
+                    placeholder='Seleciona una opcion'
+                    handleOnChange={(e: any) => {
+                      onChange(e);
+                    }}
+                    options={listAccounts}
+                    iserror={!!fieldState.error}
+                    value={value}
+                  />
+                </FormControl>
+              )}
+            />
+            {accountEndWatch &&
+              accountWatch &&
+              accountEndWatch.badge_id !== accountWatch.badge_id && (
+                <Controller
+                  name={'amount_end'}
+                  control={control}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState,
+                  }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <Input
+                        type='number'
+                        placeholder='Monto recibido'
+                        label='Monto recibido'
+                        id='amount_end'
+                        step='0.01'
+                        min='0'
+                        onChange={(e: any) => {
+                          onChange(e);
+                        }}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+              )}
+          </div>
           <Controller
             name={'description'}
             control={control}

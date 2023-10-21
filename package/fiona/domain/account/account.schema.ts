@@ -13,6 +13,9 @@ const accountSchema = z.object({
   deleted_at: z.union([z.string(), z.null()]),
   balance: z.number(),
   currency: currencySchema,
+  type: z.object({
+    name: z.string(),
+  })
 });
 
 const balanceSchema = z.object({

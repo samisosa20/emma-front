@@ -5,8 +5,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { investmentSchema } from '@/share/validation';
-import type { InvestmentSchema } from '@/share/validation';
+import { investmentSchema, investmentAppretiationSchema } from '@/share/validation';
+import type { InvestmentSchema, InvestmentAppretiaitonSchema } from '@/share/validation';
 
 import { InvestmentUseCase } from '@@/application/investment.use-case';
 import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
@@ -19,7 +19,10 @@ export default function useInvestmentsCreateViewModel() {
 
   const [title, setTitle] = useState('Creacion de Inversiones');
   const [listMovements, setListMovements] = useState<any>([]);
+  const [listAppretiations, setListAppretiations] = useState<any>([]);
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [idAppretiation, setIdAppretiation] = useState<number>();
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(investmentSchema),
@@ -29,6 +32,14 @@ export default function useInvestmentsCreateViewModel() {
       end_amount: '',
       badge_id: '',
       date_investment: '',
+    },
+  });
+  
+  const { handleSubmit: handleSubmitAppre, control: controlAppre, reset: resetAppre } = useForm({
+    resolver: zodResolver(investmentAppretiationSchema),
+    defaultValues: {
+      amount: '',
+      date_appreciation: '',
     },
   });
 
@@ -111,7 +122,7 @@ export default function useInvestmentsCreateViewModel() {
     },
   });
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['investmentDetail', param.id],
     queryFn: async () => {
       if (param.id) {
@@ -133,6 +144,91 @@ export default function useInvestmentsCreateViewModel() {
     },
   });
 
+  const mutationAppre = useMutation({
+    mutationFn: async (data: InvestmentAppretiaitonSchema) => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { createAppretiation } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await createAppretiation({...data, investment_id: id});
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        resetAppre();
+        setIsOpen(false)
+        refetch()
+      }
+    },
+  });
+
+  const mutationEditAppre = useMutation({
+    mutationFn: async (data: InvestmentAppretiaitonSchema) => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { editAppretiation } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const id = Array.isArray(param.id)
+          ? parseInt(param.id[0])
+          : parseInt(param.id);
+        const result = await editAppretiation(idAppretiation ?? 0, {...data, investment_id: id});
+        if (result.error) {
+          console.log(result);
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        resetAppre();
+        setIsOpen(false)
+        refetch()
+      }
+    },
+  });
+
+  const mutationDeleteAppre = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const { deleteAppretiation } = new InvestmentUseCase(
+          new InvestmentApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            customConfig: customConfigHeader(),
+          })
+        );
+        const result = await deleteAppretiation(idAppretiation ?? 0);
+        if (result.error) {
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        resetAppre();
+        setIsOpen(false)
+        refetch()
+      }
+    },
+  });
+
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
@@ -144,8 +240,38 @@ export default function useInvestmentsCreateViewModel() {
     }
   };
 
+  const onSubmitAppre = (data: any) => {
+    console.log(idAppretiation)
+    if(idAppretiation !== undefined) {
+      mutationEditAppre.mutate(data)
+    } else {
+      mutationAppre.mutate(data)
+    }
+  }
+
   const handleDelete = () => {
     mutationDelete.mutate();
+  }
+  
+  const handleDeleteAppre = () => {
+    mutationDeleteAppre.mutate();
+  }
+
+  const handleAppretiation = () => {
+    setIsOpen(!isOpen);
+    resetAppre({
+      amount: '',
+      date_appreciation: '',
+    })
+    setIdAppretiation(undefined)
+  }
+  
+  const handleEditAppretiation = (id: number) => {
+    setIsOpen(!isOpen);
+    setIdAppretiation(id);
+
+    const getInfo = listAppretiations.filter((v: any) => v.id === id)[0];
+    resetAppre(getInfo);
   }
 
   useEffect(() => {
@@ -172,6 +298,7 @@ export default function useInvestmentsCreateViewModel() {
         date_investment: data.date_investment,
       });
       setListMovements(data.movements);
+      setListAppretiations(data.appreciations);
     }
   }, [data]);
 
@@ -183,5 +310,14 @@ export default function useInvestmentsCreateViewModel() {
     listMovements,
     currencyOptions,
     handleDelete,
+    handleAppretiation,
+    isOpen,
+    onSubmitAppre,
+    handleSubmitAppre,
+    controlAppre,
+    listAppretiations,
+    handleEditAppretiation,
+    idAppretiation,
+    handleDeleteAppre,
   };
 }

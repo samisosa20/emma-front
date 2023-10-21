@@ -31,6 +31,7 @@ const movementSchema = z.object({
   })]),
   description: z.string().optional()
   .transform((e) => (e === '' ? undefined : e)),
+  add_withdrawal: z.boolean(),
 }).refine((data) =>  {
   if (data.type !== '0') {
     return data.category !== undefined && data.category !== null && data.category.value !== undefined && data.category.value !== null;
@@ -54,6 +55,7 @@ const movementParamsSchema = z.object({
   category_id: z.union([z.string(), z.number()]),
   event_id: z.union([z.null(), z.string(), z.undefined(), z.number()]),
   investment_id: z.union([z.null(), z.string(), z.undefined(), z.number()]),
+  add_withdrawal: z.boolean(),
 });
 
 export type MovementSchema = z.infer<typeof movementSchema>;

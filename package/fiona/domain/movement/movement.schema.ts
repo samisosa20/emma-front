@@ -13,6 +13,7 @@ const baseMoveSchema = z.object({
   updated_at: z.string(),
   account: accountSchema,
   category: categorySchema,
+  add_withdrawal: z.boolean(),
   investment: z.object({
     name: z.string(),
     id: z.number(),

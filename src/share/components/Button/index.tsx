@@ -19,6 +19,7 @@ const Button = (props: ButtonProps) => {
     style,
     onMouseEnter,
     onMouseLeave,
+    type='button',
   } = props;
 
   const { button } = useTheme();
@@ -37,6 +38,7 @@ const Button = (props: ButtonProps) => {
       style={style}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      type={type}
     >
       {children}
     </button>

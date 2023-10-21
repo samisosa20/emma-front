@@ -11,7 +11,7 @@ import useComponents from '@/share/components';
 import useLogin from './controller';
 
 const Login = () => {
-  const { Button, Typography, Input, FormControl, Checbox } = useComponents();
+  const { Button, Typography, Input, FormControl, Checkbox } = useComponents();
 
   const { handleSubmit, onSubmit, control } = useLogin();
 
@@ -67,7 +67,7 @@ const Login = () => {
               render={({ field: { onChange, onBlur, value }, fieldState }) => (
                 <FormControl withOutHeight fieldState={fieldState}>
                   <div className="h-[45px] ml-auto w-min">
-                    <Checbox
+                    <Checkbox
                       label='Recordarme'
                       handleCheckboxChange={(e: any) => {
                         onChange(e);
