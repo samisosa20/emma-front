@@ -134,7 +134,7 @@ export default function useCategoryCreateViewModel() {
 
       const result = await listSelectCategories();
 
-      if (Array.isArray(result)) {
+      if (!Array.isArray(result)) {
         localStorage.removeItem("user");
         router.push('/');
       }
