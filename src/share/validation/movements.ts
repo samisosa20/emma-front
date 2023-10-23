@@ -31,7 +31,8 @@ const movementSchema = z.object({
   })]),
   description: z.string().optional()
   .transform((e) => (e === '' ? undefined : e)),
-  add_withdrawal: z.boolean(),
+  add_withdrawal: z.boolean().optional()
+  .transform((e) => (typeof e !== 'boolean' ? undefined : e)),
 }).refine((data) =>  {
   if (data.type !== '0') {
     return data.category !== undefined && data.category !== null && data.category.value !== undefined && data.category.value !== null;
