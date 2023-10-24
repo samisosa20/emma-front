@@ -104,11 +104,11 @@ const ListModal = (props: ListItems) => {
           <div className={`${index > 0 ? 'border-t' : ''} py-3`} key={index}>
             <div className="flex items-center justify-between">
             <Typography>{formatoMoneda.format(data.amount)}</Typography>
-            <Typography>{data.account.name}</Typography>
+            <Typography>{data.account?.name ?? `${data.category.name} ${data.category.category_father ? ` (${data.category.category_father.name})`: ''}` }</Typography>
             </div>
             <div className="flex items-center justify-between">
             <Typography>{data.date_purchase}</Typography>
-            {data.event && <Typography>{data.event.name}</Typography>}
+            {data.event && <Typography>{data.event?.name}</Typography>}
             </div>
             {data.description && <Typography>{data.description}</Typography>}
           </div>
