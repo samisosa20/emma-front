@@ -8,10 +8,10 @@ import useDashboardViewModel from './ui/model/dashboard.models';
 export default function Page() {
   const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, getMovements, getMovementsGroup, listMovements } =
     useDashboardViewModel();
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return (

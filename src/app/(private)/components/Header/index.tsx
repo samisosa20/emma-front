@@ -26,8 +26,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('user'))
-      setUserName(JSON.parse(localStorage.getItem('user') ?? '{}').name);
+    if (localStorage.getItem('fiona-user'))
+      setUserName(JSON.parse(localStorage.getItem('fiona-user') ?? '{}').name);
   }, []);
 
   return (

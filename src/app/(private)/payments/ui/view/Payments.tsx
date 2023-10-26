@@ -42,19 +42,34 @@ export default function Payments(props: any) {
                 </div>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h4'>{payment.account.name}</Typography>
-                  <Typography variant='h6' className={payment.amount > 0 ? 'text-green-500' : 'text-red-500'}>{formatCurrency.format(payment.amount)}</Typography>
+                  <Typography
+                    variant='h6'
+                    className={
+                      payment.amount > 0 ? 'text-green-500' : 'text-red-500'
+                    }
+                  >
+                    {formatCurrency.format(payment.amount)}
+                  </Typography>
                 </div>
                 <div className='flex items-center justify-between'>
-                  <Typography variant='h5'><b>Dia:</b> {payment.specific_day}</Typography>
-                  <Typography variant='h5'>{!payment.end_date ? 'Para siempre' : payment.end_date}</Typography>
+                  <Typography variant='h5'>
+                    <b>Dia:</b> {payment.specific_day}
+                  </Typography>
+                  <Typography variant='h5'>
+                    {!payment.end_date ? 'Para siempre' : payment.end_date}
+                  </Typography>
                 </div>
               </div>
             </Link>
           ))}
-        {data && data.length === 0 && (
-          <Typography className='text-center py-6'>Sin resultados</Typography>
-        )}
       </div>
+      {data && data.length === 0 && (
+        <div className='bg-white rounded shadow-sm'>
+          <Typography className='text-center py-6'>
+            Sin Pagos recurrentes
+          </Typography>
+        </div>
+      )}
     </div>
   );
 }

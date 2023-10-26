@@ -14,7 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   useEffect(() => {
-    if (!isLogin() && pathname !== '/') router.push('/');
+    if (!isLogin() && pathname !== '/' && pathname !== '/register') router.push('/');
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

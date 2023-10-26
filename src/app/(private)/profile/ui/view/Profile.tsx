@@ -49,8 +49,8 @@ export default function Profile(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type='password'
-                  placeholder='contraseña'
-                  label='contraseña'
+                  placeholder='Contraseña'
+                  label='Contraseña'
                   onChange={(e) => {
                     onChange(e);
                   }}

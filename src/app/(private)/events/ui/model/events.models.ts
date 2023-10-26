@@ -22,7 +22,7 @@ const useEvents = () => {
       const result = await listEvents();
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 

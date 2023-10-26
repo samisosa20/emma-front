@@ -1,5 +1,5 @@
 import type { AuthAdapter } from '../domain/auth/auth.adapter';
-import type { Login } from "../domain/auth/auth.d";
+import type { Login, ParamsProfile, Register } from "../domain/auth/auth.d";
 import type { AuthRepository } from '../domain/auth/auth.repository';
 
 class AuthUseCase implements AuthRepository {
@@ -11,6 +11,18 @@ class AuthUseCase implements AuthRepository {
 
     postLogin = ({ email, password }: Login) => {
         return this.authAdapter.postLogin({ email, password });
+    }
+    postRegister = (data: Register) => {
+        return this.authAdapter.postRegister(data);
+    }
+    getCurrency = () => {
+        return this.authAdapter.getCurrency();
+    }
+    getProfile = () => {
+        return this.authAdapter.getProfile();
+    }
+    updateProfile = (id: number, data: ParamsProfile) => {
+        return this.authAdapter.updateProfile(id, data);
     }
 }
 

@@ -35,7 +35,7 @@ export default function useDashboardViewModel() {
       const result = await getReport(filters);
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 
@@ -62,7 +62,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 
@@ -88,7 +88,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 
@@ -104,7 +104,7 @@ export default function useDashboardViewModel() {
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('fiona-user');
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);

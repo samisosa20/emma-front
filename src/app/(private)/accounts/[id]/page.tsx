@@ -7,12 +7,12 @@ import useComponents from '@/share/components';
 import useAccount from './ui/model/accountDetail.models';
 
 const Page = () => {
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
   const { isLoading, data, control, handleSubmit, onSubmit, listEvents, handleResetFilters, showDelete } =
     useAccount();
 
   if (isLoading || data === undefined) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return (

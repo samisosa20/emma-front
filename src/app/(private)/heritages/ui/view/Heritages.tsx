@@ -56,6 +56,11 @@ export default function Heritages(props: any) {
             </Link>
           ))}
       </div>
+      {data && data.length === 0 && (
+        <div className='bg-white rounded shadow-sm'>
+          <Typography className='text-center py-6'>Sin Patrimonio</Typography>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,10 +9,10 @@ import useInvestmentsViewModel from './ui/model/investments.models';
 const Page = () => {
   const { data, isLoading } = useInvestmentsViewModel();
 
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return <Investments data={data} />;

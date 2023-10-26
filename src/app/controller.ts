@@ -31,7 +31,7 @@ const useLogin = () => {
         toast.error(result.message)
         return;
       }
-      localStorage.setItem('user', JSON.stringify(result))
+      localStorage.setItem('fiona-user', JSON.stringify(result))
       router.push('/dashboard')
     },
   })
@@ -46,7 +46,7 @@ const useLogin = () => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('user')
+    const user = localStorage.getItem('fiona-user')
     const remind = localStorage.getItem('remind')
     if(user) {
       const token = JSON.parse(user).token

@@ -9,10 +9,10 @@ import usePaymentsViewModel from './ui/model/payments.models';
 const Page = () => {
   const { data, isLoading } = usePaymentsViewModel();
 
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return <Payments data={data} />;

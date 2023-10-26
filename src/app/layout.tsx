@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
 import { Suspense } from "react";
-import Loading from "./loading";
+import Loading from '@/share/components/Loader';
 
 export const metadata: Metadata = {
   title: 'Fiona',

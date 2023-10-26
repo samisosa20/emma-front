@@ -9,10 +9,10 @@ import useEvents from './ui/model/events.models';
 const Page = () => {
   const { data, isLoading } = useEvents();
 
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return <Events data={data} />;

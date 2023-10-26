@@ -11,6 +11,7 @@ const Select = lazy(() => import("./Select"));
 const RadioGroup = lazy(() => import("./RadioGroup"));
 const AutoComplete = lazy(() => import("./AutoComplete"));
 const Checkbox = lazy(() => import("./Checkbox"));
+const Loading = lazy(() => import("./Loader"));
 
 const useComponents = () => {
     return {
@@ -25,6 +26,7 @@ const useComponents = () => {
         RadioGroup,
         AutoComplete,
         Checkbox,
+        Loading,
     }
 }
 

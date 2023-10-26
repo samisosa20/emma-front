@@ -9,10 +9,10 @@ import useHeritagesViewModel from './ui/model/heritages.models';
 const Page = () => {
   const { data, isLoading } = useHeritagesViewModel();
 
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return <Heritages data={data} />;

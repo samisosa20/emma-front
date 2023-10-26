@@ -1,13 +1,15 @@
 'use client';
 //components
 import useComponents from '@/share/components';
-import Profile from './ui/view/Profile';
+import Register from './ui/view/Register';
 
-import useDashboardViewModel from './ui/model/dashboard.models';
+
+import useRegister from './ui/model/register.models';
+
 
 export default function Page() {
-  const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, handleLogout } =
-    useDashboardViewModel();
+  const { isLoading, handleSubmit, onSubmit, control, currencyOptions } =
+  useRegister();
   const { Loading } = useComponents();
 
   if (isLoading) {
@@ -15,13 +17,11 @@ export default function Page() {
   }
 
   return (
-    <Profile
-      data={data}
+    <Register
       control={control}
       currencyOptions={currencyOptions}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
-      handleLogout={handleLogout}
     />
   );
 }

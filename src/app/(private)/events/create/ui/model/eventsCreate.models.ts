@@ -27,7 +27,7 @@ const useEventCreate = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem('fiona-user');
       if (user) {
         const { createEvent } = new EventUseCase(
           new EventApiAdapter({
@@ -53,7 +53,7 @@ const useEventCreate = () => {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem('fiona-user');
       if (user) {
         const { editEvent } = new EventUseCase(
           new EventApiAdapter({
@@ -97,7 +97,7 @@ const useEventCreate = () => {
         const result = await getEventDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("user");
+          localStorage.removeItem("fiona-user");
           router.push('/');
         }
 

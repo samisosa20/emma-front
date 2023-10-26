@@ -10,7 +10,7 @@ import useComponents from '@/share/components';
 import useComponentsLayout from '../components';
 
 const Accounts = () => {
-  const { Typography, Switch, Input } = useComponents();
+  const { Typography, Switch, Input, Loading } = useComponents();
   const { Cards } = useComponentsLayout();
 
   const { data, isLoading, handleToggle, isChecked, search, setSearch } =
@@ -22,7 +22,7 @@ const Accounts = () => {
   });
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>
   }
 
   return (
@@ -103,6 +103,11 @@ const Accounts = () => {
               </Link>
             ))}
       </div>
+      {data && data.accounts.length === 0 && (
+        <div className='bg-white rounded shadow-sm'>
+          <Typography className='text-center py-6'>Sin cuentas</Typography>
+        </div>
+      )}
     </div>
   );
 };

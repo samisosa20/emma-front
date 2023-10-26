@@ -7,11 +7,11 @@ import useComponents from "@/share/components";
 import useHeritageYear from "./ui/model/heritageYear.models";
 
 const Page = () => {
-    const { Typography } = useComponents();
+    const { Loading } = useComponents();
     const { isLoading, data } = useHeritageYear();
 
     if (isLoading || data === undefined) {
-        return <Typography>Cargando...</Typography>;
+        return <Loading/>;
       }
 
     return <HeritageYear data={data}/>

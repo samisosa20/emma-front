@@ -27,7 +27,7 @@ class AccountApiAdapter implements AccountAdapter {
     if (result.error) {
       return result;
     }
-    const transformedData = Object.keys(result.balances[0])
+    const transformedData = result.balances.length > 0 ? Object.keys(result.balances[0])
       .filter((key) => key !== "i" && key !== "currency")
       .map((key) => ({
         title: key,
@@ -35,22 +35,21 @@ class AccountApiAdapter implements AccountAdapter {
           (item: any) =>
             `${parseFloat(item[key]).toLocaleString()} ${item.currency}`
         ),
-      }));
+      })): [];
     return {
       accounts: result.accounts,
       balances: [
         {
           title: "Balance del mes actual",
-          values: transformedData.filter((v) => v.title === "month")[0].values,
+          values: transformedData.filter((v) => v.title === "month").length > 0 ? transformedData.filter((v) => v.title === "month")[0].values : [],
         },
         {
           title: "Balance del año actual",
-          values: transformedData.filter((v) => v.title === "year")[0].values,
+          values: transformedData.filter((v) => v.title === "year").length > 0 ? transformedData.filter((v) => v.title === "year")[0].values : [],
         },
         {
           title: "Balance total",
-          values: transformedData.filter((v) => v.title === "balance")[0]
-            .values,
+          values: transformedData.filter((v) => v.title === "balance").length > 0 ? transformedData.filter((v) => v.title === "balance")[0].values : [],
         },
       ],
     };

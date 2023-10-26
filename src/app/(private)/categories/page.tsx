@@ -9,10 +9,10 @@ import useCategoriesViewModel from './ui/model/categories.models';
 const Page = () => {
   const { data, isLoading, setSearch, handleToggle, search, isChecked  } = useCategoriesViewModel();
 
-  const { Typography } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Typography>Cargando...</Typography>;
+    return <Loading/>;
   }
 
   return <Categories data={data} search={search} setSearch={setSearch} isChecked={isChecked} handleToggle={handleToggle} />;

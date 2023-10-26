@@ -39,11 +39,17 @@ export default function Investments(props: any) {
               <div className='bg-white rounded shadow-sm p-4'>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h2'>{investment.name}</Typography>
-                  <Typography variant='h5'>{investment.currency.code}</Typography>
+                  <Typography variant='h5'>
+                    {investment.currency.code}
+                  </Typography>
                 </div>
                 <Typography
                   variant='h5'
-                  className={investment.end_amount > 0 ? 'text-green-500' : 'text-red-500'}
+                  className={
+                    investment.end_amount > 0
+                      ? 'text-green-500'
+                      : 'text-red-500'
+                  }
                 >
                   {formatCurrency.format(investment.end_amount)}
                 </Typography>
@@ -51,7 +57,9 @@ export default function Investments(props: any) {
                   <Typography variant='h5' className='font-semibold'>
                     Val.
                   </Typography>
-                  <Typography variant='h6'>{investment.valorization}</Typography>
+                  <Typography variant='h6'>
+                    {investment.valorization}
+                  </Typography>
                 </div>
                 <div className='flex items-center justify-between'>
                   <Typography variant='h5' className='font-semibold'>
@@ -70,9 +78,12 @@ export default function Investments(props: any) {
               </div>
             </Link>
           ))}
-          {data &&
-          data.investments.length === 0 && <Typography className="text-center py-6">Sin resultados</Typography>}
       </div>
+      {data && data.investments.length === 0 && (
+        <div className='bg-white rounded shadow-sm'>
+          <Typography className='text-center py-6'>Sin Inversiones</Typography>
+        </div>
+      )}
     </div>
   );
 }

@@ -22,7 +22,7 @@ export default function useHeritagesViewModel(){
       const result = await listHeritages();
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 

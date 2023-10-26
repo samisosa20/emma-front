@@ -62,6 +62,11 @@ const Events = (props: any) => {
             </Link>
           ))}
       </div>
+      {data && data.length === 0 && (
+        <div className='bg-white rounded shadow-sm'>
+          <Typography className='text-center py-6'>Sin Eventos</Typography>
+        </div>
+      )}
     </div>
   );
 };

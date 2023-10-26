@@ -22,7 +22,7 @@ export default function usePaymentsViewModel(){
       const result = await listPayments();
 
       if (result.status === 401) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("fiona-user");
         router.push('/');
       }
 
