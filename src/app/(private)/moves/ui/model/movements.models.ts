@@ -47,8 +47,6 @@ export default function useMovementsViewModel() {
     },
   });
 
-  console.log(errors)
-
   const typeWatch = watch('type');
   const accountEndWatch = watch('account_end');
   const accountWatch = watch('account');
@@ -112,13 +110,18 @@ export default function useMovementsViewModel() {
   const { data: dataListEvents, isError: isErrorEvents } = useQuery({
     queryKey: ['eventsMove'],
     queryFn: async () => {
-      const { listSelectEvents } = new EventUseCase(
+      const { listSelectEvents, listEvents } = new EventUseCase(
         new EventApiAdapter({
           baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
           customConfig: customConfigHeader(),
         })
       );
-      const result = await listSelectEvents();
+      let result;
+      if (param.id) {
+        result = await listEvents();
+      } else {
+        result = await listSelectEvents();
+      }
 
       return result;
     },
