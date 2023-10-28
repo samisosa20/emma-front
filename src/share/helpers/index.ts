@@ -126,7 +126,7 @@ export const links = [
   {
     name: 'Descargar App',
     link: false,
-    show: true,
+    show: false,
     icon: MdDownload,
     onClick: handleAddToHomeScreen
   },
