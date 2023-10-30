@@ -43,31 +43,25 @@ export default function Budgets(props: any) {
                 {budget.years.map((year: any) => (
                   <Link href={`/budgets/${year.year}/${budget.currency}`} key={year.year + budget.currency}>
                     <div className='bg-white rounded shadow-sm p-4'>
-                      <Typography variant='h5'>{year.year}</Typography>
+                      <Typography variant='h2'>{year.year}</Typography>
                       <div className='flex items-center justify-between'>
                         <Typography variant='h5' className='font-semibold'>
-                          Ingresos.
+                          Ingresos:
                         </Typography>
                         <Typography
                           variant='h6'
-                          className={
-                            year.incomes > 0 ? 'text-green-500' : 'text-red-500'
-                          }
+                          className={'text-green-500'}
                         >
                           {formatCurrency.format(year.incomes)}
                         </Typography>
                       </div>
                       <div className='flex items-center justify-between'>
                         <Typography variant='h5' className='font-semibold'>
-                          Egresos.
+                          Egresos:
                         </Typography>
                         <Typography
                           variant='h6'
-                          className={
-                            year.expensives > 0
-                              ? 'text-green-500'
-                              : 'text-red-500'
-                          }
+                          className={'text-red-500'}
                         >
                           {formatCurrency.format(year.expensives)}
                         </Typography>
