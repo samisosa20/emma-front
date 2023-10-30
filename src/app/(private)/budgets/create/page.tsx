@@ -1,7 +1,7 @@
 'use client';
-import InvestmentsCreate from './ui/view/InvestmentsCreate';
+import BudgetCreate from './ui/view/BudgetCreate';
 
-import useInvestmentsCreateViewModel from './ui/model/investmentsCreate.models';
+import useBudgetsCreateViewModel from './ui/model/budgetsCreate.models';
 
 const Page = () => {
   const {
@@ -10,22 +10,18 @@ const Page = () => {
     control,
     title,
     currencyOptions,
-    onSubmitAppre,
-    handleSubmitAppre,
-    controlAppre,
-    listAppretiations,
-  } = useInvestmentsCreateViewModel();
+    periodsOptions,
+    listCategories,
+  } = useBudgetsCreateViewModel();
   return (
-    <InvestmentsCreate
+    <BudgetCreate
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
       title={title}
       currencyOptions={currencyOptions}
-      onSubmitAppre={onSubmitAppre}
-      handleSubmitAppre={handleSubmitAppre}
-      controlAppre={controlAppre}
-      listAppretiations={listAppretiations}
+      periodsOptions={periodsOptions}
+      listCategories={listCategories}
     />
   );
 };

@@ -1,7 +1,7 @@
 'use client';
-import InvestmentsCreate from '@/app/(private)/investments/create/ui/view/InvestmentsCreate';
+import BudgetCreate from '@/app/(private)/budgets/create/ui/view/BudgetCreate';
 
-import useInvestmentsCreateViewModel from '@/app/(private)/investments/create/ui/model/investmentsCreate.models';
+import useBudgetsCreateViewModel from '@/app/(private)/budgets/create/ui/model/budgetsCreate.models';
 
 const Page = () => {
   const {
@@ -9,41 +9,22 @@ const Page = () => {
     onSubmit,
     control,
     title,
-    listMovements,
     currencyOptions,
     handleDelete,
-    handleAppretiation,
-    isOpen,
-    onSubmitAppre,
-    handleSubmitAppre,
-    controlAppre,
-    listAppretiations,
-    handleEditAppretiation,
-    idAppretiation,
-    handleDeleteAppre,
-    metrics,
-  } = useInvestmentsCreateViewModel();
+    periodsOptions,
+    listCategories,
+  } = useBudgetsCreateViewModel();
 
   return (
-    <InvestmentsCreate
+    <BudgetCreate
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
       title={title}
-      listMovements={listMovements}
       currencyOptions={currencyOptions}
+      periodsOptions={periodsOptions}
       handleDelete={handleDelete}
-      handleAppretiation={handleAppretiation}
-      handleClose={handleAppretiation}
-      isOpen={isOpen}
-      onSubmitAppre={onSubmitAppre}
-      handleSubmitAppre={handleSubmitAppre}
-      controlAppre={controlAppre}
-      listAppretiations={listAppretiations}
-      handleEditAppretiation={handleEditAppretiation}
-      idAppretiation={idAppretiation}
-      handleDeleteAppre={handleDeleteAppre}
-      metrics={metrics}
+      listCategories={listCategories}
     />
   );
 };

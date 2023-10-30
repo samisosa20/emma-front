@@ -2,12 +2,12 @@
 "use client";
 //components
 import useComponents from "@/share/components";
-import Investments from './ui/view/Investments';
+import Budgets from './ui/view/Budgets';
 
-import useInvestmentsViewModel from './ui/model/investments.models';
+import useBudgetsViewModel from './ui/model/budgets.models';
 
 const Page = () => {
-  const { data, isLoading } = useInvestmentsViewModel();
+  const { data, isLoading } = useBudgetsViewModel();
 
   const { Loading } = useComponents();
 
@@ -15,7 +15,7 @@ const Page = () => {
     return <Loading/>;
   }
 
-  return <Investments data={data} />;
+  return <Budgets data={data} />;
 };
 
 export default Page;

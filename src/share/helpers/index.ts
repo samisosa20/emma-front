@@ -102,7 +102,7 @@ export const links = [
   {
     name: 'Presupuesto',
     link: '/budgets',
-    show: false,
+    show: true,
     icon: MdAttachMoney,
   },
   {

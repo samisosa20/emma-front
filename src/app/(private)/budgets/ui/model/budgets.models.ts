@@ -2,24 +2,24 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { useRouter } from 'next/navigation';
-import { InvestmentUseCase } from '@@/application/investment.use-case';
-import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
+import { BudgetUseCase } from '@@/application/budget.use-case';
+import { BudgetApiAdapter } from '@@/infrastructure/budget-api.adapter';
 
 import { customConfigHeader } from '@/share/helpers';
 
-export default function useInvestmentsViewModel(){
+export default function useBudgetsViewModel(){
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['investments'],
+    queryKey: ['listYearBudget'],
     queryFn: async () => {
-      const { listInvestments } = new InvestmentUseCase(
-        new InvestmentApiAdapter({
+      const { listYearBudget } = new BudgetUseCase(
+        new BudgetApiAdapter({
           baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
           customConfig: customConfigHeader(),
         })
       );
 
-      const result = await listInvestments();
+      const result = await listYearBudget();
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
