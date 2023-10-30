@@ -24,10 +24,10 @@ export default function Navbar() {
     return iniciales.join('');
   };
 
-  useEffect(()=>{
-    if(localStorage.getItem('user'))
-    setUserName(JSON.parse(localStorage.getItem('user') ?? '{}').name)
-  }, [])
+  useEffect(() => {
+    if (localStorage.getItem('fiona-user'))
+      setUserName(JSON.parse(localStorage.getItem('fiona-user') ?? '{}').name);
+  }, []);
 
   return (
     <aside className='hidden lg:block bg-primary p-4'>
