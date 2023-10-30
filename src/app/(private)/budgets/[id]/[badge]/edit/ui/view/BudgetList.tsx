@@ -36,7 +36,7 @@ export default function BudgetList(props: any) {
               className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm'
             >
               <MdAddCircleOutline />
-              <Typography>Crear Presupuesto</Typography>
+              <Typography>Crear</Typography>
             </Link>
           </div>
         </div>
