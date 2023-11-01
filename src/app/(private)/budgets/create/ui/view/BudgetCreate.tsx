@@ -115,7 +115,7 @@ export default function BudgetCreate(props: any) {
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  label='Moneda'
+                  label='Periodo'
                   placeholder='Seleciona una opcion'
                   id='period_id'
                   onChange={(e) => {
