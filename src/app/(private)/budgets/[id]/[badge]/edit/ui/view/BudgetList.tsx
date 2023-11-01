@@ -12,8 +12,8 @@ import { formatCurrency } from '@/share/helpers';
 export default function BudgetList(props: any) {
   const router = useRouter();
 
-  const { params, data } = props;
-  const { Typography } = useComponents();
+  const { params, data, setSearch, search } = props;
+  const { Typography, Input } = useComponents();
 
   return (
     <div>
@@ -41,9 +41,25 @@ export default function BudgetList(props: any) {
           </div>
         </div>
       </div>
+      <div className='mt-6 flex space-x-4 items-center justify-end'>
+        <div className='lg:w-[250px]'>
+          <Input
+            placeholder='Nombre de la categoria'
+            value={search}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setSearch(event.target.value)
+            }
+          />
+        </div>
+      </div>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
         {data &&
-          data.map((budget: any) => (
+          data?.filter((budget: any) => {
+            if (search !== '') {
+              return budget.category.name.toUpperCase().includes(search.toUpperCase());
+            }
+            return budget;
+          }).map((budget: any) => (
             <Link href={`/budgets/${budget.id}`} key={budget.id}>
               <div className='bg-white rounded shadow-sm p-4'>
                 <div className='flex items-center justify-between'>

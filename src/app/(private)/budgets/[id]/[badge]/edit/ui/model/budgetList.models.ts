@@ -11,7 +11,7 @@ export default function useBudgetListViewModel(){
   const router = useRouter();
   const params = useParams();
 
-  const [openCollapse, setOpenCollapse] = useState('')
+  const [search, setSearch] = useState('')
 
   const { isLoading, data, isError } = useQuery({
     queryKey: ['ListBudget', params],
@@ -47,20 +47,12 @@ export default function useBudgetListViewModel(){
     },
   });
 
-  const handleOpen = (id: string) => {
-    if(openCollapse === id) setOpenCollapse('')
-    else setOpenCollapse(id)
-  }
 
   useEffect(() => {
     if (isError) router.push('/');
   }, [isError]);
 
   return {
-    data,
-    isLoading,
-    params,
-    handleOpen,
-    openCollapse,
+    data, isLoading, params, setSearch, search 
   };
 };

@@ -240,6 +240,11 @@ export default function Dashboard(props: any) {
           data={data.credit_carts}
           variant='utilization'
         />
+        <ListItems
+          title='Presupuesto'
+          data={data.budget}
+          variant='utilization'
+        />
       </div>
     </div>
   );

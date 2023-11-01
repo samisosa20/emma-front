@@ -57,9 +57,9 @@ const ListUtil = (props: ListItems) => {
             </div>
             <div className='w-full bg-gray-200 rounded'>
               <div
-                className='h-3 bg-red-500 rounded'
+                className={`h-3 bg-${card.color}-400 rounded`}
                 style={{
-                  width: `${Math.abs(card.percentage ?? 0)}%`,
+                  width: `${Math.abs(card.percentage ?? 0) > 100 ? 100 : Math.abs(card.percentage ?? 0)}%`,
                 }}
               ></div>
             </div>

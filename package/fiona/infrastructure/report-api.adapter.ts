@@ -66,12 +66,31 @@ class ReportApiAdapter implements ReportAdapter {
           limit: card.limit,
           title: card.name,
           value: card.balance + card.init_amount,
+          color: ((card.balance + card.init_amount) / card.limit) > 0.95 ? 'red' : ((card.balance + card.init_amount) / card.limit) > 0.50 ? 'yellow': 'green',
           percentage: (
             ((card.balance + card.init_amount) / card.limit) *
             -100
           ).toFixed(2),
         };
       }),
+      budget: result.budget.map((budget: any) => {
+        let color = 'green';
+        if(budget.category.group_id > 2) {
+          color = (Math.abs(budget.movement) / budget.amount) > 0.95 ? 'red' : (Math.abs(budget.movement) / budget.amount) > 0.65 ? 'yellow': 'green'
+        } else {
+          color = (Math.abs(budget.movement) / budget.amount) > 0.90 ? 'green' : (Math.abs(budget.movement) / budget.amount) > 0.65 ? 'yellow': 'red'
+        }
+        return {
+          limit: budget.amount,
+          title: budget.category.name,
+          value: budget.movement,
+          color: color,
+          percentage: (
+            (Math.abs(budget.movement) / budget.amount) *
+            -100
+          ).toFixed(2),
+        }
+      })
     };
   }
 

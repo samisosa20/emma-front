@@ -6,7 +6,7 @@ import BudgetList from './ui/view/BudgetList';
 import useBudgetListViewModel from './ui/model/budgetList.models';
 
 const Page = () => {
-  const { data, isLoading, params, handleOpen, openCollapse } =
+  const { data, isLoading, params, setSearch, search } =
     useBudgetListViewModel();
 
   const { Loading } = useComponents();
@@ -19,8 +19,8 @@ const Page = () => {
     <BudgetList
       data={data}
       params={params}
-      handleOpen={handleOpen}
-      openCollapse={openCollapse}
+      setSearch={setSearch}
+      search={search}
     />
   );
 };
