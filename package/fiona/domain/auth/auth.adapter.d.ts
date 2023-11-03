@@ -1,4 +1,4 @@
-import type { Login, Auth, Register, ParamsProfile, Profile, Currency } from "./auth.d"; // Import the Auth type
+import type { Login, Auth, Register, ParamsProfile, Profile, Currency, ForgotPassword } from "./auth.d"; // Import the Auth type
 
 /**
  * The AuthAdapter interface defines methods for fetching and interacting with Auth data.
@@ -37,6 +37,13 @@ interface AuthAdapter {
      * @returns {Promise<Profile>} A Promise containing the list of todos.
      */
     updateProfile(id: number, data: ParamsProfile): Promise<Profile>,
+    
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {ForgotPassword} - The unique identifier of the todo.
+     * @returns {Promise<string>} A Promise containing the list of todos.
+     */
+    recoveryPassword(data: ForgotPassword): Promise<string>,
 }
 
 export type { AuthAdapter };

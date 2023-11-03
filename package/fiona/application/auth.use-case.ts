@@ -1,5 +1,5 @@
 import type { AuthAdapter } from '../domain/auth/auth.adapter';
-import type { Login, ParamsProfile, Register } from "../domain/auth/auth.d";
+import type { Login, ParamsProfile, Register, ForgotPassword } from "../domain/auth/auth.d";
 import type { AuthRepository } from '../domain/auth/auth.repository';
 
 class AuthUseCase implements AuthRepository {
@@ -23,6 +23,9 @@ class AuthUseCase implements AuthRepository {
     }
     updateProfile = (id: number, data: ParamsProfile) => {
         return this.authAdapter.updateProfile(id, data);
+    }
+    recoveryPassword = (data: ForgotPassword) => {
+        return this.authAdapter.recoveryPassword(data);
     }
 }
 

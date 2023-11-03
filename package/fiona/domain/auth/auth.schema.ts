@@ -5,6 +5,10 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+const forgotPasswordSchema = z.object({
+  email: z.string().email('Formato incorrecto'),
+});
+
 const currencySchema = z.array(
   z.object({
     id: z.union([z.string(), z.number()]),
@@ -76,4 +80,5 @@ export {
   paramsProfileSchema,
   profileSchema,
   currencySchema,
+  forgotPasswordSchema,
 };

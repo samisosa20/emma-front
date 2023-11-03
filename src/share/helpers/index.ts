@@ -1,4 +1,3 @@
-import { AnyAaaaRecord } from "dns";
 import {
   MdAttachMoney,
   MdAccountBalanceWallet,
@@ -7,7 +6,8 @@ import {
   MdAccountBalance,
   MdOutlinePayment,
   MdOutlineCategory,
-  MdDownload
+  MdDownload,
+  MdAutoFixHigh
 } from 'react-icons/md';
 
 export const formatCurrency = new Intl.NumberFormat('es-US', {
@@ -122,6 +122,12 @@ export const links = [
     link: '/payments',
     show: true,
     icon: MdOutlinePayment,
+  },
+  {
+    name: 'Herramientas',
+    link: '/tools',
+    show: true,
+    icon: MdAutoFixHigh,
   },
   {
     name: 'Descargar App',

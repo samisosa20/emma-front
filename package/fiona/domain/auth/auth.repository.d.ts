@@ -1,4 +1,4 @@
-import type { Login, Auth, Currency } from "./auth.d";
+import type { Login, Auth, Currency, ForgotPassword } from "./auth.d";
 
 interface AuthRepository {
     /**
@@ -33,6 +33,13 @@ interface AuthRepository {
      * @returns {Promise<Profile>} A Promise containing the list of todos.
      */
     updateProfile(id: number, data: ParamsProfile): Promise<Profile>,
+        
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {ForgotPassword} - The unique identifier of the todo.
+     * @returns {Promise<string>} A Promise containing the list of todos.
+     */
+    recoveryPassword(data: ForgotPassword): Promise<string>,
 }
 
 export type { AuthRepository }

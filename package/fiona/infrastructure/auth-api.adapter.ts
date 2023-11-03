@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { AuthAdapter } from "../domain/auth/auth.adapter.d";
-import type { Login, Auth, Register, ParamsProfile, Profile, Currency } from "../domain/auth/auth.d";
+import type { Login, Auth, Register, ParamsProfile, Profile, Currency, ForgotPassword } from "../domain/auth/auth.d";
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -91,6 +91,14 @@ class AuthApiAdapter implements AuthAdapter {
             error: false,
             message: result.message,
         }
+    }
+
+    async recoveryPassword(data: ForgotPassword): Promise<string> {
+        const result: any = await this.httpService.post(`forgot`, data);
+        if(result.error) {
+            return result
+        }
+        return result.message;
     }
 
     // Additional methods with error handling
