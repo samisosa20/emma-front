@@ -4,6 +4,7 @@ import type { AuthAdapter } from "../domain/auth/auth.adapter.d";
 import type { Login, Auth, Register, ParamsProfile, Profile, Currency, ForgotPassword } from "../domain/auth/auth.d";
 
 import HttpService from './http.service'; // Abstracted http service
+import { BlobOptions } from 'buffer';
 
 interface AuthApiAdapterOptions {
     baseUrl: string;
@@ -93,12 +94,12 @@ class AuthApiAdapter implements AuthAdapter {
         }
     }
 
-    async recoveryPassword(data: ForgotPassword): Promise<string> {
+    async recoveryPassword(data: ForgotPassword): Promise<{error: boolean, message: string}> {
         const result: any = await this.httpService.post(`forgot`, data);
-        if(result.error) {
-            return result
-        }
-        return result.message;
+        return {
+            error: !result.data,
+            message:result.message
+        };
     }
 
     // Additional methods with error handling

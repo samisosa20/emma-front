@@ -16,7 +16,7 @@ export default function Register(props: any) {
   return (
     <div className='flex items-center flex-col justify-center h-screen bg-primary space-y-4'>
       <Image src={imgLogo} alt='Logo fiona' />
-      <div className='bg-white rounded-2xl border shadow-x1 py-10 px-8 max-w-[90vw] md:max-w-lg'>
+      <div className='bg-white rounded-2xl border shadow-x1 py-8 2xl:py-10 px-8 max-w-[90vw] md:max-w-lg'>
         <div className='flex flex-col items-center space-y-4'>
           <Typography variant='h1' className='text-center'>
             Registro
@@ -106,10 +106,7 @@ export default function Register(props: any) {
         </div>
       </div>
       <Typography variant='p' className='text-white text-center'>
-        © Copyright 2023{' '}
-        <a href='//itpmsoftware.com' target='_blank'>
-          Sammy Guttman
-        </a>
+        © Copyright 2023
       </Typography>
     </div>
   );

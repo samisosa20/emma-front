@@ -41,9 +41,9 @@ interface AuthAdapter {
     /**
      * Retrieves a list of todos from the data source.
      * @param {ForgotPassword} - The unique identifier of the todo.
-     * @returns {Promise<string>} A Promise containing the list of todos.
+     * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
      */
-    recoveryPassword(data: ForgotPassword): Promise<string>,
+    recoveryPassword(data: ForgotPassword): Promise<{error: boolean, message: string}>,
 }
 
 export type { AuthAdapter };

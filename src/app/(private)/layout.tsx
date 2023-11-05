@@ -24,7 +24,7 @@ export default function RootLayout({
         <main className='pt-8 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between'>
           {children}
           <div className='h-[35px] inset-x-0 text-center mt-4'>
-            <p className='text-sm text-gray-700'>Desarrollado por Sammy G</p>
+            <p className='text-sm text-gray-700'>© Copyright 2023</p>
           </div>
         </main>
         <Link href={'/moves'} className="absolute">

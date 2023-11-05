@@ -19,8 +19,13 @@ const paramsProfileSchema = z.object({
     badge_id: z.union([z.string(), z.number()]),
 })
 
+const paramsForgotSchema = z.object({
+    email: z.string().email('Formato incorrecto'),
+})
+
 export type LoginSchema = z.infer<typeof loginSchema>; 
 export type ParamsProfileSchema = z.infer<typeof paramsProfileSchema>;
 export type RegisterSchema = z.infer<typeof registerSchema>;
+export type ParamsForgotSchema = z.infer<typeof paramsForgotSchema>;
 
-export { loginSchema, paramsProfileSchema, registerSchema }
+export { loginSchema, paramsProfileSchema, registerSchema, paramsForgotSchema }
