@@ -22,9 +22,11 @@ const useAccountCreate = () => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [title, setTitle] = useState('Creacion de Cuentas');
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(accountSchema),
   });
+
+  const watchType = watch('type_id')
 
   const mutation = useMutation({
     mutationFn: async (data: AccountSchema) => {
@@ -237,6 +239,7 @@ const useAccountCreate = () => {
         init_amount: data.account.init_amount.toString(),
         description: data.account.description ? data.account.description : '',
         limit: data.account.limit ? data.account.limit : '',
+        interest: data.account.interest ? data.account.interest : '',
       });
       setIsDesactivate(!!data.account.deleted_at);
     }
@@ -252,6 +255,7 @@ const useAccountCreate = () => {
     handleDelete,
     handleReActivate,
     isDesactivate,
+    watchType,
   };
 };
 

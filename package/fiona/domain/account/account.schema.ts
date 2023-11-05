@@ -9,6 +9,7 @@ const accountSchema = z.object({
   badge_id: z.number(),
   init_amount: z.number(),
   limit: z.string(),
+  interest: z.string(),
   type_id: z.number(),
   deleted_at: z.union([z.string(), z.null()]),
   balance: z.number(),

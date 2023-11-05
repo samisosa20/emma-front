@@ -4,7 +4,7 @@ import AccountCreate from "./ui/view/AccountCreate";
 import useAccountCreate from "./ui/model/accountCreate.models";
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title } =
+  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, watchType } =
     useAccountCreate();
 
   return (
@@ -15,6 +15,7 @@ const Page = () => {
       typeOptions={typeOptions}
       currencyOptions={currencyOptions}
       title={title}
+      watchType={watchType}
     />
   );
 };

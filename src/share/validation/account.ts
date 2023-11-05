@@ -13,6 +13,10 @@ const accountSchema = z.object({
     .string()
     .optional()
     .transform((e) => (e === '' ? undefined : e)),
+  interest: z
+    .string()
+    .optional()
+    .transform((e) => (e === '' ? undefined : e)),
 });
 
 export type AccountSchema = z.infer<typeof accountSchema>;

@@ -9,7 +9,7 @@ const Accounts = (props: any) => {
   const router = useRouter();
   const { Typography, FormControl, Input, Select, Button } = useComponents();
 
-  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate } = props;
+  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate, watchType } = props;
 
   return (
     <div>
@@ -136,7 +136,7 @@ const Accounts = (props: any) => {
               </FormControl>
             )}
           />
-          <Controller
+          {watchType === '3' && <Controller
             name={'limit'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
@@ -155,7 +155,28 @@ const Accounts = (props: any) => {
                 />
               </FormControl>
             )}
-          />
+          />}
+          {watchType === '6' && <Controller
+            name={'interest'}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type='number'
+                  step={0.01}
+                  min={0}
+                  placeholder='Interes del credito [E.A]'
+                  label='Interes del credito [E.A]'
+                  id='interest'
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />}
           <Button type='submit' className="mt-8 col-span-2 w-full lg:w-[350px] mx-auto">Guardar</Button>
         </form>
       </div>

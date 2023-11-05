@@ -4,7 +4,7 @@ import AccountCreate from "@/app/(private)/accounts/create/ui/view/AccountCreate
 import useAccountCreate from "@/app/(private)/accounts/create/ui/model/accountCreate.models";
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate } =
+  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate, watchType } =
     useAccountCreate();
 
   return (
@@ -18,6 +18,7 @@ const Page = () => {
       handleDelete={handleDelete}
       handleReActivate={handleReActivate}
       isDesactivate={isDesactivate}
+      watchType={watchType}
     />
   );
 };
