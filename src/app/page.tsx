@@ -75,7 +75,7 @@ const Login = () => {
                       }}
                       isChecked={!!value}
                     />
-                    <Link href="/forgot"><Typography variant="p" className="underline">¿Has olvidado tu contraseña?</Typography></Link>
+                    <Link href="/forgot" className="hidden lg:block"><Typography variant="p" className="underline">¿Has olvidado tu contraseña?</Typography></Link>
                   </div>
                 </FormControl>
               )}
@@ -83,7 +83,8 @@ const Login = () => {
             <Button variant="contained" block type="submit">
               Iniciar sesión
             </Button>
-            <div className="flex space-x-2 mt-3 justify-center items-center">
+            <Link href="/forgot" className="lg:hidden"><Typography variant="p" className="my-3 lg:mt-0 text-center underline">¿Has olvidado tu contraseña?</Typography></Link>
+            <div className="flex space-x-2 lg:mt-3 justify-center items-center">
               <Typography>¿Aun no tienes cuenta?</Typography>
               <Link href={"/register"}>
                 <Typography variant="p" className="underline">
