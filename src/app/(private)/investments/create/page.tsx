@@ -13,7 +13,6 @@ const Page = () => {
     onSubmitAppre,
     handleSubmitAppre,
     controlAppre,
-    listAppretiations,
   } = useInvestmentsCreateViewModel();
   return (
     <InvestmentsCreate
@@ -25,7 +24,6 @@ const Page = () => {
       onSubmitAppre={onSubmitAppre}
       handleSubmitAppre={handleSubmitAppre}
       controlAppre={controlAppre}
-      listAppretiations={listAppretiations}
     />
   );
 };

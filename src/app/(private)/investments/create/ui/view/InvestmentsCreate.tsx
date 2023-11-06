@@ -182,7 +182,7 @@ export default function InvestmentsCreate(props: any) {
           </div>
         </form>
       </div>
-      {!!listAppretiations && (
+      {listAppretiations && (
         <Typography variant='h2' className='my-4'>
           Historico valorizacion
         </Typography>
