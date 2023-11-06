@@ -70,7 +70,7 @@ export default function InvestmentsCreate(props: any) {
         </div>
       </div>
       {handleDelete && <div className='mt-6'>
-        <Cards data={metrics} />
+        <Cards title="balance" data={metrics} />
       </div>}
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
         <form id="form-investment" key={1} onSubmit={handleSubmit(onSubmit)} className='w-full'>

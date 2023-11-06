@@ -5,7 +5,7 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import useComponents from '@/share/components';
 
 // Helpers
-import { formatCurrency } from '@/share/helpers';
+import { formatCurrency, driverEvent } from '@/share/helpers';
 
 type EventList = {
   id: number;
@@ -15,14 +15,14 @@ type EventList = {
 
 const Events = (props: any) => {
   const { data } = props;
-  const { Typography } = useComponents();
+  const { Typography, TitleHelp } = useComponents();
 
   return (
     <div>
       <div>
         <div className='flex items-center justify-between w-full'>
           <div>
-            <Typography variant='h1'>Eventos</Typography>
+            <TitleHelp title="Eventos" onClick={driverEvent} />
             <Typography>Listado de eventos</Typography>
           </div>
           <div>

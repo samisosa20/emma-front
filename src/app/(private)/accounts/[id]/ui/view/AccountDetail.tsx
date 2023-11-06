@@ -52,7 +52,7 @@ const AccountDetail = (props: any) => {
         </div>
       </div>
       <div className="mt-6 mb-4">
-        <Cards data={data.balances} />
+        <Cards title="balance" data={data.balances} />
       </div>
       <div className="flex space-x-4 items-center justify-end">
         {showDelete && <Typography className="text-primary cursor-pointer underline" onClick={handleResetFilters}>Borrar filtros</Typography>}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AccountUseCase } from '@@/application/account.use-case';
 import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader, driverAccount } from '@/share/helpers';
 
 const useAccounts = () => {
   const router = useRouter();
@@ -31,6 +31,10 @@ const useAccounts = () => {
     },
   });
 
+  const handleDrive = () => {
+    driverAccount()
+  }
+
   const handleToggle = () => {
     setSearch('')
     setIsChecked(!isChecked);
@@ -46,6 +50,7 @@ const useAccounts = () => {
     isChecked,
     search,
     setSearch,
+    handleDrive,
   };
 };
 

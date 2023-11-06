@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ReportUseCase } from '@@/application/report.use-case';
 import { ReportApiAdapter } from '@@/infrastructure/report-api.adapter';
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader, driverWelcome } from '@/share/helpers';
 
 export default function useDashboardViewModel() {
   const router = useRouter();
@@ -108,6 +108,9 @@ export default function useDashboardViewModel() {
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
+      if(!localStorage.getItem('fiona-doesntShow_help')) {
+        driverWelcome()
+      }
     }
   }, []);
 

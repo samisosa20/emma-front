@@ -5,11 +5,11 @@ import useComponents from '@/share/components';
 import { CardsProps } from './Cards.interface';
 
 const Cards = (props: CardsProps) => {
-  const { data } = props;
+  const { data, title } = props;
   const { Typography } = useComponents();
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${data?.length ?? 0} gap-4`}>
+    <div id={`fiona-card_${title}`} className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${data?.length ?? 0} gap-4`}>
       {data?.map((card) => (
         <div className='bg-white shadow-sm rounded py-4 px-3' key={card.title}>
           <Typography variant='h5'>{card.title}</Typography>

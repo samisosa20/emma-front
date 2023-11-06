@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { MdAddCircleOutline } from 'react-icons/md';
+import Link from "next/link";
+import { MdAddCircleOutline } from "react-icons/md";
 
 //components
-import useComponents from '@/share/components';
+import useComponents from "@/share/components";
 
 // Helpers
-import { formatCurrency } from '@/share/helpers';
+import { driverCategory } from "@/share/helpers";
 
 type categoryList = {
   id: number;
@@ -18,20 +18,20 @@ type categoryList = {
 
 export default function Heritages(props: any) {
   const { data, setSearch, handleToggle, search, isChecked } = props;
-  const { Typography, Input, Switch } = useComponents();
+  const { Typography, Input, Switch, TitleHelp } = useComponents();
 
   return (
     <div>
       <div>
-        <div className='flex items-center justify-between w-full'>
+        <div className="flex items-center justify-between w-full">
           <div>
-            <Typography variant='h1'>Categorias</Typography>
+            <TitleHelp title="Categorias" onClick={driverCategory} />
             <Typography>Listado de categorias</Typography>
           </div>
           <div>
             <Link
-              href={'/categories/create'}
-              className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm'
+              href={"/categories/create"}
+              className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
             >
               <MdAddCircleOutline />
               <Typography>Crear categoria</Typography>
@@ -39,10 +39,10 @@ export default function Heritages(props: any) {
           </div>
         </div>
       </div>
-      <div className='mt-6 flex space-x-4 items-center justify-end'>
-        <div className='lg:w-[250px]'>
+      <div id="fiona-search" className="mt-6 flex space-x-4 items-center justify-end">
+        <div className="lg:w-[250px]">
           <Input
-            placeholder='Nombre de la categoria'
+            placeholder="Nombre de la categoria"
             value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)
@@ -52,7 +52,7 @@ export default function Heritages(props: any) {
         <Switch
           isChecked={isChecked}
           handleCheckboxChange={handleToggle}
-          label={isChecked ? 'Activos' : 'Inactivos'}
+          label={isChecked ? "Activos" : "Inactivos"}
         />
       </div>
       <div
@@ -61,7 +61,7 @@ export default function Heritages(props: any) {
         {data &&
           data
             ?.filter((category: categoryList) => {
-              if (search !== '') {
+              if (search !== "") {
                 return isChecked
                   ? !category.deleted_at &&
                       category.name.toUpperCase().includes(search.toUpperCase())
@@ -74,23 +74,23 @@ export default function Heritages(props: any) {
             })
             .map((category: categoryList) => (
               <Link href={`/categories/${category.id}`} key={category.id}>
-                <div className='bg-white rounded shadow-sm p-4'>
-                  <div className='flex items-center justify-between'>
-                    <Typography variant='h2'>{category.name}</Typography>
-                    <Typography variant='h4'>
+                <div className="bg-white rounded shadow-sm p-4">
+                  <div className="flex items-center justify-between">
+                    <Typography variant="h2">{category.name}</Typography>
+                    <Typography variant="h4">
                       {category.sub_categories}
                     </Typography>
                   </div>
-                  <div className='flex items-center justify-between'>
-                    <Typography variant='h6'>{category.group.name}</Typography>
+                  <div className="flex items-center justify-between">
+                    <Typography variant="h6">{category.group.name}</Typography>
                   </div>
                 </div>
               </Link>
             ))}
       </div>
       {data && data.length === 0 && (
-        <div className='bg-white rounded shadow-sm'>
-          <Typography className='text-center py-6'>Sin Categorias</Typography>
+        <div className="bg-white rounded shadow-sm">
+          <Typography className="text-center py-6">Sin Categorias</Typography>
         </div>
       )}
     </div>

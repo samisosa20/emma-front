@@ -16,7 +16,7 @@ import {
 import useComponents from '@/share/components';
 import useComponentsLayout from '@/app/(private)/components';
 
-import { colors, formatCurrency } from '@/share/helpers';
+import { colors, formatCurrency, driverDash } from '@/share/helpers';
 
 export default function Dashboard(props: any) {
   const {
@@ -29,12 +29,12 @@ export default function Dashboard(props: any) {
     getMovementsGroup,
     listMovements,
   } = props;
-  const { Typography, Input, Select, FormControl, Button } = useComponents();
+  const { Typography, Input, Select, FormControl, Button, TitleHelp } = useComponents();
   const { Cards, ListItems, Filters } = useComponentsLayout();
 
   return (
     <div>
-      <Typography variant='h1'>Dashboard</Typography>
+      <TitleHelp title="Dashboard" onClick={driverDash} />
       <Typography>Aca podras ver tu informacion consolidada</Typography>
       <Filters>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -101,10 +101,10 @@ export default function Dashboard(props: any) {
         </form>
       </Filters>
       <div className='mt-6'>
-        <Cards data={data.metrics} />
+        <Cards title="balance" data={data.metrics} />
       </div>
       <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div className='bg-white'>
+        <div id="fiona-chart_incomes" className='bg-white'>
           <Typography variant='p' className='px-4 pt-4'>
             Ingresos
           </Typography>
@@ -134,7 +134,7 @@ export default function Dashboard(props: any) {
             </PieChart>
           </div>
         </div>
-        <div className='bg-white'>
+        <div id="fiona-chart_expensives" className='bg-white'>
           <Typography variant='p' className='px-4 pt-4'>
             Egresos
           </Typography>
@@ -165,7 +165,7 @@ export default function Dashboard(props: any) {
           </div>
         </div>
       </div>
-      <div className='mt-6 bg-white'>
+      <div id="fiona-chart_balances" className='mt-6 bg-white'>
         <Typography variant='p' className='p-4'>
           Balance
         </Typography>
@@ -211,7 +211,7 @@ export default function Dashboard(props: any) {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <div id="fiona-list_cash" className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
         <ListItems
           title='Movimientos por grupo'
           data={data.group_expensive}

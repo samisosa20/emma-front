@@ -5,7 +5,7 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import useComponents from '@/share/components';
 
 // Helpers
-import { formatCurrency } from '@/share/helpers';
+import { formatCurrency, driverHeritage } from '@/share/helpers';
 
 type HeritageList = {
   year: string;
@@ -14,14 +14,14 @@ type HeritageList = {
 
 export default function Heritages(props: any) {
   const { data } = props;
-  const { Typography } = useComponents();
+  const { Typography, TitleHelp } = useComponents();
 
   return (
     <div>
       <div>
         <div className='flex items-center justify-between w-full'>
           <div>
-            <Typography variant='h1'>Patrimonio</Typography>
+          <TitleHelp title="Patrimonio" onClick={driverHeritage} />
             <Typography>Patrimonio por año</Typography>
           </div>
           <div>
