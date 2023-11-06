@@ -2,11 +2,11 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 export function driverWelcome() {
-  driver({
+  const driverObj = driver({
     showProgress: true,
     steps: [
       {
-        element: "#fiona-logo-aside",
+        element: window.innerWidth < 1000 ? "#fiona-logo-header" : "#fiona-logo-aside",
         popover: {
           title: "Bienvenid@ a FIONA",
           description:
@@ -15,15 +15,24 @@ export function driverWelcome() {
         },
       },
       {
-        element: "aside ul",
+        element: window.innerWidth < 1000 ? "#fiona-menu-mobile" : "aside ul",
         popover: {
           title: "Navegacion",
           description: "Usa las opciones de aca para navegar a otras opciones.",
           align: "start",
+          onNextClick:  () => {
+            // .. load element dynamically
+            // .. and then call
+            if(window.innerWidth < 1000) {
+              driverObj.moveTo(3);
+            } else {
+              driverObj.moveNext()
+            }
+          }
         },
       },
       {
-        element: "#fiona-profile-aside",
+        element:  "#fiona-profile-aside",
         popover: {
           title: "Perfil",
           description:
@@ -52,7 +61,8 @@ export function driverWelcome() {
     ],
     nextBtnText: "Siguiente →",
     prevBtnText: "← Atras",
-  }).drive();
+  });
+  driverObj.drive();
   localStorage.setItem("fiona-doesntShow_help", '1')
 }
 export function driverDash() {

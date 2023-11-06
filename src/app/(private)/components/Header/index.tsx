@@ -33,10 +33,12 @@ const Header = () => {
   return (
     <nav className='lg:hidden bg-primary p-4'>
       <div className='flex items-center justify-between'>
+        <div id="fiona-logo-header">
         <Link href='/dashboard' onClick={() => setIsOpen(false)}>
           <Image src={imgLogo} alt='Logo fiona' width='166' height='45' />
         </Link>
-        <div onClick={() => setIsOpen(true)}>
+        </div>
+        <div id="fiona-menu-mobile" onClick={() => setIsOpen(true)}>
           <MdMenu className='text-white w-[24px] h-[24px]' />
         </div>
       </div>
