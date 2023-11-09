@@ -39,7 +39,7 @@ export default function Heritages(props: any) {
           </div>
         </div>
       </div>
-      <div id="fiona-search" className="mt-6 flex space-x-4 items-center justify-end">
+      <div id="emma-search" className="mt-6 flex space-x-4 items-center justify-end">
         <div className="lg:w-[250px]">
           <Input
             placeholder="Nombre de la categoria"

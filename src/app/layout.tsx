@@ -10,7 +10,7 @@ import { Suspense } from "react";
 import Loading from '@/share/components/Loader';
 
 export const metadata: Metadata = {
-  title: 'Fiona',
+  title: 'Emma',
   description: 'Manejo de finanzas personales',
 };
 

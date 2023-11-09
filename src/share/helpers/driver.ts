@@ -6,7 +6,7 @@ export function driverWelcome() {
     showProgress: true,
     steps: [
       {
-        element: window.innerWidth < 1000 ? "#fiona-logo-header" : "#fiona-logo-aside",
+        element: window.innerWidth < 1000 ? "#emma-logo-header" : "#emma-logo-aside",
         popover: {
           title: "Bienvenid@ a FIONA",
           description:
@@ -15,7 +15,7 @@ export function driverWelcome() {
         },
       },
       {
-        element: window.innerWidth < 1000 ? "#fiona-menu-mobile" : "aside ul",
+        element: window.innerWidth < 1000 ? "#emma-menu-mobile" : "aside ul",
         popover: {
           title: "Navegacion",
           description: "Usa las opciones de aca para navegar a otras opciones.",
@@ -32,7 +32,7 @@ export function driverWelcome() {
         },
       },
       {
-        element:  "#fiona-profile-aside",
+        element:  "#emma-profile-aside",
         popover: {
           title: "Perfil",
           description:
@@ -41,7 +41,7 @@ export function driverWelcome() {
         },
       },
       {
-        element: "#fiona-btn_movements",
+        element: "#emma-btn_movements",
         popover: {
           title: "Movimientos",
           description:
@@ -50,7 +50,7 @@ export function driverWelcome() {
         },
       },
       {
-        element: "#fiona-btn_help",
+        element: "#emma-btn_help",
         popover: {
           title: "Ayuda",
           description:
@@ -63,14 +63,14 @@ export function driverWelcome() {
     prevBtnText: "← Atras",
   });
   driverObj.drive();
-  localStorage.setItem("fiona-doesntShow_help", '1')
+  localStorage.setItem("emma-doesntShow_help", '1')
 }
 export function driverDash() {
   driver({
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Dashboard",
+        element: "#emma-title_Dashboard",
         popover: {
           title: "Dashboard",
           description:
@@ -79,7 +79,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-filter",
+        element: "#emma-filter",
         popover: {
           title: "Filtros",
           description:
@@ -88,7 +88,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-card_balance",
+        element: "#emma-card_balance",
         popover: {
           title: "Balance",
           description:
@@ -97,7 +97,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-chart_incomes",
+        element: "#emma-chart_incomes",
         popover: {
           title: "Grafico Ingresos",
           description:
@@ -106,7 +106,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-chart_expensives",
+        element: "#emma-chart_expensives",
         popover: {
           title: "Grafico Egresos",
           description:
@@ -115,7 +115,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-chart_balances",
+        element: "#emma-chart_balances",
         popover: {
           title: "Grafico Balance",
           description:
@@ -124,7 +124,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#fiona-list_cash",
+        element: "#emma-list_cash",
         popover: {
           title: "Listado",
           description:
@@ -143,7 +143,7 @@ export function driverAccount() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Cuentas",
+        element: "#emma-title_Cuentas",
         popover: {
           title: "Cuentas",
           description:
@@ -152,7 +152,7 @@ export function driverAccount() {
         },
       },
       {
-        element: "#fiona-card_balance",
+        element: "#emma-card_balance",
         popover: {
           title: "Balance",
           description:
@@ -161,7 +161,7 @@ export function driverAccount() {
         },
       },
       {
-        element: "#fiona-search",
+        element: "#emma-search",
         popover: {
           title: "Buscador",
           description:
@@ -180,7 +180,7 @@ export function driverEvent() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Eventos",
+        element: "#emma-title_Eventos",
         popover: {
           title: "Eventos",
           description:
@@ -199,7 +199,7 @@ export function driverInvestment() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Inversiones",
+        element: "#emma-title_Inversiones",
         popover: {
           title: "Inversiones",
           description:
@@ -218,7 +218,7 @@ export function driverHeritage() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Patrimonio",
+        element: "#emma-title_Patrimonio",
         popover: {
           title: "Patrimonio",
           description:
@@ -237,7 +237,7 @@ export function driverBudget() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Presupuestos",
+        element: "#emma-title_Presupuestos",
         popover: {
           title: "Presupuestos",
           description:
@@ -256,7 +256,7 @@ export function driverCategory() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Categorias",
+        element: "#emma-title_Categorias",
         popover: {
           title: "Categorias",
           description:
@@ -265,7 +265,7 @@ export function driverCategory() {
         },
       },
       {
-        element: "#fiona-search",
+        element: "#emma-search",
         popover: {
           title: "Buscador",
           description:
@@ -284,7 +284,7 @@ export function driverPayment() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Pagos",
+        element: "#emma-title_Pagos",
         popover: {
           title: "Pagos",
           description:
@@ -303,7 +303,7 @@ export function driverTool() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-title_Herramientas",
+        element: "#emma-title_Herramientas",
         popover: {
           title: "Herramientas",
           description:
@@ -312,7 +312,7 @@ export function driverTool() {
         },
       },
       {
-        element: "#fiona-canido",
+        element: "#emma-canido",
         popover: {
           title: "Puedo gastarme?",
           description:
@@ -321,7 +321,7 @@ export function driverTool() {
         },
       },
       {
-        element: "#fiona-test_project",
+        element: "#emma-test_project",
         popover: {
           title: "Evaluacion de inversion",
           description:
@@ -340,7 +340,7 @@ export function driverMovement() {
     showProgress: true,
     steps: [
       {
-        element: "#fiona-field_type",
+        element: "#emma-field_type",
         popover: {
           title: "Tipo de movimiento",
           description:

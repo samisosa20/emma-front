@@ -84,7 +84,7 @@ export default function useMovementsViewModel() {
       const result = await listAccounts();
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -144,7 +144,7 @@ export default function useMovementsViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -164,7 +164,7 @@ export default function useMovementsViewModel() {
   });
   const mutationEdit = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -188,7 +188,7 @@ export default function useMovementsViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deleteMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -243,9 +243,9 @@ export default function useMovementsViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (!user) {
-      localStorage.removeItem("fiona-user");
+      localStorage.removeItem("emma-user");
       router.push('/login');
     } else {
       if (param.id) {
@@ -298,7 +298,7 @@ export default function useMovementsViewModel() {
 
   useEffect(() => {
     if (isErrorAccount || isErrorCategory || isErrorEvents || isErrorInvestments) {
-      localStorage.removeItem("fiona-user");
+      localStorage.removeItem("emma-user");
       router.push('/login');
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 // Assets
 import imgLogo from '../../public/img/logo.png';
-import imgLogoLetter from '../../public/img/fiona-letter.svg';
+import imgLogoLetter from '../../public/img/logo-letter.svg';
 import imgMainIphone from '../../public/img/iphone.png';
 import imgInvestment from '../../public/img/investment.png';
 import imgHeritage from '../../public/img/heritage.png';
@@ -24,7 +24,7 @@ export default function Home() {
       <div className='w-full h-[80px] max-w-[1280px] mx-auto py-2 px-8 flex items-center justify-between'>
         <Image
           src={imgLogo}
-          alt='Logo FIONA'
+          alt='Logo Emma'
           loading='lazy'
           width={148}
           height={40}
@@ -38,7 +38,7 @@ export default function Home() {
           <div className='max-w-[600px]'>
             <Image
               src={imgLogoLetter}
-              alt='Logo FIONA'
+              alt='Logo Emma'
               loading='lazy'
               width={148}
               height={40}
@@ -56,7 +56,7 @@ export default function Home() {
           <div className='flex-shink-0'>
             <Image
               src={imgMainIphone}
-              alt='Dashboard Fiona'
+              alt='Dashboard Emma'
               loading='lazy'
               width={200}
               height={390}
@@ -70,11 +70,11 @@ export default function Home() {
                 Todo lo que necesitan en un solo lugar
               </Typography>
               <Typography className='max-w-[1280px]'>
-                Descubre <b>FIONA</b>, tu aliado financiero gratuito. Con esta
+                Descubre <b>Emma</b>, tu aliado financiero gratuito. Con esta
                 aplicación, gestionar tus finanzas personales se vuelve fácil y
                 accesible. Registra tus ingresos y gastos de manera sencilla,
                 crea presupuestos personalizados y recibe análisis detallados de
-                tu actividad financiera. Además, <b>FIONA</b> ofrece
+                tu actividad financiera. Además, <b>Emma</b> ofrece
                 herramientas intuitivas para ayudarte a ahorrar, planificar
                 metas y realizar un seguimiento de tus inversiones. Con una
                 interfaz amigable y sin costos ocultos, es la opción perfecta
@@ -92,7 +92,7 @@ export default function Home() {
           <div className="absolute top-8 -left-4 2xl:-left-48 transform -rotate-[25deg]">
             <Image
               src={iconLineChart}
-              alt='Grafico Linea Fiona'
+              alt='Grafico Linea Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -101,7 +101,7 @@ export default function Home() {
           <div className="absolute top-20 lg:top-8 -right-6 lg:-right-4 2xl:-right-48 transform -rotate-[25deg]">
             <Image
               src={iconPieChart}
-              alt='Grafico Pie Fiona'
+              alt='Grafico Pie Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -110,7 +110,7 @@ export default function Home() {
           <div className="absolute -bottom-[400px] lg:-bottom-[200px] -right-4 2xl:-right-32 transform -rotate-[25deg]">
             <Image
               src={iconPigBank}
-              alt='Pig Bank Fiona'
+              alt='Pig Bank Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -119,7 +119,7 @@ export default function Home() {
           <div className="absolute -bottom-[400px] lg:-bottom-[200px] -left-4 2xl:-left-32 transform -rotate-[25deg]">
             <Image
               src={iconManagment}
-              alt='Manejo Fiona'
+              alt='Manejo Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -143,7 +143,7 @@ export default function Home() {
           <div className='flex-shink-0'>
             <Image
               src={imgBudget}
-              alt='Presupuesto Fiona'
+              alt='Presupuesto Emma'
               loading='lazy'
               width={200}
               height={390}
@@ -154,7 +154,7 @@ export default function Home() {
           <div className='flex-shink-0'>
             <Image
               src={imgHeritage}
-              alt='Patrimonio Fiona'
+              alt='Patrimonio Emma'
               loading='lazy'
               width={200}
               height={390}
@@ -190,7 +190,7 @@ export default function Home() {
           <div className='flex-shink-0'>
             <Image
               src={imgInvestment}
-              alt='Inversion Fiona'
+              alt='Inversion Emma'
               loading='lazy'
               width={200}
               height={390}

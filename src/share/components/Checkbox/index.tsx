@@ -4,7 +4,7 @@ const Checkbox = (props: ChecboxProps) => {
   const { handleCheckboxChange, isChecked, label } = props;
 
   return (
-    <label className='fiona-container-checkbox'>
+    <label className='emma-container-checkbox'>
       {label}
       <input type='checkbox' checked={isChecked} onChange={handleCheckboxChange}/>
       <span className='checkmark'></span>

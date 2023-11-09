@@ -35,7 +35,7 @@ export default function useDashboardViewModel() {
       const result = await getReport(filters);
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -62,7 +62,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -88,7 +88,7 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -104,11 +104,11 @@ export default function useDashboardViewModel() {
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
-      if(!localStorage.getItem('fiona-doesntShow_help')) {
+      if(!localStorage.getItem('emma-doesntShow_help')) {
         driverWelcome()
       }
     }

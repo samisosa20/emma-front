@@ -28,7 +28,7 @@ export default function useToolsViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: PredictionParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { getCanIDo } = new ToolUseCase(
           new ToolApiAdapter({
@@ -49,7 +49,7 @@ export default function useToolsViewModel() {
 
   const mutationTest = useMutation({
     mutationFn: async (data: TestProjectParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { getTestProject } = new ToolUseCase(
           new ToolApiAdapter({
@@ -95,7 +95,7 @@ export default function useToolsViewModel() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);

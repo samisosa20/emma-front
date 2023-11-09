@@ -35,7 +35,7 @@ export default function useDashboardViewModel() {
       const result = await getProfile();
 
       if (result.error) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -45,7 +45,7 @@ export default function useDashboardViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: ParamsProfileSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { updateProfile } = new AuthUseCase(
           new AuthApiAdapter({
@@ -63,10 +63,10 @@ export default function useDashboardViewModel() {
           toast.error(result.message);
           return;
         }
-        const profile = JSON.parse(localStorage.getItem('fiona-user') ?? '{}');
+        const profile = JSON.parse(localStorage.getItem('emma-user') ?? '{}');
         profile.name = data.name;
         profile.currency = Number(data.badge_id);
-        localStorage.setItem('fiona-user', JSON.stringify(profile))
+        localStorage.setItem('emma-user', JSON.stringify(profile))
         toast.success(result.message);
       }
     },
@@ -81,7 +81,7 @@ export default function useDashboardViewModel() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("fiona-user");
+    localStorage.removeItem("emma-user");
     router.push('/login');
   }
 
@@ -90,7 +90,7 @@ export default function useDashboardViewModel() {
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);

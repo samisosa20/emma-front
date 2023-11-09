@@ -31,13 +31,13 @@ export default function useBudgetReportViewModel(){
       ? params.badge[0]
       : params.badge;
 
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
 
       if(user) {
         const badge_id = JSON.parse(user).currencies.filter((v: any) => v.label === badge)[0].value
         const result = await getReporttPerYear({year: year, badge_id: badge_id});
         if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
+          localStorage.removeItem("emma-user");
           router.push('/login');
         }
   

@@ -25,15 +25,15 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('fiona-user'))
-      setUserName(JSON.parse(localStorage.getItem('fiona-user') ?? '{}').name);
+    if (localStorage.getItem('emma-user'))
+      setUserName(JSON.parse(localStorage.getItem('emma-user') ?? '{}').name);
   }, []);
 
   return (
     <aside className='hidden lg:block bg-primary p-4'>
-      <div id="fiona-logo-aside">
+      <div id="emma-logo-aside">
       <Link href='/dashboard'>
-        <Image src={imgLogo} alt='Logo fiona'/>
+        <Image src={imgLogo} alt='Logo emma'/>
       </Link>
       </div>
       <ul className='mt-4 text-white'>
@@ -80,7 +80,7 @@ export default function Navbar() {
           })}
         <li>
           <Link href={'/profile'}>
-            <div className='bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]' id="fiona-profile-aside">
+            <div className='bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]' id="emma-profile-aside">
               <div className='w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0'>
                 {obtenerIniciales(userName)}
               </div>

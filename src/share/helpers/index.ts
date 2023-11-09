@@ -18,16 +18,16 @@ export const formatCurrency = new Intl.NumberFormat('es-US', {
 });
 
 export function isLogin() {
-  const user = localStorage.getItem('fiona-user');
+  const user = localStorage.getItem('emma-user');
   if (!user) {
-    localStorage.removeItem("fiona-user");
+    localStorage.removeItem("emma-user");
     return false
   }
   return true
 }
 
 export function customConfigHeader() {
-  const user = localStorage.getItem('fiona-user');
+  const user = localStorage.getItem('emma-user');
   if (user)
     return {
       headers: {

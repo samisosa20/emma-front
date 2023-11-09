@@ -42,7 +42,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -68,7 +68,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -97,7 +97,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deletePayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -191,9 +191,9 @@ export default function usePaymentsCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (!user) {
-      localStorage.removeItem("fiona-user");
+      localStorage.removeItem("emma-user");
       router.push('/login');
     } else {
       if (param.id) {

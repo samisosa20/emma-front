@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: 'FionaNextApp',
+        name: 'EmmaNextApp',
         exec_mode: 'cluster',
         instances: '2', // Or a number of instances
         script: 'node_modules/next/dist/bin/next',

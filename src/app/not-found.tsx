@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <div className='min-h-screen flex items-center justify-center bg-primary'>
       <div className='text-center w-11/12 max-w-[350px]'>
-        <Image src={imgLogo} alt='Logo fiona' className='mx-auto mb-8' />
+        <Image src={imgLogo} alt='Logo Emma' className='mx-auto mb-8' />
         <h1 className='text-xl text-white font-bold mb-8'>
           ¡Oops! Parece que te has perdido en la web
         </h1>

@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Header from './components/Header';
 
 export const metadata: Metadata = {
-  title: 'Fiona',
+  title: 'Emma',
   description: 'Manejo de finanzas personales',
 };
 
@@ -28,7 +28,7 @@ export default function RootLayout({
           </div>
         </main>
         <Link href={'/moves'} className="absolute">
-          <div id="fiona-btn_movements" className="fixed bottom-4 right-2 h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] bg-primary text-white rounded-full grid items-center justify-center">
+          <div id="emma-btn_movements" className="fixed bottom-4 right-2 h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] bg-primary text-white rounded-full grid items-center justify-center">
             <MdAttachMoney className="h-[20px] w-[20px]" />
           </div>
         </Link>

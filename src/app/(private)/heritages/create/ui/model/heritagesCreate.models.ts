@@ -26,7 +26,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("fiona-user");
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { createHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -48,7 +48,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("fiona-user");
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { editHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -73,7 +73,7 @@ export default function useHeritagesCreateViewModel() {
   
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { deleteHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -113,7 +113,7 @@ export default function useHeritagesCreateViewModel() {
         const result = await getHeritageDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
+          localStorage.removeItem("emma-user");
           router.push("/");
         }
 
@@ -139,7 +139,7 @@ export default function useHeritagesCreateViewModel() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
+    const user = localStorage.getItem("emma-user");
     if(user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);

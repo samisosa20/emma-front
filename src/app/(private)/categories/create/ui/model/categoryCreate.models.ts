@@ -26,7 +26,7 @@ export default function useCategoryCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
@@ -48,7 +48,7 @@ export default function useCategoryCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
@@ -73,7 +73,7 @@ export default function useCategoryCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deleteCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
@@ -113,7 +113,7 @@ export default function useCategoryCreateViewModel() {
         const result = await getCategoryDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
+          localStorage.removeItem("emma-user");
           router.push('/login');
         }
 
@@ -135,7 +135,7 @@ export default function useCategoryCreateViewModel() {
       const result = await listSelectCategories();
 
       if (!Array.isArray(result)) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 
@@ -159,7 +159,7 @@ export default function useCategoryCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (user) {
       const userjson = JSON.parse(user);
       setGroupsOptions(userjson.groups_category);

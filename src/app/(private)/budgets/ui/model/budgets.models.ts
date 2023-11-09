@@ -22,7 +22,7 @@ export default function useBudgetsViewModel(){
       const result = await listYearBudget();
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 

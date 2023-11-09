@@ -49,7 +49,7 @@ const useRegister = () => {
         toast.error(result.message)
         return;
       }
-      localStorage.setItem('fiona-user', JSON.stringify(result))
+      localStorage.setItem('emma-user', JSON.stringify(result))
       router.push('/dashboard')
     },
   })

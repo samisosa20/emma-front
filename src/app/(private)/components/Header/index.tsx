@@ -26,19 +26,19 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('fiona-user'))
-      setUserName(JSON.parse(localStorage.getItem('fiona-user') ?? '{}').name);
+    if (localStorage.getItem('emma-user'))
+      setUserName(JSON.parse(localStorage.getItem('emma-user') ?? '{}').name);
   }, []);
 
   return (
     <nav className='lg:hidden bg-primary p-4'>
       <div className='flex items-center justify-between'>
-        <div id="fiona-logo-header">
+        <div id="emma-logo-header">
         <Link href='/dashboard' onClick={() => setIsOpen(false)}>
-          <Image src={imgLogo} alt='Logo fiona' width='166' height='45' />
+          <Image src={imgLogo} alt='Logo emma' width='166' height='45' />
         </Link>
         </div>
-        <div id="fiona-menu-mobile" onClick={() => setIsOpen(true)}>
+        <div id="emma-menu-mobile" onClick={() => setIsOpen(true)}>
           <MdMenu className='text-white w-[24px] h-[24px]' />
         </div>
       </div>
@@ -49,7 +49,7 @@ const Header = () => {
       >
         <div className='flex items-center justify-between'>
           <Link href='/dashboard' onClick={() => setIsOpen(false)}>
-            <Image src={imgLogo} alt='Logo fiona' width='166' height='45' />
+            <Image src={imgLogo} alt='Logo emma' width='166' height='45' />
           </Link>
           <div onClick={() => setIsOpen(false)}>
             <MdOutlineClose className='text-white w-[24px] h-[24px]' />

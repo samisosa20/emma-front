@@ -52,7 +52,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -78,7 +78,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -107,7 +107,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deleteBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -172,9 +172,9 @@ export default function useBudgetsCreateViewModel() {
 
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (!user) {
-      localStorage.removeItem("fiona-user");
+      localStorage.removeItem("emma-user");
       router.push('/login');
     } else {
       const userjson = JSON.parse(user);

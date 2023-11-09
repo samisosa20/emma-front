@@ -70,7 +70,7 @@ export default function Movements(props: any) {
       </div>
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
         <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
-          <div id='fiona-field_type'>
+          <div id='emma-field_type'>
             <Controller
               name={'type'}
               control={control}

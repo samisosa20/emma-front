@@ -26,7 +26,7 @@ export default function useCategoriesViewModel() {
       const result = await listCategories();
 
       if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
+        localStorage.removeItem("emma-user");
         router.push('/login');
       }
 

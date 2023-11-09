@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+
 body {
   @apply bg-neutral-100 overflow-x-hidden;
 }
@@ -21,7 +23,7 @@ body {
 }
 
 /* The container */
-.fiona-container-checkbox {
+.emma-container-checkbox {
   @apply block relative cursor-pointer mb-3 pl-7 text-sm;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -30,7 +32,7 @@ body {
 }
 
 /* Hide the browser's default checkbox */
-.fiona-container-checkbox input {
+.emma-container-checkbox input {
   @apply absolute opacity-0 cursor-pointer h-0 w-0;
 }
 
@@ -40,12 +42,12 @@ body {
 }
 
 /* On mouse-over, add a grey background color */
-.fiona-container-checkbox:hover input ~ .checkmark {
+.emma-container-checkbox:hover input ~ .checkmark {
   @apply bg-yellow-400 border-none;
 }
 
 /* When the checkbox is checked, add a blue background */
-.fiona-container-checkbox input:checked ~ .checkmark {
+.emma-container-checkbox input:checked ~ .checkmark {
   @apply bg-yellow-400 border-none;
 }
 
@@ -56,12 +58,12 @@ body {
 }
 
 /* Show the checkmark when checked */
-.fiona-container-checkbox input:checked ~ .checkmark:after {
+.emma-container-checkbox input:checked ~ .checkmark:after {
   @apply block;
 }
 
 /* Style the checkmark/indicator */
-.fiona-container-checkbox .checkmark:after {
+.emma-container-checkbox .checkmark:after {
   left: 8px;
   top: 4px;
   width: 5px;

@@ -4,8 +4,8 @@
     "display": "fullscreen",
     "scope": "/login",
     "start_url": "/login",
-    "name": "Fiona App",
-    "short_name": "FIONA",
+    "name": "Emma App",
+    "short_name": "Emma",
     "description": "Manejo de finanzas perosnales",
     "icons": [
         {

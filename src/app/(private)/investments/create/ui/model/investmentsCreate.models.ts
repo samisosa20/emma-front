@@ -46,7 +46,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: InvestmentSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createInvestment } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -72,7 +72,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: InvestmentSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editInvestment } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -101,7 +101,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deleteInvestment } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -147,7 +147,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationAppre = useMutation({
     mutationFn: async (data: InvestmentAppretiaitonSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { createAppretiation } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -178,7 +178,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationEditAppre = useMutation({
     mutationFn: async (data: InvestmentAppretiaitonSchema) => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { editAppretiation } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -209,7 +209,7 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationDeleteAppre = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('fiona-user');
+      const user = localStorage.getItem('emma-user');
       if (user) {
         const { deleteAppretiation } = new InvestmentUseCase(
           new InvestmentApiAdapter({
@@ -277,9 +277,9 @@ export default function useInvestmentsCreateViewModel() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem('fiona-user');
+    const user = localStorage.getItem('emma-user');
     if (!user) {
-      localStorage.removeItem("fiona-user");
+      localStorage.removeItem("emma-user");
       router.push('/login');
     } else {
       const userjson = JSON.parse(user);
