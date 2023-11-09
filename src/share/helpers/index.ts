@@ -7,7 +7,8 @@ import {
   MdOutlinePayment,
   MdOutlineCategory,
   MdDownload,
-  MdAutoFixHigh
+  MdAutoFixHigh,
+  MdGroupWork
 } from 'react-icons/md';
 
 export * from "./driver"
@@ -81,6 +82,10 @@ export function handleAddToHomeScreen() {
   }
 };
 
+export function handleGoToWpp() {
+  window.open(`https://chat.whatsapp.com/${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`, 'blank')
+};
+
 
 export const links = [
   {
@@ -137,6 +142,13 @@ export const links = [
     show: false,
     icon: MdDownload,
     onClick: handleAddToHomeScreen
+  },
+  {
+    name: 'Unirse a whatsapp',
+    link: false,
+    show: true,
+    icon: MdGroupWork,
+    onClick: handleGoToWpp
   },
 ];
 
