@@ -16,6 +16,7 @@ const createHeritageSchema = z.object({
   name: z.string(),
   comercial_amount: z.string(),
   legal_amount: z.string(),
+  currency: currencySchema.optional(),
   badge_id: z.string(),
   year: z.string(),
   status: z

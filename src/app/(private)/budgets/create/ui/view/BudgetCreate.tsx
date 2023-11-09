@@ -95,11 +95,11 @@ export default function BudgetCreate(props: any) {
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
+                <AutoComplete
                   label='Moneda'
                   placeholder='Seleciona una opcion'
                   id='badge_id'
-                  onChange={(e) => {
+                  handleOnChange={(e: any) => {
                     onChange(e);
                   }}
                   options={currencyOptions}

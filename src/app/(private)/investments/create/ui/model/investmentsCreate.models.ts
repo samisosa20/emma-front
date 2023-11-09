@@ -31,7 +31,7 @@ export default function useInvestmentsCreateViewModel() {
       name: '',
       init_amount: '',
       end_amount: '0',
-      badge_id: '',
+      badge_id: {},
       date_investment: '',
     },
   });
@@ -233,6 +233,7 @@ export default function useInvestmentsCreateViewModel() {
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
+      badge_id: data.badge_id.value,
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -295,7 +296,7 @@ export default function useInvestmentsCreateViewModel() {
         name: data.name,
         init_amount: data.init_amount.toString(),
         end_amount: data.end_amount.toString(),
-        badge_id: data.badge_id.toString(),
+        badge_id: {label: data.currency.code, value: data.badge_id.toString()},
         date_investment: data.date_investment,
       });
       setListMovements(data.movements);

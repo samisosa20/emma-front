@@ -12,7 +12,7 @@ export default function NotFound() {
         <h1 className='text-xl text-white font-bold mb-8'>
           ¡Oops! Parece que te has perdido en la web
         </h1>
-        <Link href='/'>
+        <Link href='/login'>
           <p className='px-4 py-3 rounded-md font-semibold bg-yellow-400 hover:bg-yellow-200 text-primary border border-yellow-400 hover:bg-yellow-400 hover:text-white'>
             Ir a Inicio
           </p>

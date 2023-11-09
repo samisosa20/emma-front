@@ -15,7 +15,7 @@ const paymentsSchema = z.object({
   .transform((e) => (e === '' ? undefined : e)),
   start_date: z.string(),
   amount: z.string(),
-  specific_day: z.string(),
+  specific_day: z.union([z.string(), z.number()]),
 });
 
 const paymentParamsSchema = z.object({

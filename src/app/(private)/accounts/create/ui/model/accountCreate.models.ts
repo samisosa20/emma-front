@@ -6,7 +6,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import { accountSchema } from '@/share/validation';
-import type { AccountSchema } from '@/share/validation';
+import type { AccountParamsSchema } from '@/share/validation';
 
 import { AccountUseCase } from '@@/application/account.use-case';
 import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
@@ -29,7 +29,7 @@ const useAccountCreate = () => {
   const watchType = watch('type_id')
 
   const mutation = useMutation({
-    mutationFn: async (data: AccountSchema) => {
+    mutationFn: async (data: AccountParamsSchema) => {
       const { createAccount } = new AccountUseCase(
         new AccountApiAdapter({
           baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
@@ -48,7 +48,7 @@ const useAccountCreate = () => {
   });
 
   const mutationEdit = useMutation({
-    mutationFn: async (data: AccountSchema) => {
+    mutationFn: async (data: AccountParamsSchema) => {
       const user = localStorage.getItem('fiona-user');
       if (user) {
         const { editAccount } = new AccountUseCase(
@@ -164,7 +164,7 @@ const useAccountCreate = () => {
   });
 
   const { data } = useQuery({
-    queryKey: ['accountDetail'],
+    queryKey: ['accountDetail', param.id],
     queryFn: async () => {
       const user = localStorage.getItem('fiona-user');
       if (user && param.id) {
@@ -198,6 +198,7 @@ const useAccountCreate = () => {
     const formData = {
       ...data,
       description: data.description ? data.description : '',
+      badge_id: data.badge_id.value,
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -235,7 +236,7 @@ const useAccountCreate = () => {
       reset({
         ...data.account,
         type_id: data.account.type_id.toString(),
-        badge_id: data.account.badge_id.toString(),
+        badge_id: {label: data.account.currency.code ,value: data.account.badge_id},
         init_amount: data.account.init_amount.toString(),
         description: data.account.description ? data.account.description : '',
         limit: data.account.limit ? data.account.limit : '',
@@ -243,6 +244,7 @@ const useAccountCreate = () => {
       });
       setIsDesactivate(!!data.account.deleted_at);
     }
+    reset()
   }, [data, reset]);
 
   return {

@@ -31,7 +31,7 @@ export default function useBudgetsCreateViewModel() {
       amount: 0,
       year: new Date().getFullYear().toString(),
       category: {},
-      badge_id: '',
+      badge_id: {},
     },
   });
 
@@ -156,6 +156,7 @@ export default function useBudgetsCreateViewModel() {
     const formData = {
       ...data,
       category_id: data.category.value,
+      badge_id: data.badge_id.value,
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -191,7 +192,7 @@ export default function useBudgetsCreateViewModel() {
         category: {value: data.category.id, label: data.category.name},
         amount: data.amount,
         period_id: data.period_id.toString(),
-        badge_id: data.badge_id.toString(),
+        badge_id: {value: data.currency.id, label: data.currency.code},
         year: data.year.toString(),
       });
     }

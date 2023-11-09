@@ -44,7 +44,7 @@ export default function useDashboardViewModel() {
   });
 
   const onSubmit = (data: any) => {
-    setFilters(data);
+    setFilters({...data, badge_id: data.badge_id.value});
   };
 
   const getMovements = async (id: number) => {

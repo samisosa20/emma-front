@@ -11,10 +11,10 @@ import { formatCurrency } from '@/share/helpers';
 
 export default function InvestmentsCreate(props: any) {
   const router = useRouter();
-  const { Typography, Button, Input, FormControl, Select, Modal } =
+  const { Typography, Button, Input, FormControl, AutoComplete, Modal } =
     useComponents();
 
-    const { Cards } = useComponentsLayout();
+  const { Cards } = useComponentsLayout();
 
   const {
     handleSubmit,
@@ -31,10 +31,10 @@ export default function InvestmentsCreate(props: any) {
     handleSubmitAppre,
     controlAppre,
     listAppretiations,
-    handleEditAppretiation = () =>{},
+    handleEditAppretiation = () => {},
     idAppretiation,
-    handleDeleteAppre = () =>{},
-    metrics = []
+    handleDeleteAppre = () => {},
+    metrics = [],
   } = props;
 
   return (
@@ -69,11 +69,18 @@ export default function InvestmentsCreate(props: any) {
           </div>
         </div>
       </div>
-      {handleDelete && <div className='mt-6'>
-        <Cards title="balance" data={metrics} />
-      </div>}
+      {handleDelete && (
+        <div className='mt-6'>
+          <Cards title='balance' data={metrics} />
+        </div>
+      )}
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
-        <form id="form-investment" key={1} onSubmit={handleSubmit(onSubmit)} className='w-full'>
+        <form
+          id='form-investment'
+          key={1}
+          onSubmit={handleSubmit(onSubmit)}
+          className='w-full'
+        >
           <Controller
             name={'name'}
             control={control}
@@ -113,37 +120,16 @@ export default function InvestmentsCreate(props: any) {
               </FormControl>
             )}
           />
-          {/* <Controller
-            name={'end_amount'}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Input
-                  type='number'
-                  placeholder='Valor actual de la inversion'
-                  label='Valor actual de la inversion'
-                  id='end_amount'
-                  step='0.01'
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  iserror={!!fieldState.error}
-                  value={value}
-                  disabled
-                />
-              </FormControl>
-            )}
-          /> */}
           <Controller
             name={'badge_id'}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
+                <AutoComplete
                   label='Moneda'
                   placeholder='Seleciona una opcion'
                   id='badge_id'
-                  onChange={(e) => {
+                  handleOnChange={(e: any) => {
                     onChange(e);
                   }}
                   options={currencyOptions}
@@ -193,11 +179,11 @@ export default function InvestmentsCreate(props: any) {
             <div
               className='border-b border-gray-300 py-2 px-1 cursor-pointer'
               key={appretiation.id}
-              onClick={()=>handleEditAppretiation(appretiation.id)}
+              onClick={() => handleEditAppretiation(appretiation.id)}
             >
               <div className='flex justify-between items-center'>
                 <Typography
-                variant="h4"
+                  variant='h4'
                   className={
                     appretiation.amount > 0 ? 'text-green-500' : 'text-red-500'
                   }
@@ -225,7 +211,10 @@ export default function InvestmentsCreate(props: any) {
               key={movement.id}
             >
               <div className='flex justify-between items-center'>
-                <div className='font-bold'>{movement.category.name} {movement.add_withdrawal && ' (Retiro/Abono)'}</div>
+                <div className='font-bold'>
+                  {movement.category.name}{' '}
+                  {movement.add_withdrawal && ' (Retiro/Abono)'}
+                </div>
                 <div
                   className={
                     movement.amount > 0 ? 'text-green-500' : 'text-red-500'
@@ -254,7 +243,12 @@ export default function InvestmentsCreate(props: any) {
         onClose={handleClose}
         title='Actualizacion del valor de la inversion'
       >
-        <form id="form-appretiation" key={2} onSubmit={handleSubmitAppre(onSubmitAppre)} className='w-full'>
+        <form
+          id='form-appretiation'
+          key={2}
+          onSubmit={handleSubmitAppre(onSubmitAppre)}
+          className='w-full'
+        >
           <Controller
             name={'amount'}
             control={controlAppre}
@@ -301,12 +295,14 @@ export default function InvestmentsCreate(props: any) {
             >
               Guardar
             </Button>
-            {idAppretiation !== undefined && <Typography
-              className='mt-8 underline cursor-pointer'
-              onClick={handleDeleteAppre}
-            >
-              Eliminar
-            </Typography>}
+            {idAppretiation !== undefined && (
+              <Typography
+                className='mt-8 underline cursor-pointer'
+                onClick={handleDeleteAppre}
+              >
+                Eliminar
+              </Typography>
+            )}
           </div>
         </form>
       </Modal>

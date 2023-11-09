@@ -29,7 +29,7 @@ export default function Dashboard(props: any) {
     getMovementsGroup,
     listMovements,
   } = props;
-  const { Typography, Input, Select, FormControl, Button, TitleHelp } = useComponents();
+  const { Typography, Input, Select, FormControl, Button, TitleHelp, AutoComplete } = useComponents();
   const { Cards, ListItems, Filters } = useComponentsLayout();
 
   return (
@@ -43,11 +43,11 @@ export default function Dashboard(props: any) {
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
+                <AutoComplete
                   label='Moneda'
                   placeholder='Seleciona una opcion'
                   id='badge_id'
-                  onChange={(e) => {
+                  handleOnChange={(e: any) => {
                     onChange(e);
                   }}
                   options={currencyOptions}

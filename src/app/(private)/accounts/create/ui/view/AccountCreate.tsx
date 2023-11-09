@@ -7,7 +7,7 @@ import useComponents from '@/share/components';
 
 const Accounts = (props: any) => {
   const router = useRouter();
-  const { Typography, FormControl, Input, Select, Button } = useComponents();
+  const { Typography, FormControl, Input, Select, Button, AutoComplete } = useComponents();
 
   const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, handleDelete, handleReActivate, isDesactivate, watchType } = props;
 
@@ -103,11 +103,11 @@ const Accounts = (props: any) => {
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
+                <AutoComplete
                   label='Moneda'
                   placeholder='Seleciona una opcion'
                   id='badge_id'
-                  onChange={(e) => {
+                  handleOnChange={(e: any) => {
                     onChange(e);
                   }}
                   options={currencyOptions}

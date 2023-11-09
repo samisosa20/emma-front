@@ -6,7 +6,10 @@ const budgetSchema = z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),
-  badge_id: z.union([z.string(), z.number()]),
+  badge_id: z.object({
+    value: z.union([z.string(), z.number()]),
+    label: z.string(),
+  }),
   amount: z.union([z.string(), z.number()]),
   period_id: z.union([z.string(), z.number()]),
 });

@@ -8,6 +8,7 @@ const budgetSchema = z.object({
   amount: z.number(),
   period_id: z.number(),
   badge_id: z.number(),
+  currency: currencySchema,
   category: categorySchema,
   period: z.object({
     id: z.number(),

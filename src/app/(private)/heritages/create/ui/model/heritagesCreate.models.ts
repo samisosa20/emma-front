@@ -26,7 +26,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -48,7 +48,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -73,7 +73,7 @@ export default function useHeritagesCreateViewModel() {
   
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -125,6 +125,7 @@ export default function useHeritagesCreateViewModel() {
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
+      badge_id: data.badge_id.value,
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -138,7 +139,7 @@ export default function useHeritagesCreateViewModel() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem("fiona-user");
     if(user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
@@ -150,7 +151,7 @@ export default function useHeritagesCreateViewModel() {
 
   useEffect(() => {
     if (data) {
-      reset(data);
+      reset({...data, badge_id: {label: data.currency?.code, value: data.currency?.id}});
     }
   }, [data]);
 
