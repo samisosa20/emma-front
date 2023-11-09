@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Controller } from 'react-hook-form';
 
 // Assets
-import imgLogo from '../../../../../public/img/logo.png';
+import imgLogo from '../../../../../../public/img/logo.png';
 
 //components
 import useComponents from '@/share/components';
@@ -14,7 +14,7 @@ export default function Register(props: any) {
   const { handleSubmit, onSubmit, control } = props;
 
   return (
-    <div className='flex items-center flex-col justify-center h-screen bg-primary space-y-4'>
+    <div className='flex items-center flex-col justify-center min-h-screen bg-primary space-y-4'>
       <Image src={imgLogo} alt='Logo fiona' />
       <div className='bg-white rounded-2xl border shadow-x1 py-8 2xl:py-10 px-8 max-w-[90vw] md:max-w-lg'>
         <div className='flex flex-col items-center space-y-4'>
@@ -46,7 +46,7 @@ export default function Register(props: any) {
             <Button variant='contained' block type='submit'>
               Recuperar
             </Button>
-            <Link href={'/'}>
+            <Link href={'/login'}>
               <Typography variant='p' className='underline mt-4 text-center'>
                 Volver
               </Typography>

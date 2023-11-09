@@ -38,7 +38,7 @@ export default function useBudgetListViewModel(){
         const result = await listBudget({year: year, badge_id: badge_id});
         if (result.status === 401) {
           localStorage.removeItem("fiona-user");
-          router.push('/');
+          router.push('/login');
         }
   
         return result;
@@ -49,7 +49,7 @@ export default function useBudgetListViewModel(){
 
 
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError]);
 
   return {

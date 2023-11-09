@@ -31,7 +31,7 @@ export default function useForgot() {
       }
       
       toast.success(result.message)
-      router.push('/')
+      router.push('/login')
     },
   })
 

@@ -194,7 +194,7 @@ export default function usePaymentsCreateViewModel() {
     const user = localStorage.getItem('fiona-user');
     if (!user) {
       localStorage.removeItem("fiona-user");
-      router.push('/');
+      router.push('/login');
     } else {
       if (param.id) {
         setTitle('Edicion de Pagos');

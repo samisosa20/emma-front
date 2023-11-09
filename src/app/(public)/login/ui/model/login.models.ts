@@ -11,7 +11,7 @@ import type { LoginSchema } from '@/share/validation';
 import { AuthUseCase } from '@@/application/auth.use-case';
 import { AuthApiAdapter } from '@@/infrastructure/auth-api.adapter';
 
-const useLogin = () => {
+export default function useLogin(){
   const router = useRouter();
 
   const { handleSubmit, control, reset } = useForm({
@@ -67,5 +67,3 @@ const useLogin = () => {
     control,
   };
 };
-
-export default useLogin;

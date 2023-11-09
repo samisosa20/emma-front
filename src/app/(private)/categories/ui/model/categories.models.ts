@@ -27,7 +27,7 @@ export default function useCategoriesViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       return result;
@@ -40,7 +40,7 @@ export default function useCategoriesViewModel() {
   };
 
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError, router]);
 
   return {

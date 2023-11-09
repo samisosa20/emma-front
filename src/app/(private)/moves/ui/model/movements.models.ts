@@ -85,7 +85,7 @@ export default function useMovementsViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       return result;
@@ -246,7 +246,7 @@ export default function useMovementsViewModel() {
     const user = localStorage.getItem('fiona-user');
     if (!user) {
       localStorage.removeItem("fiona-user");
-      router.push('/');
+      router.push('/login');
     } else {
       if (param.id) {
         setTitle('Edicion de Movimientos');
@@ -299,7 +299,7 @@ export default function useMovementsViewModel() {
   useEffect(() => {
     if (isErrorAccount || isErrorCategory || isErrorEvents || isErrorInvestments) {
       localStorage.removeItem("fiona-user");
-      router.push('/');
+      router.push('/login');
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);
 

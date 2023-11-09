@@ -114,7 +114,7 @@ export default function useCategoryCreateViewModel() {
 
         if (result.status === 401) {
           localStorage.removeItem("fiona-user");
-          router.push('/');
+          router.push('/login');
         }
 
         return result;
@@ -136,7 +136,7 @@ export default function useCategoryCreateViewModel() {
 
       if (!Array.isArray(result)) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       return result;

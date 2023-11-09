@@ -36,7 +36,7 @@ export default function useDashboardViewModel() {
 
       if (result.error) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       return result;
@@ -82,11 +82,11 @@ export default function useDashboardViewModel() {
 
   const handleLogout = () => {
     localStorage.removeItem("fiona-user");
-    router.push('/');
+    router.push('/login');
   }
 
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError]);
 
   useEffect(() => {

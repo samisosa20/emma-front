@@ -30,7 +30,7 @@ const useHeritageYear = () => {
 
           if (result.status === 401) {
             localStorage.removeItem("fiona-user");
-            router.push('/');
+            router.push('/login');
           }
 
           return result;
@@ -39,7 +39,7 @@ const useHeritageYear = () => {
   });
   
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError]);
 
   return {

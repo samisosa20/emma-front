@@ -38,7 +38,7 @@ export default function useBudgetReportViewModel(){
         const result = await getReporttPerYear({year: year, badge_id: badge_id});
         if (result.status === 401) {
           localStorage.removeItem("fiona-user");
-          router.push('/');
+          router.push('/login');
         }
   
         return result;
@@ -53,7 +53,7 @@ export default function useBudgetReportViewModel(){
   }
 
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError]);
 
   return {

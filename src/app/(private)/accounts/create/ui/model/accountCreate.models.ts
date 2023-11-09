@@ -186,7 +186,7 @@ const useAccountCreate = () => {
 
         if (result.status === 401) {
           localStorage.removeItem("fiona-user");
-          router.push('/');
+          router.push('/login');
         }
 
         return result;

@@ -174,7 +174,7 @@ export default function useBudgetsCreateViewModel() {
     const user = localStorage.getItem('fiona-user');
     if (!user) {
       localStorage.removeItem("fiona-user");
-      router.push('/');
+      router.push('/login');
     } else {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);

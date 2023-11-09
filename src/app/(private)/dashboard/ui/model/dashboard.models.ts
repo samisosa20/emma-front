@@ -36,7 +36,7 @@ export default function useDashboardViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       return result;
@@ -63,7 +63,7 @@ export default function useDashboardViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       // @ts-ignore
@@ -89,7 +89,7 @@ export default function useDashboardViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("fiona-user");
-        router.push('/');
+        router.push('/login');
       }
 
       // @ts-ignore
@@ -100,7 +100,7 @@ export default function useDashboardViewModel() {
   };
 
   useEffect(() => {
-    if (isError) router.push('/');
+    if (isError) router.push('/login');
   }, [isError]);
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+"use client"
 import SelectReact from 'react-select';
 
 const AutoComplete = (props: any) => {

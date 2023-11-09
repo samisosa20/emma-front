@@ -55,7 +55,7 @@ const useAccount = () => {
 
         if (result.status === 401) {
           localStorage.removeItem("fiona-user");
-          router.push('/');
+          router.push('/login');
         }
 
         return result;
@@ -104,7 +104,7 @@ const useAccount = () => {
   };
 
   useEffect(() => {
-    if (isError || isErrorEvents) router.push('/');
+    if (isError || isErrorEvents) router.push('/login');
   }, [isError, isErrorEvents, router]);
 
   useEffect(() => {
