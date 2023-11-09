@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 //components
 import useComponents from '@/share/components';
 
+// Helpers
+import { driverMovement } from '@/share/helpers';
+
 export default function Movements(props: any) {
   const {
     handleSubmit,
@@ -32,6 +35,7 @@ export default function Movements(props: any) {
     RadioGroup,
     AutoComplete,
     Switch,
+    TitleHelp,
   } = useComponents();
 
   return (
@@ -43,7 +47,7 @@ export default function Movements(props: any) {
               <div onClick={() => router.back()}>
                 <MdArrowBack />
               </div>
-              <Typography variant='h1'>{title}</Typography>
+              <TitleHelp title={title} onClick={driverMovement} />
             </div>
             {!handleDelete && (
               <Typography>
@@ -66,39 +70,41 @@ export default function Movements(props: any) {
       </div>
       <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
         <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
-          <Controller
-            name={'type'}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <RadioGroup
-                  name='type'
-                  label='Tipo de movimiento'
-                  options={[
-                    {
-                      label: 'Ingreso',
-                      value: '1',
-                      disabled: !!handleDelete && typeWatch === '0',
-                    },
-                    {
-                      label: 'Egreso',
-                      value: '-1',
-                      disabled: !!handleDelete && typeWatch === '0',
-                    },
-                    {
-                      label: 'Transferencia',
-                      value: '0',
-                      disabled: !!handleDelete && typeWatch !== '0',
-                    },
-                  ]}
-                  handleRadioChange={(e: any) => {
-                    onChange(e);
-                  }}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
+          <div id='fiona-field_type'>
+            <Controller
+              name={'type'}
+              control={control}
+              render={({ field: { onChange, onBlur, value }, fieldState }) => (
+                <FormControl fieldState={fieldState} withLabel={true}>
+                  <RadioGroup
+                    name='type'
+                    label='Tipo de movimiento'
+                    options={[
+                      {
+                        label: 'Ingreso',
+                        value: '1',
+                        disabled: !!handleDelete && typeWatch === '0',
+                      },
+                      {
+                        label: 'Egreso',
+                        value: '-1',
+                        disabled: !!handleDelete && typeWatch === '0',
+                      },
+                      {
+                        label: 'Transferencia',
+                        value: '0',
+                        disabled: !!handleDelete && typeWatch !== '0',
+                      },
+                    ]}
+                    handleRadioChange={(e: any) => {
+                      onChange(e);
+                    }}
+                    value={value}
+                  />
+                </FormControl>
+              )}
+            />
+          </div>
           <Controller
             name={'amount'}
             control={control}
@@ -180,50 +186,54 @@ export default function Movements(props: any) {
                   </FormControl>
                 )}
               />
-              <Controller
-                name={'event'}
-                control={control}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState,
-                }) => (
-                  <FormControl fieldState={fieldState} withLabel={true}>
-                    <AutoComplete
-                      label='Evento'
-                      placeholder='Seleciona una opcion'
-                      handleOnChange={(e: any) => {
-                        onChange(e);
-                      }}
-                      options={listEvents}
-                      iserror={!!fieldState.error}
-                      value={value}
-                    />
-                  </FormControl>
-                )}
-              />
-              <Controller
-                name={'investment'}
-                control={control}
-                render={({
-                  field: { onChange, onBlur, value },
-                  fieldState,
-                }) => (
-                  <FormControl fieldState={fieldState} withLabel={true}>
-                    <AutoComplete
-                      label='Inversion'
-                      placeholder='Seleciona una opcion'
-                      handleOnChange={(e: any) => {
-                        onChange(e);
-                      }}
-                      options={listInvestments}
-                      iserror={!!fieldState.error}
-                      value={value}
-                    />
-                  </FormControl>
-                )}
-              />
+              <div id='event'>
+                <Controller
+                  name={'event'}
+                  control={control}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState,
+                  }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <AutoComplete
+                        label='Evento'
+                        placeholder='Seleciona una opcion'
+                        handleOnChange={(e: any) => {
+                          onChange(e);
+                        }}
+                        options={listEvents}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+              </div>
+              <div id='investment'>
+                <Controller
+                  name={'investment'}
+                  control={control}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState,
+                  }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <AutoComplete
+                        label='Inversion'
+                        placeholder='Seleciona una opcion'
+                        handleOnChange={(e: any) => {
+                          onChange(e);
+                        }}
+                        options={listInvestments}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+              </div>
               {!!investmentWatch && (
-                <div className="mb-4">
+                <div className='mb-4'>
                   <Controller
                     name={'add_withdrawal'}
                     control={control}

@@ -334,3 +334,67 @@ export function driverTool() {
     prevBtnText: "← Atras",
   }).drive();
 }
+
+export function driverMovement() {
+  driver({
+    showProgress: true,
+    steps: [
+      {
+        element: "#fiona-field_type",
+        popover: {
+          title: "Tipo de movimiento",
+          description:
+            "Selecciona que tipo de movimiento que piensas realizar, <b>Ingreso: </b> indica que te entro dinero, <b>Egreso: </b> indica que gastaste dinero y <b>Transferencia: </b> es para mover el dinero de una cuenta a otra.",
+          align: "start",
+        },
+      },
+      {
+        element: "#amount",
+        popover: {
+          title: "Monto",
+          description:
+            "indica cuanta plata fue que te gastaste o te ingreso",
+          align: "start",
+        },
+      },
+      {
+        element: "#date_purchase",
+        popover: {
+          title: "Fecha del movimiento",
+          description:
+            "Cuando fue que se hizo ese movimiento.",
+          align: "start",
+        },
+      },
+      {
+        element: "#event",
+        popover: {
+          title: "Evento",
+          description:
+            "Indica si el movimiento pertenece algun evento, este campo es opcional.",
+          align: "start",
+        },
+      },
+      {
+        element: "#investment",
+        popover: {
+          title: "Inversion",
+          description:
+            "Indica si el movimiento pertenece alguna inversion, Si selecionas una inversion indica si ese movimiento es porque fue un retiro/adicion/reinversion, este campo es opcional.",
+          align: "start",
+        },
+      },
+      {
+        element: "#description",
+        popover: {
+          title: "Descripciones",
+          description:
+            "Usa este campo es para poder acordarte el porque se hizo ese movimiento, este campo es opcional.",
+          align: "start",
+        },
+      },
+    ],
+    nextBtnText: "Siguiente →",
+    prevBtnText: "← Atras",
+  }).drive();
+}
