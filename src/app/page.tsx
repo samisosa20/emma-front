@@ -74,13 +74,12 @@ export default function Home() {
                 aplicación, gestionar tus finanzas personales se vuelve fácil y
                 accesible. Registra tus ingresos y gastos de manera sencilla,
                 crea presupuestos personalizados y recibe análisis detallados de
-                tu actividad financiera. Además, <b>Emma</b> ofrece
-                herramientas intuitivas para ayudarte a ahorrar, planificar
-                metas y realizar un seguimiento de tus inversiones. Con una
-                interfaz amigable y sin costos ocultos, es la opción perfecta
-                para tener el control total de tus finanzas sin complicaciones.
-                ¡Registrate ahora y da el primer paso hacia una gestión
-                financiera inteligente!
+                tu actividad financiera. Además, <b>Emma</b> ofrece herramientas
+                intuitivas para ayudarte a ahorrar, planificar metas y realizar
+                un seguimiento de tus inversiones. Con una interfaz amigable y
+                sin costos ocultos, es la opción perfecta para tener el control
+                total de tus finanzas sin complicaciones. ¡Registrate ahora y da
+                el primer paso hacia una gestión financiera inteligente!
               </Typography>
               <div className='text-center mt-4'>
                 <Link href='/register'>
@@ -89,7 +88,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="absolute top-8 -left-4 2xl:-left-48 transform -rotate-[25deg]">
+          <div className='absolute top-8 -left-4 2xl:-left-48 transform -rotate-[25deg]'>
             <Image
               src={iconLineChart}
               alt='Grafico Linea Emma'
@@ -98,7 +97,7 @@ export default function Home() {
               height={50}
             />
           </div>
-          <div className="absolute top-20 lg:top-8 -right-6 lg:-right-4 2xl:-right-48 transform -rotate-[25deg]">
+          <div className='absolute top-20 lg:top-8 -right-6 lg:-right-4 2xl:-right-48 transform -rotate-[25deg]'>
             <Image
               src={iconPieChart}
               alt='Grafico Pie Emma'
@@ -107,7 +106,7 @@ export default function Home() {
               height={50}
             />
           </div>
-          <div className="absolute -bottom-[400px] lg:-bottom-[200px] -right-4 2xl:-right-32 transform -rotate-[25deg]">
+          <div className='absolute -bottom-[400px] lg:-bottom-[200px] -right-4 2xl:-right-32 transform -rotate-[25deg]'>
             <Image
               src={iconPigBank}
               alt='Pig Bank Emma'
@@ -116,7 +115,7 @@ export default function Home() {
               height={50}
             />
           </div>
-          <div className="absolute -bottom-[400px] lg:-bottom-[200px] -left-4 2xl:-left-32 transform -rotate-[25deg]">
+          <div className='absolute -bottom-[400px] lg:-bottom-[200px] -left-4 2xl:-left-32 transform -rotate-[25deg]'>
             <Image
               src={iconManagment}
               alt='Manejo Emma'
@@ -166,7 +165,7 @@ export default function Home() {
             </Typography>
             <Typography variant='h3' className='mb-8 text-white text-justify'>
               Tener una colección de cosas valiosas que posees, como tu casa,
-              tus ahorros y otras posesiones. Es como tu "tesoro total".
+              tus ahorros y otras posesiones. Es como tu &quot;tesoro total&quot;.
               Mantener y hacer crecer tu patrimonio significa cuidar bien de
               esas cosas y, si es posible, agregar más al tesoro con el tiempo.
               Piensa en ello como construir tu propia fortaleza financiera para
