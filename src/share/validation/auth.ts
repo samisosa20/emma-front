@@ -8,6 +8,16 @@ const loginSchema = z.object({
 
 const registerSchema = z.object({
     name: z.string().min(2, "Se requiere minimo 2 caracteres"),
+    badge_id: z.object({
+        value: z.union([z.string(), z.number()]),
+        label: z.string(),
+      }),
+    email: z.string().email('Formato incorrecto'),
+    password: z.string().min(6, "Se requiere minimo 6 caracteres"),
+})
+
+const registerParamsSchema = z.object({
+    name: z.string().min(2, "Se requiere minimo 2 caracteres"),
     badge_id: z.union([z.string(), z.number()]),
     email: z.string().email('Formato incorrecto'),
     password: z.string().min(6, "Se requiere minimo 6 caracteres"),
@@ -25,7 +35,7 @@ const paramsForgotSchema = z.object({
 
 export type LoginSchema = z.infer<typeof loginSchema>; 
 export type ParamsProfileSchema = z.infer<typeof paramsProfileSchema>;
-export type RegisterSchema = z.infer<typeof registerSchema>;
+export type RegisterSchema = z.infer<typeof registerParamsSchema>;
 export type ParamsForgotSchema = z.infer<typeof paramsForgotSchema>;
 
 export { loginSchema, paramsProfileSchema, registerSchema, paramsForgotSchema }

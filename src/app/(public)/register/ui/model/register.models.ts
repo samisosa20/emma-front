@@ -22,7 +22,6 @@ const useRegister = () => {
       email: '',
       password: '',
       name: '',
-      badge_id: '',
     },
   });
 
@@ -54,8 +53,8 @@ const useRegister = () => {
     },
   })
 
-  const onSubmit: SubmitHandler<RegisterSchema> = (data) => {
-    mutation.mutate(data)
+  const onSubmit = (data: any) => {
+    mutation.mutate({...data, badge_id: data.badge_id.value})
   };
 
   useEffect(()=> {
