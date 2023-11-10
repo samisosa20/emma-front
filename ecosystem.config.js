@@ -5,7 +5,7 @@ module.exports = {
         exec_mode: 'cluster',
         instances: '1', // Or a number of instances
         script: 'node_modules/next/dist/bin/next',
-        args: 'start -p 3030',
+        args: 'start -p ' + process.env.NEXT_PUBLIC_PORT,
         env_local: {
           APP_ENV: 'local' // APP_ENV=local
         },
