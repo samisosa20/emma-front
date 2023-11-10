@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
     apps: [
       {
@@ -7,13 +9,16 @@ module.exports = {
         script: 'node_modules/next/dist/bin/next',
         args: 'start -p ' + process.env.NEXT_PUBLIC_PORT,
         env_local: {
-          APP_ENV: 'local' // APP_ENV=local
+          APP_ENV: 'local',
+          NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT
         },
         env_development: {
-          APP_ENV: 'dev' // APP_ENV=dev
+          APP_ENV: 'dev',
+          NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT
         },
         env_production: {
-          APP_ENV: 'prod' // APP_ENV=prod
+          APP_ENV: 'prod',
+          NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT
         }
       }
     ]
