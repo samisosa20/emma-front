@@ -30,7 +30,7 @@ export default function Home() {
           height={40}
         />
         <Link href='/login'>
-          <Button variant='outlined'>Iniciar sesion</Button>
+          <Button variant='outlined'>Iniciar sesión</Button>
         </Link>
       </div>
       <article className='px-8 max-w-[1280px] mx-auto'>
@@ -45,7 +45,7 @@ export default function Home() {
               className='mx-auto mb-4 hidden lg:block'
             />
             <Typography variant='h2' className='text-white mb-8'>
-              Manejo de finanzas perosnales
+              Manejo de finanzas personales
             </Typography>
             <Typography variant='p' className='text-white'>
               No se trata solo de cuánto ganas, sino de cómo manejas lo que
@@ -78,7 +78,7 @@ export default function Home() {
                 intuitivas para ayudarte a ahorrar, planificar metas y realizar
                 un seguimiento de tus inversiones. Con una interfaz amigable y
                 sin costos ocultos, es la opción perfecta para tener el control
-                total de tus finanzas sin complicaciones. ¡Registrate ahora y da
+                total de tus finanzas sin complicaciones. ¡Regístrate ahora y da
                 el primer paso hacia una gestión financiera inteligente!
               </Typography>
               <div className='text-center mt-4'>
@@ -91,7 +91,7 @@ export default function Home() {
           <div className='absolute top-8 -left-4 2xl:-left-48 transform -rotate-[25deg]'>
             <Image
               src={iconLineChart}
-              alt='Grafico Linea Emma'
+              alt='Gráfico Linea Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -100,7 +100,7 @@ export default function Home() {
           <div className='absolute top-20 lg:top-8 -right-6 lg:-right-4 2xl:-right-48 transform -rotate-[25deg]'>
             <Image
               src={iconPieChart}
-              alt='Grafico Pie Emma'
+              alt='Gráfico Pie Emma'
               loading='lazy'
               width={50}
               height={50}
@@ -176,7 +176,7 @@ export default function Home() {
         <section className='flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center py-4'>
           <div className='max-w-[600px]'>
             <Typography variant='h2' className='mb-2 text-blue-400'>
-              Inversion
+              Inversión
             </Typography>
             <Typography variant='h3' className='mb-8 text-white text-justify'>
               Manejar una inversión es como dirigir un barco: necesitas un rumbo
@@ -189,7 +189,7 @@ export default function Home() {
           <div className='flex-shink-0'>
             <Image
               src={imgInvestment}
-              alt='Inversion Emma'
+              alt='Inversión Emma'
               loading='lazy'
               width={200}
               height={390}

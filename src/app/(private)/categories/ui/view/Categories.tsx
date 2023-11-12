@@ -25,8 +25,8 @@ export default function Heritages(props: any) {
       <div>
         <div className="flex items-center justify-between w-full">
           <div>
-            <TitleHelp title="Categorias" onClick={driverCategory} />
-            <Typography>Listado de categorias</Typography>
+            <TitleHelp title="Categorías" onClick={driverCategory} />
+            <Typography>Listado de categorías</Typography>
           </div>
           <div>
             <Link
@@ -34,7 +34,7 @@ export default function Heritages(props: any) {
               className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
             >
               <MdAddCircleOutline />
-              <Typography>Crear categoria</Typography>
+              <Typography>Crear categoría</Typography>
             </Link>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function Heritages(props: any) {
       <div id="emma-search" className="mt-6 flex space-x-4 items-center justify-end">
         <div className="lg:w-[250px]">
           <Input
-            placeholder="Nombre de la categoria"
+            placeholder="Nombre de la categoría"
             value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)
@@ -90,7 +90,7 @@ export default function Heritages(props: any) {
       </div>
       {data && data.length === 0 && (
         <div className="bg-white rounded shadow-sm">
-          <Typography className="text-center py-6">Sin Categorias</Typography>
+          <Typography className="text-center py-6">Sin Categorías</Typography>
         </div>
       )}
     </div>

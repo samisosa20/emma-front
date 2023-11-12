@@ -78,7 +78,7 @@ const EventsCreate = (props: any) => {
       </div>
       {!!listCategories && (
         <Typography variant='h2' className='my-4'>
-          Categorias
+          Categorías
         </Typography>
       )}
       <div className='mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto'>

@@ -88,8 +88,8 @@ export default function InvestmentsCreate(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type='text'
-                  placeholder='Nombre de la inversion'
-                  label='Nombre de la inversion'
+                  placeholder='Nombre de la inversión'
+                  label='Nombre de la inversión'
                   id='name'
                   onChange={(e) => {
                     onChange(e);
@@ -241,7 +241,7 @@ export default function InvestmentsCreate(props: any) {
       <Modal
         isOpen={isOpen}
         onClose={handleClose}
-        title='Actualizacion del valor de la inversion'
+        title='Actualizacion del valor de la inversión'
       >
         <form
           id='form-appretiation'

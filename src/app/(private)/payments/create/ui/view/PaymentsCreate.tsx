@@ -62,7 +62,7 @@ export default function PaymentsCreate(props: any) {
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
-                  label='Categoria'
+                  label='Categoría'
                   placeholder='Seleciona una opcion'
                   handleOnChange={(e: any) => {
                     onChange(e);
@@ -158,8 +158,8 @@ export default function PaymentsCreate(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type='number'
-                  placeholder='Dia de la transaccion'
-                  label='Dia de la transaccion'
+                  placeholder='Dia de la transacción'
+                  label='Dia de la transacción'
                   id='specific_day'
                   step='1'
                   min='1'

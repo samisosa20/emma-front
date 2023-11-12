@@ -81,7 +81,7 @@ export default function Tools(props: any) {
         </form>
       </div>
       <div id="emma-test_project" className="mt-6 bg-white rounded shadow-sm py-6 px-4">
-        <Typography variant="h2">Evaluacion de inversion</Typography>
+        <Typography variant="h2">Evaluacion de inversión</Typography>
         <form onSubmit={handleSubmitTest(onSubmitTest)}>
           <div className="lg:flex items-center gap-x-8">
             <Controller
@@ -133,8 +133,8 @@ export default function Tools(props: any) {
                     type="number"
                     step={0.01}
                     min={1}
-                    placeholder="Valor de la inversion inicial"
-                    label="Valor de la inversion inicial"
+                    placeholder="Valor de la inversión inicial"
+                    label="Valor de la inversión inicial"
                     onChange={(e) => {
                       onChange(e);
                     }}
@@ -155,8 +155,8 @@ export default function Tools(props: any) {
                     type="number"
                     step={1}
                     min={1}
-                    placeholder="Valor final de la inversion"
-                    label="Valor final de la inversion"
+                    placeholder="Valor final de la inversión"
+                    label="Valor final de la inversión"
                     onChange={(e) => {
                       onChange(e);
                     }}

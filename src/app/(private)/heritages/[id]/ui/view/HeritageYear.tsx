@@ -70,7 +70,7 @@ const HeritageYear = (props: any) => {
         </div>
         <div className='bg-white rounded shadow-sm p-4'>
           <div className='flex items-center justify-between'>
-            <Typography variant='h2'>Inversion total</Typography>
+            <Typography variant='h2'>Inversión total</Typography>
           </div>
           {data &&
             data.investments.map((investment: {code: string, total_end_amount: number}) => (

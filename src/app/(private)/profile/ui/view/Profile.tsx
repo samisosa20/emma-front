@@ -13,7 +13,7 @@ export default function Profile(props: any) {
       <div className='flex items-center justify-between w-full'>
         <div>
           <Typography variant='h1'>Perfil</Typography>
-          <Typography>Edita tu informacion</Typography>
+          <Typography>Edita tu información</Typography>
         </div>
         <div>
           <Button className='flex items-center space-x-2 bg-white p-2 rounded shadow-sm' onClick={handleLogout}>

@@ -53,8 +53,8 @@ export default function CategoryCreate(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type="text"
-                  placeholder="Nombre de la categoria"
-                  label="Nombre de la categoria"
+                  placeholder="Nombre de la categoría"
+                  label="Nombre de la categoría"
                   id="name"
                   onChange={(e) => {
                     onChange(e);
@@ -90,7 +90,7 @@ export default function CategoryCreate(props: any) {
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  label="Grupo de categoria"
+                  label="Grupo de categoría"
                   placeholder="Seleciona una opcion"
                   id="group_id"
                   onChange={(e) => {
@@ -109,7 +109,7 @@ export default function CategoryCreate(props: any) {
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  label="Categoria padre (opcional)"
+                  label="Categoría padre (opcional)"
                   placeholder="Seleciona una opcion"
                   id="category_id"
                   onChange={(e) => {

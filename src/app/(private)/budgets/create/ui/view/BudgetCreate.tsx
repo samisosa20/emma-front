@@ -58,7 +58,7 @@ export default function BudgetCreate(props: any) {
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
-                  label='Categoria'
+                  label='Categoría'
                   placeholder='Seleciona una opcion'
                   handleOnChange={(e: any) => {
                     onChange(e);

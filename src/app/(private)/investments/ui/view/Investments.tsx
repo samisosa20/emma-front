@@ -25,7 +25,7 @@ export default function Investments(props: any) {
               className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
             >
               <MdAddCircleOutline />
-              <Typography>Crear inversion</Typography>
+              <Typography>Crear inversión</Typography>
             </Link>
           </div>
         </div>

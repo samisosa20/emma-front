@@ -119,7 +119,7 @@ export const links = [
     icon: MdAccountBalance,
   },
   {
-    name: 'Categorias',
+    name: 'Categorías',
     link: '/categories',
     show: true,
     icon: MdOutlineCategory,

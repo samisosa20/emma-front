@@ -35,7 +35,7 @@ export default function Dashboard(props: any) {
   return (
     <div>
       <TitleHelp title="Dashboard" onClick={driverDash} />
-      <Typography>Aca podras ver tu informacion consolidada</Typography>
+      <Typography>Aca podrás ver tu información consolidada</Typography>
       <Filters>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller

@@ -29,9 +29,9 @@ export default function HeritageYear(props: any) {
             <div onClick={() => router.back()}>
               <MdArrowBack />
             </div>
-            <Typography variant="h1">{`Categoria ${data.name}`}</Typography>
+            <Typography variant="h1">{`Categoría ${data.name}`}</Typography>
           </div>
-          <Typography>Detalle de la categoria</Typography>
+          <Typography>Detalle de la categoría</Typography>
         </div>
         <div className="flex items-center space-x-2">
           <Link
@@ -39,21 +39,21 @@ export default function HeritageYear(props: any) {
             className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
           >
             <MdOutlineCreate />
-            <Typography>Editar categoria</Typography>
+            <Typography>Editar categoría</Typography>
           </Link>
           <Link
             href={"/categories/create"}
             className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
           >
             <MdAddCircleOutline />
-            <Typography>Crear categoria</Typography>
+            <Typography>Crear categoría</Typography>
           </Link>
         </div>
       </div>
       <div className='mt-6 flex space-x-4 items-center justify-end'>
         <div className='lg:w-[250px]'>
           <Input
-            placeholder='Nombre de la categoria'
+            placeholder='Nombre de la categoría'
             value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)

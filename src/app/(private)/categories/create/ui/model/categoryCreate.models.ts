@@ -17,7 +17,7 @@ export default function useCategoryCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de Categoria');
+  const [title, setTitle] = useState('Creacion de Categoría');
   const [groupsOptions, setGroupsOptions] = useState([]);
 
   const { handleSubmit, control, reset } = useForm({
@@ -165,7 +165,7 @@ export default function useCategoryCreateViewModel() {
       setGroupsOptions(userjson.groups_category);
     }
     if (param.id) {
-      setTitle('Edicion de Categoria');
+      setTitle('Edicion de Categoría');
     }
   }, []);
 

@@ -44,7 +44,7 @@ export default function BudgetList(props: any) {
       <div className='mt-6 flex space-x-4 items-center justify-end'>
         <div className='lg:w-[250px]'>
           <Input
-            placeholder='Nombre de la categoria'
+            placeholder='Nombre de la categoría'
             value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)

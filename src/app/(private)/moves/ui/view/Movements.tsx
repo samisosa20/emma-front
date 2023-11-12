@@ -174,7 +174,7 @@ export default function Movements(props: any) {
                 }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <AutoComplete
-                      label='Categoria'
+                      label='Categoría'
                       placeholder='Seleciona una opcion'
                       handleOnChange={(e: any) => {
                         onChange(e);
@@ -219,7 +219,7 @@ export default function Movements(props: any) {
                   }) => (
                     <FormControl fieldState={fieldState} withLabel={true}>
                       <AutoComplete
-                        label='Inversion'
+                        label='Inversión'
                         placeholder='Seleciona una opcion'
                         handleOnChange={(e: any) => {
                           onChange(e);
@@ -243,7 +243,7 @@ export default function Movements(props: any) {
                     }) => (
                       <FormControl fieldState={fieldState} withOutHeight>
                         <Switch
-                          label='Es un retiro o una adicion o reinversion?'
+                          label='Es un retiro o una adicion o reinversión?'
                           name={'add_withdrawal'}
                           handleCheckboxChange={(e) => {
                             onChange(e);

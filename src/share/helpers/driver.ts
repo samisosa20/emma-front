@@ -10,14 +10,14 @@ export function driverWelcome() {
         popover: {
           title: "Bienvenid@ a FIONA",
           description:
-            "Te dare un recorrido por toda la app, puedes salir del tour cuando tu quieras, Da clic aqui para volver al dashboard.",
+            "Te dare un recorrido por toda la app, puedes salir del tour cuando tu quieras, Da clic aquí para volver al dashboard.",
           align: "start",
         },
       },
       {
         element: window.innerWidth < 1000 ? "#emma-menu-mobile" : "aside ul",
         popover: {
-          title: "Navegacion",
+          title: "Navegación",
           description: "Usa las opciones de aca para navegar a otras opciones.",
           align: "start",
           onNextClick:  () => {
@@ -36,7 +36,7 @@ export function driverWelcome() {
         popover: {
           title: "Perfil",
           description:
-            "Ingresa aca para cambiar tu informacion de perfil y cerrar sesion",
+            "Ingresa aca para cambiar tu información de perfil y cerrar sesión",
           align: "start",
         },
       },
@@ -45,7 +45,7 @@ export function driverWelcome() {
         popover: {
           title: "Movimientos",
           description:
-            "Para reportar un ingreso, un gasto o mover plata de una cuenta a otra dale clic aqui.",
+            "Para reportar un ingreso, un gasto o mover plata de una cuenta a otra dale clic aquí.",
           align: "start",
         },
       },
@@ -54,13 +54,13 @@ export function driverWelcome() {
         popover: {
           title: "Ayuda",
           description:
-            "Para saber mas sobre cada section de la aplicacion dale clic a este icono.",
+            "Para saber mas sobre cada sección de la aplicación dale clic a este icono.",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   });
   driverObj.drive();
   localStorage.setItem("emma-doesntShow_help", '1')
@@ -74,7 +74,7 @@ export function driverDash() {
         popover: {
           title: "Dashboard",
           description:
-            "En esta seccion podras ver tu resumen del mes en curso y con tu moneda por defecto.",
+            "En esta sección podrás ver tu resumen del mes en curso y con tu moneda por defecto.",
           align: "start",
         },
       },
@@ -83,7 +83,7 @@ export function driverDash() {
         popover: {
           title: "Filtros",
           description:
-            "Has clic aqui para agregar filtros, como: cambiar la moneda, rango de fecha. Esto es util para ver como vas en el año o como te fue en un mes en especifico",
+            "Has clic aquí para agregar filtros, como: cambiar la moneda, rango de fecha. Esto es util para ver como vas en el año o como te fue en un mes en especifico",
           align: "start",
         },
       },
@@ -99,27 +99,27 @@ export function driverDash() {
       {
         element: "#emma-chart_incomes",
         popover: {
-          title: "Grafico Ingresos",
+          title: "Gráfico Ingresos",
           description:
-            "En esta parte veras un grafico de torta para enteder que fuente de ingreso aporta mas, dale clic al color para tener mas detalle",
+            "En esta parte veras un gráfico de torta para entender que fuente de ingreso aporta mas, dale clic al color para tener mas detalle",
           align: "start",
         },
       },
       {
         element: "#emma-chart_expensives",
         popover: {
-          title: "Grafico Egresos",
+          title: "Gráfico Egresos",
           description:
-            "En esta parte veras un grafico de torta para enteder que gasto impacta mas, dale clic al color para tener mas detalle",
+            "En esta parte veras un gráfico de torta para entender que gasto impacta mas, dale clic al color para tener mas detalle",
           align: "start",
         },
       },
       {
         element: "#emma-chart_balances",
         popover: {
-          title: "Grafico Balance",
+          title: "Gráfico Balance",
           description:
-            "En esta parte veras un grafico de linea que mostrara tu balance dia dia, y entender si en que momentos aumenta y en que momentos disminuye",
+            "En esta parte veras un gráfico de linea que mostrara tu balance dia dia, y entender si en que momentos aumenta y en que momentos disminuye",
           align: "start",
         },
       },
@@ -128,13 +128,13 @@ export function driverDash() {
         popover: {
           title: "Listado",
           description:
-            "Por ultimo, aca podras ver en forma de listado el total por categoria, para saber mas dale clic a cada categoria para ver los movimientos",
+            "Por ultimo, aca podrás ver en forma de listado el total por categoría, para saber mas dale clic a cada categoría para ver los movimientos",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -147,7 +147,7 @@ export function driverAccount() {
         popover: {
           title: "Cuentas",
           description:
-            "En esta seccion podras ver todas tus cuentas, se considera una cuenta todo lugar donde manejes dinero, ej: Efectivo, cuenta de ahorros, CDT, TC, etc.",
+            "En esta sección podrás ver todas tus cuentas, se considera una cuenta todo lugar donde manejes dinero, ej: Efectivo, cuenta de ahorros, CDT, TC, etc.",
           align: "start",
         },
       },
@@ -165,13 +165,13 @@ export function driverAccount() {
         popover: {
           title: "Buscador",
           description:
-            "Aca puedes buscar una cuenta por su nombre, tambien ver las cuentas que estan activas e inactivas",
+            "Aca puedes buscar una cuenta por su nombre, también ver las cuentas que están activas e inactivas",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -184,13 +184,13 @@ export function driverEvent() {
         popover: {
           title: "Eventos",
           description:
-            "En esta seccion podras ver todas tus eventos, donde un evento se utiliza para saber cuanto te ingreso o cuanto te valio equis evento ej: paseo - 2023, aniversario - 2022",
+            "En esta sección podrás ver todas tus eventos, donde un evento se utiliza para saber cuanto te ingreso o cuanto te valió equis evento ej: paseo - 2023, aniversario - 2022",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -203,13 +203,13 @@ export function driverInvestment() {
         popover: {
           title: "Inversiones",
           description:
-            "En esta seccion podras ver todas tus inversiones, lleva seguimiento de todas ts inversiones, cuanto rendimientos ha generado y su valorizacion",
+            "En esta sección podrás ver todas tus inversiones, lleva seguimiento de todas ts inversiones, cuanto rendimientos ha generado y su valorización",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -222,13 +222,13 @@ export function driverHeritage() {
         popover: {
           title: "Patrimonio",
           description:
-            "En esta seccion podras ver todas tus patimonio por año y por moneda, El patrimonio es la suma de todas tus Inverisones, Efectivo, Muebles e Inmuebles, Creditos. Dale clic a cada tarjeta para ver mas informacion",
+            "En esta sección podrás ver todas tus patrimonio por año y por moneda, El patrimonio es la suma de todas tus Inversiones, Efectivo, Muebles e Inmuebles, Créditos. Dale clic a cada tarjeta para ver mas información",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -241,13 +241,13 @@ export function driverBudget() {
         popover: {
           title: "Presupuestos",
           description:
-            "En esta seccion podras ver todos los presupuestos creados por moneda y año, dale clic a cada presupuesto para ver el cumplimiento de cada categoria",
+            "En esta sección podrás ver todos los presupuestos creados por moneda y año, dale clic a cada presupuesto para ver el cumplimiento de cada categoría",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -256,11 +256,11 @@ export function driverCategory() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Categorias",
+        element: "#emma-title_Categorías",
         popover: {
-          title: "Categorias",
+          title: "Categorías",
           description:
-            "En esta seccion podras administrar tus categorias donde una categoria es para segmentar tus ingresos o gastos.",
+            "En esta sección podrás administrar tus categorías donde una categoría es para segmentar tus ingresos o gastos.",
           align: "start",
         },
       },
@@ -269,13 +269,13 @@ export function driverCategory() {
         popover: {
           title: "Buscador",
           description:
-            "Aca puedes buscar una categoria por su nombre, tambien ver las categorias que estan activas e inactivas",
+            "Aca puedes buscar una categoría por su nombre, también ver las categorías que están activas e inactivas",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -288,13 +288,13 @@ export function driverPayment() {
         popover: {
           title: "Pagos",
           description:
-            "En esta seccion podras ver todos tus pagos automaticos, si tienes ingresos periodicos o facturas que se pagan mensualmente, aca podras definir cuanto y cuando quieres que se haga ese movimiento.",
+            "En esta sección podrás ver todos tus pagos automáticos, si tienes ingresos periódicos o facturas que se pagan mensualmente, aca podrás definir cuanto y cuando quieres que se haga ese movimiento.",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -307,7 +307,7 @@ export function driverTool() {
         popover: {
           title: "Herramientas",
           description:
-            "En esta seccion es para ayudarte a tomar decisiones concientes y razonables.",
+            "En esta sección es para ayudarte a tomar decisiones consientes y razonables.",
           align: "start",
         },
       },
@@ -316,22 +316,22 @@ export function driverTool() {
         popover: {
           title: "Puedo gastarme?",
           description:
-            "Preguntame si puedes gastarte equis cantidad de dinero, esto te ayudara a saber que pasaria si te gastas ese dinero.",
+            "Pregúntame si puedes gastarte equis cantidad de dinero, esto te ayudara a saber que pasaría si te gastas ese dinero.",
           align: "start",
         },
       },
       {
         element: "#emma-test_project",
         popover: {
-          title: "Evaluacion de inversion",
+          title: "Evaluación de inversión",
           description:
-            "Evalua si una inversion que piensas hacer se justifica o no.",
+            "Evalúa si una inversión que piensas hacer se justifica o no.",
           align: "start",
         },
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }
 
@@ -371,16 +371,16 @@ export function driverMovement() {
         popover: {
           title: "Evento",
           description:
-            "Indica si el movimiento pertenece algun evento, este campo es opcional.",
+            "Indica si el movimiento pertenece algún evento, este campo es opcional.",
           align: "start",
         },
       },
       {
         element: "#investment",
         popover: {
-          title: "Inversion",
+          title: "Inversión",
           description:
-            "Indica si el movimiento pertenece alguna inversion, Si selecionas una inversion indica si ese movimiento es porque fue un retiro/adicion/reinversion, este campo es opcional.",
+            "Indica si el movimiento pertenece alguna inversión, Si seleccionas una inversión indica si ese movimiento es porque fue un retiro/adición/reinversión, este campo es opcional.",
           align: "start",
         },
       },
@@ -395,6 +395,6 @@ export function driverMovement() {
       },
     ],
     nextBtnText: "Siguiente →",
-    prevBtnText: "← Atras",
+    prevBtnText: "← Atrás",
   }).drive();
 }

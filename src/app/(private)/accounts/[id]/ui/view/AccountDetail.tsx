@@ -84,8 +84,8 @@ const AccountDetail = (props: any) => {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type='text'
-                  placeholder='Categoria'
-                  label='Categoria'
+                  placeholder='Categoría'
+                  label='Categoría'
                   onChange={(e) => {
                     onChange(e);
                   }}
