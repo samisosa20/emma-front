@@ -146,7 +146,7 @@ export const links = [
   {
     name: 'Unirse a whatsapp',
     link: false,
-    show: true,
+    show: false,
     icon: MdGroupWork,
     onClick: handleGoToWpp
   },
