@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { isLogin } from '@/share/helpers';
+import { isLogin, installPWA } from '@/share/helpers';
 
 const queryClient = new QueryClient();
 
@@ -15,17 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   useEffect(() => {
     if (!isLogin() && pathname !== '/' && pathname !== '/login' && pathname !== '/register' && pathname !== '/forgot') router.push('/login');
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            //console.log('Service Worker registrado con éxito:', registration);
-          })
-          .catch((error) => {
-            console.error('Error al registrar el Service Worker:', error);
-          });
-      });
-    }
+    installPWA()
     if ('Notification' in window) {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
