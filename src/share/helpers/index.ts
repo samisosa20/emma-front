@@ -10,6 +10,7 @@ import {
   MdAutoFixHigh,
   MdGroupWork
 } from 'react-icons/md';
+import {handleAddToHomeScreen} from './pwa'
 
 export * from "./driver"
 export * from "./pwa"
@@ -76,12 +77,6 @@ function handleSendNotification() {
   }
 };
 
-export function handleAddToHomeScreen() {
-  if ('beforeinstallprompt' in window) {
-    const beforeInstallPromptEvent = new Event('beforeinstallprompt');
-    window.dispatchEvent(beforeInstallPromptEvent);
-  }
-};
 
 export function handleGoToWpp() {
   window.open(`https://chat.whatsapp.com/${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`, 'blank')
@@ -140,7 +135,7 @@ export const links = [
   {
     name: 'Descargar App',
     link: false,
-    show: false,
+    show: true,
     icon: MdDownload,
     onClick: handleAddToHomeScreen
   },

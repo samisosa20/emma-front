@@ -1,3 +1,4 @@
+let deferredPrompt: any;
 export function installPWA() {
   // Verificar si el navegador admite service workers
   if ("serviceWorker" in navigator) {
@@ -11,38 +12,36 @@ export function installPWA() {
         console.error("Error al registrar el Service Worker:", error);
       });
   }
-  // Inicializa deferredPrompt para su uso más tarde.
-  let deferredPrompt: any;
-
   window.addEventListener("beforeinstallprompt", function (event) {
     // Almacenar la referencia al evento de instalación diferida
     deferredPrompt = event;
-    console.log("entro al event listener");
-    // Verificar si la PWA ya está instalada
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      console.log("La aplicación ya está instalada en la pantalla de inicio.");
-    } else {
-      if (deferredPrompt) {
-        // Mostrar un mensaje o un botón para instalar la PWA
-        var installButton = document.createElement("button");
-        installButton.textContent = "Instalar la aplicación";
-        installButton.addEventListener("click", function () {
-          // Solicitar la instalación de la PWA
-          deferredPrompt.prompt();
-          // Esperar a que el usuario responda a la solicitud
-          deferredPrompt.userChoice.then(function (choiceResult: any) {
-            if (choiceResult.outcome === "accepted") {
-              console.log("El usuario ha aceptado instalar la aplicación");
-            } else {
-              console.log("El usuario ha rechazado instalar la aplicación");
-            }
-            // Limpiar la referencia al evento de instalación diferida
-            deferredPrompt = null;
-          });
-        });
-        // Mostrar el botón de instalación en la interfaz de usuario
-        document.body.appendChild(installButton);
-      }
-    }
   });
+}
+
+export function handleAddToHomeScreen() {
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    console.log("La aplicación ya está instalada en la pantalla de inicio.");
+  } else {
+    if (deferredPrompt) {
+      // Mostrar un mensaje o un botón para instalar la PWA
+      var installButton = document.createElement("button");
+      installButton.textContent = "Instalar la aplicación";
+      installButton.addEventListener("click", function () {
+        // Solicitar la instalación de la PWA
+        deferredPrompt.prompt();
+        // Esperar a que el usuario responda a la solicitud
+        deferredPrompt.userChoice.then(function (choiceResult: any) {
+          if (choiceResult.outcome === "accepted") {
+            console.log("El usuario ha aceptado instalar la aplicación");
+          } else {
+            console.log("El usuario ha rechazado instalar la aplicación");
+          }
+          // Limpiar la referencia al evento de instalación diferida
+          deferredPrompt = null;
+        });
+      });
+      // Mostrar el botón de instalación en la interfaz de usuario
+      document.body.appendChild(installButton);
+    }
+  }
 }
