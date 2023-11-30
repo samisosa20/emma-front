@@ -46,7 +46,7 @@ const ListUtil = (props: ListItems) => {
       <div className='h-[243px] overflow-y-auto'>
         {data?.map((card, index) => (
           <div className={`mb-2 pt-2 ${index > 0 ? 'border-t' : ''}`} key={"ListUtil" + index}>
-            <Typography variant='h5'>{card.title}</Typography>
+            <Typography variant='h5'>{card.title} {card.father ? ` (${card.father})` : ''}</Typography>
             <div className='flex justify-between items- center'>
               <Typography variant='p' className={`text-right`}>
                 {formatoMoneda.format(card.value)}{` (${Math.abs(card.percentage ?? 0)}%)`}
@@ -87,7 +87,7 @@ const ListModal = (props: ListItems) => {
       <div className='h-[243px] overflow-y-auto'>
         {data?.map((card, index) => (
           <div className={`mb-2 pt-2 ${index > 0 ? 'border-t' : ''} cursor-pointer`} key={"ListModal" + index} onClick={()=>handleSelectItem(card.id)}>
-            <Typography variant='h5'>{card.title}</Typography>
+            <Typography variant='h5'>{card.title} {card.father ? ` (${card.father})` : ''}</Typography>
             <Typography
               variant='h3'
               className={`text-right ${

@@ -63,8 +63,11 @@ export default function BudgetList(props: any) {
             <Link href={`/budgets/${budget.id}`} key={budget.id}>
               <div className='bg-white rounded shadow-sm p-4'>
                 <div className='flex items-center justify-between'>
-                  <Typography variant='h2'>{budget.category.name}</Typography>
-                  <Typography variant='h4'>
+                  <div className="min-h-[56px]">
+                    <Typography variant='h2'>{budget.category.name}</Typography>
+                    {budget.category.category_father && <Typography variant='h6'>{`(${budget.category.category_father.name})`}</Typography>}
+                  </div>
+                  <Typography variant='h5'>
                     {formatCurrency.format(budget.amount)}
                   </Typography>
                 </div>

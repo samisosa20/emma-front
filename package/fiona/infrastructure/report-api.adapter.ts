@@ -56,7 +56,7 @@ class ReportApiAdapter implements ReportAdapter {
         return { title: group.name, value: group.amount, id: group.id };
       }),
       list_expensives: result.list_expensives.map((expensive: any) => {
-        return { title: expensive.category, value: expensive.amount, id: expensive.id };
+        return { title: expensive.category, value: expensive.amount, id: expensive.id, father: expensive.category_father };
       }),
       list_incomes: result.list_incomes.map((income: any) => {
         return { title: income.category, value: income.amount, id: income.id };
@@ -83,6 +83,7 @@ class ReportApiAdapter implements ReportAdapter {
         return {
           limit: budget.amount,
           title: budget.category.name,
+          father: budget.category_father,
           value: budget.movement,
           color: color,
           percentage: (

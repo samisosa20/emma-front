@@ -6,6 +6,7 @@ export interface ListItems {
     limit?: number;
     percentage?: number;
     color?: string;
+    father?: string;
   }[];
   title: string;
   variant?: 'default' | 'modal' | 'utilization' | 'movements';
