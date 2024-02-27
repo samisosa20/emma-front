@@ -261,7 +261,7 @@ export default function useMovementsViewModel() {
           .filter((v) => !v.deleted_at)
           .map((account) => {
             return {
-              label: account.name,
+              label: account.name + ' - ' + account.currency.code,
               value: account.id,
               badge_id: account.badge_id,
             };
