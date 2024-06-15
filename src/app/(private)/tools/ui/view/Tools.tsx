@@ -113,8 +113,8 @@ export default function Tools(props: any) {
                     type="number"
                     step={1}
                     min={1}
-                    placeholder="Nro de periodos"
-                    label="Nro de periodos"
+                    placeholder="Nro de periodos (años)"
+                    label="Nro de periodos (años)"
                     onChange={(e) => {
                       onChange(e);
                     }}
