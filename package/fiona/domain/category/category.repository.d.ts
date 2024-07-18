@@ -1,4 +1,4 @@
-import type { Category, CategoryDetail, CategoryCreate, CategoryList } from "./category"; 
+import type { Category, CategoryDetail, CategoryCreate, CategoryList, CategoryDetailParams } from "./category"; 
 
 
 interface CategoryRepository {
@@ -17,7 +17,7 @@ interface CategoryRepository {
      * @param {id} number - The unique identifier of the todo.
      * @returns {Promise<Category>} A Promise containing the list of todos.
      */
-    getCategoryDetail(id: number): Promise<CategoryCreate>,
+    getCategoryDetail(id: number, params: CategoryDetailParams): Promise<CategoryCreate>,
     /**
      * Retrieves a list of todos from the data source.
      * @param {id} number - The unique identifier of the todo.

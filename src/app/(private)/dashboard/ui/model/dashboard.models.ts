@@ -20,7 +20,7 @@ export default function useDashboardViewModel() {
     group_id: null,
   });
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, setValue } = useForm();
 
   const { isLoading, data, isError } = useQuery({
     queryKey: ['reportDash', filters],
@@ -108,6 +108,7 @@ export default function useDashboardViewModel() {
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
+      setValue("badge_id", userjson.currencies.find((v: any) => v.value == userjson.currency));
       if(!localStorage.getItem('emma-doesntShow_help')) {
         driverWelcome()
       }

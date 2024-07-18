@@ -1,6 +1,6 @@
 import type { CategoryAdapter } from '../domain/category/category.adapter';
 import type { CategoryRepository } from '../domain/category/category.repository';
-import type { CategoryCreate } from '../domain/category/category';
+import type { CategoryCreate, CategoryDetailParams } from '../domain/category/category';
 
 class CategoryUseCase implements CategoryRepository {
     private authAdapter: CategoryAdapter;
@@ -15,8 +15,8 @@ class CategoryUseCase implements CategoryRepository {
     listSelectCategories = () => {
         return this.authAdapter.listSelectCategories();
     }
-    getCategoryDetail = (id: number) => {
-        return this.authAdapter.getCategoryDetail(id);
+    getCategoryDetail = (id: number, params: CategoryDetailParams) => {
+        return this.authAdapter.getCategoryDetail(id, params);
     }
     createCategory = (data: CategoryCreate) => {
         return this.authAdapter.createCategory(data);

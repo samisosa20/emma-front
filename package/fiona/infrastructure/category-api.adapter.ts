@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import type { CategoryAdapter } from '../domain/category/category.adapter';
-import type { Category, CategoryList, CategoryCreate  } from '../domain/category/category';
+import type { Category, CategoryList, CategoryCreate, CategoryDetailParams } from '../domain/category/category';
 
 import HttpService from './http.service'; // Abstracted http service
 
@@ -35,8 +35,15 @@ class CategoryApiAdapter implements CategoryAdapter {
     return result.map((category: any) => { return {label: category.title, value: category.id}});
   }
   
-  async getCategoryDetail(id: number): Promise<CategoryCreate> {
-    const result: any = await this.httpService.get(`categories/${id}`);
+  async getCategoryDetail(id: number, params: CategoryDetailParams): Promise<CategoryCreate> {
+    const queryString = Object.entries(params)
+      .map(([key, value]) => {
+        if (value &&
+          value !==
+            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+    const result: any = await this.httpService.get(`categories/${id}?${queryString}`);
     if (result.error) {
       return result;
     }

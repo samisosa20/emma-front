@@ -13,4 +13,7 @@ export interface ListItems {
   onClickModal?: (id: number)=>void;
   dataModal?: any[];
   showHistory?: boolean;
+  currency?: {
+    id: number;
+  }
 }

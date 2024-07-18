@@ -41,9 +41,15 @@ const listCategorySchemas = z.array(
     })
   );
 
+
+const categoryDetailParamsSchema = z.object({
+  badge_id: z.string().nullable(),
+})
+
 export {
   categorySchema,
   categoryDetailSchema,
   categoryCreateSchema,
   listCategorySchemas,
+  categoryDetailParamsSchema,
 };

@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import useComponents from '@/share/components';
 
 // Interface
-import { ListItems } from './ListItems.interface';
+import { ListItems as ListItemsProps } from './ListItems.interface';
 
 const formatoMoneda = new Intl.NumberFormat('es-US', {
   style: 'currency',
   currency: 'USD',
 });
 
-const ListDefault = (props: ListItems) => {
+const ListDefault = (props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
@@ -38,7 +38,7 @@ const ListDefault = (props: ListItems) => {
   );
 };
 
-const ListUtil = (props: ListItems) => {
+const ListUtil = (props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
@@ -71,8 +71,8 @@ const ListUtil = (props: ListItems) => {
   );
 };
 
-const ListModal = (props: ListItems) => {
-  const { data, title, onClickModal, dataModal, showHistory } = props;
+const ListModal = (props: ListItemsProps) => {
+  const { data, title, onClickModal, dataModal, showHistory, currency } = props;
   const { Typography, Modal, Button } = useComponents();
   const router = useRouter();
 
@@ -121,7 +121,7 @@ const ListModal = (props: ListItems) => {
           <Typography
           variant='p'
           className='text-black underline cursor-pointer hover:text-gray-400'
-          onClick={()=> router.push(`categories/${categoryId}`)}
+          onClick={()=> router.push(`categories/${categoryId}?c=${currency?.id}`)}
           >
             Ver historico
           </Typography>
@@ -131,15 +131,15 @@ const ListModal = (props: ListItems) => {
   );
 };
 
-const ListItems = (props: ListItems) => {
-  const { data, title, variant = 'default', onClickModal, dataModal = [], showHistory = false } = props;
+const ListItems = (props: ListItemsProps) => {
+  const { data, title, variant = 'default', onClickModal, dataModal = [], showHistory = false, currency } = props;
 
   if (variant === 'default') {
     return <ListDefault data={data} title={title} />;
   } else if (variant === 'utilization') {
     return <ListUtil data={data} title={title} />;
   } else if (variant === 'modal') {
-    return <ListModal data={data} title={title} onClickModal={onClickModal} dataModal={dataModal} showHistory={showHistory} />;
+    return <ListModal data={data} title={title} onClickModal={onClickModal} dataModal={dataModal} showHistory={showHistory} currency={currency} />;
   }
 };
 

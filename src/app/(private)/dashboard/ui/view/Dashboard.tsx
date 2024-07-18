@@ -29,7 +29,7 @@ export default function Dashboard(props: any) {
     getMovementsGroup,
     listMovements,
   } = props;
-  const { Typography, Input, Select, FormControl, Button, TitleHelp, AutoComplete } = useComponents();
+  const { Typography, Input, FormControl, Button, TitleHelp, AutoComplete } = useComponents();
   const { Cards, ListItems, Filters } = useComponentsLayout();
 
   return (
@@ -222,6 +222,7 @@ export default function Dashboard(props: any) {
         <ListItems
           title='Lista de ingresos'
           data={data.list_incomes}
+          currency={data.currency}
           variant='modal'
           showHistory
           onClickModal={getMovements}
@@ -234,6 +235,7 @@ export default function Dashboard(props: any) {
           data={data.list_expensives}
           variant='modal'
           showHistory
+          currency={data.currency}
           onClickModal={getMovements}
           dataModal={listMovements}
         />
