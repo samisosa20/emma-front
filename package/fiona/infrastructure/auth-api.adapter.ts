@@ -102,6 +102,14 @@ class AuthApiAdapter implements AuthAdapter {
         };
     }
 
+    async destroyProfile(): Promise<{error: boolean, message: string}> {
+        const result: any = await this.httpService.delete(`close-account`);
+        return {
+            error: !result.data,
+            message:result.message
+        };
+    }
+
     // Additional methods with error handling
 }
 

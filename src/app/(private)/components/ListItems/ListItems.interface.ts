@@ -12,4 +12,5 @@ export interface ListItems {
   variant?: 'default' | 'modal' | 'utilization' | 'movements';
   onClickModal?: (id: number)=>void;
   dataModal?: any[];
+  showHistory?: boolean;
 }

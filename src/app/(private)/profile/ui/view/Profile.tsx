@@ -16,6 +16,7 @@ export default function Profile(props: any) {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
+    emailUser,
   } = props;
   const { Typography, Input, Select, FormControl, Button, Modal } =
     useComponents();
@@ -114,6 +115,8 @@ export default function Profile(props: any) {
         onClose={() => handleClose()}
       >
         <form onSubmit={handleSubmitDestroy(onSubmitDestroy)}>
+        <Typography>Nos duele verte partir, pero antes de proceder necesitamos que confirmes tu decisión. La eliminación de tu cuenta es irreversible y resultará en la pérdida de todos los datos asociados.</Typography>
+        <Typography className="mb-4">Para confirmar dijita <b>{emailUser}</b> y pulsa en eliminar</Typography>
           <Controller
             name={"email"}
             control={controlDestroy}
@@ -121,8 +124,7 @@ export default function Profile(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type="text"
-                  placeholder="email"
-                  label="Nombre"
+                  placeholder={emailUser}
                   onChange={(e) => {
                     onChange(e);
                   }}

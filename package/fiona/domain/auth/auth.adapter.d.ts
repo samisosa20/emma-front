@@ -44,6 +44,13 @@ interface AuthAdapter {
      * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
      */
     recoveryPassword(data: ForgotPassword): Promise<{error: boolean, message: string}>,
+    
+    /**
+     * Deleete profile
+     * @param {} - The unique identifier of the todo.
+     * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
+     */
+    destroyProfile(): Promise<{error: boolean, message: string}>,
 }
 
 export type { AuthAdapter };

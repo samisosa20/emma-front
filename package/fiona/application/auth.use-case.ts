@@ -27,6 +27,9 @@ class AuthUseCase implements AuthRepository {
     recoveryPassword = (data: ForgotPassword) => {
         return this.authAdapter.recoveryPassword(data);
     }
+    destroyProfile = () => {
+        return this.authAdapter.destroyProfile();
+    }
 }
 
 export { AuthUseCase }

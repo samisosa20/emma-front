@@ -223,6 +223,7 @@ export default function Dashboard(props: any) {
           title='Lista de ingresos'
           data={data.list_incomes}
           variant='modal'
+          showHistory
           onClickModal={getMovements}
           dataModal={listMovements}
         />
@@ -232,6 +233,7 @@ export default function Dashboard(props: any) {
           title='Lista de egresos'
           data={data.list_expensives}
           variant='modal'
+          showHistory
           onClickModal={getMovements}
           dataModal={listMovements}
         />

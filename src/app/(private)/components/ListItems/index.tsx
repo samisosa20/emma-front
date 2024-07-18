@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react'
+import { useRouter } from "next/navigation";
 
 //components
 import useComponents from '@/share/components';
@@ -14,7 +15,7 @@ const formatoMoneda = new Intl.NumberFormat('es-US', {
 
 const ListDefault = (props: ListItems) => {
   const { data, title } = props;
-  const { Typography, Modal } = useComponents();
+  const { Typography } = useComponents();
   return (
     <div className='bg-white p-4 shadow-sm rounded'>
       <Typography className='mb-4'>{title}</Typography>
@@ -39,7 +40,7 @@ const ListDefault = (props: ListItems) => {
 
 const ListUtil = (props: ListItems) => {
   const { data, title } = props;
-  const { Typography, Modal } = useComponents();
+  const { Typography } = useComponents();
   return (
     <div className='bg-white p-4 shadow-sm rounded'>
       <Typography className='mb-4'>{title}</Typography>
@@ -71,14 +72,17 @@ const ListUtil = (props: ListItems) => {
 };
 
 const ListModal = (props: ListItems) => {
-  const { data, title, onClickModal, dataModal } = props;
-  const { Typography, Modal } = useComponents();
+  const { data, title, onClickModal, dataModal, showHistory } = props;
+  const { Typography, Modal, Button } = useComponents();
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false)
+  const [categoryId, setCategoryId] = useState(0)
 
   const handleSelectItem = async(id: number) => {
     onClickModal && await onClickModal(id)
     setIsOpen(true)
+    setCategoryId(id)
   }
 
   return (
@@ -113,20 +117,29 @@ const ListModal = (props: ListItems) => {
             {data.description && <Typography>{data.description}</Typography>}
           </div>
         ))}
+        {showHistory && <div className='text-center mt-6'>
+          <Typography
+          variant='p'
+          className='text-black underline cursor-pointer hover:text-gray-400'
+          onClick={()=> router.push(`categories/${categoryId}`)}
+          >
+            Ver historico
+          </Typography>
+        </div>}
       </Modal>
     </div>
   );
 };
 
 const ListItems = (props: ListItems) => {
-  const { data, title, variant = 'default', onClickModal, dataModal = [] } = props;
+  const { data, title, variant = 'default', onClickModal, dataModal = [], showHistory = false } = props;
 
   if (variant === 'default') {
     return <ListDefault data={data} title={title} />;
   } else if (variant === 'utilization') {
     return <ListUtil data={data} title={title} />;
   } else if (variant === 'modal') {
-    return <ListModal data={data} title={title} onClickModal={onClickModal} dataModal={dataModal} />;
+    return <ListModal data={data} title={title} onClickModal={onClickModal} dataModal={dataModal} showHistory={showHistory} />;
   }
 };
 

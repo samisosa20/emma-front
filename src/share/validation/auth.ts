@@ -29,6 +29,12 @@ const paramsProfileSchema = z.object({
     badge_id: z.union([z.string(), z.number()]),
 })
 
+
+const destroyAccountSchema = z.object({
+    email: z.string().email('Formato incorrecto'),
+})
+
+
 const paramsForgotSchema = z.object({
     email: z.string().email('Formato incorrecto'),
 })
@@ -37,5 +43,6 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 export type ParamsProfileSchema = z.infer<typeof paramsProfileSchema>;
 export type RegisterSchema = z.infer<typeof registerParamsSchema>;
 export type ParamsForgotSchema = z.infer<typeof paramsForgotSchema>;
+export type DestroyAccountSchema = z.infer<typeof destroyAccountSchema>;
 
-export { loginSchema, paramsProfileSchema, registerSchema, paramsForgotSchema }
+export { loginSchema, paramsProfileSchema, registerSchema, paramsForgotSchema, destroyAccountSchema }

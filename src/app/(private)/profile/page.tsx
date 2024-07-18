@@ -19,6 +19,7 @@ export default function Page() {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
+    emailUser,
   } = useDashboardViewModel();
 
   const { Loading } = useComponents();
@@ -40,6 +41,7 @@ export default function Page() {
       controlDestroy={controlDestroy}
       onSubmitDestroy={onSubmitDestroy}
       handleSubmitDestroy={handleSubmitDestroy}
+      emailUser={emailUser}
     />
   );
 }

@@ -10,22 +10,25 @@ import { AuthApiAdapter } from "@@/infrastructure/auth-api.adapter";
 
 import { customConfigHeader } from "@/share/helpers";
 
-import { paramsProfileSchema } from "@/share/validation";
-import type { ParamsProfileSchema } from "@/share/validation";
+import { paramsProfileSchema, destroyAccountSchema } from "@/share/validation";
+import type { ParamsProfileSchema, DestroyAccountSchema } from "@/share/validation";
+
 
 export default function useDashboardViewModel() {
   const router = useRouter();
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [idProfile, setIdProfile] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [emailUser, setEmailUser] = useState('');
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(paramsProfileSchema),
   });
 
-  const { handleSubmit: handleSubmitDestroy, control: controlDestroy } =
+
+  const { handleSubmit: handleSubmitDestroy, control: controlDestroy, setError } =
     useForm({
-      resolver: zodResolver(paramsProfileSchema),
+      resolver: zodResolver(destroyAccountSchema),
     });
 
   const { isLoading, data, isError } = useQuery({
@@ -78,7 +81,40 @@ export default function useDashboardViewModel() {
     },
   });
 
-  const onSubmitDestroy = () => {};
+  const mutationDestroy = useMutation({
+    mutationFn: async () => {
+      const user = localStorage.getItem("emma-user");
+      if (user) {
+        const { destroyProfile } = new AuthUseCase(
+          new AuthApiAdapter({
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            customConfig: {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(user).token}`,
+              },
+            },
+          })
+        );
+        const result = await destroyProfile();
+        console.log(result);
+        if (result.error) {
+          toast.error(result.message);
+          return;
+        }
+        toast.success(result.message);
+        localStorage.removeItem("emma-user");
+        router.push("/login");
+      }
+    },
+  });
+
+  const onSubmitDestroy = (data: DestroyAccountSchema) => {
+    if(data.email !== emailUser) {
+      setError('email', { type: 'custom', message: 'El texto ingresado no coincide con el solicitado' })
+    } else {
+      mutationDestroy.mutate();
+    }
+  };
 
   const onSubmit = (data: any) => {
     mutation.mutate({
@@ -111,7 +147,9 @@ export default function useDashboardViewModel() {
 
   useEffect(() => {
     if (data) {
+      console.log(data.email)
       setIdProfile(data.id);
+      setEmailUser(data.email)
       reset(data);
     }
   }, [data]);
@@ -129,5 +167,6 @@ export default function useDashboardViewModel() {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
+    emailUser,
   };
 }
