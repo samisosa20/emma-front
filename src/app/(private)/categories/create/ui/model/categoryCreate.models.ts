@@ -110,7 +110,7 @@ export default function useCategoryCreateViewModel() {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await getCategoryDetail(id);
+        const result = await getCategoryDetail(id, {badge_id: null});
 
         if (result.status === 401) {
           localStorage.removeItem("emma-user");
