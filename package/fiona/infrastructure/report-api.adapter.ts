@@ -1,9 +1,13 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from "axios";
 
-import type { ReportAdapter } from '../domain/report/report.adapter';
-import type { Report, ReportParams, ReportMovement } from '../domain/report/report';
+import type { ReportAdapter } from "../domain/report/report.adapter";
+import type {
+  Report,
+  ReportParams,
+  ReportMovement,
+} from "../domain/report/report";
 
-import HttpService from './http.service'; // Abstracted http service
+import HttpService from "./http.service"; // Abstracted http service
 
 interface AuthApiAdapterOptions {
   baseUrl: string;
@@ -20,11 +24,10 @@ class ReportApiAdapter implements ReportAdapter {
   async getReport(params: ReportParams): Promise<Report> {
     const queryString = Object.entries(params)
       .map(([key, value]) => {
-        if (value &&
-          value !==
-            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        if (value && value !== undefined)
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
       })
-      .join('&');
+      .join("&");
     const result: any = await this.httpService.get(`report?${queryString}`);
     if (result.error) {
       return result;
@@ -32,20 +35,20 @@ class ReportApiAdapter implements ReportAdapter {
 
     const metrics = [
       {
-        title: 'Balance inicial',
-        values: [result.metrics.open_balance + ' ' + result.currency.code],
+        title: "Balance inicial",
+        values: [result.metrics.open_balance + " " + result.currency?.code],
       },
       {
-        title: 'Ingresos',
-        values: [result.metrics.income + ' ' + result.currency.code],
+        title: "Ingresos",
+        values: [result.metrics.income + " " + result.currency?.code],
       },
       {
-        title: 'Egresos',
-        values: [result.metrics.expensive + ' ' + result.currency.code],
+        title: "Egresos",
+        values: [result.metrics.expensive + " " + result.currency?.code],
       },
       {
-        title: 'Balance final',
-        values: [result.metrics.utility + ' ' + result.currency.code],
+        title: "Balance final",
+        values: [result.metrics.utility + " " + result.currency?.code],
       },
     ];
 
@@ -56,7 +59,12 @@ class ReportApiAdapter implements ReportAdapter {
         return { title: group.name, value: group.amount, id: group.id };
       }),
       list_expensives: result.list_expensives.map((expensive: any) => {
-        return { title: expensive.category, value: expensive.amount, id: expensive.id, father: expensive.category_father };
+        return {
+          title: expensive.category,
+          value: expensive.amount,
+          id: expensive.id,
+          father: expensive.category_father,
+        };
       }),
       list_incomes: result.list_incomes.map((income: any) => {
         return { title: income.category, value: income.amount, id: income.id };
@@ -66,7 +74,12 @@ class ReportApiAdapter implements ReportAdapter {
           limit: card.limit,
           title: card.name,
           value: card.balance + card.init_amount,
-          color: ((card.balance + card.init_amount) / card.limit) > 0.95 ? 'red' : ((card.balance + card.init_amount) / card.limit) > 0.50 ? 'yellow': 'green',
+          color:
+            (card.balance + card.init_amount) / card.limit > 0.95
+              ? "red"
+              : (card.balance + card.init_amount) / card.limit > 0.5
+              ? "yellow"
+              : "green",
           percentage: (
             ((card.balance + card.init_amount) / card.limit) *
             -100
@@ -74,15 +87,25 @@ class ReportApiAdapter implements ReportAdapter {
         };
       }),
       budget: result.budget.map((budget: any) => {
-        let color = 'green';
-        if(budget.category.group_id > 2) {
-          color = (Math.abs(budget.movement) / budget.amount) > 0.95 ? 'red' : (Math.abs(budget.movement) / budget.amount) > 0.65 ? 'yellow': 'green'
+        let color = "green";
+        if (budget.category.group_id > 2) {
+          color =
+            Math.abs(budget.movement) / budget.amount > 0.95
+              ? "red"
+              : Math.abs(budget.movement) / budget.amount > 0.65
+              ? "yellow"
+              : "green";
         } else {
-          color = (Math.abs(budget.movement) / budget.amount) > 0.90 ? 'green' : (Math.abs(budget.movement) / budget.amount) > 0.65 ? 'yellow': 'red'
+          color =
+            Math.abs(budget.movement) / budget.amount > 0.9
+              ? "green"
+              : Math.abs(budget.movement) / budget.amount > 0.65
+              ? "yellow"
+              : "red";
         }
         return {
           limit: budget.amount,
-          title: budget.category.name,
+          title: budget.category?.name,
           father: budget.category_father,
           value: budget.movement,
           color: color,
@@ -90,42 +113,42 @@ class ReportApiAdapter implements ReportAdapter {
             (Math.abs(budget.movement) / budget.amount) *
             -100
           ).toFixed(2),
-        }
-      })
+        };
+      }),
     };
   }
 
   async getReportCategory(params: ReportParams): Promise<ReportMovement> {
     const queryString = Object.entries(params)
       .map(([key, value]) => {
-        if (value &&
-          value !==
-            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        if (value && value !== undefined)
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
       })
-      .join('&');
-    const result: any = await this.httpService.get(`report/category?${queryString}`);
+      .join("&");
+    const result: any = await this.httpService.get(
+      `report/category?${queryString}`
+    );
     if (result.error) {
       return result;
     }
 
-
-    return result
+    return result;
   }
   async getReportGroup(params: ReportParams): Promise<ReportMovement> {
     const queryString = Object.entries(params)
       .map(([key, value]) => {
-        if (value &&
-          value !==
-            undefined) return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        if (value && value !== undefined)
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
       })
-      .join('&');
-    const result: any = await this.httpService.get(`report/group?${queryString}`);
+      .join("&");
+    const result: any = await this.httpService.get(
+      `report/group?${queryString}`
+    );
     if (result.error) {
       return result;
     }
 
-
-    return result
+    return result;
   }
   // Additional methods with error handling
 }

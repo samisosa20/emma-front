@@ -39,7 +39,10 @@ export default function Heritages(props: any) {
           </div>
         </div>
       </div>
-      <div id="emma-search" className="mt-6 flex space-x-4 items-center justify-end">
+      <div
+        id="emma-search"
+        className="mt-6 flex space-x-4 items-center justify-end"
+      >
         <div className="lg:w-[250px]">
           <Input
             placeholder="Nombre de la categoría"
@@ -64,11 +67,13 @@ export default function Heritages(props: any) {
               if (search !== "") {
                 return isChecked
                   ? !category.deleted_at &&
-                      category.name.toUpperCase().includes(search.toUpperCase())
+                      category.name
+                        ?.toUpperCase()
+                        ?.includes(search.toUpperCase())
                   : !!category.deleted_at &&
                       category.name
-                        .toUpperCase()
-                        .includes(search.toUpperCase());
+                        ?.toUpperCase()
+                        ?.includes(search.toUpperCase());
               }
               return isChecked ? !category.deleted_at : !!category.deleted_at;
             })
@@ -82,7 +87,9 @@ export default function Heritages(props: any) {
                     </Typography>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Typography variant="h6">{category.group.name}</Typography>
+                    <Typography variant="h6">
+                      {category?.group?.name}
+                    </Typography>
                   </div>
                 </div>
               </Link>

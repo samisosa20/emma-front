@@ -1,45 +1,51 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
 
-import { movementSchema } from '@/share/validation';
-import type { MovementSchemaParams } from '@/share/validation';
+import { movementSchema } from "@/share/validation";
+import type { MovementSchemaParams } from "@/share/validation";
 
-import { AccountUseCase } from '@@/application/account.use-case';
-import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
-import { CategoryUseCase } from '@@/application/category.use-case';
-import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
-import { MovementUseCase } from '@@/application/movement.use-case';
-import { MovementApiAdapter } from '@@/infrastructure/movement-api.adapter';
-import { InvestmentUseCase } from '@@/application/investment.use-case';
-import { InvestmentApiAdapter } from '@@/infrastructure/investment-api.adapter';
+import { AccountUseCase } from "@@/application/account.use-case";
+import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
+import { CategoryUseCase } from "@@/application/category.use-case";
+import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
+import { EventUseCase } from "@@/application/event.use-case";
+import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
+import { MovementUseCase } from "@@/application/movement.use-case";
+import { MovementApiAdapter } from "@@/infrastructure/movement-api.adapter";
+import { InvestmentUseCase } from "@@/application/investment.use-case";
+import { InvestmentApiAdapter } from "@@/infrastructure/investment-api.adapter";
 
 import {
   customConfigHeader,
   getDateString,
   formatDateISOToYMDHIS,
-} from '@/share/helpers';
+} from "@/share/helpers";
 
 export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de Movimientos');
+  const [title, setTitle] = useState("Creacion de Movimientos");
   const [listAccounts, setListAccounts] = useState<any[]>([]);
   const [listCategories, setListCategories] = useState<any[]>([]);
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [listInvestments, setListInvestments] = useState<any[]>([]);
 
-  const { handleSubmit, control, reset, watch, formState: {errors} } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       date_purchase: getDateString(),
-      type: '-1',
+      type: "-1",
       account: null,
       account_end: undefined,
       investment: undefined,
@@ -47,17 +53,17 @@ export default function useMovementsViewModel() {
     },
   });
 
-  const typeWatch = watch('type');
-  const accountEndWatch = watch('account_end');
-  const accountWatch = watch('account');
-  const investmentWatch = watch('investment');
+  const typeWatch = watch("type");
+  const accountEndWatch = watch("account_end");
+  const accountWatch = watch("account");
+  const investmentWatch = watch("investment");
 
   const { data } = useQuery({
-    queryKey: ['movementDetail', param.id],
+    queryKey: ["movementDetail", param.id],
     queryFn: async () => {
       const { getMovementDetail } = new MovementUseCase(
         new MovementApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -73,11 +79,11 @@ export default function useMovementsViewModel() {
   });
 
   const { data: dataListAccounts, isError: isErrorAccount } = useQuery({
-    queryKey: ['accountsMove'],
+    queryKey: ["accountsMove"],
     queryFn: async () => {
       const { listAccounts } = new AccountUseCase(
         new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -85,7 +91,7 @@ export default function useMovementsViewModel() {
 
       if (result.status === 401) {
         localStorage.removeItem("emma-user");
-        router.push('/login');
+        router.push("/login");
       }
 
       return result;
@@ -93,11 +99,11 @@ export default function useMovementsViewModel() {
   });
 
   const { data: dataListCategories, isError: isErrorCategory } = useQuery({
-    queryKey: ['categoriesMove'],
+    queryKey: ["categoriesMove"],
     queryFn: async () => {
       const { listSelectCategories } = new CategoryUseCase(
         new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -108,11 +114,11 @@ export default function useMovementsViewModel() {
   });
 
   const { data: dataListEvents, isError: isErrorEvents } = useQuery({
-    queryKey: ['eventsMove'],
+    queryKey: ["eventsMove"],
     queryFn: async () => {
       const { listSelectEvents, listEvents } = new EventUseCase(
         new EventApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -126,13 +132,13 @@ export default function useMovementsViewModel() {
       return result;
     },
   });
-  
+
   const { data: dataListInvestments, isError: isErrorInvestments } = useQuery({
-    queryKey: ['investmentsMove'],
+    queryKey: ["investmentsMove"],
     queryFn: async () => {
       const { listInvestments } = new InvestmentUseCase(
         new InvestmentApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -144,11 +150,11 @@ export default function useMovementsViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { createMovement } = new MovementUseCase(
           new MovementApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -164,11 +170,11 @@ export default function useMovementsViewModel() {
   });
   const mutationEdit = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { editMovement } = new MovementUseCase(
           new MovementApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -188,11 +194,11 @@ export default function useMovementsViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { deleteMovement } = new MovementUseCase(
           new MovementApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -214,7 +220,7 @@ export default function useMovementsViewModel() {
     console.log(data);
     const formData = {
       ...data,
-      type: data.type == 0 ? 'transfer' : 'move',
+      type: data.type == 0 ? "transfer" : "move",
       amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
       date_purchase: formatDateISOToYMDHIS(data.date_purchase),
       ...(data.event !== undefined && {
@@ -229,7 +235,7 @@ export default function useMovementsViewModel() {
         amount_end: data.type == 0 ? data.amount_end : null,
         account_end_id: data.type == 0 ? data.account_end.value : null,
       }),
-      description: data.description !== undefined ? data.description : null
+      description: data.description !== undefined ? data.description : null,
     };
     if (param.id) {
       mutationEdit.mutate(formData);
@@ -243,13 +249,13 @@ export default function useMovementsViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("emma-user");
     if (!user) {
       localStorage.removeItem("emma-user");
-      router.push('/login');
+      router.push("/login");
     } else {
       if (param.id) {
-        setTitle('Edicion de Movimientos');
+        setTitle("Edicion de Movimientos");
       }
     }
   }, []);
@@ -261,7 +267,7 @@ export default function useMovementsViewModel() {
           .filter((v) => !v.deleted_at)
           .map((account) => {
             return {
-              label: account.name + ' - ' + account.currency.code,
+              label: account.name + " - " + account.currency?.code,
               value: account.id,
               badge_id: account.badge_id,
             };
@@ -285,7 +291,7 @@ export default function useMovementsViewModel() {
       );
     }
   }, [dataListEvents]);
-  
+
   useEffect(() => {
     if (dataListInvestments && Array.isArray(dataListInvestments)) {
       setListInvestments(
@@ -297,9 +303,14 @@ export default function useMovementsViewModel() {
   }, [dataListInvestments]);
 
   useEffect(() => {
-    if (isErrorAccount || isErrorCategory || isErrorEvents || isErrorInvestments) {
+    if (
+      isErrorAccount ||
+      isErrorCategory ||
+      isErrorEvents ||
+      isErrorInvestments
+    ) {
       localStorage.removeItem("emma-user");
-      router.push('/login');
+      router.push("/login");
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);
 
@@ -308,49 +319,57 @@ export default function useMovementsViewModel() {
       // @ts-ignore
       reset({
         add_withdrawal: data.add_withdrawal,
-        amount: data.transfer_out || data.transfer_in
-        ? data.transfer_out ? Math.abs(data.transfer_out.amount ?? 0).toString() : Math.abs(data.amount ?? 0).toString() : Math.abs(data.amount ?? 0).toString(),
+        amount:
+          data.transfer_out || data.transfer_in
+            ? data.transfer_out
+              ? Math.abs(data.transfer_out?.amount ?? 0).toString()
+              : Math.abs(data.amount ?? 0).toString()
+            : Math.abs(data.amount ?? 0).toString(),
         type:
           data.transfer_out || data.transfer_in
-            ? '0'
+            ? "0"
             : data.amount > 0
-            ? '1'
-            : '-1',
+            ? "1"
+            : "-1",
         date_purchase: data.date_purchase,
         ...(data.description && { description: data.description }),
         ...(!data.transfer_out &&
           !data.transfer_in && {
             category: {
-              label: data.category.name,
-              value: data.category.id,
-              badge_id: data.account.badge_id,
+              label: data.category?.name,
+              value: data.category?.id,
+              badge_id: data.account?.badge_id,
             },
           }),
         account:
           data.transfer_out || data.transfer_in
             ? data.transfer_out
               ? {
-                  label: data.transfer_out.account.name,
-                  value: data.transfer_out.account.id,
-                  badge_id: data.transfer_out.account.badge_id,
+                  label: data.transfer_out.account?.name,
+                  value: data.transfer_out.account?.id,
+                  badge_id: data.transfer_out.account?.badge_id,
                 }
               : {
-                  label: data.account.name,
-                  value: data.account.id,
-                  badge_id: data.account.badge_id,
+                  label: data.account?.name,
+                  value: data.account?.id,
+                  badge_id: data.account?.badge_id,
                 }
-            : { label: data.account.name, value: data.account.id, badge_id: data.account.badge_id, },
+            : {
+                label: data.account?.name,
+                value: data.account?.id,
+                badge_id: data.account?.badge_id,
+              },
         ...((data.transfer_out || data.transfer_in) && {
           account_end: data.transfer_in
             ? {
-                label: data.transfer_in.account.name,
-                value: data.transfer_in.account.id,
-                badge_id: data.transfer_in.account.badge_id,
+                label: data.transfer_in.account?.name,
+                value: data.transfer_in.account?.id,
+                badge_id: data.transfer_in.account?.badge_id,
               }
             : {
-                label: data.account.name,
-                value: data.account.id,
-                badge_id: data.account.badge_id,
+                label: data.account?.name,
+                value: data.account?.id,
+                badge_id: data.account?.badge_id,
               },
         }),
         ...((data.transfer_out || data.transfer_in) && {
@@ -359,12 +378,12 @@ export default function useMovementsViewModel() {
             : data.amount.toString(),
         }),
         ...(data.event && {
-          event: { label: data.event.name, value: data.event.id },
+          event: { label: data.event?.name, value: data.event?.id },
         }),
         ...(data.investment && {
           investment: {
-            label: data.investment.name,
-            value: data.investment.id,
+            label: data.investment?.name,
+            value: data.investment?.id,
           },
         }),
       });

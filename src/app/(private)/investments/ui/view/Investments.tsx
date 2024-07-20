@@ -40,7 +40,7 @@ export default function Investments(props: any) {
                 <div className="flex items-center justify-between">
                   <Typography variant="h2">{investment.name}</Typography>
                   <Typography variant="h5">
-                    {investment.currency.code}
+                    {investment.currency?.code}
                   </Typography>
                 </div>
                 <Typography

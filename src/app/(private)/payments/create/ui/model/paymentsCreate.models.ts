@@ -1,52 +1,57 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { paymentsSchema } from '@/share/validation';
-import type { PaymentsParamsSchema } from '@/share/validation';
+import { paymentsSchema } from "@/share/validation";
+import type { PaymentsParamsSchema } from "@/share/validation";
 
-import { PaymentUseCase } from '@@/application/payment.use-case';
-import { PaymentApiAdapter } from '@@/infrastructure/payment-api.adapter';
-import { AccountUseCase } from '@@/application/account.use-case';
-import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
-import { CategoryUseCase } from '@@/application/category.use-case';
-import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
+import { PaymentUseCase } from "@@/application/payment.use-case";
+import { PaymentApiAdapter } from "@@/infrastructure/payment-api.adapter";
+import { AccountUseCase } from "@@/application/account.use-case";
+import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
+import { CategoryUseCase } from "@@/application/category.use-case";
+import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 export default function usePaymentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de Pagos');
+  const [title, setTitle] = useState("Creacion de Pagos");
   const [listAccounts, setListAccounts] = useState<any>([]);
   const [listCategories, setListCategories] = useState<any>([]);
 
-  const { handleSubmit, control, reset, formState: {errors} } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
       account: null,
       category: null,
-      description: '',
-      end_date: '',
+      description: "",
+      end_date: "",
       start_date: null,
-      amount: '',
+      amount: "",
       specific_day: 1,
     },
   });
 
-  console.log(errors)
+  console.log(errors);
 
   const mutation = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { createPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -68,11 +73,11 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { editPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -97,11 +102,11 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { deletePayment } = new PaymentUseCase(
           new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -120,12 +125,12 @@ export default function usePaymentsCreateViewModel() {
   });
 
   const { data } = useQuery({
-    queryKey: ['investmentDetail', param.id],
+    queryKey: ["investmentDetail", param.id],
     queryFn: async () => {
       if (param.id) {
         const { getPaymentDetail } = new PaymentUseCase(
           new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -142,11 +147,11 @@ export default function usePaymentsCreateViewModel() {
   });
 
   const { data: dataListAccounts } = useQuery({
-    queryKey: ['accountPayments'],
+    queryKey: ["accountPayments"],
     queryFn: async () => {
       const { listAccounts } = new AccountUseCase(
         new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -158,11 +163,11 @@ export default function usePaymentsCreateViewModel() {
   });
 
   const { data: dataListCategories } = useQuery({
-    queryKey: ['categoryPayments'],
+    queryKey: ["categoryPayments"],
     queryFn: async () => {
       const { listSelectCategories } = new CategoryUseCase(
         new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -191,13 +196,13 @@ export default function usePaymentsCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("emma-user");
     if (!user) {
       localStorage.removeItem("emma-user");
-      router.push('/login');
+      router.push("/login");
     } else {
       if (param.id) {
-        setTitle('Edicion de Pagos');
+        setTitle("Edicion de Pagos");
       }
     }
   }, []);
@@ -206,11 +211,11 @@ export default function usePaymentsCreateViewModel() {
     if (data) {
       // @ts-ignore
       reset({
-        account: {value: data.account.id, label: data.account.name},
-        category: {value: data.category.id, label: data.category.name},
-        description: data.description ? data.description : '',
-        end_date: data.end_date ? data.end_date : '',
-        start_date: data.start_date.split(' ')[0],
+        account: { value: data.account?.id, label: data.account?.name },
+        category: { value: data.category?.id, label: data.category?.name },
+        description: data.description ? data.description : "",
+        end_date: data.end_date ? data.end_date : "",
+        start_date: data.start_date.split(" ")[0],
         amount: data.amount.toString(),
         specific_day: data.specific_day.toString(),
       });

@@ -34,13 +34,15 @@ export default function CategoryCreate(props: any) {
             <Typography variant="h1">{title}</Typography>
           </div>
           <div>
-            {handleDelete && <Button
-              onClick={handleDelete}
-              className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
-            >
-              <MdDeleteOutline />
-              <Typography className="text-white">Eliminar</Typography>
-            </Button>}
+            {handleDelete && (
+              <Button
+                onClick={handleDelete}
+                className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
+              >
+                <MdDeleteOutline />
+                <Typography className="text-white">Eliminar</Typography>
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -145,7 +147,7 @@ export default function CategoryCreate(props: any) {
               key={movement.id}
             >
               <div className="flex justify-between items-center">
-                <div className="font-bold">{movement.category.name}</div>
+                <div className="font-bold">{movement.category?.name}</div>
                 <div
                   className={
                     movement.amount > 0 ? "text-green-500" : "text-red-500"

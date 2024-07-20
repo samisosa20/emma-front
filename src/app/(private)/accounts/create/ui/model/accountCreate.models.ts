@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { accountSchema } from '@/share/validation';
-import type { AccountParamsSchema } from '@/share/validation';
+import { accountSchema } from "@/share/validation";
+import type { AccountParamsSchema } from "@/share/validation";
 
-import { AccountUseCase } from '@@/application/account.use-case';
-import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
+import { AccountUseCase } from "@@/application/account.use-case";
+import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 const useAccountCreate = () => {
   const router = useRouter();
@@ -20,19 +20,19 @@ const useAccountCreate = () => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [isDesactivate, setIsDesactivate] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [title, setTitle] = useState('Creacion de Cuentas');
+  const [title, setTitle] = useState("Creacion de Cuentas");
 
   const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(accountSchema),
   });
 
-  const watchType = watch('type_id')
+  const watchType = watch("type_id");
 
   const mutation = useMutation({
     mutationFn: async (data: AccountParamsSchema) => {
       const { createAccount } = new AccountUseCase(
         new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -49,11 +49,11 @@ const useAccountCreate = () => {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: AccountParamsSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { editAccount } = new AccountUseCase(
           new AccountApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -78,11 +78,11 @@ const useAccountCreate = () => {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { deleteAccount } = new AccountUseCase(
           new AccountApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -100,18 +100,18 @@ const useAccountCreate = () => {
           return;
         }
         toast.success(result.message);
-        router.push('/accounts');
+        router.push("/accounts");
       }
     },
   });
 
   const mutationDesactive = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { desactiveAccount } = new AccountUseCase(
           new AccountApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -136,11 +136,11 @@ const useAccountCreate = () => {
 
   const mutationRestore = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { activeAccount } = new AccountUseCase(
           new AccountApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -164,13 +164,13 @@ const useAccountCreate = () => {
   });
 
   const { data } = useQuery({
-    queryKey: ['accountDetail', param.id],
+    queryKey: ["accountDetail", param.id],
     queryFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user && param.id) {
         const { getAccountDetail } = new AccountUseCase(
           new AccountApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -186,7 +186,7 @@ const useAccountCreate = () => {
 
         if (result.status === 401) {
           localStorage.removeItem("emma-user");
-          router.push('/login');
+          router.push("/login");
         }
 
         return result;
@@ -197,7 +197,7 @@ const useAccountCreate = () => {
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
-      description: data.description ? data.description : '',
+      description: data.description ? data.description : "",
       badge_id: data.badge_id.value,
     };
     if (param.id) {
@@ -208,26 +208,26 @@ const useAccountCreate = () => {
   };
 
   const handleDelete = () => {
-    if(isDesactivate) {
-      mutationDelete.mutate()
+    if (isDesactivate) {
+      mutationDelete.mutate();
     } else {
-      mutationDesactive.mutate()
+      mutationDesactive.mutate();
     }
-  }
-  
+  };
+
   const handleReActivate = () => {
-    mutationRestore.mutate()
-  }
+    mutationRestore.mutate();
+  };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("emma-user");
     if (user) {
       const userjson = JSON.parse(user);
       setTypeOptions(userjson.accounts_type);
       setCurrencyOptions(userjson.currencies);
     }
     if (param.id) {
-      setTitle('Edicion de Cuentas');
+      setTitle("Edicion de Cuentas");
     }
   }, [param.id]);
 
@@ -235,16 +235,19 @@ const useAccountCreate = () => {
     if (data) {
       reset({
         ...data.account,
-        type_id: data.account.type_id.toString(),
-        badge_id: {label: data.account.currency.code ,value: data.account.badge_id},
-        init_amount: data.account.init_amount.toString(),
-        description: data.account.description ? data.account.description : '',
-        limit: data.account.limit ? data.account.limit : '',
-        interest: data.account.interest ? data.account.interest : '',
+        type_id: data.account?.type_id?.toString(),
+        badge_id: {
+          label: data.account?.currency?.code,
+          value: data.account?.badge_id,
+        },
+        init_amount: data.account?.init_amount?.toString(),
+        description: data.account?.description ? data.account?.description : "",
+        limit: data.account?.limit ? data.account?.limit : "",
+        interest: data.account?.interest ? data.account?.interest : "",
       });
-      setIsDesactivate(!!data.account.deleted_at);
+      setIsDesactivate(!!data.account?.deleted_at);
     }
-    reset()
+    reset();
   }, [data, reset]);
 
   return {

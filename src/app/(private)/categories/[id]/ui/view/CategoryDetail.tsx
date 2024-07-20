@@ -50,11 +50,11 @@ export default function CategoryDetail(props: any) {
 
   return (
     <div>
-      <div className="flex items-center justify-between w-full">
-        <div>
+      <div className="flex items-center justify-between w-full flew-wrap">
+        <div className="w-full sm:w-auto">
           <div className="flex items-center space-x-2 cursor-pointer">
             <div onClick={() => router.back()}>
-              <MdArrowBack />
+              <MdArrowBack className="h-6" />
             </div>
             <Typography variant="h1">{`Categoría ${data.name}`}</Typography>
           </div>
@@ -130,11 +130,15 @@ export default function CategoryDetail(props: any) {
             },
             {
               title: "Limite inferior",
-              values: [formatCurrency.format(Number(data.lowerBound)) + currency],
+              values: [
+                formatCurrency.format(Number(data.lowerBound)) + currency,
+              ],
             },
             {
               title: "Limite superior",
-              values: [formatCurrency.format(Number(data.upperBound)) + currency],
+              values: [
+                formatCurrency.format(Number(data.upperBound)) + currency,
+              ],
             },
           ]}
         />

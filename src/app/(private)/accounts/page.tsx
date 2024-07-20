@@ -79,35 +79,41 @@ const Accounts = () => {
             ?.filter((account) => {
               if (search !== "") {
                 return isChecked
-                  ? !account.deleted_at &&
-                      account.name.toUpperCase().includes(search.toUpperCase())
-                  : !!account.deleted_at &&
-                      account.name.toUpperCase().includes(search.toUpperCase());
+                  ? !account?.deleted_at &&
+                      account?.name
+                        ?.toUpperCase()
+                        ?.includes(search?.toUpperCase())
+                  : !!account?.deleted_at &&
+                      account?.name
+                        ?.toUpperCase()
+                        ?.includes(search?.toUpperCase());
               }
-              return isChecked ? !account.deleted_at : !!account.deleted_at;
+              return isChecked ? !account?.deleted_at : !!account?.deleted_at;
             })
             .map((account) => (
-              <Link href={`/accounts/${account.id}`} key={account.id}>
+              <Link href={`/accounts/${account?.id}`} key={account?.id}>
                 <div className="bg-white rounded shadow-sm p-4">
                   <div className="flex items-center justify-between">
-                    <Typography variant="h2">{account.name}</Typography>
-                    <Typography variant="p">{account.currency.code}</Typography>
+                    <Typography variant="h2">{account?.name}</Typography>
+                    <Typography variant="p">
+                      {account?.currency?.code}
+                    </Typography>
                   </div>
                   <Typography variant="h6" className="h-[40px]">
-                    {account.description}
+                    {account?.description}
                   </Typography>
                   <div className="flex items-center justify-between">
-                    <Typography>{account.type.name}</Typography>
+                    <Typography>{account?.type?.name}</Typography>
                     <Typography
                       variant="p"
                       className={`text-right ${
-                        account.balance + account.init_amount >= 0
+                        account?.balance + account?.init_amount >= 0
                           ? "text-green-500"
                           : "text-red-500"
                       }`}
                     >
                       {formatoMoneda.format(
-                        account.balance + account.init_amount
+                        account?.balance + account?.init_amount
                       )}
                     </Typography>
                   </div>
@@ -115,7 +121,7 @@ const Accounts = () => {
               </Link>
             ))}
       </div>
-      {data && data.accounts.length === 0 && (
+      {data && data.accounts?.length === 0 && (
         <div className="bg-white rounded shadow-sm">
           <Typography className="text-center py-6">Sin cuentas</Typography>
         </div>

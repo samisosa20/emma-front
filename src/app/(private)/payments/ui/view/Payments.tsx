@@ -38,10 +38,10 @@ export default function Payments(props: any) {
             <Link href={`/payments/${payment.id}`} key={payment.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">
-                  <Typography variant="h2">{payment.category.name}</Typography>
+                  <Typography variant="h2">{payment.category?.name}</Typography>
                 </div>
                 <div className="flex items-center justify-between">
-                  <Typography variant="h4">{payment.account.name}</Typography>
+                  <Typography variant="h4">{payment.account?.name}</Typography>
                   <Typography
                     variant="h6"
                     className={

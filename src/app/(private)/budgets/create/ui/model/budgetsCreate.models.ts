@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { budgetSchema } from '@/share/validation';
-import type { BudgetParamsSchema } from '@/share/validation';
+import { budgetSchema } from "@/share/validation";
+import type { BudgetParamsSchema } from "@/share/validation";
 
-import { BudgetUseCase } from '@@/application/budget.use-case';
-import { BudgetApiAdapter } from '@@/infrastructure/budget-api.adapter';
-import { CategoryUseCase } from '@@/application/category.use-case';
-import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
+import { BudgetUseCase } from "@@/application/budget.use-case";
+import { BudgetApiAdapter } from "@@/infrastructure/budget-api.adapter";
+import { CategoryUseCase } from "@@/application/category.use-case";
+import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 export default function useBudgetsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de Presupuesto');
+  const [title, setTitle] = useState("Creacion de Presupuesto");
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [periodsOptions, setPeriodsOptions] = useState([]);
   const [listCategories, setListCategories] = useState<any>([]);
@@ -27,7 +27,7 @@ export default function useBudgetsCreateViewModel() {
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(budgetSchema),
     defaultValues: {
-      period_id: '',
+      period_id: "",
       amount: 0,
       year: new Date().getFullYear().toString(),
       category: {},
@@ -36,11 +36,11 @@ export default function useBudgetsCreateViewModel() {
   });
 
   const { data: dataListCategories, isError: isErrorCategory } = useQuery({
-    queryKey: ['categoriesMove'],
+    queryKey: ["categoriesMove"],
     queryFn: async () => {
       const { listSelectCategories } = new CategoryUseCase(
         new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -52,11 +52,11 @@ export default function useBudgetsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { createBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -78,11 +78,11 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { editBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: {
               headers: {
                 Authorization: `Bearer ${JSON.parse(user).token}`,
@@ -107,11 +107,11 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("emma-user");
       if (user) {
         const { deleteBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -130,12 +130,12 @@ export default function useBudgetsCreateViewModel() {
   });
 
   const { data } = useQuery({
-    queryKey: ['budgetDetail', param.id],
+    queryKey: ["budgetDetail", param.id],
     queryFn: async () => {
       if (param.id) {
         const { getBudgetDetail } = new BudgetUseCase(
           new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -147,10 +147,9 @@ export default function useBudgetsCreateViewModel() {
 
         return result;
       }
-      return null
+      return null;
     },
   });
-
 
   const onSubmit = (data: any) => {
     const formData = {
@@ -167,21 +166,19 @@ export default function useBudgetsCreateViewModel() {
 
   const handleDelete = () => {
     mutationDelete.mutate();
-  }
-  
-
+  };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("emma-user");
     if (!user) {
       localStorage.removeItem("emma-user");
-      router.push('/login');
+      router.push("/login");
     } else {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
       setPeriodsOptions(userjson.periods);
       if (param.id) {
-        setTitle('Edicion de Presupuesto');
+        setTitle("Edicion de Presupuesto");
       }
     }
   }, []);
@@ -189,10 +186,10 @@ export default function useBudgetsCreateViewModel() {
   useEffect(() => {
     if (data) {
       reset({
-        category: {value: data.category.id, label: data.category.name},
+        category: { value: data.category?.id, label: data.category?.name },
         amount: data.amount,
         period_id: data.period_id.toString(),
-        badge_id: {value: data.currency.id, label: data.currency.code},
+        badge_id: { value: data.currency?.id, label: data.currency?.code },
         year: data.year.toString(),
       });
     }
