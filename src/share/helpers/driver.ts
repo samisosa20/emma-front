@@ -398,3 +398,41 @@ export function driverMovement() {
     prevBtnText: "← Atrás",
   }).drive();
 }
+
+
+export function driverSupport() {
+  driver({
+    showProgress: true,
+    steps: [
+      {
+        element: "#emma-title_Soporte",
+        popover: {
+          title: "Soporte",
+          description:
+            "En esta sección es para comunicarte con el equipo de soporte.",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-getintouch",
+        popover: {
+          title: "Contactanos",
+          description:
+            "Usa este formulario para enviarnos cualquier inconveniente, felicitaciones, sugerencias, ayuda que necesites.",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-notes",
+        popover: {
+          title: "Nota",
+          description:
+            "Importante que tengas encuenta como nos comunicamos contigo, la seguridad es muy importante para todos!",
+          align: "start",
+        },
+      },
+    ],
+    nextBtnText: "Siguiente →",
+    prevBtnText: "← Atrás",
+  }).drive();
+}

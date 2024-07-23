@@ -13,6 +13,7 @@ const AutoComplete = lazy(() => import("./AutoComplete"));
 const Checkbox = lazy(() => import("./Checkbox"));
 const Loading = lazy(() => import("./Loader"));
 const TitleHelp = lazy(() => import("./TitleHelp"));
+const Textarea = lazy(() => import("./Textarea"));
 
 const useComponents = () => {
     return {
@@ -29,6 +30,7 @@ const useComponents = () => {
         Checkbox,
         Loading,
         TitleHelp,
+        Textarea,
     }
 }
 

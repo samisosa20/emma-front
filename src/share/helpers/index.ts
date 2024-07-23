@@ -8,7 +8,8 @@ import {
   MdOutlineCategory,
   MdDownload,
   MdAutoFixHigh,
-  MdGroupWork
+  MdGroupWork,
+  MdSupport
 } from 'react-icons/md';
 
 export * from "./driver"
@@ -149,6 +150,12 @@ export const links = [
     show: false,
     icon: MdGroupWork,
     onClick: handleGoToWpp
+  },
+  {
+    name: 'Soporte',
+    link: '/support',
+    show: true,
+    icon: MdSupport,
   },
 ];
 
