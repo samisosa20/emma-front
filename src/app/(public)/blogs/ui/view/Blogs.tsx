@@ -5,7 +5,7 @@ import Link from "next/link";
 import useComponents from "@/share/components";
 
 export default function Blogs(props: any) {
-  const { Typography, Button } = useComponents();
+  const { Typography } = useComponents();
   const { blogs, truncateText } = props;
 
   return (
@@ -28,7 +28,7 @@ export default function Blogs(props: any) {
         <section>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {blogs.map((blog: any) => (
-              <Link href={`/blogs/${blog.slug}`} className="p-6">
+              <Link href={`/blogs/${blog.slug}`} className="p-6" key={blog.slug}>
                 <div className="bg-gray-100 w-full h-[180px] animate-pulse mb-4"></div>
                 <Typography
                   variant="h2"
