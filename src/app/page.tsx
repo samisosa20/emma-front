@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Assets
-import imgLogo from '../../public/img/logo.png';
 import imgLogoLetter from '../../public/img/logo-letter.svg';
 import imgMainIphone from '../../public/img/iphone.png';
 import imgInvestment from '../../public/img/investment.png';
@@ -21,18 +20,6 @@ export default function Home() {
   const { Typography, Button } = useComponents();
   return (
     <div className='min-h-screen bg-primary space-y-4'>
-      <div className='w-full h-[80px] max-w-[1280px] mx-auto py-2 px-8 flex items-center justify-between'>
-        <Image
-          src={imgLogo}
-          alt='Logo Emma'
-          loading='lazy'
-          width={148}
-          height={40}
-        />
-        <Link href='/login'>
-          <Button variant='outlined'>Iniciar sesión</Button>
-        </Link>
-      </div>
       <article className='px-8 max-w-[1280px] mx-auto'>
         <section className='flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center'>
           <div className='max-w-[600px]'>
@@ -197,9 +184,6 @@ export default function Home() {
           </div>
         </section>
       </article>
-      <Typography variant='p' className='text-white text-center py-3'>
-        © Copyright 2023
-      </Typography>
     </div>
   );
 }

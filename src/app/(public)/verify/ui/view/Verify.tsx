@@ -10,7 +10,7 @@ export default function Verify() {
   const { Typography } = useComponents();
 
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen bg-primary space-y-4">
+    <div className="flex items-center flex-col justify-center min-screen-emma bg-primary space-y-4">
       <Image
         src={imgLogo}
         alt="Logo emma"
@@ -29,9 +29,6 @@ export default function Verify() {
           </Typography>
         </div>
       </div>
-      <Typography variant="p" className="text-white text-center">
-        © Copyright 2023
-      </Typography>
     </div>
   );
 }

@@ -1,17 +1,19 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Providers } from './providers';
-import { ToastContainer } from 'react-toastify';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Providers } from "./providers";
+import { ToastContainer } from "react-toastify";
 
-const inter = Inter({ subsets: ['latin'] });
-import 'react-toastify/dist/ReactToastify.css';
-import './globals.css';
+const inter = Inter({ subsets: ["latin"] });
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 import { Suspense } from "react";
-import Loading from '@/share/components/Loader';
+import Loading from "@/share/components/Loader";
+import useComponents from "./(public)/components";
 
 export const metadata: Metadata = {
-  title: 'Emma | wallet',
-  description: 'Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.',
+  title: "Emma | wallet",
+  description:
+    "Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.",
 };
 
 export default function RootLayout({
@@ -19,30 +21,33 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { Header, Footer } = useComponents();
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
-        <link rel='manifest' href='/manifest.json' />
-        <link rel='apple-touch-icon' href='/icon.png'></link>
-        <meta name='theme-color' content='#fff' />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon.png"></link>
+        <meta name="theme-color" content="#fff" />
       </head>
       <body className={inter.className}>
-        <Suspense fallback={<Loading/>}>
-        <Providers>
-          <ToastContainer
-            position={'top-center'}
-            autoClose={4000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            rtl={false}
-            draggable={false}
-            limit={3}
-            pauseOnHover
-            theme='colored'
-            style={{ width: 'auto' }}
-          />
-          {children}
-        </Providers>
+        <Suspense fallback={<Loading />}>
+          <Providers>
+            <ToastContainer
+              position={"top-center"}
+              autoClose={4000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              rtl={false}
+              draggable={false}
+              limit={3}
+              pauseOnHover
+              theme="colored"
+              style={{ width: "auto" }}
+            />
+            <Header />
+            {children}
+            <Footer/>
+          </Providers>
         </Suspense>
       </body>
     </html>
