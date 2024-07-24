@@ -7,7 +7,7 @@ import useForgot from './ui/model/forgot.models';
 
 
 export default function Page() {
-  const { handleSubmit, onSubmit, control } =
+  const { handleSubmit, onSubmit, control, isSubmitting } =
   useForgot();
 
   return (
@@ -15,6 +15,7 @@ export default function Page() {
       control={control}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
     />
   );
 }

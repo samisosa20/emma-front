@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +14,9 @@ import { AuthApiAdapter } from '@@/infrastructure/auth-api.adapter';
 export default function useLogin(){
   const router = useRouter();
 
-  const { handleSubmit, control, reset } = useForm({
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const { handleSubmit, control, reset, } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -29,6 +31,7 @@ export default function useLogin(){
       const result = await postLogin(data)
       if(result.error) {
         toast.error(result.message)
+        setIsSubmitting(false)
         return;
       }
       localStorage.setItem('emma-user', JSON.stringify(result))
@@ -37,6 +40,7 @@ export default function useLogin(){
   })
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
+    setIsSubmitting(true)
     if(data.remind){
       localStorage.setItem('remind', data.email)
     } else {
@@ -65,5 +69,6 @@ export default function useLogin(){
     handleSubmit,
     onSubmit,
     control,
+    isSubmitting,
   };
 };

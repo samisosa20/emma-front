@@ -36,7 +36,6 @@ export default function useCategoryCreateViewModel() {
         );
         const result = await createCategory(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -61,7 +60,6 @@ export default function useCategoryCreateViewModel() {
           : parseInt(param.id);
         const result = await editCategory(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -86,7 +84,6 @@ export default function useCategoryCreateViewModel() {
           : parseInt(param.id);
         const result = await deleteCategory(id);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }

@@ -18,7 +18,7 @@ const theme = {
       contained: ``, // TODO: Add styles
       outlined: ``, // TODO: Add styles
     },
-    disabled: `bg-gray-600`,
+    disabled: `bg-gray-300 hover:bg-gray-300 animate-pulse`,
     size: {
       sm: `px-2 py-3`, // TODO: Add styles
       md: `px-4 py-3`, // TODO: Add styles

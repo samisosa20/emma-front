@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 
 import { accountSchema } from "@/share/validation";
 import type { AccountParamsSchema } from "@/share/validation";
+import { customConfigHeader } from "@/share/helpers";
 
 import { AccountUseCase } from "@@/application/account.use-case";
 import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
 
-import { customConfigHeader } from "@/share/helpers";
 
 const useAccountCreate = () => {
   const router = useRouter();
@@ -38,7 +38,6 @@ const useAccountCreate = () => {
       );
       const result = await createAccount(data);
       if (result.error) {
-        console.log(result);
         toast.error(result.message);
         return;
       }
@@ -54,11 +53,7 @@ const useAccountCreate = () => {
         const { editAccount } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -66,7 +61,6 @@ const useAccountCreate = () => {
           : parseInt(param.id);
         const result = await editAccount(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -83,11 +77,7 @@ const useAccountCreate = () => {
         const { deleteAccount } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -95,7 +85,6 @@ const useAccountCreate = () => {
           : parseInt(param.id);
         const result = await deleteAccount(id);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -112,11 +101,7 @@ const useAccountCreate = () => {
         const { desactiveAccount } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -124,7 +109,6 @@ const useAccountCreate = () => {
           : parseInt(param.id);
         const result = await desactiveAccount(id);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -141,11 +125,7 @@ const useAccountCreate = () => {
         const { activeAccount } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -153,7 +133,6 @@ const useAccountCreate = () => {
           : parseInt(param.id);
         const result = await activeAccount(id);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -171,11 +150,7 @@ const useAccountCreate = () => {
         const { getAccountDetail } = new AccountUseCase(
           new AccountApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
 

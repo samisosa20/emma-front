@@ -27,6 +27,7 @@ class AuthApiAdapter implements AuthAdapter {
         return {
             name: result.data.name,
             email: result.data.email,
+            verify_email: result.data.verify_email,
             token: result.token,
             currency: result.data.currency,
             transfer_id: result.data.transfer_id,
@@ -47,6 +48,7 @@ class AuthApiAdapter implements AuthAdapter {
         return {
             name: result.data.name,
             email: result.data.email,
+            verify_email: result.data.verify_email,
             token: result.token,
             currency: result.data.currency,
             transfer_id: result.data.transfer_id,
@@ -64,6 +66,7 @@ class AuthApiAdapter implements AuthAdapter {
 
         return result
     }
+
     async getProfile(): Promise<Profile> {
         const result: any = await this.httpService.get(`profile`);
         if(result.error) {
@@ -110,6 +113,19 @@ class AuthApiAdapter implements AuthAdapter {
         };
     }
 
+    async getVerifyEmail(id: string, hash: string, expires: string, signature: string): Promise<{error: boolean, message: string}> {
+        const result: any = await this.httpService.get(`/auth/verify/${id}/${hash}?expires=${expires}&signature=${signature}`);
+
+        return result
+    }
+
+    async postResendVerify(): Promise<{error: boolean, message: string}> {
+        const result: any = await this.httpService.post(`/email/resend`, {});
+        return {
+            error: !result.data,
+            message:result.message
+        };
+    }
     // Additional methods with error handling
 }
 

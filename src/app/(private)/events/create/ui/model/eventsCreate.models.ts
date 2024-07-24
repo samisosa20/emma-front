@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 
 import { eventSchema } from '@/share/validation';
 import type { EventSchema } from '@/share/validation';
+import { customConfigHeader } from '@/share/helpers';
 
 import { EventUseCase } from '@@/application/event.use-case';
 import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
 
-import { customConfigHeader } from '@/share/helpers';
 
 const useEventCreate = () => {
   const router = useRouter();
@@ -32,16 +32,11 @@ const useEventCreate = () => {
         const { createEvent } = new EventUseCase(
           new EventApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await createEvent(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -58,11 +53,7 @@ const useEventCreate = () => {
         const { editEvent } = new EventUseCase(
           new EventApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -70,7 +61,6 @@ const useEventCreate = () => {
           : parseInt(param.id);
         const result = await editEvent(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }

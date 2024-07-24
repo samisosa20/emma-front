@@ -30,6 +30,12 @@ class AuthUseCase implements AuthRepository {
     destroyProfile = () => {
         return this.authAdapter.destroyProfile();
     }
+    getVerifyEmail = (id: string, hash: string, expires: string, signature: string) => {
+        return this.authAdapter.getVerifyEmail(id, hash, expires, signature);
+    }
+    postResendVerify = () => {
+        return this.authAdapter.postResendVerify();
+    }
 }
 
 export { AuthUseCase }

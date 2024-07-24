@@ -15,6 +15,7 @@ const useRegister = () => {
   const router = useRouter();
 
   const [currencyOptions, setCurrencyOptions] = useState<any>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(registerSchema),
@@ -46,6 +47,7 @@ const useRegister = () => {
       const result = await postRegister(data)
       if(result.error) {
         toast.error(result.message)
+        setIsSubmitting(false)
         return;
       }
       localStorage.setItem('emma-user', JSON.stringify(result))
@@ -54,6 +56,7 @@ const useRegister = () => {
   })
 
   const onSubmit = (data: any) => {
+    setIsSubmitting(true)
     mutation.mutate({...data, badge_id: data.badge_id.value})
   };
 
@@ -67,6 +70,7 @@ const useRegister = () => {
     control,
     currencyOptions,
     isLoading,
+    isSubmitting,
   };
 };
 

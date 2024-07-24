@@ -40,6 +40,22 @@ interface AuthRepository {
      * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
      */
     recoveryPassword(data: ForgotPassword): Promise<{error: boolean, message: string}>,
+        
+    /**
+     * Retrieves a list of todos from the data source.
+     * @param {id} - user id.
+     * @param {hash} - unique hash.
+     * @param {expires} - expires time.
+     * @param {signature} - Signature to valid information.
+     * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
+     */
+    getVerifyEmail(id: string, hash: string, expires: string, signature: string): Promise<{error: boolean, message: string}>,
+
+    /**
+     * Retrieves a list of todos from the data source.
+     * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
+     */
+    postResendVerify(): Promise<{error: boolean, message: string}>,
 }
 
 export type { AuthRepository }

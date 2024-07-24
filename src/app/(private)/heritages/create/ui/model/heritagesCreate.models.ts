@@ -36,7 +36,6 @@ export default function useHeritagesCreateViewModel() {
         );
         const result = await createHeritage(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -61,7 +60,6 @@ export default function useHeritagesCreateViewModel() {
           : parseInt(param.id);
         const result = await editHeritage(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -86,7 +84,6 @@ export default function useHeritagesCreateViewModel() {
           : parseInt(param.id);
         const result = await deleteHeritage(id);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }

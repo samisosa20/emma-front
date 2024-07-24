@@ -63,11 +63,9 @@ export default function Support(props: any) {
             )}
           />
           <div className="text-right lg: text-left">
-            {!isLoading ? (
-              <Button type="submit">Enviar</Button>
-            ) : (
-              <Typography>Enviando....</Typography>
-            )}
+            <Button type="submit" disabled={isLoading}>
+              Enviar
+            </Button>
           </div>
         </form>
         <div id="emma-notes">

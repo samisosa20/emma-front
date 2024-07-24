@@ -11,7 +11,7 @@ import useComponents from '@/share/components';
 export default function Register(props: any) {
   const { Button, Typography, Input, FormControl } = useComponents();
 
-  const { handleSubmit, onSubmit, control } = props;
+  const { handleSubmit, onSubmit, control, isSubmitting } = props;
 
   return (
     <div className='flex items-center flex-col justify-center min-h-screen bg-primary space-y-4'>
@@ -43,7 +43,7 @@ export default function Register(props: any) {
                 </FormControl>
               )}
             />
-            <Button variant='contained' block type='submit'>
+            <Button variant='contained' block type='submit' disabled={isSubmitting}>
               Recuperar
             </Button>
             <Link href={'/login'}>

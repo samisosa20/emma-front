@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +14,8 @@ import { AuthApiAdapter } from '@@/infrastructure/auth-api.adapter';
 export default function useForgot() {
   const router = useRouter();
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(paramsForgotSchema),
     defaultValues: {
@@ -27,6 +30,7 @@ export default function useForgot() {
 
       if(result.error) {
         toast.error(result.message)
+        setIsSubmitting(false)
         return;
       }
       
@@ -36,6 +40,7 @@ export default function useForgot() {
   })
 
   const onSubmit: SubmitHandler<ParamsForgotSchema> = (data) => {
+    setIsSubmitting(true)
     mutation.mutate(data)
   };
 
@@ -43,5 +48,6 @@ export default function useForgot() {
     handleSubmit,
     onSubmit,
     control,
+    isSubmitting,
   };
 };

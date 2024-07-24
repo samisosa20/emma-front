@@ -11,7 +11,7 @@ import useComponents from '@/share/components';
 export default function Register(props: any) {
   const { Button, Typography, Input, FormControl, AutoComplete } = useComponents();
 
-  const { handleSubmit, onSubmit, control, currencyOptions } = props;
+  const { handleSubmit, onSubmit, control, currencyOptions, isSubmitting } = props;
 
   return (
     <div className='flex items-center flex-col justify-center min-h-screen bg-primary space-y-4 py-8'>
@@ -94,7 +94,7 @@ export default function Register(props: any) {
                 </FormControl>
               )}
             />
-            <Button variant='contained' block type='submit'>
+            <Button variant='contained' block type='submit' disabled={isSubmitting}>
               Registrar
             </Button>
             <Link href={'/login'}>

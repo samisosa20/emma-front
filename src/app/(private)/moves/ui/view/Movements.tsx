@@ -23,6 +23,7 @@ export default function Movements(props: any) {
     accountEndWatch,
     accountWatch,
     investmentWatch,
+    isSubmitting,
   } = props;
 
   const router = useRouter();
@@ -60,6 +61,7 @@ export default function Movements(props: any) {
               <Button
                 onClick={handleDelete}
                 className='flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white'
+                disabled={isSubmitting}
               >
                 <MdDeleteOutline />
                 <Typography className='text-white'>Eliminar</Typography>
@@ -328,6 +330,7 @@ export default function Movements(props: any) {
             <Button
               type='submit'
               className='mt-8 col-span-2 w-full lg:w-[350px]'
+              disabled={isSubmitting}
             >
               Guardar
             </Button>

@@ -17,6 +17,9 @@ export default function Profile(props: any) {
     onSubmitDestroy,
     handleSubmitDestroy,
     emailUser,
+    verify,
+    handeResendVerify,
+    isSubmitting,
   } = props;
   const { Typography, Input, Select, FormControl, Button, Modal } =
     useComponents();
@@ -96,11 +99,22 @@ export default function Profile(props: any) {
             )}
           />
 
-          <Button type="submit" className="w-full">
-            Aplicar
-          </Button>
+          {verify && (
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              Aplicar cambios
+            </Button>
+          )}
         </form>
       </div>
+      {!verify && <div className="max-w-[640px] mx-auto mt-8">
+        <Button
+          onClick={() => handeResendVerify()}
+          className="w-full bg-green-500 hover:bg-green-300 text-white"
+          disabled={isSubmitting}
+        >
+          Reenviar confirmacion
+        </Button>
+      </div>}
       <div className="max-w-[640px] mx-auto mt-8">
         <Button
           onClick={() => handleClose()}
@@ -115,8 +129,14 @@ export default function Profile(props: any) {
         onClose={() => handleClose()}
       >
         <form onSubmit={handleSubmitDestroy(onSubmitDestroy)}>
-        <Typography>Nos duele verte partir, pero antes de proceder necesitamos que confirmes tu decisión. La eliminación de tu cuenta es irreversible y resultará en la pérdida de todos los datos asociados.</Typography>
-        <Typography className="mb-4">Para confirmar dijita <b>{emailUser}</b> y pulsa en eliminar</Typography>
+          <Typography>
+            Nos duele verte partir, pero antes de proceder necesitamos que
+            confirmes tu decisión. La eliminación de tu cuenta es irreversible y
+            resultará en la pérdida de todos los datos asociados.
+          </Typography>
+          <Typography className="mb-4">
+            Para confirmar dijita <b>{emailUser}</b> y pulsa en eliminar
+          </Typography>
           <Controller
             name={"email"}
             control={controlDestroy}
@@ -138,6 +158,7 @@ export default function Profile(props: any) {
           <Button
             type="submit"
             className="w-full bg-red-500 hover:bg-red-300 text-white"
+            disabled={isSubmitting}
           >
             Eliminar
           </Button>

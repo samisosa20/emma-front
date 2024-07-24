@@ -5,6 +5,7 @@ import { MdAttachMoney } from 'react-icons/md';
 // Component
 import Navbar from './components/Navbar';
 import Header from './components/Header';
+import ModalVerify from './components/ModalVerify';
 
 export const metadata: Metadata = {
   title: 'Emma | wallet',
@@ -33,6 +34,7 @@ export default function RootLayout({
           </div>
         </Link>
       </div>
+      <ModalVerify/>
     </div>
   );
 }

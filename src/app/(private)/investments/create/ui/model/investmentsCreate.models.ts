@@ -13,11 +13,11 @@ import type {
   InvestmentSchema,
   InvestmentAppretiaitonSchema,
 } from "@/share/validation";
+import { customConfigHeader, formatCurrency } from "@/share/helpers";
 
 import { InvestmentUseCase } from "@@/application/investment.use-case";
 import { InvestmentApiAdapter } from "@@/infrastructure/investment-api.adapter";
 
-import { customConfigHeader, formatCurrency } from "@/share/helpers";
 
 export default function useInvestmentsCreateViewModel() {
   const router = useRouter();
@@ -61,16 +61,11 @@ export default function useInvestmentsCreateViewModel() {
         const { createInvestment } = new InvestmentUseCase(
           new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await createInvestment(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -87,11 +82,7 @@ export default function useInvestmentsCreateViewModel() {
         const { editInvestment } = new InvestmentUseCase(
           new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -99,7 +90,6 @@ export default function useInvestmentsCreateViewModel() {
           : parseInt(param.id);
         const result = await editInvestment(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -162,11 +152,7 @@ export default function useInvestmentsCreateViewModel() {
         const { createAppretiation } = new InvestmentUseCase(
           new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -174,7 +160,6 @@ export default function useInvestmentsCreateViewModel() {
           : parseInt(param.id);
         const result = await createAppretiation({ ...data, investment_id: id });
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -193,11 +178,7 @@ export default function useInvestmentsCreateViewModel() {
         const { editAppretiation } = new InvestmentUseCase(
           new InvestmentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -208,7 +189,6 @@ export default function useInvestmentsCreateViewModel() {
           investment_id: id,
         });
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -256,7 +236,6 @@ export default function useInvestmentsCreateViewModel() {
   };
 
   const onSubmitAppre = (data: any) => {
-    console.log(idAppretiation);
     if (idAppretiation !== undefined) {
       mutationEditAppre.mutate(data);
     } else {

@@ -8,7 +8,7 @@ import useRegister from './ui/model/register.models';
 
 
 export default function Page() {
-  const { isLoading, handleSubmit, onSubmit, control, currencyOptions } =
+  const { isLoading, handleSubmit, onSubmit, control, currencyOptions, isSubmitting } =
   useRegister();
   const { Loading } = useComponents();
 
@@ -22,6 +22,7 @@ export default function Page() {
       currencyOptions={currencyOptions}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
     />
   );
 }

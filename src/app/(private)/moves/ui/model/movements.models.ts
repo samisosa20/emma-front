@@ -34,13 +34,13 @@ export default function useMovementsViewModel() {
   const [listCategories, setListCategories] = useState<any[]>([]);
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [listInvestments, setListInvestments] = useState<any[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     handleSubmit,
     control,
     reset,
     watch,
-    formState: { errors },
   } = useForm({
     resolver: zodResolver(movementSchema),
     defaultValues: {
@@ -161,6 +161,7 @@ export default function useMovementsViewModel() {
         const result = await createMovement(data);
         if (result.error) {
           toast.error(result.message);
+          setIsSubmitting(false)
           return;
         }
         toast.success(result.message);
@@ -184,6 +185,7 @@ export default function useMovementsViewModel() {
         const result = await editMovement(id, data);
         if (result.error) {
           toast.error(result.message);
+          setIsSubmitting(false)
           return;
         }
         toast.success(result.message);
@@ -208,6 +210,7 @@ export default function useMovementsViewModel() {
         const result = await deleteMovement(id);
         if (result.error) {
           toast.error(result.message);
+          setIsSubmitting(false)
           return;
         }
         toast.success(result.message);
@@ -217,7 +220,7 @@ export default function useMovementsViewModel() {
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    setIsSubmitting(true)
     const formData = {
       ...data,
       type: data.type == 0 ? "transfer" : "move",
@@ -245,6 +248,7 @@ export default function useMovementsViewModel() {
   };
 
   const handleDelete = () => {
+    setIsSubmitting(true)
     mutationDelete.mutate();
   };
 
@@ -404,5 +408,6 @@ export default function useMovementsViewModel() {
     accountEndWatch,
     accountWatch,
     investmentWatch,
+    isSubmitting,
   };
 }

@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 
 import { budgetSchema } from "@/share/validation";
 import type { BudgetParamsSchema } from "@/share/validation";
+import { customConfigHeader } from "@/share/helpers";
 
 import { BudgetUseCase } from "@@/application/budget.use-case";
 import { BudgetApiAdapter } from "@@/infrastructure/budget-api.adapter";
 import { CategoryUseCase } from "@@/application/category.use-case";
 import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from "@/share/helpers";
 
 export default function useBudgetsCreateViewModel() {
   const router = useRouter();
@@ -57,16 +57,11 @@ export default function useBudgetsCreateViewModel() {
         const { createBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await createBudget(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -83,11 +78,7 @@ export default function useBudgetsCreateViewModel() {
         const { editBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -95,7 +86,6 @@ export default function useBudgetsCreateViewModel() {
           : parseInt(param.id);
         const result = await editBudget(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }

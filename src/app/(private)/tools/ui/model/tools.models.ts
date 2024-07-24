@@ -8,6 +8,7 @@ import { ToolApiAdapter } from '@@/infrastructure/tool-api.adapter';
 
 import { predictionParamsSchema, testProjectParamsSchema } from '@/share/validation';
 import type { PredictionParamsSchema, TestProjectParamsSchema } from '@/share/validation';
+import { customConfigHeader } from "@/share/helpers";
 
 export default function useToolsViewModel() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
@@ -33,11 +34,7 @@ export default function useToolsViewModel() {
         const { getCanIDo } = new ToolUseCase(
           new ToolApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await getCanIDo(data);
@@ -54,11 +51,7 @@ export default function useToolsViewModel() {
         const { getTestProject } = new ToolUseCase(
           new ToolApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await getTestProject(data);

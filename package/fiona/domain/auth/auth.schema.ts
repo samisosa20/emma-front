@@ -41,6 +41,7 @@ const profileSchema = z.object({
 
 const authSchema = z.object({
   email: z.string().email('Formato incorrecto'),
+  verify_email: z.boolean(),
   name: z.string(),
   currency: z.number(),
   transfer_id: z.number(),

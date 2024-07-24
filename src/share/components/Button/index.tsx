@@ -39,6 +39,7 @@ const Button = (props: ButtonProps) => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type={type}
+      disabled={disabled}
     >
       {children}
     </button>

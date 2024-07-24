@@ -214,7 +214,7 @@ export default function Tools(props: any) {
           </div>
         </form>
       </div>
-      <Modal isOpen={isOpen} title="Fiona:">
+      <Modal isOpen={isOpen} title="EMMA:">
         <Typography className="text-justify">{displayText.message}</Typography>
         <div className="text-right">
           <Button variant="outlined" color="dark" onClick={handleClose}>

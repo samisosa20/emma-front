@@ -3,7 +3,7 @@
 import useComponents from "@/share/components";
 import Profile from "./ui/view/Profile";
 
-import useDashboardViewModel from "./ui/model/dashboard.models";
+import useProfileViewModel from "./ui/model/profile.models";
 
 export default function Page() {
   const {
@@ -20,7 +20,10 @@ export default function Page() {
     onSubmitDestroy,
     handleSubmitDestroy,
     emailUser,
-  } = useDashboardViewModel();
+    verify,
+    handeResendVerify,
+    isSubmitting,
+  } = useProfileViewModel();
 
   const { Loading } = useComponents();
 
@@ -42,6 +45,9 @@ export default function Page() {
       onSubmitDestroy={onSubmitDestroy}
       handleSubmitDestroy={handleSubmitDestroy}
       emailUser={emailUser}
+      verify={verify}
+      handeResendVerify={handeResendVerify}
+      isSubmitting={isSubmitting}
     />
   );
 }

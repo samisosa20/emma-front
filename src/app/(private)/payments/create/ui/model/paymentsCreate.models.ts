@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 import { paymentsSchema } from "@/share/validation";
 import type { PaymentsParamsSchema } from "@/share/validation";
+import { customConfigHeader } from "@/share/helpers";
 
 import { PaymentUseCase } from "@@/application/payment.use-case";
 import { PaymentApiAdapter } from "@@/infrastructure/payment-api.adapter";
@@ -15,7 +16,6 @@ import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
 import { CategoryUseCase } from "@@/application/category.use-case";
 import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from "@/share/helpers";
 
 export default function usePaymentsCreateViewModel() {
   const router = useRouter();
@@ -43,8 +43,6 @@ export default function usePaymentsCreateViewModel() {
     },
   });
 
-  console.log(errors);
-
   const mutation = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
       const user = localStorage.getItem("emma-user");
@@ -52,16 +50,11 @@ export default function usePaymentsCreateViewModel() {
         const { createPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const result = await createPayment(data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
@@ -78,11 +71,7 @@ export default function usePaymentsCreateViewModel() {
         const { editPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
             baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: {
-              headers: {
-                Authorization: `Bearer ${JSON.parse(user).token}`,
-              },
-            },
+            customConfig: customConfigHeader(),
           })
         );
         const id = Array.isArray(param.id)
@@ -90,7 +79,6 @@ export default function usePaymentsCreateViewModel() {
           : parseInt(param.id);
         const result = await editPayment(id, data);
         if (result.error) {
-          console.log(result);
           toast.error(result.message);
           return;
         }
