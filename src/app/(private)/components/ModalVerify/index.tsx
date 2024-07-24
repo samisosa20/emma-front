@@ -33,8 +33,7 @@ export default function ModalVerify() {
         con nosotros. Antes de comenzar a explorar todas las increíbles
         funcionalidades que ofrecemos, por favor verifica tu dirección de correo
         electrónico.<br/><br/>Hemos enviado un enlace de verificación a tu email.
-        Simplemente haz clic en el enlace para confirmar tu dirección y
-        completar el proceso de registro.<br/><br/>Si no encuentras el correo en tu
+        Simplemente haz clic en el enlace para confirmar tu email.<br/><br/>Si no encuentras el correo en tu
         bandeja de entrada, por favor revisa la carpeta de spam o correo no
         deseado.<br/><br/>Gracias por unirte a nosotros. ¡Esperamos que disfrutes de la
         experiencia!

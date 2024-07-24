@@ -9,7 +9,8 @@ import {
   MdDownload,
   MdAutoFixHigh,
   MdGroupWork,
-  MdSupport
+  MdSupport,
+  MdBook
 } from 'react-icons/md';
 
 export * from "./driver"
@@ -156,6 +157,12 @@ export const links = [
     link: '/support',
     show: true,
     icon: MdSupport,
+  },
+  {
+    name: 'Blogs',
+    link: '/blogs',
+    show: true,
+    icon: MdBook,
   },
 ];
 

@@ -2,16 +2,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Assets
-import imgLogoLetter from '../../public/img/logo-letter.svg';
-import imgMainIphone from '../../public/img/iphone.png';
-import imgInvestment from '../../public/img/investment.png';
-import imgHeritage from '../../public/img/heritage.png';
-import imgBudget from '../../public/img/budget.png';
+import imgLogoLetter from '../../../public/img/logo-letter.svg';
+import imgMainIphone from '../../../public/img/iphone.png';
+import imgInvestment from '../../../public/img/investment.png';
+import imgHeritage from '../../../public/img/heritage.png';
+import imgBudget from '../../../public/img/budget.png';
 
-import iconLineChart from '../../public/img/icon-line-chart.svg';
-import iconPieChart from '../../public/img/icon-pie-chart.svg';
-import iconPigBank from '../../public/img/icon-pig-bank.svg';
-import iconManagment from '../../public/img/icon-managment.svg';
+import iconLineChart from '../../../public/img/icon-line-chart.svg';
+import iconPieChart from '../../../public/img/icon-pie-chart.svg';
+import iconPigBank from '../../../public/img/icon-pig-bank.svg';
+import iconManagment from '../../../public/img/icon-managment.svg';
 
 //components
 import useComponents from '@/share/components';

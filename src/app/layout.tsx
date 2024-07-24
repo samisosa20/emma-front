@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { Suspense } from "react";
 import Loading from "@/share/components/Loader";
-import useComponents from "./(public)/components";
 
 export const metadata: Metadata = {
   title: "Emma | wallet",
@@ -21,7 +20,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { Header, Footer } = useComponents();
   return (
     <html lang="en">
       <head>
@@ -44,9 +42,7 @@ export default function RootLayout({
               theme="colored"
               style={{ width: "auto" }}
             />
-            <Header />
             {children}
-            <Footer/>
           </Providers>
         </Suspense>
       </body>
