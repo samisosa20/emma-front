@@ -34,5 +34,6 @@ export default function useBlogs() {
   return {
     isLoading,
     data,
+    router,
   };
 }

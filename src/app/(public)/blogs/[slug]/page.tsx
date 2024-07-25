@@ -6,16 +6,13 @@ import useBlogs from "./ui/model/blogs.models";
 import useComponents from "@/share/components";
 
 export default function Page() {
-  const {isLoading,
-    data, } = useBlogs();
+  const { isLoading, data, router } = useBlogs();
 
-    const { Loading } = useComponents();
+  const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
-  return (
-    <BlogDetail blog={data} />
-  );
+  return <BlogDetail blog={data} router={router} />;
 }

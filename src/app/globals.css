@@ -85,3 +85,19 @@ body {
 .min-screen-emma {
   min-height: calc(100vh - 80px - 44px);
 }
+
+.ql-align-center {
+  @apply flex justify-center;
+}
+
+.emma-blog-content h2 {
+  @apply text-2xl text-yellow-400 font-bold;
+}
+
+.emma-blog-content ol {
+  @apply list-disc list-inside ml-4;
+}
+
+.emma-blog-content strong {
+  @apply text-yellow-400 font-bold;
+}
