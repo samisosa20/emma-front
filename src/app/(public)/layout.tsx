@@ -1,12 +1,9 @@
-import type { Metadata } from 'next';
+'use client';
+import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 
 // Component
 import useComponents from './components';
 
-export const metadata: Metadata = {
-  title: 'Emma | wallet',
-  description: 'Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.',
-};
 
 export default function RootLayout({
   children,
@@ -16,9 +13,11 @@ export default function RootLayout({
   const { Header, Footer } = useComponents();
   return (
     <div>
+      <IonApp>
         <Header />
         {children}
         <Footer/>
+      </IonApp>
     </div>
   );
 }
