@@ -19,7 +19,7 @@ export default function ModalVerify() {
 
   useEffect(() => {
     const user = localStorage.getItem("emma-user");
-    if (user && pathname !== '/profile') {
+    if (user && pathname !== '/profile' && pathname !== '/support') {
       const userjson = JSON.parse(user);
       setIsOpen(!userjson.verify_email);
     }
