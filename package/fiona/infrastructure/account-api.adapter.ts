@@ -80,9 +80,11 @@ class AccountApiAdapter implements AccountAdapter {
         title: key,
         values: result.balances.map(
           (item: any) =>
-            `${parseFloat(item[key]).toLocaleString()} ${item.currency}`
+            `${parseFloat(item[key]).toLocaleString()}${key.includes('variation') ? '' : ` ${item.currency}`}`
         ),
       }));
+
+      console.log(transformedData)
     return {
       balancesAccount: result.balancesAccount,
       movements: result.movements,
@@ -91,15 +93,18 @@ class AccountApiAdapter implements AccountAdapter {
         {
           title: "Balance del mes actual",
           values: transformedData.filter((v) => v.title === "month")[0].values,
+          variations: transformedData.filter((v) => v.title === "month_variation")[0].values,
         },
         {
           title: "Balance del año actual",
           values: transformedData.filter((v) => v.title === "year")[0].values,
+          variations: transformedData.filter((v) => v.title === "year_variation")[0].values,
         },
         {
           title: "Balance total",
           values: transformedData.filter((v) => v.title === "balance")[0]
             .values,
+            variations: null
         },
       ],
     };
