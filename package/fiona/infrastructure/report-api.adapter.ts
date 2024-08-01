@@ -37,18 +37,22 @@ class ReportApiAdapter implements ReportAdapter {
       {
         title: "Balance inicial",
         values: [result.metrics.open_balance + " " + result.currency?.code],
+        variations: [result.metrics.open_balance_variation],
       },
       {
         title: "Ingresos",
         values: [result.metrics.income + " " + result.currency?.code],
+        variations: [result.metrics.income_variation],
       },
       {
         title: "Egresos",
         values: [result.metrics.expensive + " " + result.currency?.code],
+        variations: [result.metrics.expensive_variation],
       },
       {
         title: "Balance final",
         values: [result.metrics.utility + " " + result.currency?.code],
+        variations: [result.metrics.utility_variation],
       },
     ];
 

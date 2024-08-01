@@ -113,14 +113,18 @@ const ListModal = (props: ListItemsProps) => {
             <Typography variant="h5">
               {card.title} {card.father ? ` (${card.father})` : ""}
             </Typography>
-            <Typography
-              variant="h3"
-              className={`text-right ${
+            <div className={`flex items-center ${card.variation ? "justify-between" : "justify-end"}`}>
+              {card.variation && (
+                <Typography variant="h6" className={`${card.variation < 0  ? "text-red-500" : "text-green-500"}`}>
+                  {card.variation}%
+                </Typography>
+              )}
+              <Typography variant="h3" className={`text-right ${
                 card.value >= 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >
+              }`}>
               {formatoMoneda.format(card.value)}
-            </Typography>
+              </Typography>
+            </div>
           </div>
         ))}
       </div>
