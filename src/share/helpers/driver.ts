@@ -399,7 +399,6 @@ export function driverMovement() {
   }).drive();
 }
 
-
 export function driverSupport() {
   driver({
     showProgress: true,
@@ -428,6 +427,36 @@ export function driverSupport() {
           title: "Nota",
           description:
             "Importante que tengas encuenta como nos comunicamos contigo, la seguridad es muy importante para todos!",
+          align: "start",
+        },
+      },
+    ],
+    nextBtnText: "Siguiente →",
+    prevBtnText: "← Atrás",
+  }).drive();
+}
+
+export function driverListGroupExpensive() {
+  driver({
+    showProgress: true,
+    steps: [
+      {
+        element: "#emma-percentage_Gastos_Personales",
+        popover: {
+          title: "Porcentaje",
+          description:
+            `Este es el procentaje que corresponde a tus ingreso, es <b>importante</b> que tengas encuenta una relación <b>50 / 30 / 20</b>,
+            donde el <b>50%</b> son tus <b>gastos fijos</b>, el <b>30%</b> son tus <b>gastos personales</b> y el <b>20%</b> son tus <b>ahorros</b>`,
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-variation_Gastos_Personales",
+        popover: {
+          title: "Variación",
+          description:
+            `Esta es la variación que tuviste frente al perido pasado, para <b>los gastos una variación negativa</b> significa <b>un incremento</b> en los gasto y 
+            <b>una positiva una reducción</b>, mientras que en <b>la utiilidad </b> si es <b>positiva incremento</b> y si fue negativa disminuyo`,
           align: "start",
         },
       },

@@ -10,6 +10,8 @@ export interface ListItems {
     variation?: number;
   }[];
   title: string;
+  tooltip?: boolean;
+  tooltipVariant?: 'group';
   variant?: 'default' | 'modal' | 'utilization' | 'movements';
   onClickModal?: (id: number)=>void;
   dataModal?: any[];

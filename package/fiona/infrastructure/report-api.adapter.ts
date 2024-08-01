@@ -60,7 +60,7 @@ class ReportApiAdapter implements ReportAdapter {
       ...result,
       metrics: metrics,
       group_expensive: result.group_expensive.map((group: any) => {
-        return { title: group.name, value: group.amount, id: group.id };
+        return { title: group.name, value: group.amount, id: group.id, percentage: group.porcent, variation: group.variation };
       }),
       list_expensives: result.list_expensives.map((expensive: any) => {
         return {

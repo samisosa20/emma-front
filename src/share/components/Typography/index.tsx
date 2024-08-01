@@ -7,6 +7,7 @@ import { useTheme } from './Typography.styles';
 
 const Button = (props: TypographyProps) => {
   const {
+    id,
     children,
     onClick,
     className = '',
@@ -18,6 +19,7 @@ const Button = (props: TypographyProps) => {
   const Element = variant 
   return (
     <Element
+      id={id}
       onClick={onClick}
       className={twMerge(
         typography[variant],

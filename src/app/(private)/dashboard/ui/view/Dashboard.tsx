@@ -218,6 +218,8 @@ export default function Dashboard(props: any) {
           variant='modal'
           onClickModal={getMovementsGroup}
           dataModal={listMovements}
+          tooltip={data.group_expensive.length > 0}
+          tooltipVariant='group'
         />
         <ListItems
           title='Lista de ingresos'

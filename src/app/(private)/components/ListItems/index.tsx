@@ -7,6 +7,7 @@ import useComponents from "@/share/components";
 
 // Interface
 import { ListItems as ListItemsProps } from "./ListItems.interface";
+import { driverListGroupExpensive } from '@/share/helpers';
 
 const formatoMoneda = new Intl.NumberFormat("es-US", {
   style: "currency",
@@ -85,8 +86,8 @@ const ListUtil = (props: ListItemsProps) => {
 };
 
 const ListModal = (props: ListItemsProps) => {
-  const { data, title, onClickModal, dataModal, showHistory, currency } = props;
-  const { Typography, Modal, Button } = useComponents();
+  const { data, title, onClickModal, dataModal, showHistory, currency, tooltip, tooltipVariant } = props;
+  const { Typography, Modal, TitleHelp } = useComponents();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -98,9 +99,15 @@ const ListModal = (props: ListItemsProps) => {
     setCategoryId(id);
   };
 
+  const handleOnDrive = (type?: string) => {
+    if(type === 'group') {
+      driverListGroupExpensive()
+    }
+  }
+
   return (
     <div className="bg-white p-4 shadow-sm rounded">
-      <Typography className="mb-4">{title}</Typography>
+      <TitleHelp title={title} variant="p" onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}/>
       <div className="h-[243px] overflow-y-auto">
         {data?.map((card, index) => (
           <div
@@ -111,11 +118,11 @@ const ListModal = (props: ListItemsProps) => {
             onClick={() => handleSelectItem(card.id)}
           >
             <Typography variant="h5">
-              {card.title} {card.father ? ` (${card.father})` : ""}
+              {card.title} {card.father ? ` (${card.father})` : ""} <span id={`emma-percentage_${card.title?.replace(/ /g, "_")}`}>{card.percentage ? ` (${card.percentage}%)` : ""}</span>
             </Typography>
             <div className={`flex items-center ${card.variation ? "justify-between" : "justify-end"}`}>
               {card.variation && (
-                <Typography variant="h6" className={`${card.variation < 0  ? "text-red-500" : "text-green-500"}`}>
+                <Typography variant="h6" className={`${card.variation < 0  ? "text-red-500" : "text-green-500"}`} id={`emma-variation_${card.title?.replace(/ /g, "_")}`}>
                   {card.variation}%
                 </Typography>
               )}
@@ -181,6 +188,8 @@ const ListItems = (props: ListItemsProps) => {
     dataModal = [],
     showHistory = false,
     currency,
+    tooltip = false,
+    tooltipVariant
   } = props;
 
   if (variant === "default") {
@@ -196,6 +205,8 @@ const ListItems = (props: ListItemsProps) => {
         dataModal={dataModal}
         showHistory={showHistory}
         currency={currency}
+        tooltip={tooltip}
+        tooltipVariant={tooltipVariant}
       />
     );
   }
