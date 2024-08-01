@@ -38,7 +38,7 @@ const balanceSchema = z.object({
     .transform((e) => (e === '' ? undefined : e)),
   title: z.string(),
   values: z.array(z.string()),
-  variations: z.array(z.number()).nullable(),
+  variations: z.array(z.number()).optional(),
 });
 
 const listAccountSchema = z.object({
