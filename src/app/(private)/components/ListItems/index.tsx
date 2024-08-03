@@ -7,7 +7,8 @@ import useComponents from "@/share/components";
 
 // Interface
 import { ListItems as ListItemsProps } from "./ListItems.interface";
-import { driverListGroupExpensive } from '@/share/helpers';
+import { driverListGroupExpensive } from "@/share/helpers";
+import { unescape } from "querystring";
 
 const formatoMoneda = new Intl.NumberFormat("es-US", {
   style: "currency",
@@ -86,7 +87,16 @@ const ListUtil = (props: ListItemsProps) => {
 };
 
 const ListModal = (props: ListItemsProps) => {
-  const { data, title, onClickModal, dataModal, showHistory, currency, tooltip, tooltipVariant } = props;
+  const {
+    data,
+    title,
+    onClickModal,
+    dataModal,
+    showHistory,
+    currency,
+    tooltip,
+    tooltipVariant,
+  } = props;
   const { Typography, Modal, TitleHelp } = useComponents();
   const router = useRouter();
 
@@ -100,14 +110,18 @@ const ListModal = (props: ListItemsProps) => {
   };
 
   const handleOnDrive = (type?: string) => {
-    if(type === 'group') {
-      driverListGroupExpensive()
+    if (type === "group") {
+      driverListGroupExpensive();
     }
-  }
+  };
 
   return (
     <div className="bg-white p-4 shadow-sm rounded">
-      <TitleHelp title={title} variant="p" onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}/>
+      <TitleHelp
+        title={title}
+        variant="p"
+        onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
+      />
       <div className="h-[243px] overflow-y-auto">
         {data?.map((card, index) => (
           <div
@@ -118,18 +132,36 @@ const ListModal = (props: ListItemsProps) => {
             onClick={() => handleSelectItem(card.id)}
           >
             <Typography variant="h5">
-              {card.title} {card.father ? ` (${card.father})` : ""} <span id={`emma-percentage_${card.title?.replace(/ /g, "_")}`}>{card.percentage ? ` (${card.percentage}%)` : ""}</span>
+              {card.title} {card.father ? ` (${card.father})` : ""}{" "}
+              <span id={`emma-percentage_${card.title?.replace(/ /g, "_")}`}>
+                {card.percentage !== null && card.percentage !== undefined
+                  ? ` (${card.percentage}%)`
+                  : ""}
+              </span>
             </Typography>
-            <div className={`flex items-center ${card.variation ? "justify-between" : "justify-end"}`}>
-              {card.variation && (
-                <Typography variant="h6" className={`${card.variation < 0  ? "text-red-500" : "text-green-500"}`} id={`emma-variation_${card.title?.replace(/ /g, "_")}`}>
+            <div
+              className={`flex items-center ${
+                card.variation ? "justify-between" : "justify-end"
+              }`}
+            >
+              {card.variation !== null && card.variation !== undefined && (
+                <Typography
+                  variant="h6"
+                  className={`${
+                    card.variation < 0 ? "text-red-500" : "text-green-500"
+                  }`}
+                  id={`emma-variation_${card.title?.replace(/ /g, "_")}`}
+                >
                   {card.variation}%
                 </Typography>
               )}
-              <Typography variant="h3" className={`text-right ${
-                card.value >= 0 ? "text-green-500" : "text-red-500"
-              }`}>
-              {formatoMoneda.format(card.value)}
+              <Typography
+                variant="h3"
+                className={`text-right ${
+                  card.value >= 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {formatoMoneda.format(card.value)}
               </Typography>
             </div>
           </div>
@@ -189,7 +221,7 @@ const ListItems = (props: ListItemsProps) => {
     showHistory = false,
     currency,
     tooltip = false,
-    tooltipVariant
+    tooltipVariant,
   } = props;
 
   if (variant === "default") {
