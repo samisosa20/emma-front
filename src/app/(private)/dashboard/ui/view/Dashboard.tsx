@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller } from "react-hook-form";
 import {
   AreaChart,
   XAxis,
@@ -10,13 +10,13 @@ import {
   PieChart,
   Pie,
   Cell,
-} from 'recharts';
+} from "recharts";
 
 //components
-import useComponents from '@/share/components';
-import useComponentsLayout from '@/app/(private)/components';
+import useComponents from "@/share/components";
+import useComponentsLayout from "@/app/(private)/components";
 
-import { colors, formatCurrency, driverDash } from '@/share/helpers';
+import { colors, formatCurrency, driverDash } from "@/share/helpers";
 
 export default function Dashboard(props: any) {
   const {
@@ -29,7 +29,8 @@ export default function Dashboard(props: any) {
     getMovementsGroup,
     listMovements,
   } = props;
-  const { Typography, Input, FormControl, Button, TitleHelp, AutoComplete } = useComponents();
+  const { Typography, Input, FormControl, Button, TitleHelp, AutoComplete } =
+    useComponents();
   const { Cards, ListItems, Filters } = useComponentsLayout();
 
   return (
@@ -39,14 +40,14 @@ export default function Dashboard(props: any) {
       <Filters>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name={'badge_id'}
+            name={"badge_id"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
-                  label='Moneda'
-                  placeholder='Seleciona una opcion'
-                  id='badge_id'
+                  label="Moneda"
+                  placeholder="Seleciona una opcion"
+                  id="badge_id"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -58,15 +59,15 @@ export default function Dashboard(props: any) {
             )}
           />
           <Controller
-            name={'start_date'}
+            name={"start_date"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type='date'
+                  type="date"
                   step={0.01}
-                  placeholder='Fecha inicial'
-                  label='Fecha inicial'
+                  placeholder="Fecha inicial"
+                  label="Fecha inicial"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -77,15 +78,15 @@ export default function Dashboard(props: any) {
             )}
           />
           <Controller
-            name={'end_date'}
+            name={"end_date"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type='date'
+                  type="date"
                   step={0.01}
-                  placeholder='Fecha final'
-                  label='Fecha final'
+                  placeholder="Fecha final"
+                  label="Fecha final"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -95,20 +96,20 @@ export default function Dashboard(props: any) {
               </FormControl>
             )}
           />
-          <Button type='submit' className='w-full absolute bottom-0'>
+          <Button type="submit" className="w-full absolute bottom-0">
             Aplicar
           </Button>
         </form>
       </Filters>
-      <div className='mt-6'>
+      <div className="mt-6">
         <Cards title="balance" data={data.metrics} />
       </div>
-      <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div id="emma-chart_incomes" className='bg-white'>
-          <Typography variant='p' className='px-4 pt-4'>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="emma-chart_incomes" className="bg-white">
+          <Typography variant="p" className="px-4 pt-4">
             Ingresos
           </Typography>
-          <div className='flex items-center justify-center'>
+          <div className="flex items-center justify-center">
             <PieChart
               width={340}
               height={340}
@@ -116,10 +117,10 @@ export default function Dashboard(props: any) {
             >
               <Pie
                 data={data.incomes}
-                dataKey='amount'
-                nameKey='category'
-                cx='50%'
-                cy='50%'
+                dataKey="amount"
+                nameKey="category"
+                cx="50%"
+                cy="50%"
               >
                 {data.expensives &&
                   data.expensives.map((entry: any, index: number) => (
@@ -134,11 +135,11 @@ export default function Dashboard(props: any) {
             </PieChart>
           </div>
         </div>
-        <div id="emma-chart_expensives" className='bg-white'>
-          <Typography variant='p' className='px-4 pt-4'>
+        <div id="emma-chart_expensives" className="bg-white">
+          <Typography variant="p" className="px-4 pt-4">
             Egresos
           </Typography>
-          <div className='flex items-center justify-center'>
+          <div className="flex items-center justify-center">
             <PieChart
               width={340}
               height={340}
@@ -146,10 +147,10 @@ export default function Dashboard(props: any) {
             >
               <Pie
                 data={data.expensives}
-                dataKey='amount'
-                nameKey='category'
-                cx='50%'
-                cy='50%'
+                dataKey="amount"
+                nameKey="category"
+                cx="50%"
+                cy="50%"
               >
                 {data.expensives &&
                   data.expensives.map((entry: any, index: number) => (
@@ -165,8 +166,8 @@ export default function Dashboard(props: any) {
           </div>
         </div>
       </div>
-      <div id="emma-chart_balances" className='mt-6 bg-white'>
-        <Typography variant='p' className='p-4'>
+      <div id="emma-chart_balances" className="mt-6 bg-white">
+        <Typography variant="p" className="p-4">
           Balance
         </Typography>
         <ResponsiveContainer minWidth={300} aspect={3.25}>
@@ -175,16 +176,16 @@ export default function Dashboard(props: any) {
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
-              <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='5%' stopColor='#8884d8' stopOpacity={0.8} />
-                <stop offset='95%' stopColor='#8884d8' stopOpacity={0} />
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id='colorPv' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='5%' stopColor='#82ca9d' stopOpacity={0.8} />
-                <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
+              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <XAxis dataKey='date' />
+            <XAxis dataKey="date" />
             <YAxis
               tickFormatter={(value) => {
                 if (value >= 1000000) {
@@ -195,61 +196,64 @@ export default function Dashboard(props: any) {
                 return value;
               }}
             />
-            <CartesianGrid strokeDasharray='3 3' />
+            <CartesianGrid strokeDasharray="3 3" />
             <Tooltip
               formatter={(value) => {
-                return [formatCurrency.format(Number(value)), 'Balance'];
+                return [formatCurrency.format(Number(value)), "Balance"];
               }}
             />
             <Area
-              type='monotone'
-              dataKey='amount'
-              stroke='#8884d8'
+              type="monotone"
+              dataKey="amount"
+              stroke="#8884d8"
               fillOpacity={1}
-              fill='url(#colorUv)'
+              fill="url(#colorUv)"
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <div id="emma-list_cash" className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <div
+        id="emma-list_cash"
+        className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <ListItems
-          title='Movimientos por grupo'
+          title="Movimientos por grupo"
           data={data.group_expensive}
-          variant='modal'
+          variant="modal"
           onClickModal={getMovementsGroup}
           dataModal={listMovements}
-          tooltip={data.group_expensive.length > 0}
-          tooltipVariant='group'
+          tooltip={data?.group_expensive?.length > 0}
+          tooltipVariant="group"
         />
         <ListItems
-          title='Lista de ingresos'
+          title="Lista de ingresos"
           data={data.list_incomes}
           currency={data.currency}
-          variant='modal'
+          variant="modal"
           showHistory
           onClickModal={getMovements}
           dataModal={listMovements}
         />
       </div>
-      <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <ListItems
-          title='Lista de egresos'
+          title="Lista de egresos"
           data={data.list_expensives}
-          variant='modal'
+          variant="modal"
           showHistory
           currency={data.currency}
           onClickModal={getMovements}
           dataModal={listMovements}
         />
         <ListItems
-          title='Utilización de tarjeta de crédito'
+          title="Utilización de tarjeta de crédito"
           data={data.credit_carts}
-          variant='utilization'
+          variant="utilization"
         />
         <ListItems
-          title='Presupuesto'
+          title="Presupuesto"
           data={data.budget}
-          variant='utilization'
+          variant="utilization"
         />
       </div>
     </div>
