@@ -1,9 +1,9 @@
-import { Controller } from 'react-hook-form';
-import { MdArrowBack, MdDeleteOutline } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+import { Controller } from "react-hook-form";
+import { MdArrowBack, MdDeleteOutline } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 //components
-import useComponents from '@/share/components';
+import useComponents from "@/share/components";
 
 export default function BudgetCreate(props: any) {
   const router = useRouter();
@@ -24,42 +24,42 @@ export default function BudgetCreate(props: any) {
   return (
     <div>
       <div>
-        <div className='flex items-center justify-between w-full'>
-          <div className='flex items-center space-x-2'>
-            <div onClick={() => router.back()}>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center space-x-2">
+            <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
-            <Typography variant='h1'>{title}</Typography>
+            <Typography variant="h1">{title}</Typography>
           </div>
           <div>
             {handleDelete && (
               <Button
                 onClick={handleDelete}
-                className='flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white'
+                className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
               >
                 <MdDeleteOutline />
-                <Typography className='text-white'>Eliminar</Typography>
+                <Typography className="text-white">Eliminar</Typography>
               </Button>
             )}
           </div>
         </div>
       </div>
 
-      <div className='mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto'>
+      <div className="mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto">
         <form
-          id='form-investment'
+          id="form-investment"
           key={1}
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full'
+          className="w-full"
         >
           <Controller
-            name={'category'}
+            name={"category"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
-                  label='Categoría'
-                  placeholder='Seleciona una opcion'
+                  label="Categoría"
+                  placeholder="Seleciona una opcion"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -71,16 +71,16 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={'amount'}
+            name={"amount"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type='number'
-                  placeholder='Monto'
-                  label='Monto'
-                  id='amount'
-                  step='0.01'
+                  type="number"
+                  placeholder="Monto"
+                  label="Monto"
+                  id="amount"
+                  step="0.01"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -91,14 +91,14 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={'badge_id'}
+            name={"badge_id"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
-                  label='Moneda'
-                  placeholder='Seleciona una opcion'
-                  id='badge_id'
+                  label="Moneda"
+                  placeholder="Seleciona una opcion"
+                  id="badge_id"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -110,14 +110,14 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={'period_id'}
+            name={"period_id"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  label='Periodo'
-                  placeholder='Seleciona una opcion'
-                  id='period_id'
+                  label="Periodo"
+                  placeholder="Seleciona una opcion"
+                  id="period_id"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -129,17 +129,17 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={'year'}
+            name={"year"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
-                  type='number'
-                  min='2000'
-                  step='1'
-                  placeholder='Año'
-                  label='Año'
-                  id='year'
+                  type="number"
+                  min="2000"
+                  step="1"
+                  placeholder="Año"
+                  label="Año"
+                  id="year"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -149,10 +149,10 @@ export default function BudgetCreate(props: any) {
               </FormControl>
             )}
           />
-          <div className='text-center'>
+          <div className="text-center">
             <Button
-              type='submit'
-              className='mt-8 col-span-2 w-full lg:w-[350px]'
+              type="submit"
+              className="mt-8 col-span-2 w-full lg:w-[350px]"
             >
               Guardar
             </Button>

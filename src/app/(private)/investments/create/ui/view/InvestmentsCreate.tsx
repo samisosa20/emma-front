@@ -1,6 +1,16 @@
 import { Controller } from "react-hook-form";
 import { MdArrowBack, MdDeleteOutline, MdCarCrash } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import {
+  AreaChart,
+  Line,
+  XAxis,
+  Area,
+  Tooltip,
+  CartesianGrid,
+  YAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 //components
 import useComponents from "@/share/components";
@@ -42,7 +52,7 @@ export default function InvestmentsCreate(props: any) {
       <div>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
-            <div onClick={() => router.back()}>
+            <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
             <Typography variant="h1">{title}</Typography>
@@ -168,6 +178,72 @@ export default function InvestmentsCreate(props: any) {
           </div>
         </form>
       </div>
+      {listAppretiations && (
+        <div className="mt-6 bg-white">
+          <Typography variant="p" className="p-4">
+            Historico
+          </Typography>
+          <ResponsiveContainer minWidth={300} aspect={3.25}>
+            <AreaChart
+              data={listAppretiations
+                .map((v: any) => {
+                  return {
+                    amount: v.amount,
+                    date: v.date_appreciation,
+                    init_amount: v.investment,
+                  };
+                })
+                .slice(0, 10)}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="date" />
+              <YAxis
+                tickFormatter={(value) => {
+                  if (value >= 1000000) {
+                    return `$ ${value / 1000000}M`;
+                  } else if (value >= 1000) {
+                    return `$ ${value / 1000}K`;
+                  }
+                  return value;
+                }}
+              />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip
+                formatter={(value, name) => {
+                  return [
+                    formatCurrency.format(Number(value)),
+                    name === "amount" ? "Apreciación" : "Inversión",
+                  ];
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="init_amount"
+                stroke="#82ca9d"
+                fillOpacity={1}
+                fill="url(#colorPv)"
+              />
+              <Area
+                type="monotone"
+                dataKey="amount"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
       {listAppretiations && (
         <Typography variant="h2" className="my-4">
           Historico valorizacion

@@ -29,7 +29,7 @@ const HeritageYear = (props: any) => {
       <div className="flex items-center justify-between w-full">
         <div>
           <div className="flex items-center space-x-2">
-            <div onClick={() => router.back()}>
+            <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
             <Typography variant="h1">{`Patrimonio del ${param.id}`}</Typography>

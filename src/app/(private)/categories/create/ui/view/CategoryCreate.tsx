@@ -28,7 +28,7 @@ export default function CategoryCreate(props: any) {
       <div>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
-            <div onClick={() => router.back()}>
+            <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
             <Typography variant="h1">{title}</Typography>

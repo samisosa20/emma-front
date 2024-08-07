@@ -18,7 +18,6 @@ import { customConfigHeader, formatCurrency } from "@/share/helpers";
 import { InvestmentUseCase } from "@@/application/investment.use-case";
 import { InvestmentApiAdapter } from "@@/infrastructure/investment-api.adapter";
 
-
 export default function useInvestmentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
@@ -50,7 +49,7 @@ export default function useInvestmentsCreateViewModel() {
     resolver: zodResolver(investmentAppretiationSchema),
     defaultValues: {
       amount: "",
-      date_appreciation: "",
+      date_appreciation: new Date().toISOString().split("T")[0],
     },
   });
 
@@ -255,7 +254,7 @@ export default function useInvestmentsCreateViewModel() {
     setIsOpen(!isOpen);
     resetAppre({
       amount: "",
-      date_appreciation: "",
+      date_appreciation: new Date().toISOString().split("T")[0],
     });
     setIdAppretiation(undefined);
   };
