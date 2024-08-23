@@ -31,7 +31,7 @@ const Header = () => {
   }, []);
 
   return (
-    <nav className='lg:hidden bg-primary p-4'>
+    <nav className='lg:hidden bg-primary px-4 py-3'>
       <div className='flex items-center justify-between'>
         <div id="emma-logo-header">
         <Link href='/dashboard' onClick={() => setIsOpen(false)}>
@@ -70,7 +70,7 @@ const Header = () => {
                     <li
                       className={`${
                         pathname === link.link ? 'text-secondary' : 'text-white'
-                      } mb-2 flex space-x-4 items-center hover:text-secondary`}
+                      } ${!link.mobile ? 'hidden lg:block' : ''} mb-2 flex space-x-4 items-center hover:text-secondary`}
                     >
                       <Icon />
                       <Typography
@@ -90,7 +90,7 @@ const Header = () => {
               return (
                 <div onClick={link.onClick} key={index}>
                   <li
-                    className={`text-white mb-2 flex space-x-4 items-center hover:text-secondary cursor-pointer`}
+                    className={`${!link.mobile ? 'hidden lg:block' : ''} text-white mb-2 flex space-x-4 items-center hover:text-secondary cursor-pointer`}
                   >
                     <Icon />
                     <Typography

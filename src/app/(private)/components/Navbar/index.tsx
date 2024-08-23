@@ -1,59 +1,63 @@
-'use client';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Assets
-import imgLogo from '../../../../../public/img/logo.png';
+import imgLogo from "../../../../../public/img/logo.png";
 
 // Components
-import useComponents from '@/share/components';
+import useComponents from "@/share/components";
 
-import { links } from '@/share/helpers'
+import { links } from "@/share/helpers";
 
 export default function Navbar() {
   const { Typography } = useComponents();
   const pathname = usePathname();
 
-  const [userName, setUserName] = useState('Demo');
+  const [userName, setUserName] = useState("Demo");
 
   const obtenerIniciales = (name: string) => {
-    const partesDelNombre = name.split(' ');
+    const partesDelNombre = name.split(" ");
     const iniciales = partesDelNombre.map((parte) => parte[0].toUpperCase());
-    return iniciales.join('');
+    return iniciales.join("");
   };
 
   useEffect(() => {
-    if (localStorage.getItem('emma-user'))
-      setUserName(JSON.parse(localStorage.getItem('emma-user') ?? '{}').name);
+    if (localStorage.getItem("emma-user"))
+      setUserName(JSON.parse(localStorage.getItem("emma-user") ?? "{}").name);
   }, []);
 
   return (
-    <aside className='hidden lg:block bg-primary p-4'>
+    <aside className="hidden lg:block bg-primary p-4">
       <div id="emma-logo-aside">
-      <Link href='/dashboard'>
-        <Image src={imgLogo} alt='Logo emma'/>
-      </Link>
+        <Link href="/dashboard">
+          <Image src={imgLogo} alt="Logo emma" />
+        </Link>
       </div>
-      <ul className='mt-4 text-white'>
+      <ul className="mt-4 text-white">
         {links
           .filter((v) => v.show)
           .map((link, index) => {
             const Icon = link.icon;
-            if(typeof link.link === 'string') {
+            if (typeof link.link === "string") {
               return (
-                <Link href={link.link} key={index}>
+                <Link
+                  href={link.link}
+                  key={index}
+                  className={!link.mobile ? "hidden lg:block" : ""}
+                >
                   <li
                     className={`${
-                      pathname === link.link ? 'text-secondary' : 'text-white'
+                      pathname === link.link ? "text-secondary" : "text-white"
                     } mb-2 flex space-x-4 items-center hover:text-secondary`}
                   >
                     <Icon />
                     <Typography
-                      variant='h3'
+                      variant="h3"
                       className={`${
-                        pathname === link.link ? 'text-secondary' : 'text-white'
+                        pathname === link.link ? "text-secondary" : "text-white"
                       } hover:text-secondary`}
                     >
                       {link.name}
@@ -69,7 +73,7 @@ export default function Navbar() {
                 >
                   <Icon />
                   <Typography
-                    variant='h3'
+                    variant="h3"
                     className={`text-white hover:text-secondary`}
                   >
                     {link.name}
@@ -79,12 +83,15 @@ export default function Navbar() {
             );
           })}
         <li>
-          <Link href={'/profile'}>
-            <div className='bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]' id="emma-profile-aside">
-              <div className='w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0'>
+          <Link href={"/profile"}>
+            <div
+              className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]"
+              id="emma-profile-aside"
+            >
+              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0">
                 {obtenerIniciales(userName)}
               </div>
-              <span className='ml-2 text-white font-medium text-sm truncate'>
+              <span className="ml-2 text-white font-medium text-sm truncate">
                 {userName}
               </span>
             </div>

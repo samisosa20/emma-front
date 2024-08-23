@@ -18,13 +18,11 @@ export function driverWelcome() {
         element: window.innerWidth < 1000 ? "#emma-menu-mobile" : "aside ul",
         popover: {
           title: "Navegación",
-          description: "Usa las opciones de aca para navegar a otras opciones.",
+          description: "Utiliza el ícono de menú hamburguesa para acceder a más opciones de navegación dentro de la app.",
           align: "start",
           onNextClick:  () => {
-            // .. load element dynamically
-            // .. and then call
             if(window.innerWidth < 1000) {
-              driverObj.moveTo(3);
+              driverObj.moveTo(4);
             } else {
               driverObj.moveNext()
             }
@@ -46,6 +44,53 @@ export function driverWelcome() {
           title: "Movimientos",
           description:
             "Para reportar un ingreso, un gasto o mover plata de una cuenta a otra dale clic aquí.",
+          align: "start",
+          onNextClick:  () => {
+            if(window.innerWidth < 1000) {
+              driverObj.moveNext()
+            } else {
+              driverObj.moveTo(9);
+            }
+          }
+        },
+      },
+      {
+        element: "#emma-menuBottom_home",
+        popover: {
+          title: "Ir al Home",
+          description: "Selecciona esta opción para regresar al dashboard y revisar tu progreso.",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-menuBottom_accounts",
+        popover: {
+          title: "Cuentas",
+          description: "Accede a la opción para gestionar y monitorear todas tus cuentas",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-menuBottom_moves",
+        popover: {
+          title: "Movimientos",
+          description: "Agrega nuevos movimientos aquí: registra ingresos, gastos y realiza transferencias entre tus cuentas.",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-menuBottom_categories",
+        popover: {
+          title: "Categorias",
+          description: "Aquí puedes segmentar los movimientos en categorías, facilitando su identificación de forma rápida y sencilla.",
+          align: "start",
+        },
+      },
+      {
+        element: "#emma-menuBottom_events",
+        popover: {
+          title: "Eventos",
+          description: "Crea eventos para rastrear cuánto gastaste y cuánto ganaste en momentos específicos de tu vida.",
           align: "start",
         },
       },

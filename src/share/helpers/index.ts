@@ -1,17 +1,18 @@
 import {
   MdAttachMoney,
-  MdAccountBalanceWallet,
+  MdWallet,
   MdEventNote,
   MdOutlineStackedLineChart,
   MdAccountBalance,
   MdOutlinePayment,
-  MdOutlineCategory,
   MdDownload,
   MdAutoFixHigh,
   MdGroupWork,
   MdSupport,
   MdBook
 } from 'react-icons/md';
+import { BiSolidCategoryAlt } from "react-icons/bi";
+import { GoHomeFill } from 'react-icons/go';
 
 export * from "./driver"
 
@@ -94,55 +95,64 @@ export const links = [
     name: 'Cuentas',
     link: '/accounts',
     show: true,
-    icon: MdAccountBalanceWallet,
+    icon: MdWallet,
+    mobile: false,
   },
   {
     name: 'Eventos',
     link: '/events',
     show: true,
     icon: MdEventNote,
+    mobile: false,
   },
   {
     name: 'Inversiones',
     link: '/investments',
     show: true,
     icon: MdOutlineStackedLineChart,
+    mobile: true,
   },
   {
     name: 'Presupuesto',
     link: '/budgets',
     show: true,
     icon: MdAttachMoney,
+    mobile: true,
   },
   {
     name: 'Patrimonio',
     link: '/heritages',
     show: true,
     icon: MdAccountBalance,
+    mobile: true,
   },
   {
     name: 'Categorías',
     link: '/categories',
     show: true,
-    icon: MdOutlineCategory,
+    icon: BiSolidCategoryAlt,
+    mobile: false,
   },
   {
     name: 'Pagos',
     link: '/payments',
     show: true,
     icon: MdOutlinePayment,
+    mobile: true,
   },
   {
     name: 'Herramientas',
     link: '/tools',
     show: true,
     icon: MdAutoFixHigh,
+    mobile: true,
   },
   {
     name: 'Descargar App',
     link: false,
     show: false,
     icon: MdDownload,
+    mobile: true,
     onClick: handleAddToHomeScreen
   },
   {
@@ -150,6 +160,7 @@ export const links = [
     link: false,
     show: false,
     icon: MdGroupWork,
+    mobile: true,
     onClick: handleGoToWpp
   },
   {
@@ -157,12 +168,54 @@ export const links = [
     link: '/support',
     show: true,
     icon: MdSupport,
+    mobile: true,
   },
   {
     name: 'Blogs',
     link: '/blogs',
     show: true,
     icon: MdBook,
+    mobile: true,
+  },
+];
+
+export const linksMobile = [
+  {
+    id: 'home',
+    name: 'Home',
+    link: '/dashboard',
+    show: true,
+    icon: GoHomeFill,
+  },
+  {
+    id: 'accounts',
+    name: 'Cuentas',
+    link: '/accounts',
+    show: true,
+    icon: MdWallet,
+  },
+  {
+    id: 'moves',
+    name: null,
+    link: '/moves',
+    show: true,
+    icon: MdAttachMoney,
+  },
+  {
+    id: 'categories',
+    name: 'Categorías',
+    link: '/categories',
+    show: true,
+    icon: BiSolidCategoryAlt,
+    mobile: false,
+  },
+  {
+    id: 'events',
+    name: 'Eventos',
+    link: '/events',
+    show: true,
+    icon: MdEventNote,
+    mobile: false,
   },
 ];
 
