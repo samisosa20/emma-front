@@ -10,7 +10,7 @@ import { Suspense } from "react";
 import Loading from "@/share/components/Loader";
 
 export const metadata: Metadata = {
-  title: "Emma | wallet",
+  title: "Fiona | wallet",
   description:
     "Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.",
 };

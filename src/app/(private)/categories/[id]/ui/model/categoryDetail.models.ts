@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 import { CategoryUseCase } from "@@/application/category.use-case";
 import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
@@ -11,8 +11,8 @@ import { customConfigHeader } from "@/share/helpers";
 export default function useCategoryDetailViewModel() {
   const param = useParams();
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const currencyParams = searchParams.get('c')
+  const searchParams = useSearchParams();
+  const currencyParams = searchParams.get("c");
 
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
@@ -40,7 +40,7 @@ export default function useCategoryDetailViewModel() {
         const result = await getCategoryDetail(id, filters);
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
+          localStorage.removeItem("fiona-user");
           router.push("/login");
         }
 
@@ -55,8 +55,8 @@ export default function useCategoryDetailViewModel() {
   };
 
   const onSubmit = (data: any) => {
-    setFilters({...data, badge_id: data.badge_id?.value});
-    setCurrency(data?.badge_id?.label)
+    setFilters({ ...data, badge_id: data.badge_id?.value });
+    setCurrency(data?.badge_id?.label);
   };
 
   useEffect(() => {
@@ -64,20 +64,23 @@ export default function useCategoryDetailViewModel() {
   }, [isError, router]);
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
-      setValue("badge_id", userjson.currencies.find((v: any) => {
-        if(currencyParams)
-          return v.value == currencyParams
-        return v.value == userjson.currency
-      }));
-      setCurrency(userjson.currencies.find((v: any) => {
-        if(currencyParams)
-          return v.value == currencyParams
-        return v.value == userjson.currency
-      }).label);
+      setValue(
+        "badge_id",
+        userjson.currencies.find((v: any) => {
+          if (currencyParams) return v.value == currencyParams;
+          return v.value == userjson.currency;
+        })
+      );
+      setCurrency(
+        userjson.currencies.find((v: any) => {
+          if (currencyParams) return v.value == currencyParams;
+          return v.value == userjson.currency;
+        }).label
+      );
     }
   }, []);
 

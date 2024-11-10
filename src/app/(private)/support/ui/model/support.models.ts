@@ -20,7 +20,7 @@ export default function useSupportViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: SupportSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { postSupport } = new SupportUseCase(
           new SupportApiAdapter({

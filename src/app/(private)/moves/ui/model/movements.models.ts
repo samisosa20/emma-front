@@ -34,14 +34,9 @@ export default function useMovementsViewModel() {
   const [listCategories, setListCategories] = useState<any[]>([]);
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [listInvestments, setListInvestments] = useState<any[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    handleSubmit,
-    control,
-    reset,
-    watch,
-  } = useForm({
+  const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       date_purchase: getDateString(),
@@ -90,7 +85,7 @@ export default function useMovementsViewModel() {
       const result = await listAccounts();
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
+        localStorage.removeItem("fiona-user");
         router.push("/login");
       }
 
@@ -150,7 +145,7 @@ export default function useMovementsViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -161,7 +156,7 @@ export default function useMovementsViewModel() {
         const result = await createMovement(data);
         if (result.error) {
           toast.error(result.message);
-          setIsSubmitting(false)
+          setIsSubmitting(false);
           return;
         }
         toast.success(result.message);
@@ -171,7 +166,7 @@ export default function useMovementsViewModel() {
   });
   const mutationEdit = useMutation({
     mutationFn: async (data: MovementSchemaParams) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -185,7 +180,7 @@ export default function useMovementsViewModel() {
         const result = await editMovement(id, data);
         if (result.error) {
           toast.error(result.message);
-          setIsSubmitting(false)
+          setIsSubmitting(false);
           return;
         }
         toast.success(result.message);
@@ -196,7 +191,7 @@ export default function useMovementsViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteMovement } = new MovementUseCase(
           new MovementApiAdapter({
@@ -210,7 +205,7 @@ export default function useMovementsViewModel() {
         const result = await deleteMovement(id);
         if (result.error) {
           toast.error(result.message);
-          setIsSubmitting(false)
+          setIsSubmitting(false);
           return;
         }
         toast.success(result.message);
@@ -220,7 +215,7 @@ export default function useMovementsViewModel() {
   });
 
   const onSubmit = (data: any) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     const formData = {
       ...data,
       type: data.type == 0 ? "transfer" : "move",
@@ -248,14 +243,14 @@ export default function useMovementsViewModel() {
   };
 
   const handleDelete = () => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     mutationDelete.mutate();
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
+    const user = localStorage.getItem("fiona-user");
     if (!user) {
-      localStorage.removeItem("emma-user");
+      localStorage.removeItem("fiona-user");
       router.push("/login");
     } else {
       if (param.id) {
@@ -313,7 +308,7 @@ export default function useMovementsViewModel() {
       isErrorEvents ||
       isErrorInvestments
     ) {
-      localStorage.removeItem("emma-user");
+      localStorage.removeItem("fiona-user");
       router.push("/login");
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);

@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { AccountUseCase } from '@@/application/account.use-case';
-import { AccountApiAdapter } from '@@/infrastructure/account-api.adapter';
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
+import { AccountUseCase } from "@@/application/account.use-case";
+import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
+import { EventUseCase } from "@@/application/event.use-case";
+import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 const useAccount = () => {
   const param = useParams();
 
   const router = useRouter();
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showDelete, setShowDelete] = useState(false);
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [filters, setFilters] = useState({
@@ -35,15 +35,15 @@ const useAccount = () => {
       category: null,
       amount: null,
       description: null,
-    }
+    },
   });
 
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['accountDetail', filters],
+    queryKey: ["accountDetail", filters],
     queryFn: async () => {
       const { getAccountDetail } = new AccountUseCase(
         new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -54,8 +54,8 @@ const useAccount = () => {
         const result = await getAccountDetail(id, filters);
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
-          router.push('/login');
+          localStorage.removeItem("fiona-user");
+          router.push("/login");
         }
 
         return result;
@@ -64,11 +64,11 @@ const useAccount = () => {
   });
 
   const { data: dataListEvents, isError: isErrorEvents } = useQuery({
-    queryKey: ['eventsMove'],
+    queryKey: ["eventsMove"],
     queryFn: async () => {
       const { listEvents } = new EventUseCase(
         new EventApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -79,7 +79,7 @@ const useAccount = () => {
   });
 
   const onSubmit = (data: any) => {
-    setShowDelete(true)
+    setShowDelete(true);
     setFilters(data);
   };
 
@@ -91,7 +91,7 @@ const useAccount = () => {
       category: null,
       amount: null,
       description: null,
-    })
+    });
     setShowDelete(false);
     setFilters({
       event_id: null,
@@ -104,7 +104,7 @@ const useAccount = () => {
   };
 
   useEffect(() => {
-    if (isError || isErrorEvents) router.push('/login');
+    if (isError || isErrorEvents) router.push("/login");
   }, [isError, isErrorEvents, router]);
 
   useEffect(() => {

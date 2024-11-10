@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap");
 
 body {
   @apply bg-neutral-100 overflow-x-hidden;
@@ -23,7 +23,7 @@ body {
 }
 
 /* The container */
-.emma-container-checkbox {
+.fiona-container-checkbox {
   @apply block relative cursor-pointer mb-3 pl-7 text-sm;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -32,7 +32,7 @@ body {
 }
 
 /* Hide the browser's default checkbox */
-.emma-container-checkbox input {
+.fiona-container-checkbox input {
   @apply absolute opacity-0 cursor-pointer h-0 w-0;
 }
 
@@ -42,28 +42,28 @@ body {
 }
 
 /* On mouse-over, add a grey background color */
-.emma-container-checkbox:hover input ~ .checkmark {
+.fiona-container-checkbox:hover input ~ .checkmark {
   @apply bg-yellow-400 border-none;
 }
 
 /* When the checkbox is checked, add a blue background */
-.emma-container-checkbox input:checked ~ .checkmark {
+.fiona-container-checkbox input:checked ~ .checkmark {
   @apply bg-yellow-400 border-none;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   @apply hidden absolute;
-  content: '';
+  content: "";
 }
 
 /* Show the checkmark when checked */
-.emma-container-checkbox input:checked ~ .checkmark:after {
+.fiona-container-checkbox input:checked ~ .checkmark:after {
   @apply block;
 }
 
 /* Style the checkmark/indicator */
-.emma-container-checkbox .checkmark:after {
+.fiona-container-checkbox .checkmark:after {
   left: 8px;
   top: 4px;
   width: 5px;
@@ -82,7 +82,7 @@ body {
   }
 }
 
-.min-screen-emma {
+.min-screen-fiona {
   min-height: calc(100vh - 80px - 44px);
 }
 
@@ -90,14 +90,14 @@ body {
   @apply flex justify-center;
 }
 
-.emma-blog-content h2 {
+.fiona-blog-content h2 {
   @apply text-2xl text-yellow-400 font-bold;
 }
 
-.emma-blog-content ol {
+.fiona-blog-content ol {
   @apply list-disc list-inside ml-4;
 }
 
-.emma-blog-content strong {
+.fiona-blog-content strong {
   @apply text-yellow-400 font-bold;
 }

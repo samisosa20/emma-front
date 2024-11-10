@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { useRouter } from 'next/navigation';
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
+import { useRouter } from "next/navigation";
+import { EventUseCase } from "@@/application/event.use-case";
+import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 const useEvents = () => {
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['events'],
+    queryKey: ["events"],
     queryFn: async () => {
       const { listEvents } = new EventUseCase(
         new EventApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -22,8 +22,8 @@ const useEvents = () => {
       const result = await listEvents();
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       return result;
@@ -31,7 +31,7 @@ const useEvents = () => {
   });
 
   useEffect(() => {
-    if (isError) router.push('/login');
+    if (isError) router.push("/login");
   }, [isError]);
 
   return {

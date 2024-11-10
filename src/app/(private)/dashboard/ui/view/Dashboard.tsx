@@ -105,7 +105,7 @@ export default function Dashboard(props: any) {
         <Cards title="balance" data={data.metrics} />
       </div>
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div id="emma-chart_incomes" className="bg-white">
+        <div id="fiona-chart_incomes" className="bg-white">
           <Typography variant="p" className="px-4 pt-4">
             Ingresos
           </Typography>
@@ -135,7 +135,7 @@ export default function Dashboard(props: any) {
             </PieChart>
           </div>
         </div>
-        <div id="emma-chart_expensives" className="bg-white">
+        <div id="fiona-chart_expensives" className="bg-white">
           <Typography variant="p" className="px-4 pt-4">
             Egresos
           </Typography>
@@ -166,7 +166,7 @@ export default function Dashboard(props: any) {
           </div>
         </div>
       </div>
-      <div id="emma-chart_balances" className="mt-6 bg-white">
+      <div id="fiona-chart_balances" className="mt-6 bg-white">
         <Typography variant="p" className="p-4">
           Balance
         </Typography>
@@ -213,7 +213,7 @@ export default function Dashboard(props: any) {
         </ResponsiveContainer>
       </div>
       <div
-        id="emma-list_cash"
+        id="fiona-list_cash"
         className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         <ListItems

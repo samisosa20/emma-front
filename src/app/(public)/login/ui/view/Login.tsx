@@ -1,14 +1,13 @@
-'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Controller } from 'react-hook-form';
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { Controller } from "react-hook-form";
 
 // Assets
-import imgLogo from '../../../../../../public/img/logo.png';
+import imgLogo from "../../../../../../public/img/logo.png";
 
 //components
-import useComponents from '@/share/components';
-
+import useComponents from "@/share/components";
 
 export default function Login(props: any) {
   const { Button, Typography, Input, FormControl, Checkbox } = useComponents();
@@ -16,8 +15,15 @@ export default function Login(props: any) {
   const { handleSubmit, onSubmit, control, isSubmitting } = props;
 
   return (
-    <div className="flex items-center flex-col justify-center min-screen-emma bg-primary space-y-4">
-      <Image src={imgLogo} alt="Logo emma" className="w-[250px] 2xl:w-[350px]" loading="lazy" height={94} width={350} />
+    <div className="flex items-center flex-col justify-center min-screen-fiona bg-primary space-y-4">
+      <Image
+        src={imgLogo}
+        alt="Logo fiona"
+        className="w-[250px] 2xl:w-[350px]"
+        loading="lazy"
+        height={94}
+        width={350}
+      />
       <div className="bg-white rounded-2xl border shadow-x1 py-8 2xl:py-10 px-8 max-w-[90vw] md:max-w-lg">
         <div className="flex flex-col items-center space-y-2 2xl:space-y-4">
           <Typography variant="h1" className="text-center">
@@ -74,15 +80,31 @@ export default function Login(props: any) {
                       }}
                       isChecked={!!value}
                     />
-                    <Link href="/forgot" className="hidden lg:block"><Typography variant="p" className="underline">¿Has olvidado tu contraseña?</Typography></Link>
+                    <Link href="/forgot" className="hidden lg:block">
+                      <Typography variant="p" className="underline">
+                        ¿Has olvidado tu contraseña?
+                      </Typography>
+                    </Link>
                   </div>
                 </FormControl>
               )}
             />
-            <Button variant="contained" block type="submit" disabled={isSubmitting}>
+            <Button
+              variant="contained"
+              block
+              type="submit"
+              disabled={isSubmitting}
+            >
               Iniciar sesión
             </Button>
-            <Link href="/forgot" className="lg:hidden"><Typography variant="p" className="my-3 lg:mt-0 text-center underline">¿Has olvidado tu contraseña?</Typography></Link>
+            <Link href="/forgot" className="lg:hidden">
+              <Typography
+                variant="p"
+                className="my-3 lg:mt-0 text-center underline"
+              >
+                ¿Has olvidado tu contraseña?
+              </Typography>
+            </Link>
             <div className="flex space-x-2 lg:mt-3 justify-center items-center">
               <Typography>¿Aun no tienes cuenta?</Typography>
               <Link href={"/register"}>
@@ -96,4 +118,4 @@ export default function Login(props: any) {
       </div>
     </div>
   );
-};
+}

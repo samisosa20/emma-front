@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { eventSchema } from '@/share/validation';
-import type { EventSchema } from '@/share/validation';
-import { customConfigHeader } from '@/share/helpers';
+import { eventSchema } from "@/share/validation";
+import type { EventSchema } from "@/share/validation";
+import { customConfigHeader } from "@/share/helpers";
 
-import { EventUseCase } from '@@/application/event.use-case';
-import { EventApiAdapter } from '@@/infrastructure/event-api.adapter';
-
+import { EventUseCase } from "@@/application/event.use-case";
+import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
 
 const useEventCreate = () => {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de eventos');
+  const [title, setTitle] = useState("Creacion de eventos");
   const [listMovements, setListMovements] = useState<any>([]);
   const [listCategories, setListCategories] = useState<any>([]);
 
@@ -27,11 +26,11 @@ const useEventCreate = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createEvent } = new EventUseCase(
           new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -48,11 +47,11 @@ const useEventCreate = () => {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editEvent } = new EventUseCase(
           new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -71,12 +70,12 @@ const useEventCreate = () => {
   });
 
   const { data } = useQuery({
-    queryKey: ['eventDetail'],
+    queryKey: ["eventDetail"],
     queryFn: async () => {
       if (param.id) {
         const { getEventDetail } = new EventUseCase(
           new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -87,8 +86,8 @@ const useEventCreate = () => {
         const result = await getEventDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
-          router.push('/login');
+          localStorage.removeItem("fiona-user");
+          router.push("/login");
         }
 
         return result;
@@ -109,7 +108,7 @@ const useEventCreate = () => {
 
   useEffect(() => {
     if (param.id) {
-      setTitle('Edicion de eventos');
+      setTitle("Edicion de eventos");
     }
   }, []);
 

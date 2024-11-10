@@ -9,29 +9,29 @@ import {
   MdAutoFixHigh,
   MdGroupWork,
   MdSupport,
-  MdBook
-} from 'react-icons/md';
+  MdBook,
+} from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { GoHomeFill } from 'react-icons/go';
+import { GoHomeFill } from "react-icons/go";
 
-export * from "./driver"
+export * from "./driver";
 
-export const formatCurrency = new Intl.NumberFormat('es-US', {
-  style: 'currency',
-  currency: 'USD',
+export const formatCurrency = new Intl.NumberFormat("es-US", {
+  style: "currency",
+  currency: "USD",
 });
 
 export function isLogin() {
-  const user = localStorage.getItem('emma-user');
+  const user = localStorage.getItem("fiona-user");
   if (!user) {
-    localStorage.removeItem("emma-user");
-    return false
+    localStorage.removeItem("fiona-user");
+    return false;
   }
-  return true
+  return true;
 }
 
 export function customConfigHeader() {
-  const user = localStorage.getItem('emma-user');
+  const user = localStorage.getItem("fiona-user");
   if (user)
     return {
       headers: {
@@ -62,157 +62,163 @@ export function formatDateISOToYMDHIS(dateStr: string) {
 }
 
 function handleSendNotification() {
-  if ('serviceWorker' in navigator && 'PushManager' in window) {
+  if ("serviceWorker" in navigator && "PushManager" in window) {
     navigator.serviceWorker.getRegistration().then((registration) => {
       if (registration && registration.active) {
-        registration.showNotification('¡PWA añadida!', {
-          body: 'La PWA ha sido añadida a tu pantalla de inicio.',
-          icon: '/icon.png', // Reemplaza con la URL de tu ícono
+        registration.showNotification("¡PWA añadida!", {
+          body: "La PWA ha sido añadida a tu pantalla de inicio.",
+          icon: "/icon.png", // Reemplaza con la URL de tu ícono
         });
       } else {
-        alert('No se pudo encontrar un Service Worker activo. Asegúrate de que la PWA se está ejecutando.');
+        alert(
+          "No se pudo encontrar un Service Worker activo. Asegúrate de que la PWA se está ejecutando."
+        );
       }
     });
   } else {
-    alert('La funcionalidad de Service Worker o Push no está habilitada en este navegador.');
+    alert(
+      "La funcionalidad de Service Worker o Push no está habilitada en este navegador."
+    );
   }
-};
+}
 
 export function handleAddToHomeScreen() {
-  if ('beforeinstallprompt' in window) {
-    const beforeInstallPromptEvent = new Event('beforeinstallprompt');
+  if ("beforeinstallprompt" in window) {
+    const beforeInstallPromptEvent = new Event("beforeinstallprompt");
     window.dispatchEvent(beforeInstallPromptEvent);
   }
-};
+}
 
 export function handleGoToWpp() {
-  window.open(`https://chat.whatsapp.com/${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`, 'blank')
-};
-
+  window.open(
+    `https://chat.whatsapp.com/${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`,
+    "blank"
+  );
+}
 
 export const links = [
   {
-    name: 'Cuentas',
-    link: '/accounts',
+    name: "Cuentas",
+    link: "/accounts",
     show: true,
     icon: MdWallet,
     mobile: false,
   },
   {
-    name: 'Eventos',
-    link: '/events',
+    name: "Eventos",
+    link: "/events",
     show: true,
     icon: MdEventNote,
     mobile: false,
   },
   {
-    name: 'Inversiones',
-    link: '/investments',
+    name: "Inversiones",
+    link: "/investments",
     show: true,
     icon: MdOutlineStackedLineChart,
     mobile: true,
   },
   {
-    name: 'Presupuesto',
-    link: '/budgets',
+    name: "Presupuesto",
+    link: "/budgets",
     show: true,
     icon: MdAttachMoney,
     mobile: true,
   },
   {
-    name: 'Patrimonio',
-    link: '/heritages',
+    name: "Patrimonio",
+    link: "/heritages",
     show: true,
     icon: MdAccountBalance,
     mobile: true,
   },
   {
-    name: 'Categorías',
-    link: '/categories',
+    name: "Categorías",
+    link: "/categories",
     show: true,
     icon: BiSolidCategoryAlt,
     mobile: false,
   },
   {
-    name: 'Pagos',
-    link: '/payments',
+    name: "Pagos",
+    link: "/payments",
     show: true,
     icon: MdOutlinePayment,
     mobile: true,
   },
   {
-    name: 'Herramientas',
-    link: '/tools',
+    name: "Herramientas",
+    link: "/tools",
     show: true,
     icon: MdAutoFixHigh,
     mobile: true,
   },
   {
-    name: 'Descargar App',
+    name: "Descargar App",
     link: false,
     show: false,
     icon: MdDownload,
     mobile: true,
-    onClick: handleAddToHomeScreen
+    onClick: handleAddToHomeScreen,
   },
   {
-    name: 'Unirse a whatsapp',
+    name: "Unirse a whatsapp",
     link: false,
     show: false,
     icon: MdGroupWork,
     mobile: true,
-    onClick: handleGoToWpp
+    onClick: handleGoToWpp,
   },
   {
-    name: 'Soporte',
-    link: '/support',
-    show: true,
+    name: "Soporte",
+    link: "/support",
+    show: false,
     icon: MdSupport,
-    mobile: true,
+    mobile: false,
   },
   {
-    name: 'Blogs',
-    link: '/blogs',
-    show: true,
+    name: "Blogs",
+    link: "/blogs",
+    show: false,
     icon: MdBook,
-    mobile: true,
+    mobile: false,
   },
 ];
 
 export const linksMobile = [
   {
-    id: 'home',
-    name: 'Home',
-    link: '/dashboard',
+    id: "home",
+    name: "Home",
+    link: "/dashboard",
     show: true,
     icon: GoHomeFill,
   },
   {
-    id: 'accounts',
-    name: 'Cuentas',
-    link: '/accounts',
+    id: "accounts",
+    name: "Cuentas",
+    link: "/accounts",
     show: true,
     icon: MdWallet,
   },
   {
-    id: 'moves',
+    id: "moves",
     name: null,
-    link: '/moves',
+    link: "/moves",
     show: true,
     icon: MdAttachMoney,
   },
   {
-    id: 'categories',
-    name: 'Categorías',
-    link: '/categories',
+    id: "categories",
+    name: "Categorías",
+    link: "/categories",
     show: true,
     icon: BiSolidCategoryAlt,
     mobile: false,
   },
   {
-    id: 'events',
-    name: 'Eventos',
-    link: '/events',
+    id: "events",
+    name: "Eventos",
+    link: "/events",
     show: true,
     icon: MdEventNote,
     mobile: false,
@@ -239,5 +245,5 @@ export const colors = [
   "#CC33CC",
   "#66FF33",
   "#33FF66",
-  "#CC6633"
+  "#CC6633",
 ];

@@ -20,7 +20,7 @@ export default function BottomBar() {
           if (index !== 2)
             return (
               <Link
-                id={`emma-menuBottom_${link.id}`}
+                id={`fiona-menuBottom_${link.id}`}
                 href={link.link}
                 key={index}
                 className="flex flex-col items-center"
@@ -45,7 +45,10 @@ export default function BottomBar() {
               key={index}
               className="flex flex-col items-center"
             >
-              <div id={`emma-menuBottom_${link.id}`} className="absolute -top-6 bg-yellow-400 rounded-full h-[74px] w-[74px] flex items-center justify-center border-4 border-yellow-200">
+              <div
+                id={`fiona-menuBottom_${link.id}`}
+                className="absolute -top-6 bg-yellow-400 rounded-full h-[74px] w-[74px] flex items-center justify-center border-4 border-yellow-200"
+              >
                 <Icon className={`w-8 h-8 text-black`} />
               </div>
             </Link>

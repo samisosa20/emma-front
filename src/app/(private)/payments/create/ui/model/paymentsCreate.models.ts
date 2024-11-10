@@ -16,7 +16,6 @@ import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
 import { CategoryUseCase } from "@@/application/category.use-case";
 import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-
 export default function usePaymentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
@@ -45,7 +44,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -66,7 +65,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editPayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -90,7 +89,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deletePayment } = new PaymentUseCase(
           new PaymentApiAdapter({
@@ -184,9 +183,9 @@ export default function usePaymentsCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
+    const user = localStorage.getItem("fiona-user");
     if (!user) {
-      localStorage.removeItem("emma-user");
+      localStorage.removeItem("fiona-user");
       router.push("/login");
     } else {
       if (param.id) {

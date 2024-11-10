@@ -143,7 +143,7 @@ export default function CategoryDetail(props: any) {
           ]}
         />
       </div>
-      <div id="emma-chart_history_category" className="mt-6 bg-white">
+      <div id="fiona-chart_history_category" className="mt-6 bg-white">
         <Typography variant="p" className="p-4">
           Movimiento historico de la categoria
         </Typography>

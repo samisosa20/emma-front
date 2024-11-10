@@ -12,7 +12,6 @@ import { customConfigHeader } from "@/share/helpers";
 import { AccountUseCase } from "@@/application/account.use-case";
 import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
 
-
 const useAccountCreate = () => {
   const router = useRouter();
   const param = useParams();
@@ -48,7 +47,7 @@ const useAccountCreate = () => {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: AccountParamsSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editAccount } = new AccountUseCase(
           new AccountApiAdapter({
@@ -72,7 +71,7 @@ const useAccountCreate = () => {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteAccount } = new AccountUseCase(
           new AccountApiAdapter({
@@ -96,7 +95,7 @@ const useAccountCreate = () => {
 
   const mutationDesactive = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { desactiveAccount } = new AccountUseCase(
           new AccountApiAdapter({
@@ -120,7 +119,7 @@ const useAccountCreate = () => {
 
   const mutationRestore = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { activeAccount } = new AccountUseCase(
           new AccountApiAdapter({
@@ -145,7 +144,7 @@ const useAccountCreate = () => {
   const { data } = useQuery({
     queryKey: ["accountDetail", param.id],
     queryFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user && param.id) {
         const { getAccountDetail } = new AccountUseCase(
           new AccountApiAdapter({
@@ -160,7 +159,7 @@ const useAccountCreate = () => {
         const result = await getAccountDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
+          localStorage.removeItem("fiona-user");
           router.push("/login");
         }
 
@@ -195,7 +194,7 @@ const useAccountCreate = () => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
+    const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setTypeOptions(userjson.accounts_type);

@@ -10,27 +10,31 @@ import { AuthApiAdapter } from "@@/infrastructure/auth-api.adapter";
 
 import { customConfigHeader } from "@/share/helpers";
 import { paramsProfileSchema, destroyAccountSchema } from "@/share/validation";
-import type { ParamsProfileSchema, DestroyAccountSchema } from "@/share/validation";
-
+import type {
+  ParamsProfileSchema,
+  DestroyAccountSchema,
+} from "@/share/validation";
 
 export default function useProfileViewModel() {
   const router = useRouter();
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [idProfile, setIdProfile] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [emailUser, setEmailUser] = useState('');
+  const [emailUser, setEmailUser] = useState("");
   const [verify, setVerify] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(paramsProfileSchema),
   });
 
-
-  const { handleSubmit: handleSubmitDestroy, control: controlDestroy, setError } =
-    useForm({
-      resolver: zodResolver(destroyAccountSchema),
-    });
+  const {
+    handleSubmit: handleSubmitDestroy,
+    control: controlDestroy,
+    setError,
+  } = useForm({
+    resolver: zodResolver(destroyAccountSchema),
+  });
 
   const { isLoading, data, isError } = useQuery({
     queryKey: ["profile"],
@@ -45,7 +49,7 @@ export default function useProfileViewModel() {
       const result = await getProfile();
 
       if (result.error) {
-        localStorage.removeItem("emma-user");
+        localStorage.removeItem("fiona-user");
         router.push("/login");
       }
 
@@ -55,7 +59,7 @@ export default function useProfileViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: ParamsProfileSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { updateProfile } = new AuthUseCase(
           new AuthApiAdapter({
@@ -66,13 +70,13 @@ export default function useProfileViewModel() {
         const result = await updateProfile(idProfile, data);
         if (result.error) {
           toast.error(result.message);
-          setIsSubmitting(true)
+          setIsSubmitting(true);
           return;
         }
-        const profile = JSON.parse(localStorage.getItem("emma-user") ?? "{}");
+        const profile = JSON.parse(localStorage.getItem("fiona-user") ?? "{}");
         profile.name = data.name;
         profile.currency = Number(data.badge_id);
-        localStorage.setItem("emma-user", JSON.stringify(profile));
+        localStorage.setItem("fiona-user", JSON.stringify(profile));
         toast.success(result.message);
       }
     },
@@ -80,7 +84,7 @@ export default function useProfileViewModel() {
 
   const mutationDestroy = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { destroyProfile } = new AuthUseCase(
           new AuthApiAdapter({
@@ -91,11 +95,11 @@ export default function useProfileViewModel() {
         const result = await destroyProfile();
         if (result.error) {
           toast.error(result.message);
-          setIsSubmitting(true)
+          setIsSubmitting(true);
           return;
         }
         toast.success(result.message);
-        localStorage.removeItem("emma-user");
+        localStorage.removeItem("fiona-user");
         router.push("/login");
       }
     },
@@ -103,30 +107,38 @@ export default function useProfileViewModel() {
 
   const mutationResendVerify = useMutation({
     mutationFn: async () => {
-      const { postResendVerify } = new AuthUseCase(new AuthApiAdapter({baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '', customConfig: customConfigHeader(),}));
-        const result = await postResendVerify()
-  
-        if(result.error) {
-          toast.error(result.message)
-          setIsSubmitting(false)
-          return;
-        }
-        setIsSubmitting(false)
-        toast.success(result.message)
+      const { postResendVerify } = new AuthUseCase(
+        new AuthApiAdapter({
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          customConfig: customConfigHeader(),
+        })
+      );
+      const result = await postResendVerify();
+
+      if (result.error) {
+        toast.error(result.message);
+        setIsSubmitting(false);
+        return;
+      }
+      setIsSubmitting(false);
+      toast.success(result.message);
     },
-  })
+  });
 
   const onSubmitDestroy = (data: DestroyAccountSchema) => {
-    if(data.email !== emailUser) {
-      setError('email', { type: 'custom', message: 'El texto ingresado no coincide con el solicitado' })
+    if (data.email !== emailUser) {
+      setError("email", {
+        type: "custom",
+        message: "El texto ingresado no coincide con el solicitado",
+      });
     } else {
-      setIsSubmitting(true)
+      setIsSubmitting(true);
       mutationDestroy.mutate();
     }
   };
 
   const onSubmit = (data: any) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     mutation.mutate({
       name: data.name,
       badge_id: data.badge_id,
@@ -135,7 +147,7 @@ export default function useProfileViewModel() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("emma-user");
+    localStorage.removeItem("fiona-user");
     router.push("/login");
   };
 
@@ -144,16 +156,16 @@ export default function useProfileViewModel() {
   };
 
   const handeResendVerify = () => {
-    setIsSubmitting(true)
-    mutationResendVerify.mutate()
-  }
+    setIsSubmitting(true);
+    mutationResendVerify.mutate();
+  };
 
   useEffect(() => {
     if (isError) router.push("/login");
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
+    const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setVerify(userjson.verify_email);
@@ -164,7 +176,7 @@ export default function useProfileViewModel() {
   useEffect(() => {
     if (data) {
       setIdProfile(data.id);
-      setEmailUser(data.email)
+      setEmailUser(data.email);
       reset(data);
     }
   }, [data]);

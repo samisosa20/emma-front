@@ -10,7 +10,7 @@ export default function BlogDetail(props: any) {
   const { blog, router } = props;
 
   return (
-    <div className="min-screen-emma bg-primary space-y-4">
+    <div className="min-screen-fiona bg-primary space-y-4">
       <article className="px-8 max-w-[1280px] mx-auto">
         <section className="flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center">
           <div className="space-y-6">
@@ -24,7 +24,7 @@ export default function BlogDetail(props: any) {
               {blog.description}
             </Typography>
             <div
-              className="text-white emma-blog-content"
+              className="text-white fiona-blog-content"
               dangerouslySetInnerHTML={{ __html: blog.content }}
             />
           </div>

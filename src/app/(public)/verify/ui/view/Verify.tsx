@@ -10,10 +10,10 @@ export default function Verify() {
   const { Typography } = useComponents();
 
   return (
-    <div className="flex items-center flex-col justify-center min-screen-emma bg-primary space-y-4">
+    <div className="flex items-center flex-col justify-center min-screen-fiona bg-primary space-y-4">
       <Image
         src={imgLogo}
-        alt="Logo emma"
+        alt="Logo fiona"
         className="w-[250px] 2xl:w-[350px]"
         loading="lazy"
         height={94}

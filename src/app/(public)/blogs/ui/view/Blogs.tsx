@@ -11,13 +11,13 @@ export default function Blogs(props: any) {
   const { blogs, truncateText } = props;
 
   return (
-    <div className="min-screen-emma bg-primary space-y-4">
+    <div className="min-screen-fiona bg-primary space-y-4">
       <article className="px-8 max-w-[1280px] mx-auto">
         <section className="flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center">
           <div className="">
             <Typography variant="h1" className="text-white mb-8 text-5xl">
               Bienvenidos al Blog de{" "}
-              <span className="text-yellow-400">Emma</span>.
+              <span className="text-yellow-400">Fiona</span>.
             </Typography>
             <Typography variant="h4" className="text-white">
               En nuestro blog encontrarás todo lo que necesitas saber para sacar

@@ -14,7 +14,6 @@ import { BudgetApiAdapter } from "@@/infrastructure/budget-api.adapter";
 import { CategoryUseCase } from "@@/application/category.use-case";
 import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-
 export default function useBudgetsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
@@ -52,7 +51,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -73,7 +72,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -97,7 +96,7 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteBudget } = new BudgetUseCase(
           new BudgetApiAdapter({
@@ -159,9 +158,9 @@ export default function useBudgetsCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
+    const user = localStorage.getItem("fiona-user");
     if (!user) {
-      localStorage.removeItem("emma-user");
+      localStorage.removeItem("fiona-user");
       router.push("/login");
     } else {
       const userjson = JSON.parse(user);

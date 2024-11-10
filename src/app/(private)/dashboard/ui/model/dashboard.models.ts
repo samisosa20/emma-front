@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 
-import { useRouter } from 'next/navigation';
-import { ReportUseCase } from '@@/application/report.use-case';
-import { ReportApiAdapter } from '@@/infrastructure/report-api.adapter';
+import { useRouter } from "next/navigation";
+import { ReportUseCase } from "@@/application/report.use-case";
+import { ReportApiAdapter } from "@@/infrastructure/report-api.adapter";
 
-import { customConfigHeader, driverWelcome } from '@/share/helpers';
+import { customConfigHeader, driverWelcome } from "@/share/helpers";
 
 export default function useDashboardViewModel() {
   const router = useRouter();
@@ -23,11 +23,11 @@ export default function useDashboardViewModel() {
   const { handleSubmit, control, setValue } = useForm();
 
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['reportDash', filters],
+    queryKey: ["reportDash", filters],
     queryFn: async () => {
       const { getReport } = new ReportUseCase(
         new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -35,8 +35,8 @@ export default function useDashboardViewModel() {
       const result = await getReport(filters);
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       return result;
@@ -44,14 +44,14 @@ export default function useDashboardViewModel() {
   });
 
   const onSubmit = (data: any) => {
-    setFilters({...data, badge_id: data.badge_id?.value});
+    setFilters({ ...data, badge_id: data.badge_id?.value });
   };
 
   const getMovements = async (id: number) => {
     if (id) {
       const { getReportCategory } = new ReportUseCase(
         new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -62,8 +62,8 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       // @ts-ignore
@@ -77,7 +77,7 @@ export default function useDashboardViewModel() {
     if (id) {
       const { getReportGroup } = new ReportUseCase(
         new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -88,8 +88,8 @@ export default function useDashboardViewModel() {
       });
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       // @ts-ignore
@@ -100,17 +100,20 @@ export default function useDashboardViewModel() {
   };
 
   useEffect(() => {
-    if (isError) router.push('/login');
+    if (isError) router.push("/login");
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
-      setValue("badge_id", userjson.currencies.find((v: any) => v.value == userjson.currency));
-      if(!localStorage.getItem('emma-doesntShow_help')) {
-        driverWelcome()
+      setValue(
+        "badge_id",
+        userjson.currencies.find((v: any) => v.value == userjson.currency)
+      );
+      if (!localStorage.getItem("fiona-doesntShow_help")) {
+        driverWelcome();
       }
     }
   }, []);

@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter, useParams } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { categorySchema } from '@/share/validation';
-import type { CategorySchema } from '@/share/validation';
+import { categorySchema } from "@/share/validation";
+import type { CategorySchema } from "@/share/validation";
 
-import { CategoryUseCase } from '@@/application/category.use-case';
-import { CategoryApiAdapter } from '@@/infrastructure/category-api.adapter';
+import { CategoryUseCase } from "@@/application/category.use-case";
+import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
 export default function useCategoryCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const [title, setTitle] = useState('Creacion de Categoría');
+  const [title, setTitle] = useState("Creacion de Categoría");
   const [groupsOptions, setGroupsOptions] = useState([]);
 
   const { handleSubmit, control, reset } = useForm({
@@ -26,11 +26,11 @@ export default function useCategoryCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -47,11 +47,11 @@ export default function useCategoryCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -71,11 +71,11 @@ export default function useCategoryCreateViewModel() {
 
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem('emma-user');
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteCategory } = new CategoryUseCase(
           new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -94,12 +94,12 @@ export default function useCategoryCreateViewModel() {
   });
 
   const { data } = useQuery({
-    queryKey: ['categoryDetail', param.id ?? 0],
+    queryKey: ["categoryDetail", param.id ?? 0],
     queryFn: async () => {
       if (param.id) {
         const { getCategoryDetail } = new CategoryUseCase(
           new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
             customConfig: customConfigHeader(),
           })
         );
@@ -107,11 +107,11 @@ export default function useCategoryCreateViewModel() {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
           : parseInt(param.id);
-        const result = await getCategoryDetail(id, {badge_id: null});
+        const result = await getCategoryDetail(id, { badge_id: null });
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
-          router.push('/login');
+          localStorage.removeItem("fiona-user");
+          router.push("/login");
         }
 
         return result;
@@ -120,11 +120,11 @@ export default function useCategoryCreateViewModel() {
   });
 
   const { data: listCategories } = useQuery({
-    queryKey: ['listCategories'],
+    queryKey: ["listCategories"],
     queryFn: async () => {
       const { listSelectCategories } = new CategoryUseCase(
         new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -132,8 +132,8 @@ export default function useCategoryCreateViewModel() {
       const result = await listSelectCategories();
 
       if (!Array.isArray(result)) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       return result;
@@ -156,13 +156,13 @@ export default function useCategoryCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user');
+    const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setGroupsOptions(userjson.groups_category);
     }
     if (param.id) {
-      setTitle('Edicion de Categoría');
+      setTitle("Edicion de Categoría");
     }
   }, []);
 

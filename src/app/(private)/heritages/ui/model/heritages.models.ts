@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { useRouter } from 'next/navigation';
-import { HeritageUseCase } from '@@/application/heritage.use-case';
-import { HeritageApiAdapter } from '@@/infrastructure/heritage-api.adapter';
+import { useRouter } from "next/navigation";
+import { HeritageUseCase } from "@@/application/heritage.use-case";
+import { HeritageApiAdapter } from "@@/infrastructure/heritage-api.adapter";
 
-import { customConfigHeader } from '@/share/helpers';
+import { customConfigHeader } from "@/share/helpers";
 
-export default function useHeritagesViewModel(){
+export default function useHeritagesViewModel() {
   const router = useRouter();
   const { isLoading, data, isError } = useQuery({
-    queryKey: ['heritages'],
+    queryKey: ["heritages"],
     queryFn: async () => {
       const { listHeritages } = new HeritageUseCase(
         new HeritageApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
           customConfig: customConfigHeader(),
         })
       );
@@ -22,8 +22,8 @@ export default function useHeritagesViewModel(){
       const result = await listHeritages();
 
       if (result.status === 401) {
-        localStorage.removeItem("emma-user");
-        router.push('/login');
+        localStorage.removeItem("fiona-user");
+        router.push("/login");
       }
 
       return result;
@@ -31,11 +31,11 @@ export default function useHeritagesViewModel(){
   });
 
   useEffect(() => {
-    if (isError) router.push('/login');
+    if (isError) router.push("/login");
   }, [isError]);
 
   return {
     data,
     isLoading,
   };
-};
+}

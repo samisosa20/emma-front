@@ -1,37 +1,37 @@
 {
-    "theme_color": "#ffe98a",
-    "background_color": "#201d2c",
-    "display": "fullscreen",
-    "scope": "/login",
-    "start_url": "/login",
-    "name": "Emma App",
-    "short_name": "Emma",
-    "description": "Manejo de finanzas perosnales",
-    "icons": [
-        {
-            "src": "/icon-64x64.png",
-            "sizes": "64x64",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "theme_color": "#ffe98a",
+  "background_color": "#201d2c",
+  "display": "fullscreen",
+  "scope": "/login",
+  "start_url": "/login",
+  "name": "Fiona App",
+  "short_name": "Fiona",
+  "description": "Manejo de finanzas perosnales",
+  "icons": [
+    {
+      "src": "/icon-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

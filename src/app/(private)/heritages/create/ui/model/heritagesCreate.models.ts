@@ -26,7 +26,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutation = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { createHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -47,7 +47,7 @@ export default function useHeritagesCreateViewModel() {
 
   const mutationEdit = useMutation({
     mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { editHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -68,10 +68,10 @@ export default function useHeritagesCreateViewModel() {
       }
     },
   });
-  
+
   const mutationDelete = useMutation({
     mutationFn: async () => {
-      const user = localStorage.getItem("emma-user");
+      const user = localStorage.getItem("fiona-user");
       if (user) {
         const { deleteHeritage } = new HeritageUseCase(
           new HeritageApiAdapter({
@@ -110,7 +110,7 @@ export default function useHeritagesCreateViewModel() {
         const result = await getHeritageDetail(id);
 
         if (result.status === 401) {
-          localStorage.removeItem("emma-user");
+          localStorage.removeItem("fiona-user");
           router.push("/");
         }
 
@@ -132,12 +132,12 @@ export default function useHeritagesCreateViewModel() {
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate()
-  }
+    mutationDelete.mutate();
+  };
 
   useEffect(() => {
-    const user = localStorage.getItem("emma-user");
-    if(user) {
+    const user = localStorage.getItem("fiona-user");
+    if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
     }
@@ -148,7 +148,10 @@ export default function useHeritagesCreateViewModel() {
 
   useEffect(() => {
     if (data) {
-      reset({...data, badge_id: {label: data.currency?.code, value: data.currency?.id}});
+      reset({
+        ...data,
+        badge_id: { label: data.currency?.code, value: data.currency?.id },
+      });
     }
   }, [data]);
 

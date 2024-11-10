@@ -133,7 +133,7 @@ const ListModal = (props: ListItemsProps) => {
           >
             <Typography variant="h5">
               {card.title} {card.father ? ` (${card.father})` : ""}{" "}
-              <span id={`emma-percentage_${card.title?.replace(/ /g, "_")}`}>
+              <span id={`fiona-percentage_${card.title?.replace(/ /g, "_")}`}>
                 {card.percentage !== null && card.percentage !== undefined
                   ? ` (${card.percentage}%)`
                   : ""}
@@ -150,7 +150,7 @@ const ListModal = (props: ListItemsProps) => {
                   className={`${
                     card.variation < 0 ? "text-red-500" : "text-green-500"
                   }`}
-                  id={`emma-variation_${card.title?.replace(/ /g, "_")}`}
+                  id={`fiona-variation_${card.title?.replace(/ /g, "_")}`}
                 >
                   {card.variation}%
                 </Typography>

@@ -15,9 +15,10 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("emma-user"))
+    if (localStorage.getItem("fiona-user"))
       setIsLogin(
-        JSON.parse(localStorage.getItem("emma-user") ?? "{}")?.token?.length > 0
+        JSON.parse(localStorage.getItem("fiona-user") ?? "{}")?.token?.length >
+          0
       );
   }, []);
 
@@ -27,7 +28,7 @@ const Header = () => {
         <Link href="/">
           <Image
             src={imgLogo}
-            alt="Logo Emma"
+            alt="Logo Fiona"
             loading="lazy"
             width={148}
             height={40}

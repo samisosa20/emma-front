@@ -29,7 +29,10 @@ export default function Tools(props: any) {
           <TitleHelp title="Herramientas" onClick={driverTool} />
         </div>
       </div>
-      <div id="emma-canido" className="mt-6 bg-white rounded shadow-sm py-6 px-4">
+      <div
+        id="fiona-canido"
+        className="mt-6 bg-white rounded shadow-sm py-6 px-4"
+      >
         <Typography variant="h2">Podria gastarme</Typography>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -80,7 +83,10 @@ export default function Tools(props: any) {
           </div>
         </form>
       </div>
-      <div id="emma-test_project" className="mt-6 bg-white rounded shadow-sm py-6 px-4">
+      <div
+        id="fiona-test_project"
+        className="mt-6 bg-white rounded shadow-sm py-6 px-4"
+      >
         <Typography variant="h2">Evaluacion de inversión</Typography>
         <form onSubmit={handleSubmitTest(onSubmitTest)}>
           <div className="lg:flex items-center gap-x-8">

@@ -7,11 +7,11 @@ import { TitleProps } from "./TitleHelp.interface";
 export default function TitleHelp(props: TitleProps) {
   const { title, onClick, variant = "h1" } = props;
   return (
-    <div id={`emma-title_${title.replace(/ /g, "_")}`} className="w-max">
+    <div id={`fiona-title_${title.replace(/ /g, "_")}`} className="w-max">
       <Typography variant={variant} className="flex items-center gap-x-2">
         {title}
         {onClick && (
-          <span id="emma-btn_help">
+          <span id="fiona-btn_help">
             <MdHelp
               className="w-4 h-4 text-sky-500 cursor-pointer"
               onClick={onClick}

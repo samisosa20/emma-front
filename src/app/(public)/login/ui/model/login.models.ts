@@ -1,74 +1,76 @@
-import { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-import { loginSchema } from '@/share/validation';
-import type { LoginSchema } from '@/share/validation';
+import { loginSchema } from "@/share/validation";
+import type { LoginSchema } from "@/share/validation";
 
-import { AuthUseCase } from '@@/application/auth.use-case';
-import { AuthApiAdapter } from '@@/infrastructure/auth-api.adapter';
+import { AuthUseCase } from "@@/application/auth.use-case";
+import { AuthApiAdapter } from "@@/infrastructure/auth-api.adapter";
 
-export default function useLogin(){
+export default function useLogin() {
   const router = useRouter();
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, reset, } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       remind: false,
     },
   });
 
   const mutation = useMutation({
     mutationFn: async (data: LoginSchema) => {
-      const { postLogin } = new AuthUseCase(new AuthApiAdapter({baseUrl: process.env.NEXT_PUBLIC_API_URL ?? ''}));
-      const result = await postLogin(data)
-      if(result.error) {
-        toast.error(result.message)
-        setIsSubmitting(false)
+      const { postLogin } = new AuthUseCase(
+        new AuthApiAdapter({ baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "" })
+      );
+      const result = await postLogin(data);
+      if (result.error) {
+        toast.error(result.message);
+        setIsSubmitting(false);
         return;
       }
-      localStorage.setItem('emma-user', JSON.stringify(result))
-      router.push('/dashboard')
+      localStorage.setItem("fiona-user", JSON.stringify(result));
+      router.push("/dashboard");
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    setIsSubmitting(true)
-    if(data.remind){
-      localStorage.setItem('remind', data.email)
+    setIsSubmitting(true);
+    if (data.remind) {
+      localStorage.setItem("remind", data.email);
     } else {
       localStorage.removeItem("remind");
     }
-    mutation.mutate(data)
+    mutation.mutate(data);
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('emma-user')
-    const remind = localStorage.getItem('remind')
-    if(user) {
-      const token = JSON.parse(user).token
-      if(token) {
-        router.push('/dashboard')
+    const user = localStorage.getItem("fiona-user");
+    const remind = localStorage.getItem("remind");
+    if (user) {
+      const token = JSON.parse(user).token;
+      if (token) {
+        router.push("/dashboard");
       }
     }
-    if(remind) {
+    if (remind) {
       reset({
         email: remind,
         remind: true,
-      })
+      });
     }
-  }, [])
+  }, []);
   return {
     handleSubmit,
     onSubmit,
     control,
     isSubmitting,
   };
-};
+}

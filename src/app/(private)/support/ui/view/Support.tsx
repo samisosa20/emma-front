@@ -19,7 +19,7 @@ export default function Support(props: any) {
         </div>
       </div>
       <div
-        id="emma-getintouch"
+        id="fiona-getintouch"
         className="mt-6 bg-white rounded shadow-sm py-6 px-4"
       >
         <Typography variant="h2">Contactanos</Typography>
@@ -68,14 +68,14 @@ export default function Support(props: any) {
             </Button>
           </div>
         </form>
-        <div id="emma-notes">
+        <div id="fiona-notes">
           <Typography variant="p">
             Una vez enviado el mensjae te llegara una copia del soporte, con
             asunto <b>EMMA- Soporte creado</b>, recuerda revisar spam.
           </Typography>
           <Typography variant="p">
             Todos los correos se envian baje el correo
-            notificaciones@finanzaspersonalesemma.com.
+            notificaciones@finanzaspersonalesfiona.com.
           </Typography>
         </div>
       </div>

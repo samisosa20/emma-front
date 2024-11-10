@@ -6,7 +6,8 @@ export function driverWelcome() {
     showProgress: true,
     steps: [
       {
-        element: window.innerWidth < 1000 ? "#emma-logo-header" : "#emma-logo-aside",
+        element:
+          window.innerWidth < 1000 ? "#fiona-logo-header" : "#fiona-logo-aside",
         popover: {
           title: "Bienvenid@ a EMMA",
           description:
@@ -15,22 +16,23 @@ export function driverWelcome() {
         },
       },
       {
-        element: window.innerWidth < 1000 ? "#emma-menu-mobile" : "aside ul",
+        element: window.innerWidth < 1000 ? "#fiona-menu-mobile" : "aside ul",
         popover: {
           title: "Navegación",
-          description: "Utiliza el ícono de menú hamburguesa para acceder a más opciones de navegación dentro de la app.",
+          description:
+            "Utiliza el ícono de menú hamburguesa para acceder a más opciones de navegación dentro de la app.",
           align: "start",
-          onNextClick:  () => {
-            if(window.innerWidth < 1000) {
+          onNextClick: () => {
+            if (window.innerWidth < 1000) {
               driverObj.moveTo(4);
             } else {
-              driverObj.moveNext()
+              driverObj.moveNext();
             }
-          }
+          },
         },
       },
       {
-        element:  "#emma-profile-aside",
+        element: "#fiona-profile-aside",
         popover: {
           title: "Perfil",
           description:
@@ -39,63 +41,68 @@ export function driverWelcome() {
         },
       },
       {
-        element: "#emma-btn_movements",
+        element: "#fiona-btn_movements",
         popover: {
           title: "Movimientos",
           description:
             "Para reportar un ingreso, un gasto o mover plata de una cuenta a otra dale clic aquí.",
           align: "start",
-          onNextClick:  () => {
-            if(window.innerWidth < 1000) {
-              driverObj.moveNext()
+          onNextClick: () => {
+            if (window.innerWidth < 1000) {
+              driverObj.moveNext();
             } else {
               driverObj.moveTo(9);
             }
-          }
+          },
         },
       },
       {
-        element: "#emma-menuBottom_home",
+        element: "#fiona-menuBottom_home",
         popover: {
           title: "Ir al Home",
-          description: "Selecciona esta opción para regresar al dashboard y revisar tu progreso.",
+          description:
+            "Selecciona esta opción para regresar al dashboard y revisar tu progreso.",
           align: "start",
         },
       },
       {
-        element: "#emma-menuBottom_accounts",
+        element: "#fiona-menuBottom_accounts",
         popover: {
           title: "Cuentas",
-          description: "Accede a la opción para gestionar y monitorear todas tus cuentas",
+          description:
+            "Accede a la opción para gestionar y monitorear todas tus cuentas",
           align: "start",
         },
       },
       {
-        element: "#emma-menuBottom_moves",
+        element: "#fiona-menuBottom_moves",
         popover: {
           title: "Movimientos",
-          description: "Agrega nuevos movimientos aquí: registra ingresos, gastos y realiza transferencias entre tus cuentas.",
+          description:
+            "Agrega nuevos movimientos aquí: registra ingresos, gastos y realiza transferencias entre tus cuentas.",
           align: "start",
         },
       },
       {
-        element: "#emma-menuBottom_categories",
+        element: "#fiona-menuBottom_categories",
         popover: {
           title: "Categorias",
-          description: "Aquí puedes segmentar los movimientos en categorías, facilitando su identificación de forma rápida y sencilla.",
+          description:
+            "Aquí puedes segmentar los movimientos en categorías, facilitando su identificación de forma rápida y sencilla.",
           align: "start",
         },
       },
       {
-        element: "#emma-menuBottom_events",
+        element: "#fiona-menuBottom_events",
         popover: {
           title: "Eventos",
-          description: "Crea eventos para rastrear cuánto gastaste y cuánto ganaste en momentos específicos de tu vida.",
+          description:
+            "Crea eventos para rastrear cuánto gastaste y cuánto ganaste en momentos específicos de tu vida.",
           align: "start",
         },
       },
       {
-        element: "#emma-btn_help",
+        element: "#fiona-btn_help",
         popover: {
           title: "Ayuda",
           description:
@@ -108,14 +115,14 @@ export function driverWelcome() {
     prevBtnText: "← Atrás",
   });
   driverObj.drive();
-  localStorage.setItem("emma-doesntShow_help", '1')
+  localStorage.setItem("fiona-doesntShow_help", "1");
 }
 export function driverDash() {
   driver({
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Dashboard",
+        element: "#fiona-title_Dashboard",
         popover: {
           title: "Dashboard",
           description:
@@ -124,7 +131,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-filter",
+        element: "#fiona-filter",
         popover: {
           title: "Filtros",
           description:
@@ -133,7 +140,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-card_balance",
+        element: "#fiona-card_balance",
         popover: {
           title: "Balance",
           description:
@@ -142,7 +149,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-chart_incomes",
+        element: "#fiona-chart_incomes",
         popover: {
           title: "Gráfico Ingresos",
           description:
@@ -151,7 +158,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-chart_expensives",
+        element: "#fiona-chart_expensives",
         popover: {
           title: "Gráfico Egresos",
           description:
@@ -160,7 +167,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-chart_balances",
+        element: "#fiona-chart_balances",
         popover: {
           title: "Gráfico Balance",
           description:
@@ -169,7 +176,7 @@ export function driverDash() {
         },
       },
       {
-        element: "#emma-list_cash",
+        element: "#fiona-list_cash",
         popover: {
           title: "Listado",
           description:
@@ -188,7 +195,7 @@ export function driverAccount() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Cuentas",
+        element: "#fiona-title_Cuentas",
         popover: {
           title: "Cuentas",
           description:
@@ -197,16 +204,15 @@ export function driverAccount() {
         },
       },
       {
-        element: "#emma-card_balance",
+        element: "#fiona-card_balance",
         popover: {
           title: "Balance",
-          description:
-            "Aca veras tu balance de forma: mensual, anual y total.",
+          description: "Aca veras tu balance de forma: mensual, anual y total.",
           align: "start",
         },
       },
       {
-        element: "#emma-search",
+        element: "#fiona-search",
         popover: {
           title: "Buscador",
           description:
@@ -225,7 +231,7 @@ export function driverEvent() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Eventos",
+        element: "#fiona-title_Eventos",
         popover: {
           title: "Eventos",
           description:
@@ -244,7 +250,7 @@ export function driverInvestment() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Inversiones",
+        element: "#fiona-title_Inversiones",
         popover: {
           title: "Inversiones",
           description:
@@ -263,7 +269,7 @@ export function driverHeritage() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Patrimonio",
+        element: "#fiona-title_Patrimonio",
         popover: {
           title: "Patrimonio",
           description:
@@ -282,7 +288,7 @@ export function driverBudget() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Presupuestos",
+        element: "#fiona-title_Presupuestos",
         popover: {
           title: "Presupuestos",
           description:
@@ -301,7 +307,7 @@ export function driverCategory() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Categorías",
+        element: "#fiona-title_Categorías",
         popover: {
           title: "Categorías",
           description:
@@ -310,7 +316,7 @@ export function driverCategory() {
         },
       },
       {
-        element: "#emma-search",
+        element: "#fiona-search",
         popover: {
           title: "Buscador",
           description:
@@ -329,7 +335,7 @@ export function driverPayment() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Pagos",
+        element: "#fiona-title_Pagos",
         popover: {
           title: "Pagos",
           description:
@@ -348,7 +354,7 @@ export function driverTool() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Herramientas",
+        element: "#fiona-title_Herramientas",
         popover: {
           title: "Herramientas",
           description:
@@ -357,7 +363,7 @@ export function driverTool() {
         },
       },
       {
-        element: "#emma-canido",
+        element: "#fiona-canido",
         popover: {
           title: "Puedo gastarme?",
           description:
@@ -366,7 +372,7 @@ export function driverTool() {
         },
       },
       {
-        element: "#emma-test_project",
+        element: "#fiona-test_project",
         popover: {
           title: "Evaluación de inversión",
           description:
@@ -385,7 +391,7 @@ export function driverMovement() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-field_type",
+        element: "#fiona-field_type",
         popover: {
           title: "Tipo de movimiento",
           description:
@@ -397,8 +403,7 @@ export function driverMovement() {
         element: "#amount",
         popover: {
           title: "Monto",
-          description:
-            "indica cuanta plata fue que te gastaste o te ingreso",
+          description: "indica cuanta plata fue que te gastaste o te ingreso",
           align: "start",
         },
       },
@@ -406,8 +411,7 @@ export function driverMovement() {
         element: "#date_purchase",
         popover: {
           title: "Fecha del movimiento",
-          description:
-            "Cuando fue que se hizo ese movimiento.",
+          description: "Cuando fue que se hizo ese movimiento.",
           align: "start",
         },
       },
@@ -449,7 +453,7 @@ export function driverSupport() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-title_Soporte",
+        element: "#fiona-title_Soporte",
         popover: {
           title: "Soporte",
           description:
@@ -458,7 +462,7 @@ export function driverSupport() {
         },
       },
       {
-        element: "#emma-getintouch",
+        element: "#fiona-getintouch",
         popover: {
           title: "Contactanos",
           description:
@@ -467,7 +471,7 @@ export function driverSupport() {
         },
       },
       {
-        element: "#emma-notes",
+        element: "#fiona-notes",
         popover: {
           title: "Nota",
           description:
@@ -486,21 +490,19 @@ export function driverListGroupExpensive() {
     showProgress: true,
     steps: [
       {
-        element: "#emma-percentage_Gastos_Personales",
+        element: "#fiona-percentage_Gastos_Personales",
         popover: {
           title: "Porcentaje",
-          description:
-            `Este es el procentaje que corresponde a tus ingreso, es <b>importante</b> que tengas encuenta una relación <b>50 / 30 / 20</b>,
+          description: `Este es el procentaje que corresponde a tus ingreso, es <b>importante</b> que tengas encuenta una relación <b>50 / 30 / 20</b>,
             donde el <b>50%</b> son tus <b>gastos fijos</b>, el <b>30%</b> son tus <b>gastos personales</b> y el <b>20%</b> son tus <b>ahorros</b>`,
           align: "start",
         },
       },
       {
-        element: "#emma-variation_Gastos_Personales",
+        element: "#fiona-variation_Gastos_Personales",
         popover: {
           title: "Variación",
-          description:
-            `Esta es la variación que tuviste frente al perido pasado, para <b>los gastos una variación negativa</b> significa <b>un incremento</b> en los gasto y 
+          description: `Esta es la variación que tuviste frente al perido pasado, para <b>los gastos una variación negativa</b> significa <b>un incremento</b> en los gasto y 
             <b>una positiva una reducción</b>, mientras que en <b>la utiilidad </b> si es <b>positiva incremento</b> y si fue negativa disminuyo`,
           align: "start",
         },
