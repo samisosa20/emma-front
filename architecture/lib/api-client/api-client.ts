@@ -1,3 +1,4 @@
+import { useUserStore } from "@/share/storage";
 import Axios, {
   AxiosError,
   AxiosRequestConfig,
@@ -27,10 +28,10 @@ export const AXIOS_INSTANCE = Axios.create({
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
-  const user = JSON.parse(localStorage.getItem("fiona-user") ?? "{}");
+  const { token } = useUserStore.getState();
 
-  if (user && user.token) {
-    request.headers["Authorization"] = `Bearer ${user.token}`;
+  if (token) {
+    request.headers["Authorization"] = `Bearer ${token}`;
   }
 
   request.headers["Content-Type"] = "application/json";

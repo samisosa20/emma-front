@@ -1,6 +1,6 @@
+"use client";
 import Link from "next/link";
-import { MdAddCircleOutline, MdArrowBack, MdEdit } from "react-icons/md";
-import { Collapse } from "@material-tailwind/react";
+import { MdAddCircleOutline, MdArrowBack } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
 //components

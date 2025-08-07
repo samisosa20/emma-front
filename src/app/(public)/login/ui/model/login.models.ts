@@ -10,9 +10,11 @@ import type { LoginSchema } from "@/share/validation";
 
 import { AuthUseCase } from "@@/application/auth.use-case";
 import { usePostApiV2AuthLogin } from "@@@/endpoints/auth/auth";
+import { useUserStore } from "@/share/storage";
 
 export default function useLogin() {
   const router = useRouter();
+  const { addToken, token } = useUserStore();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,11 +41,16 @@ export default function useLogin() {
       {
         onSuccess: async (result) => {
           const { data, ...res } = result;
+          addToken(res.token);
           localStorage.setItem(
             "fiona-user",
             JSON.stringify({ ...res, ...data })
           );
           router.push("/dashboard");
+        },
+        onError: (error) => {
+          toast.error(error.message);
+          setIsSubmitting(false);
         },
       }
     );
@@ -52,8 +59,8 @@ export default function useLogin() {
   useEffect(() => {
     const user = localStorage.getItem("fiona-user");
     const remind = localStorage.getItem("remind");
+    console.log("token", token);
     if (user) {
-      const token = JSON.parse(user).token;
       if (token) {
         router.push("/dashboard");
       }

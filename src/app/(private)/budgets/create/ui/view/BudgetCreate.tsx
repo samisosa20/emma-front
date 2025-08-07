@@ -1,3 +1,4 @@
+"use client";
 import { Controller } from "react-hook-form";
 import { MdArrowBack, MdDeleteOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
