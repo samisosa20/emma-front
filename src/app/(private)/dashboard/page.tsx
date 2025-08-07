@@ -1,17 +1,30 @@
-'use client';
+"use client";
 //components
-import useComponents from '@/share/components';
-import Dashboard from './ui/view/Dashboard';
+import useComponents from "@/share/components";
+import Dashboard from "./ui/view/Dashboard";
 
-import useDashboardViewModel from './ui/model/dashboard.models';
+import useDashboardViewModel from "./ui/model/dashboard.models";
 
 export default function Page() {
-  const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, getMovements, getMovementsGroup, listMovements } =
-    useDashboardViewModel();
+  const {
+    isLoading,
+    data,
+    currencyOptions,
+    control,
+    handleSubmit,
+    onSubmit,
+    getMovements,
+    getMovementsGroup,
+    listMovements,
+    listOptionsTypeReport,
+    typeReport,
+    listOptionsPeriodReport,
+    periodReport,
+  } = useDashboardViewModel();
   const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
@@ -24,6 +37,10 @@ export default function Page() {
       getMovementsGroup={getMovementsGroup}
       getMovements={getMovements}
       listMovements={listMovements}
+      listOptionsTypeReport={listOptionsTypeReport}
+      typeReport={typeReport}
+      listOptionsPeriodReport={listOptionsPeriodReport}
+      periodReport={periodReport}
     />
   );
 }

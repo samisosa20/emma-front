@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 //components
-import Movements from './ui/view/Movements';
+import Movements from "./ui/view/Movements";
 
-import useMovementsViewModel from './ui/model/movements.models';
+import useMovementsViewModel from "./ui/model/movements.models";
 
 const Page = () => {
   const {

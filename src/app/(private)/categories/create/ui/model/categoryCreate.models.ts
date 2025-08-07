@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { categorySchema } from "@/share/validation";
 import type { CategorySchema } from "@/share/validation";
 
-import { CategoryUseCase } from "@@/application/category.use-case";
-import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
-
-import { customConfigHeader } from "@/share/helpers";
+import {
+  usePostApiV2Categories,
+  usePutApiV2CategoriesId,
+  useDeleteApiV2CategoriesId,
+  useGetApiV2CategoriesIdSuspense,
+} from "@@@/endpoints/category/category";
 
 export default function useCategoryCreateViewModel() {
   const router = useRouter();
@@ -24,142 +25,66 @@ export default function useCategoryCreateViewModel() {
     resolver: zodResolver(categorySchema),
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createCategory } = new CategoryUseCase(
-          new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createCategory(data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
+  const mutation = usePostApiV2Categories();
+
+  const mutationEdit = usePutApiV2CategoriesId();
+
+  const mutationDelete = useDeleteApiV2CategoriesId();
+
+  const { data } = useGetApiV2CategoriesIdSuspense(param.id ?? "", {
+    query: {
+      queryKey: ["categoryDetail", param.id ?? 0],
     },
   });
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: CategorySchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editCategory } = new CategoryUseCase(
-          new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await editCategory(id, data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
-
-  const mutationDelete = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deleteCategory } = new CategoryUseCase(
-          new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await deleteCategory(id);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
-
-  const { data } = useQuery({
-    queryKey: ["categoryDetail", param.id ?? 0],
-    queryFn: async () => {
-      if (param.id) {
-        const { getCategoryDetail } = new CategoryUseCase(
-          new CategoryApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await getCategoryDetail(id, { badge_id: null });
-
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/login");
-        }
-
-        return result;
-      }
-    },
-  });
-
-  const { data: listCategories } = useQuery({
-    queryKey: ["listCategories"],
-    queryFn: async () => {
-      const { listSelectCategories } = new CategoryUseCase(
-        new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await listSelectCategories();
-
-      if (!Array.isArray(result)) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
-      return result;
-    },
-  });
-
-  const onSubmit = (data: any) => {
-    const formData = {
-      ...data,
-    };
+  const onSubmit = (data: CategorySchema) => {
+    console.log(data);
     if (param.id) {
-      mutationEdit.mutate(formData);
+      const id = Array.isArray(param.id) ? param.id[0] : param.id;
+      mutationEdit.mutate(
+        {
+          id,
+          data,
+        },
+        {
+          onSuccess: (result) => {
+            toast.success(result.name);
+            router.back();
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        {
+          data,
+        },
+        {
+          onSuccess: (result) => {
+            toast.success(result.name);
+            router.back();
+          },
+        }
+      );
     }
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate();
+    const id = Array.isArray(param.id) ? param.id[0] : param.id;
+    if (id)
+      mutationDelete.mutate({
+        id,
+      });
   };
 
   useEffect(() => {
     const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
-      setGroupsOptions(userjson.groups_category);
+      setGroupsOptions(
+        userjson.groupsCategory.map((g: any) => {
+          return { value: g.id, label: g.name };
+        })
+      );
     }
     if (param.id) {
       setTitle("Edicion de Categoría");
@@ -179,6 +104,5 @@ export default function useCategoryCreateViewModel() {
     title,
     groupsOptions,
     handleDelete,
-    listCategories,
   };
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MdAddCircleOutline } from "react-icons/md";
+import * as PiIcons from "react-icons/pi";
 
 //components
 import useComponents from "@/share/components";
@@ -12,9 +13,14 @@ type categoryList = {
   name: string;
   description: string;
   group: { name: string };
-  sub_categories: number;
-  deleted_at: string | null;
+  color: string;
+  icon: string;
+  deletedAt: string | null;
 };
+
+function getIconComponent(name: string): React.ElementType {
+  return PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
+}
 
 export default function Heritages(props: any) {
   const { data, setSearch, handleToggle, search, isChecked } = props;
@@ -58,42 +64,46 @@ export default function Heritages(props: any) {
           label={isChecked ? "Activos" : "Inactivos"}
         />
       </div>
-      <div
-        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
-      >
+      <div className={`flex flex-wrap justify-between items-start gap-4 mt-6`}>
         {data &&
-          data
+          data.content
             ?.filter((category: categoryList) => {
               if (search !== "") {
                 return isChecked
-                  ? !category.deleted_at &&
+                  ? !category.deletedAt &&
                       category.name
                         ?.toUpperCase()
                         ?.includes(search.toUpperCase())
-                  : !!category.deleted_at &&
+                  : !!category.deletedAt &&
                       category.name
                         ?.toUpperCase()
                         ?.includes(search.toUpperCase());
               }
-              return isChecked ? !category.deleted_at : !!category.deleted_at;
+              return isChecked ? !category.deletedAt : !!category.deletedAt;
             })
-            .map((category: categoryList) => (
-              <Link href={`/categories/${category.id}`} key={category.id}>
-                <div className="bg-white rounded shadow-sm p-4">
-                  <div className="flex items-center justify-between">
-                    <Typography variant="h2">{category.name}</Typography>
-                    <Typography variant="h4">
-                      {category.sub_categories}
-                    </Typography>
+            .map((category: categoryList) => {
+              const Icon = getIconComponent(category.icon ?? "PiAcorn");
+
+              return (
+                <Link
+                  href={`/categories/${category.id}`}
+                  key={category.id}
+                  className="flex flex-col items-center w-16"
+                >
+                  <div
+                    className={`rounded-full shadow-sm w-12 h-12 hover:opacity-80 flex justify-center items-center`}
+                    style={{
+                      background: category.color,
+                    }}
+                  >
+                    <Icon size={30} className="text-gray-200" />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <Typography variant="h6">
-                      {category?.group?.name}
-                    </Typography>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                  <Typography className="text-center leading-3 text-xs">
+                    {category.name}
+                  </Typography>
+                </Link>
+              );
+            })}
       </div>
       {data && data.length === 0 && (
         <div className="bg-white rounded shadow-sm">

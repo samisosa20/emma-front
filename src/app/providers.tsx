@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  //const router = useRouter();
   const pathname = usePathname();
   useEffect(() => {
     //if (!isLogin() && pathname !== '/' && pathname !== '/login' && pathname !== '/register' && pathname !== '/forgot' && !pathname.includes('/blogs')) router.push('/login');
@@ -30,7 +30,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           });
       });
     }
-    if ("Notification" in window) {
+    /* if ("Notification" in window) {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
           // El usuario otorgó permiso para mostrar notificaciones
@@ -38,7 +38,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           // El usuario denegó el permiso
         }
       });
-    }
+    } */
   }, [pathname]);
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

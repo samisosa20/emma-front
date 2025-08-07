@@ -9,7 +9,7 @@ import { loginSchema } from "@/share/validation";
 import type { LoginSchema } from "@/share/validation";
 
 import { AuthUseCase } from "@@/application/auth.use-case";
-import { AuthApiAdapter } from "@@/infrastructure/auth-api.adapter";
+import { usePostApiV2AuthLogin } from "@@@/endpoints/auth/auth";
 
 export default function useLogin() {
   const router = useRouter();
@@ -25,21 +25,7 @@ export default function useLogin() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: LoginSchema) => {
-      const { postLogin } = new AuthUseCase(
-        new AuthApiAdapter({ baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "" })
-      );
-      const result = await postLogin(data);
-      if (result.error) {
-        toast.error(result.message);
-        setIsSubmitting(false);
-        return;
-      }
-      localStorage.setItem("fiona-user", JSON.stringify(result));
-      router.push("/dashboard");
-    },
-  });
+  const mutation = usePostApiV2AuthLogin();
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     setIsSubmitting(true);
@@ -48,7 +34,19 @@ export default function useLogin() {
     } else {
       localStorage.removeItem("remind");
     }
-    mutation.mutate(data);
+    mutation.mutate(
+      { data },
+      {
+        onSuccess: async (result) => {
+          const { data, ...res } = result;
+          localStorage.setItem(
+            "fiona-user",
+            JSON.stringify({ ...res, ...data })
+          );
+          router.push("/dashboard");
+        },
+      }
+    );
   };
 
   useEffect(() => {

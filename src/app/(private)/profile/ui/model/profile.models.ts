@@ -168,7 +168,7 @@ export default function useProfileViewModel() {
     const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
-      setVerify(userjson.verify_email);
+      setVerify(userjson.confirmedEmailAt);
       setCurrencyOptions(userjson.currencies);
     }
   }, []);

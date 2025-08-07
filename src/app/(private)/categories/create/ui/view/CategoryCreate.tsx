@@ -19,7 +19,6 @@ export default function CategoryCreate(props: any) {
     title,
     listMovements,
     groupsOptions = [],
-    listCategories = [],
     handleDelete,
   } = props;
 
@@ -87,18 +86,18 @@ export default function CategoryCreate(props: any) {
             )}
           />
           <Controller
-            name={"group_id"}
+            name={"color"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
-                <Select
-                  label="Grupo de categoría"
-                  placeholder="Seleciona una opcion"
-                  id="group_id"
+                <Input
+                  type="color"
+                  placeholder="Color"
+                  label="Color"
+                  id="color"
                   onChange={(e) => {
                     onChange(e);
                   }}
-                  options={groupsOptions}
                   iserror={!!fieldState.error}
                   value={value}
                 />
@@ -106,18 +105,37 @@ export default function CategoryCreate(props: any) {
             )}
           />
           <Controller
-            name={"category_id"}
+            name={"icon"}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Input
+                  type="text"
+                  placeholder="Icono"
+                  label="Icono"
+                  id="icon"
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={"groupId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
-                  label="Categoría padre (opcional)"
+                  label="Grupo de categoría"
                   placeholder="Seleciona una opcion"
-                  id="category_id"
+                  id="groupId"
                   onChange={(e) => {
                     onChange(e);
                   }}
-                  options={listCategories}
+                  options={groupsOptions}
                   iserror={!!fieldState.error}
                   value={value}
                 />

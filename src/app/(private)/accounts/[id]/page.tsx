@@ -1,18 +1,29 @@
-'use client';
-import AccountDetail from './ui/view/AccountDetail';
+"use client";
+import AccountDetail from "./ui/view/AccountDetail";
 
 //components
-import useComponents from '@/share/components';
+import useComponents from "@/share/components";
 
-import useAccount from './ui/model/accountDetail.models';
+import useAccount from "./ui/model/accountDetail.models";
 
 const Page = () => {
   const { Loading } = useComponents();
-  const { isLoading, data, control, handleSubmit, onSubmit, listEvents, handleResetFilters, showDelete } =
-    useAccount();
+  const {
+    isLoading,
+    data,
+    control,
+    handleSubmit,
+    onSubmit,
+    listEvents,
+    handleResetFilters,
+    setPage,
+    listMovements,
+    loadingMovement,
+    meta,
+  } = useAccount();
 
-  if (isLoading || data === undefined) {
-    return <Loading/>;
+  if (isLoading || data === undefined || loadingMovement) {
+    return <Loading />;
   }
 
   return (
@@ -23,7 +34,9 @@ const Page = () => {
       onSubmit={onSubmit}
       listEvents={listEvents}
       handleResetFilters={handleResetFilters}
-      showDelete={showDelete}
+      setPage={setPage}
+      listMovements={listMovements}
+      meta={meta}
     />
   );
 };

@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-
 import { useRouter } from "next/navigation";
-import { CategoryUseCase } from "@@/application/category.use-case";
-import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
 
-import { customConfigHeader } from "@/share/helpers";
+import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
 
 export default function useCategoriesViewModel() {
   const router = useRouter();
@@ -13,26 +9,7 @@ export default function useCategoriesViewModel() {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const { listCategories } = new CategoryUseCase(
-        new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await listCategories();
-
-      if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
-      return result;
-    },
-  });
+  const { isLoading, data, isError, refetch } = useGetApiV2CategoriesSuspense();
 
   const handleToggle = () => {
     setSearch("");
@@ -40,6 +17,7 @@ export default function useCategoriesViewModel() {
   };
 
   useEffect(() => {
+    refetch();
     if (isError) router.push("/login");
   }, [isError, router]);
 

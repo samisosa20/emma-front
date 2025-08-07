@@ -13,6 +13,7 @@ import {
 } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
+import * as PiIcons from "react-icons/pi";
 
 export * from "./driver";
 
@@ -40,8 +41,8 @@ export function customConfigHeader() {
     };
 }
 
-export function getDateString() {
-  const currentDate = new Date();
+export function getDateString(date?: string) {
+  const currentDate = date ? new Date(date) : new Date();
   const timeZoneOffsetMinutes = currentDate.getTimezoneOffset();
 
   currentDate.setMinutes(currentDate.getMinutes() - timeZoneOffsetMinutes);
@@ -247,3 +248,12 @@ export const colors = [
   "#33FF66",
   "#CC6633",
 ];
+
+export const formatoMoneda = new Intl.NumberFormat("es-US", {
+  style: "currency",
+  currency: "USD",
+});
+
+export function getIconComponent(name: string): React.ElementType {
+  return PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
+}

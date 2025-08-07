@@ -10,13 +10,19 @@ import {
   PieChart,
   Pie,
   Cell,
+  Label,
 } from "recharts";
 
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
-import { colors, formatCurrency, driverDash } from "@/share/helpers";
+import {
+  colors,
+  formatCurrency,
+  driverDash,
+  formatoMoneda,
+} from "@/share/helpers";
 
 export default function Dashboard(props: any) {
   const {
@@ -26,8 +32,11 @@ export default function Dashboard(props: any) {
     onSubmit,
     handleSubmit,
     getMovements,
-    getMovementsGroup,
     listMovements,
+    listOptionsTypeReport,
+    typeReport,
+    listOptionsPeriodReport,
+    periodReport,
   } = props;
   const { Typography, Input, FormControl, Button, TitleHelp, AutoComplete } =
     useComponents();
@@ -101,13 +110,38 @@ export default function Dashboard(props: any) {
           </Button>
         </form>
       </Filters>
-      <div className="mt-6">
-        <Cards title="balance" data={data.metrics} />
-      </div>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-1 gap-4">
+        <div>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            {listOptionsTypeReport.map((type: any, index: number) => (
+              <Typography
+                key={index}
+                className={`${
+                  type.value === typeReport ? "underline text-black" : ""
+                } hover:underline hover:text-black cursor-pointer`}
+                onClick={type.onClick}
+              >
+                {type.label}
+              </Typography>
+            ))}
+          </div>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            {listOptionsPeriodReport.map((type: any, index: number) => (
+              <Typography
+                key={index}
+                className={`${
+                  type.value === periodReport ? "underline text-black" : ""
+                } hover:underline hover:text-black cursor-pointer`}
+                onClick={type.onClick}
+              >
+                {type.label}
+              </Typography>
+            ))}
+          </div>
+        </div>
         <div id="fiona-chart_incomes" className="bg-white">
           <Typography variant="p" className="px-4 pt-4">
-            Ingresos
+            Movimientos
           </Typography>
           <div className="flex items-center justify-center">
             <PieChart
@@ -116,14 +150,16 @@ export default function Dashboard(props: any) {
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <Pie
-                data={data.incomes}
+                data={data}
                 dataKey="amount"
                 nameKey="category"
+                innerRadius={130}
+                outerRadius={150}
                 cx="50%"
                 cy="50%"
               >
-                {data.expensives &&
-                  data.expensives.map((entry: any, index: number) => (
+                {data &&
+                  data.map((entry: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={colors[index]} />
                   ))}
               </Pie>
@@ -132,128 +168,22 @@ export default function Dashboard(props: any) {
                   return formatCurrency.format(Number(value));
                 }}
               />
+              <Label width={30} position="center">
+                {formatoMoneda.format(
+                  data?.reduce((sum: number, item: any) => sum + item.amount, 0)
+                )}
+              </Label>
             </PieChart>
           </div>
         </div>
-        <div id="fiona-chart_expensives" className="bg-white">
-          <Typography variant="p" className="px-4 pt-4">
-            Egresos
-          </Typography>
-          <div className="flex items-center justify-center">
-            <PieChart
-              width={340}
-              height={340}
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-            >
-              <Pie
-                data={data.expensives}
-                dataKey="amount"
-                nameKey="category"
-                cx="50%"
-                cy="50%"
-              >
-                {data.expensives &&
-                  data.expensives.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={colors[index]} />
-                  ))}
-              </Pie>
-              <Tooltip
-                formatter={(value) => {
-                  return formatCurrency.format(Number(value));
-                }}
-              />
-            </PieChart>
-          </div>
-        </div>
-      </div>
-      <div id="fiona-chart_balances" className="mt-6 bg-white">
-        <Typography variant="p" className="p-4">
-          Balance
-        </Typography>
-        <ResponsiveContainer minWidth={300} aspect={3.25}>
-          <AreaChart
-            data={data.balances}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="date" />
-            <YAxis
-              tickFormatter={(value) => {
-                if (value >= 1000000) {
-                  return `$ ${value / 1000000}M`;
-                } else if (value >= 1000) {
-                  return `$ ${value / 1000}K`;
-                }
-                return value;
-              }}
-            />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip
-              formatter={(value) => {
-                return [formatCurrency.format(Number(value)), "Balance"];
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="amount"
-              stroke="#8884d8"
-              fillOpacity={1}
-              fill="url(#colorUv)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-      <div
-        id="fiona-list_cash"
-        className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
         <ListItems
-          title="Movimientos por grupo"
-          data={data.group_expensive}
-          variant="modal"
-          onClickModal={getMovementsGroup}
-          dataModal={listMovements}
-          tooltip={data?.group_expensive?.length > 0}
-          tooltipVariant="group"
-        />
-        <ListItems
-          title="Lista de ingresos"
-          data={data.list_incomes}
-          currency={data.currency}
-          variant="modal"
-          showHistory
-          onClickModal={getMovements}
-          dataModal={listMovements}
-        />
-      </div>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ListItems
-          title="Lista de egresos"
-          data={data.list_expensives}
+          title="Consolidado"
+          data={data}
           variant="modal"
           showHistory
           currency={data.currency}
           onClickModal={getMovements}
           dataModal={listMovements}
-        />
-        <ListItems
-          title="Utilización de tarjeta de crédito"
-          data={data.credit_carts}
-          variant="utilization"
-        />
-        <ListItems
-          title="Presupuesto"
-          data={data.budget}
-          variant="utilization"
         />
       </div>
     </div>

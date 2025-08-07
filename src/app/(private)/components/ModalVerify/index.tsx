@@ -21,7 +21,7 @@ export default function ModalVerify() {
     const user = localStorage.getItem("fiona-user");
     if (user && pathname !== "/profile" && pathname !== "/support") {
       const userjson = JSON.parse(user);
-      setIsOpen(!userjson.verify_email);
+      setIsOpen(!userjson.confirmedEmailAt);
     }
   }, [pathname]);
 

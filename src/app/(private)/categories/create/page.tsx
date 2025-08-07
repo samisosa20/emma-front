@@ -1,17 +1,11 @@
-'use client';
-import CategoryCreate from './ui/view/CategoryCreate';
+"use client";
+import CategoryCreate from "./ui/view/CategoryCreate";
 
-import useCategoryCreateViewModel from './ui/model/categoryCreate.models';
+import useCategoryCreateViewModel from "./ui/model/categoryCreate.models";
 
 const Page = () => {
-  const {
-    handleSubmit,
-    onSubmit,
-    control,
-    title,
-    groupsOptions,
-    listCategories,
-  } = useCategoryCreateViewModel();
+  const { handleSubmit, onSubmit, control, title, groupsOptions } =
+    useCategoryCreateViewModel();
   return (
     <CategoryCreate
       handleSubmit={handleSubmit}
@@ -19,7 +13,6 @@ const Page = () => {
       control={control}
       title={title}
       groupsOptions={groupsOptions}
-      listCategories={listCategories}
     />
   );
 };

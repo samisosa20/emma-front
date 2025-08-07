@@ -49,9 +49,9 @@ const Accounts = () => {
           </Link>
         </div>
       </div>
-      <div className="mt-6">
-        {data && <Cards title="balance" data={data.balances} />}
-      </div>
+      {/* <div className="mt-6">
+        {data && <Cards title="balance" data={data.balance} />}
+      </div> */}
       <div
         id="fiona-search"
         className="mt-6 flex space-x-4 items-center justify-end"
@@ -75,45 +75,40 @@ const Accounts = () => {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.accounts
+          data.content
             ?.filter((account) => {
               if (search !== "") {
                 return isChecked
-                  ? !account?.deleted_at &&
+                  ? !account?.deletedAt &&
                       account?.name
                         ?.toUpperCase()
                         ?.includes(search?.toUpperCase())
-                  : !!account?.deleted_at &&
+                  : !!account?.deletedAt &&
                       account?.name
                         ?.toUpperCase()
                         ?.includes(search?.toUpperCase());
               }
-              return isChecked ? !account?.deleted_at : !!account?.deleted_at;
+              return isChecked ? !account?.deletedAt : !!account?.deletedAt;
             })
             .map((account) => (
               <Link href={`/accounts/${account?.id}`} key={account?.id}>
                 <div className="bg-white rounded shadow-sm p-4">
                   <div className="flex items-center justify-between">
                     <Typography variant="h2">{account?.name}</Typography>
-                    <Typography variant="p">
-                      {account?.currency?.code}
-                    </Typography>
+                    <Typography variant="p">{account?.badge?.code}</Typography>
                   </div>
-                  <Typography variant="h6" className="h-[40px]">
-                    {account?.description}
-                  </Typography>
                   <div className="flex items-center justify-between">
                     <Typography>{account?.type?.name}</Typography>
                     <Typography
                       variant="p"
                       className={`text-right ${
-                        account?.balance + account?.init_amount >= 0
+                        account?.balance + account?.initAmount >= 0
                           ? "text-green-500"
                           : "text-red-500"
                       }`}
                     >
                       {formatoMoneda.format(
-                        account?.balance + account?.init_amount
+                        account?.balance + account?.initAmount
                       )}
                     </Typography>
                   </div>
@@ -121,7 +116,7 @@ const Accounts = () => {
               </Link>
             ))}
       </div>
-      {data && data.accounts?.length === 0 && (
+      {data && data.content?.length === 0 && (
         <div className="bg-white rounded shadow-sm">
           <Typography className="text-center py-6">Sin cuentas</Typography>
         </div>

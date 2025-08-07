@@ -42,15 +42,18 @@ export default function CategoryDetail(props: any) {
     onSubmit,
     handleSubmit,
     currency,
+    listMovements,
+    meta,
+    setPage,
   } = props;
   const router = useRouter();
   const { Typography, Input, Switch, FormControl, Button, AutoComplete } =
     useComponents();
-  const { Cards, Filters } = useComponentsLayout();
+  const { Cards, Filters, ListMovements } = useComponentsLayout();
 
   return (
     <div>
-      <div className="flex items-center justify-between w-full flew-wrap">
+      <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between w-full flew-wrap gap-2">
         <div className="w-full sm:w-auto">
           <div className="flex items-center space-x-2 cursor-pointer">
             <div onClick={() => router.back()}>
@@ -60,7 +63,7 @@ export default function CategoryDetail(props: any) {
           </div>
           <Typography>Detalle de la categoría</Typography>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 justify-end">
           <Link
             href={`/categories/${data.id}/edit`}
             className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
@@ -143,7 +146,7 @@ export default function CategoryDetail(props: any) {
           ]}
         />
       </div>
-      <div id="fiona-chart_history_category" className="mt-6 bg-white">
+      {/* <div id="fiona-chart_history_category" className="mt-6 bg-white">
         <Typography variant="p" className="p-4">
           Movimiento historico de la categoria
         </Typography>
@@ -194,40 +197,13 @@ export default function CategoryDetail(props: any) {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
-      <div
-        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
-      >
-        {data &&
-          data.categories
-            ?.filter((category: categoryList) => {
-              if (search !== "") {
-                return isChecked
-                  ? !category.deleted_at &&
-                      category.name.toUpperCase().includes(search.toUpperCase())
-                  : !!category.deleted_at &&
-                      category.name
-                        .toUpperCase()
-                        .includes(search.toUpperCase());
-              }
-              return isChecked ? !category.deleted_at : !!category.deleted_at;
-            })
-            .map((category: categoryList) => (
-              <Link href={`/categories/${category.id}`} key={category.id}>
-                <div className="bg-white rounded shadow-sm p-4">
-                  <div className="flex items-center justify-between">
-                    <Typography variant="h2">{category.name}</Typography>
-                    <Typography variant="h4">
-                      {category.sub_categories}
-                    </Typography>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Typography variant="h6">{category.group.name}</Typography>
-                  </div>
-                </div>
-              </Link>
-            ))}
-      </div>
+      </div> */}
+      <ListMovements
+        listMovements={listMovements}
+        meta={meta}
+        setPage={setPage}
+        keyTitle="account"
+      />
     </div>
   );
 }

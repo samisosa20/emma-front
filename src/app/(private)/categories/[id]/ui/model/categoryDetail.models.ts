@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { CategoryUseCase } from "@@/application/category.use-case";
-import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
-
-import { customConfigHeader } from "@/share/helpers";
+import { useGetApiV2CategoriesIdSuspense } from "@@@/endpoints/category/category";
+import { useGetApiV2Movements } from "@@@/endpoints/movement/movement";
+import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
 
 export default function useCategoryDetailViewModel() {
   const param = useParams();
@@ -21,32 +19,29 @@ export default function useCategoryDetailViewModel() {
     badge_id: currencyParams,
   });
   const [currency, setCurrency] = useState("");
+  const [page, setPage] = useState(1);
+  const [listMovements, setListMovement] = useState<
+    GetApiV2Movements200ContentItem[]
+  >([]);
 
   const { handleSubmit, control, setValue } = useForm();
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["categoryDetail", filters],
-    queryFn: async () => {
-      const { getCategoryDetail } = new CategoryUseCase(
-        new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-      if (param.id) {
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await getCategoryDetail(id, filters);
+  const { isLoading, data, isError } = useGetApiV2CategoriesIdSuspense(
+    String(param.id),
+    {
+      query: {
+        queryKey: ["categoryDetail", param.id ?? 0],
+      },
+    }
+  );
 
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/login");
-        }
-
-        return result;
-      }
-    },
+  const {
+    isLoading: loadingMovement,
+    data: dataMovements,
+    refetch: refreshMove,
+  } = useGetApiV2Movements({
+    categoryId: String(param.id),
+    page: page.toString(),
   });
 
   const handleToggle = () => {
@@ -60,15 +55,29 @@ export default function useCategoryDetailViewModel() {
   };
 
   useEffect(() => {
+    refreshMove();
     if (isError) router.push("/login");
   }, [isError, router]);
+
+  useEffect(() => {
+    if (!dataMovements?.content) {
+      return;
+    }
+
+    const combinedUniqueMovements = new Set([
+      ...(page > 1 ? listMovements : []),
+      ...dataMovements.content,
+    ]);
+
+    setListMovement(Array.from(combinedUniqueMovements));
+  }, [dataMovements?.content]);
 
   useEffect(() => {
     const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
       setCurrencyOptions(userjson.currencies);
-      setValue(
+      /* setValue(
         "badge_id",
         userjson.currencies.find((v: any) => {
           if (currencyParams) return v.value == currencyParams;
@@ -80,7 +89,7 @@ export default function useCategoryDetailViewModel() {
           if (currencyParams) return v.value == currencyParams;
           return v.value == userjson.currency;
         }).label
-      );
+      ); */
     }
   }, []);
 
@@ -96,5 +105,9 @@ export default function useCategoryDetailViewModel() {
     onSubmit,
     handleSubmit,
     currency,
+    loadingMovement,
+    listMovements,
+    meta: dataMovements?.meta,
+    setPage,
   };
 }

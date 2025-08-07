@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@@/*": ["./package/fiona/*"]
+      "@@/*": ["./package/fiona/*"],
+      "@@@/*": ["./architecture/shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

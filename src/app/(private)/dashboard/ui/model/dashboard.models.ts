@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "next/navigation";
@@ -8,43 +7,79 @@ import { ReportApiAdapter } from "@@/infrastructure/report-api.adapter";
 
 import { customConfigHeader, driverWelcome } from "@/share/helpers";
 
+import { useGetApiV2ReportsTypePeriodSuspense } from "@@@/endpoints/report/report";
+
 export default function useDashboardViewModel() {
   const router = useRouter();
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [typeReport, setTypeReport] = useState<"expensive" | "income">(
+    "expensive"
+  );
+  const [periodReport, setPeriodReport] = useState<
+    "monthly" | "daily" | "weekly" | "yearly"
+  >("monthly");
   const [listMovements, setListMovements] = useState<any[]>([]);
   const [filters, setFilters] = useState({
-    badge_id: null,
-    start_date: null,
-    end_date: null,
-    category_id: null,
-    group_id: null,
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+    datePurchase: null,
+    weekNumber: null,
+    badgeId: null,
   });
+
+  const listOptionsTypeReport = [
+    {
+      label: "Gastos",
+      value: "expensive",
+      onClick: () => setTypeReport("expensive"),
+    },
+    {
+      label: "Ingresos",
+      value: "income",
+      onClick: () => setTypeReport("income"),
+    },
+  ];
+
+  const listOptionsPeriodReport = [
+    {
+      label: "Diario",
+      value: "daily",
+      onClick: () => setPeriodReport("daily"),
+    },
+    {
+      label: "Semanal",
+      value: "weekly",
+      onClick: () => setPeriodReport("weekly"),
+    },
+    {
+      label: "Mensual",
+      value: "monthly",
+      onClick: () => setPeriodReport("monthly"),
+    },
+    {
+      label: "Anual",
+      value: "yearly",
+      onClick: () => setPeriodReport("yearly"),
+    },
+  ];
 
   const { handleSubmit, control, setValue } = useForm();
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["reportDash", filters],
-    queryFn: async () => {
-      const { getReport } = new ReportUseCase(
-        new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await getReport(filters);
-
-      if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
-      return result;
+  const { isLoading, data, isError } = useGetApiV2ReportsTypePeriodSuspense(
+    typeReport,
+    periodReport,
+    {
+      ...filters,
     },
-  });
+    {
+      query: {
+        queryKey: ["report", typeReport, periodReport],
+      },
+    }
+  );
 
   const onSubmit = (data: any) => {
-    setFilters({ ...data, badge_id: data.badge_id?.value });
+    setFilters({ ...data, badgeId: data.badgeId?.value });
   };
 
   const getMovements = async (id: number) => {
@@ -107,10 +142,14 @@ export default function useDashboardViewModel() {
     const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
-      setCurrencyOptions(userjson.currencies);
+      setCurrencyOptions(
+        userjson.badges.map((v: any) => {
+          return { label: v.code, value: v.id };
+        })
+      );
       setValue(
-        "badge_id",
-        userjson.currencies.find((v: any) => v.value == userjson.currency)
+        "badgeId",
+        userjson.badges.find((v: any) => v.id == userjson.badgeId)
       );
       if (!localStorage.getItem("fiona-doesntShow_help")) {
         driverWelcome();
@@ -128,5 +167,9 @@ export default function useDashboardViewModel() {
     getMovements,
     getMovementsGroup,
     listMovements,
+    listOptionsTypeReport,
+    typeReport,
+    listOptionsPeriodReport,
+    periodReport,
   };
 }

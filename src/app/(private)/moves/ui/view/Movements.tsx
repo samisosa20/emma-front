@@ -48,7 +48,7 @@ export default function Movements(props: any) {
               <div onClick={() => router.back()}>
                 <MdArrowBack />
               </div>
-              <TitleHelp title={title} onClick={driverMovement} />
+              <TitleHelp title={"Movimientos"} onClick={driverMovement} />
             </div>
             {!handleDelete && (
               <Typography>
@@ -237,7 +237,7 @@ export default function Movements(props: any) {
               {!!investmentWatch && (
                 <div className="mb-4">
                   <Controller
-                    name={"add_withdrawal"}
+                    name={"addWithdrawal"}
                     control={control}
                     render={({
                       field: { onChange, onBlur, value },
@@ -246,7 +246,7 @@ export default function Movements(props: any) {
                       <FormControl fieldState={fieldState} withOutHeight>
                         <Switch
                           label="Es un retiro o una adicion o reinversión?"
-                          name={"add_withdrawal"}
+                          name={"addWithdrawal"}
                           handleCheckboxChange={(e) => {
                             onChange(e);
                           }}

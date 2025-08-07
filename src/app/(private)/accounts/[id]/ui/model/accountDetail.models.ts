@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { AccountUseCase } from "@@/application/account.use-case";
-import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
-import { EventUseCase } from "@@/application/event.use-case";
-import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
-
-import { customConfigHeader } from "@/share/helpers";
+import { useGetApiV2AccountsIdSuspense } from "@@@/endpoints/account/account";
+import { useGetApiV2MovementsSuspense } from "@@@/endpoints/movement/movement";
+import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
+import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
 
 const useAccount = () => {
   const param = useParams();
@@ -16,8 +13,11 @@ const useAccount = () => {
   const router = useRouter();
 
   const [search, setSearch] = useState("");
-  const [showDelete, setShowDelete] = useState(false);
+  const [page, setPage] = useState(1);
   const [listEvents, setListEvents] = useState<any[]>([]);
+  const [listMovements, setListMovement] = useState<
+    GetApiV2Movements200ContentItem[]
+  >([]);
   const [filters, setFilters] = useState({
     event_id: null,
     start_date: null,
@@ -38,48 +38,24 @@ const useAccount = () => {
     },
   });
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["accountDetail", filters],
-    queryFn: async () => {
-      const { getAccountDetail } = new AccountUseCase(
-        new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-      if (param.id) {
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await getAccountDetail(id, filters);
+  const { isLoading, data, isError } = useGetApiV2AccountsIdSuspense(
+    String(param.id)
+  );
 
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/login");
-        }
-
-        return result;
-      }
-    },
+  const {
+    isLoading: loadingMovement,
+    data: dataMovements,
+    refetch: refreshMove,
+  } = useGetApiV2MovementsSuspense({
+    accountId: String(param.id),
+    page: page.toString(),
   });
 
-  const { data: dataListEvents, isError: isErrorEvents } = useQuery({
-    queryKey: ["eventsMove"],
-    queryFn: async () => {
-      const { listEvents } = new EventUseCase(
-        new EventApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-      const result = await listEvents();
-
-      return result;
-    },
-  });
+  const { data: dataListEvents, isError: isErrorEvents } =
+    useGetApiV2EventsSuspense();
 
   const onSubmit = (data: any) => {
-    setShowDelete(true);
+    setPage(1);
     setFilters(data);
   };
 
@@ -92,7 +68,7 @@ const useAccount = () => {
       amount: null,
       description: null,
     });
-    setShowDelete(false);
+    setPage(1);
     setFilters({
       event_id: null,
       start_date: null,
@@ -104,18 +80,32 @@ const useAccount = () => {
   };
 
   useEffect(() => {
+    refreshMove();
     if (isError || isErrorEvents) router.push("/login");
   }, [isError, isErrorEvents, router]);
 
   useEffect(() => {
-    if (dataListEvents && Array.isArray(dataListEvents)) {
+    if (dataListEvents && Array.isArray(dataListEvents?.content)) {
       setListEvents(
-        dataListEvents.map((event) => {
+        dataListEvents?.content.map((event) => {
           return { label: event.name, value: event.id };
         })
       );
     }
   }, [dataListEvents]);
+
+  useEffect(() => {
+    if (!dataMovements?.content) {
+      return;
+    }
+
+    const combinedUniqueMovements = new Set([
+      ...(page > 1 ? listMovements : []),
+      ...dataMovements.content,
+    ]);
+
+    setListMovement(Array.from(combinedUniqueMovements));
+  }, [dataMovements?.content]);
 
   return {
     data,
@@ -127,7 +117,10 @@ const useAccount = () => {
     onSubmit,
     listEvents,
     handleResetFilters,
-    showDelete,
+    setPage,
+    listMovements,
+    loadingMovement,
+    meta: dataMovements?.meta,
   };
 };
 
