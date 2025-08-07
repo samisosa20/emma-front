@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +58,7 @@ const useAccountCreate = () => {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await editAccount(id, data);
         if (result.error) {
           toast.error(result.message);
@@ -81,7 +82,7 @@ const useAccountCreate = () => {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await deleteAccount(id);
         if (result.error) {
           toast.error(result.message);
@@ -105,7 +106,7 @@ const useAccountCreate = () => {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await desactiveAccount(id);
         if (result.error) {
           toast.error(result.message);
@@ -129,7 +130,7 @@ const useAccountCreate = () => {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await activeAccount(id);
         if (result.error) {
           toast.error(result.message);
@@ -155,7 +156,7 @@ const useAccountCreate = () => {
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getAccountDetail(id);
 
         if (result.status === 401) {

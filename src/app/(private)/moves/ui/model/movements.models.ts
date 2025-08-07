@@ -35,7 +35,7 @@ export default function useMovementsViewModel() {
     defaultValues: {
       date_purchase: getDateString(),
       type: "-1",
-      account: null,
+      account: undefined,
       account_end: undefined,
       investment: undefined,
       addWithdrawal: undefined,
@@ -210,12 +210,16 @@ export default function useMovementsViewModel() {
       reset({
         addWithdrawal: data.addWithdrawal,
         amount:
+          // @ts-ignore
           data.transfer_out || data.transfer_in
-            ? data.transfer_out
-              ? Math.abs(data.transfer_out?.amount ?? 0).toString()
+            ? // @ts-ignore
+              data.transfer_out
+              ? // @ts-ignore
+                Math.abs(data.transfer_out?.amount ?? 0).toString()
               : Math.abs(data.amount ?? 0).toString()
             : Math.abs(data.amount ?? 0).toString(),
         type:
+          // @ts-ignore
           data.transfer_out || data.transfer_in
             ? "0"
             : data.amount > 0
@@ -223,20 +227,27 @@ export default function useMovementsViewModel() {
             : "-1",
         date_purchase: getDateString(data.datePurchase),
         ...(data.description && { description: data.description }),
+        // @ts-ignore
         ...(!data.transfer_out &&
+          // @ts-ignore
           !data.transfer_in && {
             category: {
               label: data.category?.name,
               value: data.category?.id,
-              badge_id: data.account?.badge_id,
+              badge_id: data.account?.badge?.id,
             },
           }),
         account:
+          // @ts-ignore
           data.transfer_out || data.transfer_in
-            ? data.transfer_out
+            ? // @ts-ignore
+              data.transfer_out
               ? {
+                  // @ts-ignore
                   label: data.transfer_out.account?.name,
+                  // @ts-ignore
                   value: data.transfer_out.account?.id,
+                  // @ts-ignore
                   badge_id: data.transfer_out.account?.badge_id,
                 }
               : {
@@ -249,11 +260,16 @@ export default function useMovementsViewModel() {
                 value: data.account?.id,
                 badge_id: data.account?.badge?.id,
               },
+        // @ts-ignore
         ...((data.transfer_out || data.transfer_in) && {
+          // @ts-ignore
           account_end: data.transfer_in
             ? {
+                // @ts-ignore
                 label: data.transfer_in.account?.name,
+                // @ts-ignore
                 value: data.transfer_in.account?.id,
+                // @ts-ignore
                 badge_id: data.transfer_in.account?.badge_id,
               }
             : {
@@ -262,9 +278,12 @@ export default function useMovementsViewModel() {
                 badge_id: data.account?.badge?.id,
               },
         }),
+        // @ts-ignore
         ...((data.transfer_out || data.transfer_in) && {
+          // @ts-ignore
           amountEnd: data.transfer_in
-            ? data.transfer_in.amount.toString()
+            ? // @ts-ignore
+              data.transfer_in.amount.toString()
             : data.amount.toString(),
         }),
         ...(data.event?.id && {

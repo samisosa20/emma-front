@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -25,7 +26,7 @@ export default function useBudgetListViewModel() {
 
       const year = Array.isArray(params.id)
         ? parseInt(params.id[0])
-        : parseInt(params.id);
+        : parseInt(String(params.id));
 
       const badge = Array.isArray(params.badge)
         ? params.badge[0]

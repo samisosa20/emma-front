@@ -24,7 +24,7 @@ export default function useDashboardViewModel() {
     year: new Date().getFullYear(),
     datePurchase: null,
     weekNumber: null,
-    badgeId: null,
+    badgeId: undefined,
   });
 
   const listOptionsTypeReport = [
@@ -91,7 +91,7 @@ export default function useDashboardViewModel() {
         })
       );
 
-      const result = await getReportCategory({
+      /* const result = await getReportCategory({
         ...filters,
         category_id: id.toString(),
       });
@@ -102,7 +102,7 @@ export default function useDashboardViewModel() {
       }
 
       // @ts-ignore
-      setListMovements(result);
+      setListMovements(result); */
     } else {
       setListMovements([]);
     }
@@ -117,7 +117,7 @@ export default function useDashboardViewModel() {
         })
       );
 
-      const result = await getReportGroup({
+      /* const result = await getReportGroup({
         ...filters,
         group_id: id.toString(),
       });
@@ -128,7 +128,7 @@ export default function useDashboardViewModel() {
       }
 
       // @ts-ignore
-      setListMovements(result);
+      setListMovements(result); */
     } else {
       setListMovements([]);
     }

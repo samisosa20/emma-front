@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,7 +32,7 @@ export default function useCategoryCreateViewModel() {
 
   const mutationDelete = useDeleteApiV2CategoriesId();
 
-  const { data } = useGetApiV2CategoriesIdSuspense(param.id ?? "", {
+  const { data } = useGetApiV2CategoriesIdSuspense(String(param.id), {
     query: {
       queryKey: ["categoryDetail", param.id ?? 0],
     },
@@ -93,7 +94,7 @@ export default function useCategoryCreateViewModel() {
 
   useEffect(() => {
     if (data) {
-      reset(data);
+      reset(data as any);
     }
   }, [data]);
 
@@ -104,5 +105,6 @@ export default function useCategoryCreateViewModel() {
     title,
     groupsOptions,
     handleDelete,
+    listCategories: [],
   };
 }

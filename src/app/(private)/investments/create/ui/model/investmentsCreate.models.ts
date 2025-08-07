@@ -86,7 +86,7 @@ export default function useInvestmentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await editInvestment(id, data);
         if (result.error) {
           toast.error(result.message);
@@ -110,7 +110,7 @@ export default function useInvestmentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await deleteInvestment(id);
         if (result.error) {
           toast.error(result.message);
@@ -135,7 +135,7 @@ export default function useInvestmentsCreateViewModel() {
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getInvestmentDetail(id);
 
         return result;
@@ -156,7 +156,7 @@ export default function useInvestmentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await createAppretiation({ ...data, investment_id: id });
         if (result.error) {
           toast.error(result.message);
@@ -182,7 +182,7 @@ export default function useInvestmentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await editAppretiation(idAppretiation ?? 0, {
           ...data,
           investment_id: id,

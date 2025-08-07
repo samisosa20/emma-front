@@ -5,6 +5,11 @@ export interface ListItems {
     icon: string;
     color: string;
     participation: number;
+    father?: any;
+    title?: any;
+    value?: any;
+    percentage?: any;
+    limit?: any;
   }[];
   title: string;
   tooltip?: boolean;

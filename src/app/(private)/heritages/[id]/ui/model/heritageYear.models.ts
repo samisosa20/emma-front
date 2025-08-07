@@ -26,7 +26,7 @@ const useHeritageYear = () => {
       if (param.id) {
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getListPerYearDetail(id);
 
         if (result.status === 401) {

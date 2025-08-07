@@ -24,6 +24,10 @@ size?: string;
  */
 accountId?: string;
 /**
+ * ID de la Categoria
+ */
+categoryId?: string;
+/**
  * ID del Evento
  */
 eventId?: string;

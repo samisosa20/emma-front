@@ -32,11 +32,11 @@ export default function usePaymentsCreateViewModel() {
   } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
-      account: null,
-      category: null,
+      account: undefined,
+      category: undefined,
       description: "",
       end_date: "",
-      start_date: null,
+      start_date: undefined,
       amount: "",
       specific_day: 1,
     },
@@ -75,7 +75,7 @@ export default function usePaymentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await editPayment(id, data);
         if (result.error) {
           toast.error(result.message);
@@ -99,7 +99,7 @@ export default function usePaymentsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await deletePayment(id);
         if (result.error) {
           toast.error(result.message);
@@ -124,7 +124,7 @@ export default function usePaymentsCreateViewModel() {
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getPaymentDetail(id);
 
         return result;

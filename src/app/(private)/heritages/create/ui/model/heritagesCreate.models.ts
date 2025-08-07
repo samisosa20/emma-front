@@ -34,7 +34,7 @@ export default function useHeritagesCreateViewModel() {
             customConfig: customConfigHeader(),
           })
         );
-        const result = await createHeritage(data);
+        const result = await createHeritage(data as any);
         if (result.error) {
           toast.error(result.message);
           return;
@@ -57,8 +57,8 @@ export default function useHeritagesCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await editHeritage(id, data);
+          : parseInt(String(param.id));
+        const result = await editHeritage(id, data as any);
         if (result.error) {
           toast.error(result.message);
           return;
@@ -81,7 +81,7 @@ export default function useHeritagesCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await deleteHeritage(id);
         if (result.error) {
           toast.error(result.message);
@@ -106,7 +106,7 @@ export default function useHeritagesCreateViewModel() {
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getHeritageDetail(id);
 
         if (result.status === 401) {

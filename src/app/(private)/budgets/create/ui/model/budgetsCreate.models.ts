@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,7 +83,7 @@ export default function useBudgetsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await editBudget(id, data);
         if (result.error) {
           toast.error(result.message);
@@ -106,7 +107,7 @@ export default function useBudgetsCreateViewModel() {
         );
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await deleteBudget(id);
         if (result.error) {
           toast.error(result.message);
@@ -131,7 +132,7 @@ export default function useBudgetsCreateViewModel() {
 
         const id = Array.isArray(param.id)
           ? parseInt(param.id[0])
-          : parseInt(param.id);
+          : parseInt(String(param.id));
         const result = await getBudgetDetail(id);
 
         return result;

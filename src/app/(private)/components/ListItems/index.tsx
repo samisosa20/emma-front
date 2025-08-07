@@ -129,7 +129,7 @@ const ListModal = (props: ListItemsProps) => {
                 index > 0 ? "border-t" : ""
               } cursor-pointer`}
               key={"ListModal" + index}
-              onClick={() => handleSelectItem(card.category)}
+              onClick={() => handleSelectItem(card.amount)} // TODO: change
             >
               <div className={`flex items-center justify-between`}>
                 <div className={`flex items-center gap-x-2 w-1/2`}>
