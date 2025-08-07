@@ -9,5 +9,14 @@ const withPWA = require("next-pwa")({
 });
 
 //const nextConfig = withPWA({});
-const nextConfig = {};
+const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/api/v2/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
+    ];
+  },
+};
 module.exports = nextConfig;
