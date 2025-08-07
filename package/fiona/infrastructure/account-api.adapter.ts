@@ -27,29 +27,45 @@ class AccountApiAdapter implements AccountAdapter {
     if (result.error) {
       return result;
     }
-    const transformedData = result.balances.length > 0 ? Object.keys(result.balances[0])
-      .filter((key) => key !== "i" && key !== "currency")
-      .map((key) => ({
-        title: key,
-        values: result.balances.map(
-          (item: any) =>
-            `${parseFloat(item[key]).toLocaleString()} ${item.currency}`
-        ),
-      })): [];
+    const transformedData =
+      result.balances.length > 0
+        ? Object.keys(result.balances[0])
+            .filter((key) => key !== "i" && key !== "currency")
+            .map((key) => ({
+              title: key,
+              values: result.balances.map(
+                (item: any) =>
+                  `${parseFloat(item[key]).toLocaleString()} ${item.currency}`
+              ),
+            }))
+        : [];
     return {
+      status: result.status,
       accounts: result.accounts,
       balances: [
         {
           title: "Balance del mes actual",
-          values: transformedData.filter((v) => v.title === "month").length > 0 ? transformedData.filter((v) => v.title === "month")[0].values : [],
+          currency: "",
+          month: "",
+          year: "",
+          balance: "",
+          values: [], //transformedData.filter((v) => v.title === "month").length > 0 ? transformedData.filter((v) => v.title === "month")[0].values : [],
         },
         {
           title: "Balance del año actual",
-          values: transformedData.filter((v) => v.title === "year").length > 0 ? transformedData.filter((v) => v.title === "year")[0].values : [],
+          currency: "",
+          month: "",
+          year: "",
+          balance: "",
+          values: [], //transformedData.filter((v) => v.title === "year").length > 0 ? transformedData.filter((v) => v.title === "year")[0].values : [],
         },
         {
           title: "Balance total",
-          values: transformedData.filter((v) => v.title === "balance").length > 0 ? transformedData.filter((v) => v.title === "balance")[0].values : [],
+          currency: "",
+          month: "",
+          year: "",
+          balance: "",
+          values: [], //transformedData.filter((v) => v.title === "balance").length > 0 ? transformedData.filter((v) => v.title === "balance")[0].values : [],
         },
       ],
     };
@@ -80,12 +96,15 @@ class AccountApiAdapter implements AccountAdapter {
         title: key,
         values: result.balances.map(
           (item: any) =>
-            `${parseFloat(item[key]).toLocaleString()}${key.includes('variation') ? '' : ` ${item.currency}`}`
+            `${parseFloat(item[key]).toLocaleString()}${
+              key.includes("variation") ? "" : ` ${item.currency}`
+            }`
         ),
       }));
 
-      console.log(transformedData)
+    console.log(transformedData);
     return {
+      status: result.status,
       balancesAccount: result.balancesAccount,
       movements: result.movements,
       account: result.account,
@@ -93,18 +112,40 @@ class AccountApiAdapter implements AccountAdapter {
         {
           title: "Balance del mes actual",
           values: transformedData.filter((v) => v.title === "month")[0].values,
-          variations: transformedData.filter((v) => v.title === "month_variation")[0].values,
+          variations: transformedData.filter(
+            (v) => v.title === "month_variation"
+          )[0].values,
+          currency: result.account.currency.code
+            ? result.account.currency.code
+            : "",
+          month: result.account.month ? result.account.month : "",
+          year: result.account.year ? result.account.year : "",
+          balance: result.account.balance ? result.account.balance : "",
         },
         {
           title: "Balance del año actual",
           values: transformedData.filter((v) => v.title === "year")[0].values,
-          variations: transformedData.filter((v) => v.title === "year_variation")[0].values,
+          variations: transformedData.filter(
+            (v) => v.title === "year_variation"
+          )[0].values,
+          currency: result.account.currency.code
+            ? result.account.currency.code
+            : "",
+          month: result.account.month ? result.account.month : "",
+          year: result.account.year ? result.account.year : "",
+          balance: result.account.balance ? result.account.balance : "",
         },
         {
           title: "Balance total",
           values: transformedData.filter((v) => v.title === "balance")[0]
             .values,
-            variations: null
+          variations: null,
+          currency: result.account.currency.code
+            ? result.account.currency.code
+            : "",
+          month: result.account.month ? result.account.month : "",
+          year: result.account.year ? result.account.year : "",
+          balance: result.account.balance ? result.account.balance : "",
         },
       ],
     };
@@ -136,7 +177,7 @@ class AccountApiAdapter implements AccountAdapter {
     };
   }
   async desactiveAccount(
-    id: number,
+    id: number
   ): Promise<{ message: string; error: boolean }> {
     const result: any = await this.httpService.delete(`accounts/${id}`);
     if (result.error) {
@@ -148,9 +189,12 @@ class AccountApiAdapter implements AccountAdapter {
     };
   }
   async activeAccount(
-    id: number,
+    id: number
   ): Promise<{ message: string; error: boolean }> {
-    const result: any = await this.httpService.post(`accounts/restore/${id}`, {});
+    const result: any = await this.httpService.post(
+      `accounts/restore/${id}`,
+      {}
+    );
     if (result.error) {
       return result;
     }
@@ -160,7 +204,7 @@ class AccountApiAdapter implements AccountAdapter {
     };
   }
   async deleteAccount(
-    id: number,
+    id: number
   ): Promise<{ message: string; error: boolean }> {
     const result: any = await this.httpService.delete(`accounts/delete/${id}`);
     if (result.error) {
