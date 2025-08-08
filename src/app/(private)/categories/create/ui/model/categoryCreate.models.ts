@@ -39,7 +39,6 @@ export default function useCategoryCreateViewModel() {
   });
 
   const onSubmit = (data: CategorySchema) => {
-    console.log(data);
     if (param.id) {
       const id = Array.isArray(param.id) ? param.id[0] : param.id;
       mutationEdit.mutate(

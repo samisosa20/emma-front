@@ -102,7 +102,6 @@ class AccountApiAdapter implements AccountAdapter {
         ),
       }));
 
-    console.log(transformedData);
     return {
       status: result.status,
       balancesAccount: result.balancesAccount,

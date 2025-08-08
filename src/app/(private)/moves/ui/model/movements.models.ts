@@ -55,8 +55,6 @@ export default function useMovementsViewModel() {
     },
   });
 
-  console.log(errors);
-
   const typeWatch = watch("type");
   const accountEndWatch = watch("accountEnd");
   const accountWatch = watch("account");
@@ -182,7 +180,12 @@ export default function useMovementsViewModel() {
     if (dataListCategories && Array.isArray(dataListCategories.content)) {
       setListCategories(
         dataListCategories.content.map((category) => {
-          return { label: category.name, value: category.id };
+          return {
+            label: category.name,
+            value: category.id,
+            icon: category.icon,
+            color: category.color,
+          };
         })
       );
     }

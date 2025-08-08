@@ -183,7 +183,10 @@ export default function useDashboardViewModel() {
     if (user) {
       setCurrencyOptions(
         badges?.map((v) => {
-          return { label: String(v.code), value: String(v.id) };
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
         })
       );
       const badgePreselect = badges.find((v: any) => v.id == user.badgeId);

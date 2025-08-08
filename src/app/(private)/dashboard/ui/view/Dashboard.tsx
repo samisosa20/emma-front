@@ -217,7 +217,7 @@ export default function Dashboard(props: any) {
               >
                 {data &&
                   data.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={colors[index]} />
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
               </Pie>
               <Tooltip
