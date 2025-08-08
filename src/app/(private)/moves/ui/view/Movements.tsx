@@ -130,7 +130,7 @@ export default function Movements(props: any) {
             )}
           />
           <Controller
-            name={"date_purchase"}
+            name={"datePurchase"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -138,7 +138,7 @@ export default function Movements(props: any) {
                   type="datetime-local"
                   placeholder="Fecha"
                   label="Fecha"
-                  id="date_purchase"
+                  id="datePurchase"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -262,7 +262,7 @@ export default function Movements(props: any) {
           )}
           <div className={typeWatch !== "0" ? "hidden" : ""}>
             <Controller
-              name={"account_end"}
+              name={"accountEnd"}
               control={control}
               render={({ field: { onChange, onBlur, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={true}>
@@ -281,9 +281,9 @@ export default function Movements(props: any) {
             />
             {accountEndWatch &&
               accountWatch &&
-              accountEndWatch.badge_id !== accountWatch.badge_id && (
+              accountEndWatch.badgeId !== accountWatch.badgeId && (
                 <Controller
-                  name={"amount_end"}
+                  name={"amountEnd"}
                   control={control}
                   render={({
                     field: { onChange, onBlur, value },
@@ -294,7 +294,7 @@ export default function Movements(props: any) {
                         type="number"
                         placeholder="Monto recibido"
                         label="Monto recibido"
-                        id="amount_end"
+                        id="amountEnd"
                         step="0.01"
                         min="0"
                         onChange={(e: any) => {

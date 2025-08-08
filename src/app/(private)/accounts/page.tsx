@@ -102,14 +102,10 @@ const Accounts = () => {
                     <Typography
                       variant="p"
                       className={`text-right ${
-                        account?.balance + account?.initAmount >= 0
-                          ? "text-green-500"
-                          : "text-red-500"
+                        account?.balance ? "text-green-500" : "text-red-500"
                       }`}
                     >
-                      {formatoMoneda.format(
-                        account?.balance + account?.initAmount
-                      )}
+                      {formatoMoneda.format(account?.balance)}
                     </Typography>
                   </div>
                 </div>

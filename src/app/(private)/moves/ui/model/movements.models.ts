@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 
 import { movementSchema } from "@/share/validation";
 
-import { getDateString } from "@/share/helpers";
+import { getDateString, isEmptyObject } from "@/share/helpers";
 
 import { useGetApiV2InvestmentsSuspense } from "@@@/endpoints/investment/investment";
 import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
@@ -18,10 +18,12 @@ import {
   usePutApiV2MovementsId,
   useDeleteApiV2MovementsId,
 } from "@@@/endpoints/movement/movement";
+import { useUserStore } from "@/share/storage";
 
 export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
+  const { badges, user } = useUserStore();
 
   const [title, setTitle] = useState("Creacion de Movimientos");
   const [listAccounts, setListAccounts] = useState<any[]>([]);
@@ -30,24 +32,39 @@ export default function useMovementsViewModel() {
   const [listInvestments, setListInvestments] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, reset, watch } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(movementSchema),
     defaultValues: {
-      date_purchase: getDateString(),
+      datePurchase: getDateString(new Date().toISOString()),
       type: "-1",
       account: undefined,
-      account_end: undefined,
+      accountEnd: undefined,
       investment: undefined,
       addWithdrawal: undefined,
+      amountEnd: undefined,
+      event: undefined,
+      category: undefined,
+      description: undefined,
+      amount: undefined,
     },
   });
 
+  console.log(errors);
+
   const typeWatch = watch("type");
-  const accountEndWatch = watch("account_end");
+  const accountEndWatch = watch("accountEnd");
   const accountWatch = watch("account");
   const investmentWatch = watch("investment");
 
-  const { data } = useGetApiV2MovementsIdSuspense(String(param.id));
+  const { data: detalMovement, refetch } = useGetApiV2MovementsIdSuspense(
+    String(param.id)
+  );
 
   const { data: dataListAccounts, isError: isErrorAccount } =
     useGetApiV2AccountsSuspense();
@@ -68,10 +85,10 @@ export default function useMovementsViewModel() {
   const onSubmit = (data: any) => {
     setIsSubmitting(true);
     const formData = {
-      categoryId: data.category ? data.category.value : 0,
+      categoryId: data.category ? data.category.value : "",
       type: data.type == 0 ? "transfer" : "move",
       amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
-      datePurchase: new Date(data.date_purchase).toISOString(),
+      datePurchase: new Date(data.datePurchase).toISOString(),
       ...(data.event !== undefined && {
         eventId: data.event ? data.event.value : null,
       }),
@@ -80,11 +97,11 @@ export default function useMovementsViewModel() {
       }),
       accountId: data.account.value,
       ...(data.type == 0 && {
-        amountEnd: data.type == 0 ? data.amountEnd : null,
-        accountEndId: data.type == 0 ? data.amountEnd.value : null,
+        amountEnd: data.type == 0 ? Math.abs(data.amountEnd) : null,
+        accountEndId: data.type == 0 ? data.accountEnd.value : null,
       }),
       description: data.description !== undefined ? data.description : null,
-      addWithdrawal: data.addWithdrawal ?? 0,
+      addWithdrawal: data.addWithdrawal ?? false,
     };
     if (param.id) {
       mutationEdit.mutate(
@@ -135,9 +152,8 @@ export default function useMovementsViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
+    refetch();
     if (!user) {
-      localStorage.removeItem("fiona-user");
       router.push("/login");
     } else {
       if (param.id) {
@@ -155,7 +171,7 @@ export default function useMovementsViewModel() {
             return {
               label: account.name + " - " + account.badge?.code,
               value: account.id,
-              badge_id: account.badge.id,
+              badgeId: account.badge.id,
             };
           })
       );
@@ -199,105 +215,94 @@ export default function useMovementsViewModel() {
       isErrorEvents ||
       isErrorInvestments
     ) {
-      localStorage.removeItem("fiona-user");
       router.push("/login");
     }
   }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);
 
   useEffect(() => {
-    if (data) {
-      // @ts-ignore
+    if (detalMovement?.id) {
       reset({
-        addWithdrawal: data.addWithdrawal,
+        addWithdrawal: detalMovement.addWithdrawal,
         amount:
-          // @ts-ignore
-          data.transfer_out || data.transfer_in
-            ? // @ts-ignore
-              data.transfer_out
-              ? // @ts-ignore
-                Math.abs(data.transfer_out?.amount ?? 0).toString()
-              : Math.abs(data.amount ?? 0).toString()
-            : Math.abs(data.amount ?? 0).toString(),
+          !isEmptyObject(detalMovement.transferOut) ||
+          !isEmptyObject(detalMovement.transferIn)
+            ? !isEmptyObject(detalMovement.transferOut)
+              ? Math.abs(detalMovement.transferOut?.amount ?? 0).toString()
+              : Math.abs(detalMovement.amount ?? 0).toString()
+            : Math.abs(detalMovement.amount ?? 0).toString(),
         type:
-          // @ts-ignore
-          data.transfer_out || data.transfer_in
+          !isEmptyObject(detalMovement.transferOut) ||
+          !isEmptyObject(detalMovement.transferIn)
             ? "0"
-            : data.amount > 0
+            : detalMovement.amount > 0
             ? "1"
             : "-1",
-        date_purchase: getDateString(data.datePurchase),
-        ...(data.description && { description: data.description }),
-        // @ts-ignore
-        ...(!data.transfer_out &&
-          // @ts-ignore
-          !data.transfer_in && {
+        datePurchase: getDateString(detalMovement.datePurchase),
+        ...(detalMovement.description && {
+          description: detalMovement.description,
+        }),
+        ...(isEmptyObject(detalMovement.transferOut) &&
+          isEmptyObject(detalMovement.transferIn) && {
             category: {
-              label: data.category?.name,
-              value: data.category?.id,
-              badge_id: data.account?.badge?.id,
+              label: detalMovement.category?.name,
+              value: detalMovement.category?.id,
+              badgeId: detalMovement.account?.badge?.id,
             },
           }),
         account:
-          // @ts-ignore
-          data.transfer_out || data.transfer_in
-            ? // @ts-ignore
-              data.transfer_out
+          !isEmptyObject(detalMovement.transferOut) ||
+          !isEmptyObject(detalMovement.transferIn)
+            ? !isEmptyObject(detalMovement.transferOut)
               ? {
-                  // @ts-ignore
-                  label: data.transfer_out.account?.name,
-                  // @ts-ignore
-                  value: data.transfer_out.account?.id,
-                  // @ts-ignore
-                  badge_id: data.transfer_out.account?.badge_id,
+                  label: detalMovement.transferOut?.account?.name,
+                  value: detalMovement.transferOut?.account?.id,
+                  badgeId: detalMovement.transferOut?.account?.badgeId,
                 }
               : {
-                  label: data.account?.name,
-                  value: data.account?.id,
-                  badge_id: data.account?.badge?.id,
+                  label: detalMovement.account?.name,
+                  value: detalMovement.account?.id,
+                  badgeId: detalMovement.account?.badge?.id,
                 }
             : {
-                label: data.account?.name,
-                value: data.account?.id,
-                badge_id: data.account?.badge?.id,
+                label: detalMovement.account?.name,
+                value: detalMovement.account?.id,
+                badgeId: detalMovement.account?.badge?.id,
               },
-        // @ts-ignore
-        ...((data.transfer_out || data.transfer_in) && {
-          // @ts-ignore
-          account_end: data.transfer_in
+        ...((!isEmptyObject(detalMovement.transferOut) ||
+          !isEmptyObject(detalMovement.transferIn)) && {
+          accountEnd: !isEmptyObject(detalMovement.transferIn)
             ? {
-                // @ts-ignore
-                label: data.transfer_in.account?.name,
-                // @ts-ignore
-                value: data.transfer_in.account?.id,
-                // @ts-ignore
-                badge_id: data.transfer_in.account?.badge_id,
+                label: detalMovement.transferIn?.account?.name,
+                value: detalMovement.transferIn?.account?.id,
+                badgeId: detalMovement.transferIn?.account?.badgeId,
               }
             : {
-                label: data.account?.name,
-                value: data.account?.id,
-                badge_id: data.account?.badge?.id,
+                label: detalMovement.account?.name,
+                value: detalMovement.account?.id,
+                badgeId: detalMovement.account?.badge?.id ?? "",
               },
         }),
-        // @ts-ignore
-        ...((data.transfer_out || data.transfer_in) && {
-          // @ts-ignore
-          amountEnd: data.transfer_in
-            ? // @ts-ignore
-              data.transfer_in.amount.toString()
-            : data.amount.toString(),
+        ...((!isEmptyObject(detalMovement.transferOut) ||
+          !isEmptyObject(detalMovement.transferIn)) && {
+          amountEnd: !isEmptyObject(detalMovement.transferIn)
+            ? detalMovement.transferIn?.amount?.toString()
+            : detalMovement.amount.toString(),
         }),
-        ...(data.event?.id && {
-          event: { label: data.event?.name, value: data.event?.id },
+        ...(detalMovement.event?.id && {
+          event: {
+            label: detalMovement.event?.name,
+            value: detalMovement.event?.id,
+          },
         }),
-        ...(data.investment?.id && {
+        ...(detalMovement.investment?.id && {
           investment: {
-            label: data.investment?.name,
-            value: data.investment?.id,
+            label: detalMovement.investment?.name,
+            value: detalMovement.investment?.id,
           },
         }),
       });
     }
-  }, [data]);
+  }, [detalMovement]);
 
   return {
     handleSubmit,

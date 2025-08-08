@@ -20,6 +20,10 @@ export default function Page() {
     typeReport,
     listOptionsPeriodReport,
     periodReport,
+    filters,
+    monthIndex,
+    handleChangeSlideStepper,
+    selectedWeek,
   } = useDashboardViewModel();
   const { Loading } = useComponents();
 
@@ -41,6 +45,10 @@ export default function Page() {
       typeReport={typeReport}
       listOptionsPeriodReport={listOptionsPeriodReport}
       periodReport={periodReport}
+      filters={filters}
+      monthIndex={monthIndex}
+      handleChangeSlideStepper={handleChangeSlideStepper}
+      selectedWeek={selectedWeek}
     />
   );
 }

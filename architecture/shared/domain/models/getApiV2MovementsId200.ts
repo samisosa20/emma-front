@@ -9,6 +9,8 @@ import type { GetApiV2MovementsId200Category } from './getApiV2MovementsId200Cat
 import type { GetApiV2MovementsId200Account } from './getApiV2MovementsId200Account';
 import type { GetApiV2MovementsId200Event } from './getApiV2MovementsId200Event';
 import type { GetApiV2MovementsId200Investment } from './getApiV2MovementsId200Investment';
+import type { GetApiV2MovementsId200TransferOut } from './getApiV2MovementsId200TransferOut';
+import type { GetApiV2MovementsId200TransferIn } from './getApiV2MovementsId200TransferIn';
 
 export type GetApiV2MovementsId200 = {
   id: string;
@@ -23,4 +25,6 @@ export type GetApiV2MovementsId200 = {
   userId: string;
   createdAt: string;
   updatedAt: string;
+  transferOut: GetApiV2MovementsId200TransferOut;
+  transferIn: GetApiV2MovementsId200TransferIn;
 };

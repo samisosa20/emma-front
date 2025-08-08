@@ -3,11 +3,11 @@ import * as z from "zod";
 const movementSchema = z
   .object({
     type: z.string(),
-    date_purchase: z.string(),
+    datePurchase: z.string(),
     amount: z.string().refine((value) => !value.includes("-"), {
       message: "Solo valores positivos",
     }),
-    amount_end: z
+    amountEnd: z
       .string()
       .refine((value) => !value.includes("-"), {
         message: "Solo valores positivos",
@@ -17,7 +17,7 @@ const movementSchema = z
       value: z.union([z.string(), z.number()]),
       label: z.string(),
     }),
-    account_end: z
+    accountEnd: z
       .object({
         value: z.union([z.string(), z.number()]),
         label: z.string(),
@@ -68,7 +68,7 @@ const movementSchema = z
   })
   .refine((data) => {
     if (data.type === "0") {
-      return data.account_end !== undefined && data.account_end !== null;
+      return data.accountEnd !== undefined && data.accountEnd !== null;
     }
     // Si type no es '0', category puede ser opcional
     return true;
@@ -78,7 +78,7 @@ const movementParamsSchema = z.object({
   description: z.string().nullable(),
   amount: z.string(),
   type: z.string(),
-  date_purchase: z.string(),
+  datePurchase: z.string(),
   account_id: z.union([z.string(), z.number()]),
   category_id: z.union([z.string(), z.number()]),
   event_id: z.union([z.null(), z.string(), z.undefined(), z.number()]),

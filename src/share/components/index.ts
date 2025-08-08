@@ -14,24 +14,26 @@ const Checkbox = lazy(() => import("./Checkbox"));
 const Loading = lazy(() => import("./Loader"));
 const TitleHelp = lazy(() => import("./TitleHelp"));
 const Textarea = lazy(() => import("./Textarea"));
+const SlideStepper = lazy(() => import("./SlideStepper"));
 
 const useComponents = () => {
-    return {
-        Button,
-        Typography,
-        Modal,
-        Input,
-        FormControl,
-        Toast,
-        Switch,
-        Select,
-        RadioGroup,
-        AutoComplete,
-        Checkbox,
-        Loading,
-        TitleHelp,
-        Textarea,
-    }
-}
+  return {
+    Button,
+    Typography,
+    Modal,
+    Input,
+    FormControl,
+    Toast,
+    Switch,
+    Select,
+    RadioGroup,
+    AutoComplete,
+    Checkbox,
+    Loading,
+    TitleHelp,
+    Textarea,
+    SlideStepper,
+  };
+};
 
 export default useComponents;

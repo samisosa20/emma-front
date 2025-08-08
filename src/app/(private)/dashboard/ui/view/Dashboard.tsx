@@ -13,6 +13,7 @@ import {
   Cell,
   Label,
 } from "recharts";
+import { getISOWeeksInYear } from "date-fns";
 
 //components
 import useComponents from "@/share/components";
@@ -23,7 +24,23 @@ import {
   formatCurrency,
   driverDash,
   formatoMoneda,
+  getWeekDateRange,
 } from "@/share/helpers";
+
+const monthNames = [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
 
 export default function Dashboard(props: any) {
   const {
@@ -38,10 +55,23 @@ export default function Dashboard(props: any) {
     typeReport,
     listOptionsPeriodReport,
     periodReport,
+    filters,
+    monthIndex,
+    handleChangeSlideStepper,
+    selectedWeek,
   } = props;
-  const { Typography, Input, FormControl, Button, TitleHelp, AutoComplete } =
-    useComponents();
-  const { Cards, ListItems, Filters } = useComponentsLayout();
+  const {
+    Typography,
+    Input,
+    FormControl,
+    Button,
+    TitleHelp,
+    AutoComplete,
+    SlideStepper,
+  } = useComponents();
+  const { ListItems, Filters } = useComponentsLayout();
+
+  const totalWeeks = getISOWeeksInYear(new Date(filters.year, 0, 1));
 
   return (
     <div>
@@ -50,14 +80,14 @@ export default function Dashboard(props: any) {
       <Filters>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
                   label="Moneda"
                   placeholder="Seleciona una opcion"
-                  id="badge_id"
+                  id="badgeId"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -138,6 +168,32 @@ export default function Dashboard(props: any) {
                 {type.label}
               </Typography>
             ))}
+          </div>
+          <div className="flex items-center justify-center gap-8 mb-4">
+            <SlideStepper
+              value={filters.year}
+              min={new Date().getFullYear() - 10}
+              max={new Date().getFullYear()}
+              onChange={(val) => handleChangeSlideStepper(val, "year")}
+            />
+            {periodReport === "monthly" && (
+              <SlideStepper
+                value={monthIndex}
+                min={0}
+                max={11}
+                onChange={(val) => handleChangeSlideStepper(val, "month")}
+                formatValue={(val) => monthNames[val]}
+              />
+            )}
+            {periodReport === "weekly" && (
+              <SlideStepper
+                value={selectedWeek}
+                min={1}
+                max={totalWeeks}
+                onChange={(val) => handleChangeSlideStepper(val, "week")}
+                formatValue={(val) => getWeekDateRange(filters.year, val)}
+              />
+            )}
           </div>
         </div>
         <div id="fiona-chart_incomes" className="bg-white">
