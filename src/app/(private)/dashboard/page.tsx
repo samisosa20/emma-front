@@ -24,6 +24,7 @@ export default function Page() {
     monthIndex,
     handleChangeSlideStepper,
     selectedWeek,
+    dataBalance,
   } = useDashboardViewModel();
   const { Loading } = useComponents();
 
@@ -49,6 +50,7 @@ export default function Page() {
       monthIndex={monthIndex}
       handleChangeSlideStepper={handleChangeSlideStepper}
       selectedWeek={selectedWeek}
+      dataBalance={dataBalance}
     />
   );
 }

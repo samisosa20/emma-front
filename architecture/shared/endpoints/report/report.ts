@@ -24,6 +24,18 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  GetApiV2ReportsAccountIdBalance200,
+  GetApiV2ReportsAccountIdBalance400,
+  GetApiV2ReportsAccountIdBalance401,
+  GetApiV2ReportsAccountIdBalance500,
+  GetApiV2ReportsCategoryIdStats200Item,
+  GetApiV2ReportsCategoryIdStats400,
+  GetApiV2ReportsCategoryIdStats401,
+  GetApiV2ReportsCategoryIdStats500,
+  GetApiV2ReportsGeneralBalance200Item,
+  GetApiV2ReportsGeneralBalance400,
+  GetApiV2ReportsGeneralBalance401,
+  GetApiV2ReportsGeneralBalance500,
   GetApiV2ReportsTypePeriod200Item,
   GetApiV2ReportsTypePeriod400,
   GetApiV2ReportsTypePeriod401,
@@ -189,6 +201,411 @@ export function useGetApiV2ReportsTypePeriodSuspense<TData = Awaited<ReturnType<
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV2ReportsTypePeriodSuspenseQueryOptions(type,period,params,options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Balance general del usuario
+ */
+export const getApiV2ReportsGeneralBalance = (
+    
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2ReportsGeneralBalance200Item[]>(
+      {url: `/api/v2/reports/general-balance`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2ReportsGeneralBalanceQueryKey = () => {
+    return [`/api/v2/reports/general-balance`] as const;
+    }
+
+    
+export const getGetApiV2ReportsGeneralBalanceQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsGeneralBalanceQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>> = ({ signal }) => getApiV2ReportsGeneralBalance(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsGeneralBalanceQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>>
+export type GetApiV2ReportsGeneralBalanceQueryError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>
+
+
+export function useGetApiV2ReportsGeneralBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsGeneralBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsGeneralBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsGeneralBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsGeneralBalanceQueryOptions(options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2ReportsGeneralBalanceSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsGeneralBalanceQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>> = ({ signal }) => getApiV2ReportsGeneralBalance(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsGeneralBalanceSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>>
+export type GetApiV2ReportsGeneralBalanceSuspenseQueryError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>
+
+
+export function useGetApiV2ReportsGeneralBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsGeneralBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsGeneralBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsGeneralBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError = ErrorType<GetApiV2ReportsGeneralBalance400 | GetApiV2ReportsGeneralBalance401 | GetApiV2ReportsGeneralBalance500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsGeneralBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsGeneralBalanceSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Balance de una cuenta
+ */
+export const getApiV2ReportsAccountIdBalance = (
+    id: string,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2ReportsAccountIdBalance200>(
+      {url: `/api/v2/reports/account/${id}/balance`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2ReportsAccountIdBalanceQueryKey = (id?: string,) => {
+    return [`/api/v2/reports/account/${id}/balance`] as const;
+    }
+
+    
+export const getGetApiV2ReportsAccountIdBalanceQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsAccountIdBalanceQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>> = ({ signal }) => getApiV2ReportsAccountIdBalance(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsAccountIdBalanceQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>>
+export type GetApiV2ReportsAccountIdBalanceQueryError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>
+
+
+export function useGetApiV2ReportsAccountIdBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsAccountIdBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsAccountIdBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsAccountIdBalance<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsAccountIdBalanceQueryOptions(id,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2ReportsAccountIdBalanceSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsAccountIdBalanceQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>> = ({ signal }) => getApiV2ReportsAccountIdBalance(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsAccountIdBalanceSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>>
+export type GetApiV2ReportsAccountIdBalanceSuspenseQueryError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>
+
+
+export function useGetApiV2ReportsAccountIdBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsAccountIdBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsAccountIdBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsAccountIdBalanceSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError = ErrorType<GetApiV2ReportsAccountIdBalance400 | GetApiV2ReportsAccountIdBalance401 | GetApiV2ReportsAccountIdBalance500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsAccountIdBalance>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsAccountIdBalanceSuspenseQueryOptions(id,options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Reporte para obtener el promedio y los limites de una categoria
+ */
+export const getApiV2ReportsCategoryIdStats = (
+    id: string,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2ReportsCategoryIdStats200Item[]>(
+      {url: `/api/v2/reports/category/${id}/stats`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2ReportsCategoryIdStatsQueryKey = (id?: string,) => {
+    return [`/api/v2/reports/category/${id}/stats`] as const;
+    }
+
+    
+export const getGetApiV2ReportsCategoryIdStatsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsCategoryIdStatsQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>> = ({ signal }) => getApiV2ReportsCategoryIdStats(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsCategoryIdStatsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>>
+export type GetApiV2ReportsCategoryIdStatsQueryError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>
+
+
+export function useGetApiV2ReportsCategoryIdStats<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsCategoryIdStats<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsCategoryIdStats<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsCategoryIdStats<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsCategoryIdStatsQueryOptions(id,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2ReportsCategoryIdStatsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsCategoryIdStatsQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>> = ({ signal }) => getApiV2ReportsCategoryIdStats(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsCategoryIdStatsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>>
+export type GetApiV2ReportsCategoryIdStatsSuspenseQueryError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>
+
+
+export function useGetApiV2ReportsCategoryIdStatsSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsCategoryIdStatsSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsCategoryIdStatsSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsCategoryIdStatsSuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError = ErrorType<GetApiV2ReportsCategoryIdStats400 | GetApiV2ReportsCategoryIdStats401 | GetApiV2ReportsCategoryIdStats500>>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsCategoryIdStats>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsCategoryIdStatsSuspenseQueryOptions(id,options)
 
   const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

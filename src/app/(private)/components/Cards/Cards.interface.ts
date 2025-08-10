@@ -1,8 +1,12 @@
+import { symbol } from "zod";
+
 export interface CardsProps {
   title: string;
   data: {
-    title: string;
-    values: string[];
-    variations?: number[];
+    code: string;
+    amount: number;
+    variation?: number;
+    symbol: string;
+    flag?: string;
   }[];
 }

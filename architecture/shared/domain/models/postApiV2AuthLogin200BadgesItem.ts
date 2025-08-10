@@ -10,6 +10,8 @@ export type PostApiV2AuthLogin200BadgesItem = {
   id?: string;
   code?: string;
   name?: string;
+  flag?: string;
+  symbol?: string;
   createdAt?: string;
   updatedAt?: string;
 };

@@ -9,4 +9,6 @@
 export type PutApiV2BadgesIdBody = {
   code?: string;
   name?: string;
+  flag?: string;
+  symbol?: string;
 };

@@ -20,6 +20,7 @@ const Page = () => {
     listMovements,
     loadingMovement,
     meta,
+    dataBalance,
   } = useAccount();
 
   if (isLoading || data === undefined || loadingMovement) {
@@ -37,6 +38,7 @@ const Page = () => {
       setPage={setPage}
       listMovements={listMovements}
       meta={meta}
+      dataBalance={dataBalance}
     />
   );
 };

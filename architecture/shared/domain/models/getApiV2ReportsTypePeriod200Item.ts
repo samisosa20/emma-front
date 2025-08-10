@@ -12,4 +12,6 @@ export type GetApiV2ReportsTypePeriod200Item = {
   participation: number;
   color: string;
   icon: string;
+  symbol: string;
+  flag: string;
 };

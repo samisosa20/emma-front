@@ -24,7 +24,7 @@ export default function RootLayout({
       <div className="grid grid-rows-[65px_1fr] lg:grid-rows-none lg:grid-cols-[200px_1fr] h-screen relative">
         <Header />
         <Navbar />
-        <main className="pt-6 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between pb-20 lg:pb-0">
+        <main className="pt-6 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between pb-22 lg:pb-0">
           {children}
           <div className="h-[35px] inset-x-0 text-center mt-4">
             <p className="text-sm text-gray-700">© Copyright 2023</p>

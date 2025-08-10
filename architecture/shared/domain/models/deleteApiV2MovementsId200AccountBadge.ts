@@ -10,6 +10,8 @@ export type DeleteApiV2MovementsId200AccountBadge = {
   id: string;
   code: string;
   name: string;
+  flag: string;
+  symbol: string;
   createdAt: string;
   updatedAt: string;
 };

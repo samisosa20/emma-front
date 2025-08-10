@@ -10,6 +10,8 @@ export type GetApiV2Investments200ContentItemBadge = {
   id?: string;
   code?: string;
   name?: string;
+  flag?: string;
+  symbol?: string;
   createdAt?: string;
   updatedAt?: string;
 };

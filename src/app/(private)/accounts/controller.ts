@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { driverAccount } from "@/share/helpers";
 
 import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiV2ReportsGeneralBalanceSuspense } from "@@@/endpoints/report/report";
 
 const useAccounts = () => {
   const router = useRouter();
@@ -12,6 +13,8 @@ const useAccounts = () => {
   const [search, setSearch] = useState("");
 
   const { isLoading, data, isError, refetch } = useGetApiV2AccountsSuspense();
+  const { data: dataBalance, refetch: refetchBalance } =
+    useGetApiV2ReportsGeneralBalanceSuspense();
 
   const handleDrive = () => {
     driverAccount();
@@ -24,6 +27,7 @@ const useAccounts = () => {
 
   useEffect(() => {
     refetch();
+    refetchBalance();
     if (isError) router.push("/login");
   }, [isError, router]);
   return {
@@ -34,6 +38,7 @@ const useAccounts = () => {
     search,
     setSearch,
     handleDrive,
+    dataBalance,
   };
 };
 

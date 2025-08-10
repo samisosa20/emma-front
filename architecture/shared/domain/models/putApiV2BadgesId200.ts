@@ -10,6 +10,8 @@ export type PutApiV2BadgesId200 = {
   id: string;
   code: string;
   name: string;
+  flag: string;
+  symbol: string;
   createdAt: string;
   updatedAt: string;
 };

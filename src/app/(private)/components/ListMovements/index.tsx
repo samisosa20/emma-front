@@ -6,7 +6,11 @@ import Link from "next/link";
 import useComponents from "@/share/components";
 
 // Helpers
-import { formatCurrency, getIconComponent } from "@/share/helpers";
+import {
+  formatCurrency,
+  getCurrencyFormatter,
+  getIconComponent,
+} from "@/share/helpers";
 import {
   GetApiV2Movements200ContentItem,
   GetApiV2Movements200Meta,
@@ -65,7 +69,16 @@ export default function ListMovements({
                           : "text-red-500 text-sm"
                       }
                     >
-                      {formatCurrency.format(movement.amount)}
+                      {movement.account.badge?.symbol}
+                      {getCurrencyFormatter(
+                        movement.account.badge?.code,
+                        movement.amount
+                      )}
+                      {keyTitle === "account" && (
+                        <span className="text-[10px]">
+                          {movement.account.badge?.code}
+                        </span>
+                      )}
                     </Typography>
                   </div>
                   <div className="flex justify-end items-center pb-1">

@@ -24,6 +24,7 @@ const Page = () => {
     listMovements,
     meta,
     setPage,
+    dataBalance,
   } = useCategoryDetailViewModel();
 
   if (isLoading || data === undefined || loadingMovement) {
@@ -45,6 +46,7 @@ const Page = () => {
       listMovements={listMovements}
       meta={meta}
       setPage={setPage}
+      dataBalance={dataBalance}
     />
   );
 };

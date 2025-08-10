@@ -10,6 +10,8 @@ export type PostApiV2Accounts200Badge = {
   id?: string;
   code?: string;
   name?: string;
+  flag?: string;
+  symbol?: string;
   createdAt?: string;
   updatedAt?: string;
 };

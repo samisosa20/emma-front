@@ -20,10 +20,9 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
 import {
-  colors,
   formatCurrency,
   driverDash,
-  formatoMoneda,
+  getCurrencyFormatter,
   getWeekDateRange,
 } from "@/share/helpers";
 
@@ -59,6 +58,7 @@ export default function Dashboard(props: any) {
     monthIndex,
     handleChangeSlideStepper,
     selectedWeek,
+    dataBalance,
   } = props;
   const {
     Typography,
@@ -69,7 +69,7 @@ export default function Dashboard(props: any) {
     AutoComplete,
     SlideStepper,
   } = useComponents();
-  const { ListItems, Filters } = useComponentsLayout();
+  const { ListItems, Filters, Cards } = useComponentsLayout();
 
   const totalWeeks = getISOWeeksInYear(new Date(filters.year, 0, 1));
 
@@ -222,13 +222,17 @@ export default function Dashboard(props: any) {
               </Pie>
               <Tooltip
                 formatter={(value) => {
-                  return formatCurrency.format(Number(value));
+                  return (
+                    data[0]?.symbol +
+                    getCurrencyFormatter(data[0]?.code, Number(value))
+                  );
                 }}
               />
               <Label width={30} position="center">
-                {formatoMoneda.format(
+                {`${data[0]?.symbol}${getCurrencyFormatter(
+                  data[0]?.code,
                   data?.reduce((sum: number, item: any) => sum + item.amount, 0)
-                )}
+                )}`}
               </Label>
             </PieChart>
           </div>
@@ -243,6 +247,11 @@ export default function Dashboard(props: any) {
           dataModal={listMovements}
         />
       </div>
+      {dataBalance?.length > 0 && (
+        <div className="mt-6">
+          <Cards title="balance" data={dataBalance} />
+        </div>
+      )}
     </div>
   );
 }

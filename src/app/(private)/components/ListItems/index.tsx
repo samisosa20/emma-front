@@ -9,7 +9,7 @@ import useComponents from "@/share/components";
 import { ListItems as ListItemsProps } from "./ListItems.interface";
 import {
   driverListGroupExpensive,
-  formatoMoneda,
+  getCurrencyFormatter,
   getIconComponent,
 } from "@/share/helpers";
 
@@ -32,7 +32,7 @@ const ListDefault = (props: ListItemsProps) => {
                 card.amount >= 0 ? "text-green-500" : "text-red-500"
               }`}
             >
-              {formatoMoneda.format(card.amount)}
+              {getCurrencyFormatter("USD", card.amount)}
             </Typography>
           </div>
         ))}
@@ -58,11 +58,11 @@ const ListUtil = (props: ListItemsProps) => {
             </Typography>
             <div className="flex justify-between items- center">
               <Typography variant="p" className={`text-right`}>
-                {formatoMoneda.format(card.value)}
+                {getCurrencyFormatter("USD", card.value)}
                 {` (${Math.abs(card.percentage ?? 0)}%)`}
               </Typography>
               <Typography variant="p" className={`text-right`}>
-                {formatoMoneda.format(card.limit ?? 0)}
+                {getCurrencyFormatter("USD", card.limit ?? 0)}
               </Typography>
             </div>
             <div className="w-full bg-gray-200 rounded">
@@ -146,7 +146,7 @@ const ListModal = (props: ListItemsProps) => {
                   </Typography>
                 </div>
                 <div
-                  className={`flex items-center gap-x-2 w-2/5 justify-between`}
+                  className={`flex items-center gap-x-2 min-w-2/5 justify-between`}
                 >
                   <Typography variant="h3" className={`text-right text-sm`}>
                     {`${card.participation}%`}
@@ -157,7 +157,8 @@ const ListModal = (props: ListItemsProps) => {
                       card.amount >= 0 ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {formatoMoneda.format(card.amount)}
+                    {card.symbol}
+                    {getCurrencyFormatter("USD", card.amount)}
                   </Typography>
                 </div>
               </div>
@@ -174,7 +175,9 @@ const ListModal = (props: ListItemsProps) => {
           dataModal.map((data, index) => (
             <div className={`${index > 0 ? "border-t" : ""} py-3`} key={index}>
               <div className="flex items-center justify-between">
-                <Typography>{formatoMoneda.format(data.amount)}</Typography>
+                <Typography>
+                  {getCurrencyFormatter("USD", data.amount)}
+                </Typography>
                 <Typography>
                   {data.account?.name ??
                     `${data.category?.name} ${

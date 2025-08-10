@@ -5,6 +5,8 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
+import type { PutApiV2MovementsIdBodyEventId } from './putApiV2MovementsIdBodyEventId';
+import type { PutApiV2MovementsIdBodyInvestmentId } from './putApiV2MovementsIdBodyInvestmentId';
 
 export type PutApiV2MovementsIdBody = {
   description?: string;
@@ -13,7 +15,7 @@ export type PutApiV2MovementsIdBody = {
   datePurchase?: string;
   categoryId?: string;
   accountId?: string;
-  eventId?: string;
-  investmentId?: string;
+  eventId?: PutApiV2MovementsIdBodyEventId;
+  investmentId?: PutApiV2MovementsIdBodyInvestmentId;
   addWithdrawal?: boolean;
 };

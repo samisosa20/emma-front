@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useGetApiV2AccountsIdSuspense } from "@@@/endpoints/account/account";
 import { useGetApiV2MovementsSuspense } from "@@@/endpoints/movement/movement";
 import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
+import { useGetApiV2ReportsAccountIdBalanceSuspense } from "@@@/endpoints/report/report";
 import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
 
 const useAccount = () => {
@@ -41,6 +42,8 @@ const useAccount = () => {
   const { isLoading, data, isError } = useGetApiV2AccountsIdSuspense(
     String(param.id)
   );
+  const { data: dataBalance, refetch: refetchBalance } =
+    useGetApiV2ReportsAccountIdBalanceSuspense(String(param.id));
 
   const {
     isLoading: loadingMovement,
@@ -81,6 +84,7 @@ const useAccount = () => {
 
   useEffect(() => {
     refreshMove();
+    refetchBalance();
     if (isError || isErrorEvents) router.push("/login");
   }, [isError, isErrorEvents, router]);
 
@@ -121,6 +125,7 @@ const useAccount = () => {
     listMovements,
     loadingMovement,
     meta: dataMovements?.meta,
+    dataBalance,
   };
 };
 

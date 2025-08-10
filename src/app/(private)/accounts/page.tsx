@@ -8,6 +8,7 @@ import useAccounts from "./controller";
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "../components";
+import { getCurrencyFormatter } from "@/share/helpers";
 
 const Accounts = () => {
   const { Typography, Switch, Input, Loading, TitleHelp } = useComponents();
@@ -21,12 +22,8 @@ const Accounts = () => {
     search,
     setSearch,
     handleDrive,
+    dataBalance,
   } = useAccounts();
-
-  const formatoMoneda = new Intl.NumberFormat("es-US", {
-    style: "currency",
-    currency: "USD",
-  });
 
   if (isLoading) {
     return <Loading />;
@@ -49,9 +46,11 @@ const Accounts = () => {
           </Link>
         </div>
       </div>
-      {/* <div className="mt-6">
-        {data && <Cards title="balance" data={data.balance} />}
-      </div> */}
+      {dataBalance?.length > 0 && (
+        <div className="mt-6">
+          <Cards title="balance" data={dataBalance} />
+        </div>
+      )}
       <div
         id="fiona-search"
         className="mt-6 flex space-x-4 items-center justify-end"
@@ -95,7 +94,6 @@ const Accounts = () => {
                 <div className="bg-white rounded shadow-sm p-4">
                   <div className="flex items-center justify-between">
                     <Typography variant="h2">{account?.name}</Typography>
-                    <Typography variant="p">{account?.badge?.code}</Typography>
                   </div>
                   <div className="flex items-center justify-between">
                     <Typography>{account?.type?.name}</Typography>
@@ -105,7 +103,11 @@ const Accounts = () => {
                         account?.balance ? "text-green-500" : "text-red-500"
                       }`}
                     >
-                      {formatoMoneda.format(account?.balance)}
+                      {account?.badge?.symbol}
+                      {getCurrencyFormatter(
+                        account?.badge?.code,
+                        account?.balance
+                      )}
                     </Typography>
                   </div>
                 </div>

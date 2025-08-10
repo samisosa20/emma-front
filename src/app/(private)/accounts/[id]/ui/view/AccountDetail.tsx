@@ -20,6 +20,7 @@ const AccountDetail = (props: any) => {
     setPage,
     listMovements,
     meta,
+    dataBalance,
   } = props;
   const router = useRouter();
   const { Typography, Select, FormControl, Input, Button } = useComponents();
@@ -33,22 +34,53 @@ const AccountDetail = (props: any) => {
             <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
-            <Typography variant="h1">{`${data?.name} ${data?.badge?.code}`}</Typography>
+            <Typography variant="h1">{`${data?.name}`}</Typography>
           </div>
-          <Typography>Detalle cuenta</Typography>
-        </div>
-        <div>
-          <Link
-            href={`/accounts/${data.id}/edit`}
-            className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
-          >
-            <MdOutlineCreate />
-            <Typography>Editar</Typography>
-          </Link>
         </div>
       </div>
-      <div className="mt-6 mb-4">
-        <Cards title="balance" data={data.balances} />
+      <div className="flex justify-end">
+        <Link
+          href={`/accounts/${data.id}/edit`}
+          className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
+        >
+          <MdOutlineCreate />
+          <Typography>Editar</Typography>
+        </Link>
+      </div>
+      <div className="mt-6 mb-4 flex flex-wrap  gap-3 items-center justify-center lg:justify-between">
+        <Cards
+          title="Total"
+          data={[
+            {
+              amount: dataBalance?.totalAmount,
+              code: dataBalance?.code,
+              symbol: dataBalance?.symbol,
+              flag: dataBalance?.flag,
+            },
+          ]}
+        />
+        <Cards
+          title="Anual"
+          data={[
+            {
+              amount: dataBalance?.yearlyAmount,
+              code: dataBalance?.code,
+              symbol: dataBalance?.symbol,
+              flag: dataBalance?.flag,
+            },
+          ]}
+        />
+        <Cards
+          title="Mensual"
+          data={[
+            {
+              amount: dataBalance?.monthlyAmount,
+              code: dataBalance?.code,
+              symbol: dataBalance?.symbol,
+              flag: dataBalance?.flag,
+            },
+          ]}
+        />
       </div>
       <div className="flex space-x-4 items-center justify-end">
         {false && (

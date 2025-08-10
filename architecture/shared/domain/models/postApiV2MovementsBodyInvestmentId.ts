@@ -6,9 +6,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApiV2BadgesBody = {
-  code?: string;
-  name?: string;
-  flag?: string;
-  symbol?: string;
-};
+export type PostApiV2MovementsBodyInvestmentId = string | null;

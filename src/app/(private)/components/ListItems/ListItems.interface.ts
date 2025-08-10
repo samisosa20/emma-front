@@ -8,6 +8,8 @@ export interface ListItems {
     father?: any;
     title?: any;
     value?: any;
+    symbol?: any;
+    flag?: any;
     percentage?: any;
     limit?: any;
   }[];

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { getISOWeek } from "date-fns";
 import { useRouter } from "next/navigation";
+
 import { ReportUseCase } from "@@/application/report.use-case";
 import { ReportApiAdapter } from "@@/infrastructure/report-api.adapter";
 
 import { customConfigHeader, driverWelcome } from "@/share/helpers";
-
-import { useGetApiV2ReportsTypePeriodSuspense } from "@@@/endpoints/report/report";
-import { getISOWeek } from "date-fns";
 import { useUserStore } from "@/share/storage";
+
+import {
+  useGetApiV2ReportsTypePeriodSuspense,
+  useGetApiV2ReportsGeneralBalanceSuspense,
+} from "@@@/endpoints/report/report";
 
 export default function useDashboardViewModel() {
   const router = useRouter();
@@ -102,6 +105,9 @@ export default function useDashboardViewModel() {
     }
   );
 
+  const { data: dataBalance, refetch: refetchBalance } =
+    useGetApiV2ReportsGeneralBalanceSuspense();
+
   const onSubmit = (data: any) => {
     setFilters((prev) => ({ ...prev, badgeId: data.badgeId?.value }));
   };
@@ -176,6 +182,7 @@ export default function useDashboardViewModel() {
   };
 
   useEffect(() => {
+    refetchBalance();
     if (isError) router.push("/login");
   }, [isError]);
 
@@ -218,5 +225,6 @@ export default function useDashboardViewModel() {
     monthIndex,
     handleChangeSlideStepper,
     selectedWeek,
+    dataBalance,
   };
 }

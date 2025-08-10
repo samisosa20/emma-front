@@ -18,5 +18,13 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+      },
+    ],
+  },
 };
 module.exports = nextConfig;

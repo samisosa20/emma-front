@@ -250,10 +250,14 @@ export const colors = [
   "#CC6633",
 ];
 
-export const formatoMoneda = new Intl.NumberFormat("es-US", {
-  style: "currency",
-  currency: "USD",
-});
+export const getCurrencyFormatter = (
+  badgeCode: string = "USD",
+  value: number
+) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "decimal",
+  }).format(value);
+};
 
 export function getIconComponent(name: string): React.ElementType {
   return PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];

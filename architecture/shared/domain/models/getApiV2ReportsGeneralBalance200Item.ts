@@ -6,12 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2PlannedPaymentsId200AccountBadge = {
-  id: string;
+export type GetApiV2ReportsGeneralBalance200Item = {
   code: string;
-  name: string;
-  flag: string;
   symbol: string;
-  createdAt: string;
-  updatedAt: string;
+  flag: string;
+  amount: number;
 };

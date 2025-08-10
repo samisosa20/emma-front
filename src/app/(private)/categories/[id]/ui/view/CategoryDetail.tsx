@@ -21,15 +21,7 @@ import { Controller } from "react-hook-form";
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 import { formatCurrency } from "@/share/helpers";
-
-type categoryList = {
-  id: number;
-  name: string;
-  description: string;
-  group: { name: string };
-  sub_categories: number;
-  deleted_at: string | null;
-};
+import { symbol } from "zod";
 
 export default function CategoryDetail(props: any) {
   const {
@@ -46,6 +38,7 @@ export default function CategoryDetail(props: any) {
     listMovements,
     meta,
     setPage,
+    dataBalance,
   } = props;
   const router = useRouter();
   const { Typography, Input, Switch, FormControl, Button, AutoComplete } =
@@ -124,27 +117,48 @@ export default function CategoryDetail(props: any) {
           </form>
         </Filters>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 mb-4 flex flex-wrap  gap-3 items-center justify-center lg:justify-between">
         <Cards
-          title="balance"
-          data={[
-            {
-              title: "Promedio mensual",
-              values: [formatCurrency.format(Number(data.avg)) + currency],
-            },
-            {
-              title: "Limite inferior",
-              values: [
-                formatCurrency.format(Number(data.lowerBound)) + currency,
-              ],
-            },
-            {
-              title: "Limite superior",
-              values: [
-                formatCurrency.format(Number(data.upperBound)) + currency,
-              ],
-            },
-          ]}
+          title="Promedio mensual"
+          data={dataBalance.map((v: any) => {
+            return {
+              amount:
+                v.avgMonthlyIncome > 0
+                  ? v.avgMonthlyIncome
+                  : v.avgMonthlyExpense,
+              code: v.code,
+              symbol: v.symbol,
+              flag: v.flag,
+            };
+          })}
+        />
+        <Cards
+          title="Limite inferior"
+          data={dataBalance.map((v: any) => {
+            return {
+              amount:
+                v.incomeLowerLimit > 0
+                  ? v.incomeLowerLimit
+                  : v.expenseLowerLimit,
+              code: v.code,
+              symbol: v.symbol,
+              flag: v.flag,
+            };
+          })}
+        />
+        <Cards
+          title="Limite superior"
+          data={dataBalance.map((v: any) => {
+            return {
+              amount:
+                v.incomeUpperLimit > 0
+                  ? v.incomeUpperLimit
+                  : v.expenseUpperLimit,
+              code: v.code,
+              symbol: v.symbol,
+              flag: v.flag,
+            };
+          })}
         />
       </div>
       {/* <div id="fiona-chart_history_category" className="mt-6 bg-white">

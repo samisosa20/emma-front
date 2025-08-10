@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { useGetApiV2CategoriesIdSuspense } from "@@@/endpoints/category/category";
 import { useGetApiV2Movements } from "@@@/endpoints/movement/movement";
+import { useGetApiV2ReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
 import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
 
 export default function useCategoryDetailViewModel() {
@@ -25,7 +26,7 @@ export default function useCategoryDetailViewModel() {
     GetApiV2Movements200ContentItem[]
   >([]);
 
-  const { handleSubmit, control, setValue } = useForm();
+  const { handleSubmit, control } = useForm();
 
   const { isLoading, data, isError } = useGetApiV2CategoriesIdSuspense(
     String(param.id),
@@ -35,6 +36,9 @@ export default function useCategoryDetailViewModel() {
       },
     }
   );
+
+  const { data: dataBalance, refetch: refetchBalance } =
+    useGetApiV2ReportsCategoryIdStatsSuspense(String(param.id));
 
   const {
     isLoading: loadingMovement,
@@ -57,6 +61,7 @@ export default function useCategoryDetailViewModel() {
 
   useEffect(() => {
     refreshMove();
+    refetchBalance();
     if (isError) router.push("/login");
   }, [isError, router]);
 
@@ -110,5 +115,6 @@ export default function useCategoryDetailViewModel() {
     listMovements,
     meta: dataMovements?.meta,
     setPage,
+    dataBalance,
   };
 }
