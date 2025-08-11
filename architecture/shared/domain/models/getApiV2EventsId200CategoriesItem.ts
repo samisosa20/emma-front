@@ -8,6 +8,8 @@
 import type { GetApiV2EventsId200CategoriesItemCategoriesItem } from './getApiV2EventsId200CategoriesItemCategoriesItem';
 
 export type GetApiV2EventsId200CategoriesItem = {
-  badge?: string;
+  code?: string;
+  flag?: string;
+  symbol?: string;
   categories?: GetApiV2EventsId200CategoriesItemCategoriesItem[];
 };

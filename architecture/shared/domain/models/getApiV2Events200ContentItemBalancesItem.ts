@@ -7,6 +7,8 @@
  */
 
 export type GetApiV2Events200ContentItemBalancesItem = {
-  badge?: string;
+  code?: string;
+  flag?: string;
+  symbol?: string;
   balance?: number;
 };

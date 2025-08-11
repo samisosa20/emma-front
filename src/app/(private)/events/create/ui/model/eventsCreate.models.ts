@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { eventSchema } from "@/share/validation";
-import type { EventSchema } from "@/share/validation";
-import { customConfigHeader } from "@/share/helpers";
 
-import { EventUseCase } from "@@/application/event.use-case";
-import { EventApiAdapter } from "@@/infrastructure/event-api.adapter";
+import {
+  usePostApiV2Events,
+  usePutApiV2EventsId,
+  useGetApiV2EventsId,
+} from "@@@/endpoints/event/event";
 
 const useEventCreate = () => {
   const router = useRouter();
@@ -24,89 +24,54 @@ const useEventCreate = () => {
     resolver: zodResolver(eventSchema),
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createEvent } = new EventUseCase(
-          new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createEvent(data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutation = usePostApiV2Events();
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: EventSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editEvent } = new EventUseCase(
-          new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await editEvent(id, data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationEdit = usePutApiV2EventsId();
 
-  const { data } = useQuery({
-    queryKey: ["eventDetail"],
-    queryFn: async () => {
-      if (param.id) {
-        const { getEventDetail } = new EventUseCase(
-          new EventApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await getEventDetail(id);
-
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/login");
-        }
-
-        return result;
-      }
-    },
-  });
+  const { data, refetch } = useGetApiV2EventsId(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
     };
     if (param.id) {
-      mutationEdit.mutate(formData);
+      mutationEdit.mutate(
+        {
+          data: formData,
+          id: String(param.id),
+        },
+        {
+          onSuccess: () => {
+            toast.success("Evento editado con exito");
+            router.back();
+          },
+          onError: (error) => {
+            toast.error(error.message);
+            router.back();
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        {
+          data: formData,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Evento creado con exito");
+            router.back();
+          },
+          onError: (error) => {
+            toast.error(error.message);
+            router.back();
+          },
+        }
+      );
     }
   };
 
   useEffect(() => {
+    refetch();
     if (param.id) {
       setTitle("Edicion de eventos");
     }
@@ -114,7 +79,10 @@ const useEventCreate = () => {
 
   useEffect(() => {
     if (data) {
-      reset(data);
+      reset({
+        name: data.name,
+        endEvent: data.endEvent.split("T")[0],
+      });
       setListMovements(data.movements);
       setListCategories(data.categories);
     }

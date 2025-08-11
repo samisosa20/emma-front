@@ -8,8 +8,7 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV === "development",
 });
 
-//const nextConfig = withPWA({});
-const nextConfig = {
+const nextConfig = withPWA({
   async rewrites() {
     return [
       {
@@ -26,5 +25,5 @@ const nextConfig = {
       },
     ],
   },
-};
+});
 module.exports = nextConfig;

@@ -8,4 +8,6 @@
 
 export type GetApiV2EventsId200MovementsItemCategory = {
   name?: string;
+  color?: string;
+  icon?: string;
 };

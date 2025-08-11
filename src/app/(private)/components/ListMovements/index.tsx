@@ -18,7 +18,7 @@ import {
 
 type listMovements = {
   listMovements: GetApiV2Movements200ContentItem[];
-  meta: GetApiV2Movements200Meta;
+  meta?: GetApiV2Movements200Meta;
   setPage: any;
   keyTitle: "category" | "event" | "account" | "investment";
 };
@@ -97,7 +97,7 @@ export default function ListMovements({
           );
         }
       )}
-      {!meta?.isLastPage && (
+      {meta && !meta?.isLastPage && (
         <Typography
           className="text-center py-6 underline cursor-pointer hover:text-black"
           onClick={() => setPage(meta.nextPage)}
