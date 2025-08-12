@@ -40,6 +40,12 @@ import type {
   GetApiV2HeritagesId400,
   GetApiV2HeritagesId401,
   GetApiV2HeritagesId500,
+  GetApiV2HeritagesParams,
+  GetApiV2HeritagesYear200Item,
+  GetApiV2HeritagesYear400,
+  GetApiV2HeritagesYear401,
+  GetApiV2HeritagesYear500,
+  GetApiV2HeritagesYearParams,
   PostApiV2Heritages200,
   PostApiV2Heritages400,
   PostApiV2Heritages401,
@@ -64,33 +70,34 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
  * Listar todos los activos patrimoniales con paginación
  */
 export const getApiV2Heritages = (
-    
+    params?: GetApiV2HeritagesParams,
  options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
       
       
       return apiClient<GetApiV2Heritages200>(
-      {url: `/api/v2/heritages/`, method: 'GET', signal
+      {url: `/api/v2/heritages/`, method: 'GET',
+        params, signal
     },
       options);
     }
   
 
-export const getGetApiV2HeritagesQueryKey = () => {
-    return [`/api/v2/heritages/`] as const;
+export const getGetApiV2HeritagesQueryKey = (params?: GetApiV2HeritagesParams,) => {
+    return [`/api/v2/heritages/`, ...(params ? [params]: [])] as const;
     }
 
     
-export const getGetApiV2HeritagesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetApiV2HeritagesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Heritages>>> = ({ signal }) => getApiV2Heritages(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Heritages>>> = ({ signal }) => getApiV2Heritages(params, requestOptions, signal);
 
       
 
@@ -104,7 +111,7 @@ export type GetApiV2HeritagesQueryError = ErrorType<GetApiV2Heritages400 | GetAp
 
 
 export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>> & Pick<
+ params: undefined |  GetApiV2HeritagesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV2Heritages>>,
           TError,
@@ -114,7 +121,7 @@ export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2H
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>> & Pick<
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV2Heritages>>,
           TError,
@@ -124,16 +131,16 @@ export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2H
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV2HeritagesQueryOptions(options)
+  const queryOptions = getGetApiV2HeritagesQueryOptions(params,options)
 
   const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -144,16 +151,16 @@ export function useGetApiV2Heritages<TData = Awaited<ReturnType<typeof getApiV2H
 
 
 
-export const getGetApiV2HeritagesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetApiV2HeritagesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Heritages>>> = ({ signal }) => getApiV2Heritages(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Heritages>>> = ({ signal }) => getApiV2Heritages(params, requestOptions, signal);
 
       
 
@@ -167,24 +174,24 @@ export type GetApiV2HeritagesSuspenseQueryError = ErrorType<GetApiV2Heritages400
 
 
 export function useGetApiV2HeritagesSuspense<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params: undefined |  GetApiV2HeritagesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2HeritagesSuspense<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2HeritagesSuspense<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetApiV2HeritagesSuspense<TData = Awaited<ReturnType<typeof getApiV2Heritages>>, TError = ErrorType<GetApiV2Heritages400 | GetApiV2Heritages401 | GetApiV2Heritages500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2HeritagesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Heritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient 
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV2HeritagesSuspenseQueryOptions(options)
+  const queryOptions = getGetApiV2HeritagesSuspenseQueryOptions(params,options)
 
   const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -510,4 +517,139 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
+    /**
+ * Eliminar un activo patrimonial por ID
+ */
+export const getApiV2HeritagesYear = (
+    params?: GetApiV2HeritagesYearParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2HeritagesYear200Item[]>(
+      {url: `/api/v2/heritages/year`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2HeritagesYearQueryKey = (params?: GetApiV2HeritagesYearParams,) => {
+    return [`/api/v2/heritages/year`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetApiV2HeritagesYearQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesYearQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2HeritagesYear>>> = ({ signal }) => getApiV2HeritagesYear(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2HeritagesYearQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2HeritagesYear>>>
+export type GetApiV2HeritagesYearQueryError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>
+
+
+export function useGetApiV2HeritagesYear<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params: undefined |  GetApiV2HeritagesYearParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2HeritagesYear>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2HeritagesYear>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2HeritagesYear<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2HeritagesYear>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2HeritagesYear>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2HeritagesYear<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2HeritagesYear<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2HeritagesYearQueryOptions(params,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2HeritagesYearSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2HeritagesYearQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2HeritagesYear>>> = ({ signal }) => getApiV2HeritagesYear(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2HeritagesYearSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2HeritagesYear>>>
+export type GetApiV2HeritagesYearSuspenseQueryError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>
+
+
+export function useGetApiV2HeritagesYearSuspense<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params: undefined |  GetApiV2HeritagesYearParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2HeritagesYearSuspense<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2HeritagesYearSuspense<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2HeritagesYearSuspense<TData = Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError = ErrorType<GetApiV2HeritagesYear400 | GetApiV2HeritagesYear401 | GetApiV2HeritagesYear500>>(
+ params?: GetApiV2HeritagesYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2HeritagesYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2HeritagesYearSuspenseQueryOptions(params,options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
