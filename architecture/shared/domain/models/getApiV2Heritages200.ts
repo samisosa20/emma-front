@@ -6,9 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { GetApiV2Heritages200ContentItem } from './getApiV2Heritages200ContentItem';
-import type { GetApiV2Heritages200Meta } from './getApiV2Heritages200Meta';
+import type { GetApiV2Heritages200BalancesItem } from './getApiV2Heritages200BalancesItem';
 
 export type GetApiV2Heritages200 = {
   content: GetApiV2Heritages200ContentItem[];
-  meta: GetApiV2Heritages200Meta;
+  balances: GetApiV2Heritages200BalancesItem[];
 };

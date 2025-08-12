@@ -5,9 +5,11 @@ import { useGetApiV2HeritagesYearSuspense } from "@@@/endpoints/heritage/heritag
 
 export default function useHeritagesViewModel() {
   const router = useRouter();
-  const { isLoading, data, isError } = useGetApiV2HeritagesYearSuspense();
+  const { isLoading, data, isError, refetch } =
+    useGetApiV2HeritagesYearSuspense();
 
   useEffect(() => {
+    refetch();
     if (isError) router.push("/login");
   }, [isError]);
 

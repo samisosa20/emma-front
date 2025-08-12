@@ -19,4 +19,8 @@ page?: string;
  * size of pagination
  */
 size?: string;
+/**
+ * Año del activo patrimonial
+ */
+year?: number;
 };

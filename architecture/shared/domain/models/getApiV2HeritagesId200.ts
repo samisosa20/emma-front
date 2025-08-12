@@ -5,13 +5,14 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
+import type { GetApiV2HeritagesId200Badge } from './getApiV2HeritagesId200Badge';
 
 export type GetApiV2HeritagesId200 = {
   id: string;
   name: string;
   comercialAmount: number;
   legalAmount: number;
-  badgeId: string;
+  badge: GetApiV2HeritagesId200Badge;
   year: number;
   userId: string;
   createdAt: string;

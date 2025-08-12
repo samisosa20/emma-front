@@ -6,6 +6,7 @@ const Filters = lazy(() => import("./Filters"));
 const ModalVerify = lazy(() => import("./ModalVerify"));
 const BottomBar = lazy(() => import("./BottomBar"));
 const ListMovements = lazy(() => import("./ListMovements"));
+const CurrencyBadgeFlag = lazy(() => import("./CurrencyBadgeFlag"));
 
 const useComponents = () => {
   return {
@@ -15,6 +16,7 @@ const useComponents = () => {
     ModalVerify,
     BottomBar,
     ListMovements,
+    CurrencyBadgeFlag,
   };
 };
 

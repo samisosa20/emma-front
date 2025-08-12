@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Controller } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
 import { useRouter } from "next/navigation";
@@ -8,13 +10,11 @@ import useComponentsLayout from "../../../../components";
 
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
-import Image from "next/image";
-import React from "react";
 
 const EventsCreate = (props: any) => {
   const router = useRouter();
   const { Typography, Button, Input, FormControl } = useComponents();
-  const { ListMovements } = useComponentsLayout();
+  const { ListMovements, CurrencyBadgeFlag } = useComponentsLayout();
 
   const {
     handleSubmit,
@@ -99,18 +99,7 @@ const EventsCreate = (props: any) => {
               className="border-b border-gray-300 py-2 px-1 bg-white rounded shadow-sm mb-3"
               key={i}
             >
-              <div className="flex items-center gap-2">
-                <Image
-                  src={category.flag}
-                  width={20}
-                  height={20}
-                  className="rounded-full w-5 h-5 object-cover"
-                  alt={String(category.code)}
-                />
-                <Typography variant="h6" className={`text-[10px]`}>
-                  {category.code}
-                </Typography>
-              </div>
+              <CurrencyBadgeFlag badge={category} />
               {category.categories.map((subCategory: any, i: number) => (
                 <React.Fragment key={subCategory.name + `-${i}`}>
                   <div className="flex justify-between items-center py-1">

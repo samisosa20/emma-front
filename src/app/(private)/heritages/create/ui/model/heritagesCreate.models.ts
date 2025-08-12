@@ -1,146 +1,97 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { heritageSchema } from "@/share/validation";
-import type { HeritageSchema } from "@/share/validation";
 
-import { HeritageUseCase } from "@@/application/heritage.use-case";
-import { HeritageApiAdapter } from "@@/infrastructure/heritage-api.adapter";
-
-import { customConfigHeader } from "@/share/helpers";
+import {
+  useGetApiV2HeritagesIdSuspense,
+  usePostApiV2Heritages,
+  usePutApiV2HeritagesId,
+  useDeleteApiV2HeritagesId,
+} from "@@@/endpoints/heritage/heritage";
+import { useUserStore } from "@/share/storage";
 
 export default function useHeritagesCreateViewModel() {
   const router = useRouter();
   const param = useParams();
+  const { badges } = useUserStore();
 
   const [title, setTitle] = useState("Creacion de Patrimonio");
-  const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(heritageSchema),
-  });
-
-  const mutation = useMutation({
-    mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createHeritage } = new HeritageUseCase(
-          new HeritageApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createHeritage(data as any);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
+    defaultValues: {
+      badgeId: undefined,
+      year: new Date().getFullYear(),
     },
   });
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: HeritageSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editHeritage } = new HeritageUseCase(
-          new HeritageApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await editHeritage(id, data as any);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutation = usePostApiV2Heritages();
 
-  const mutationDelete = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deleteHeritage } = new HeritageUseCase(
-          new HeritageApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await deleteHeritage(id);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationEdit = usePutApiV2HeritagesId();
 
-  const { data } = useQuery({
-    queryKey: ["heritageDetail", param.id ?? 0],
-    queryFn: async () => {
-      if (param.id) {
-        const { getHeritageDetail } = new HeritageUseCase(
-          new HeritageApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
+  const mutationDelete = useDeleteApiV2HeritagesId();
 
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await getHeritageDetail(id);
-
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/");
-        }
-
-        return result;
-      }
-    },
-  });
+  const { data, refetch } = useGetApiV2HeritagesIdSuspense(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
-      badge_id: data.badge_id.value,
+      badgeId: data.badgeId.value,
+      comercialAmount: Number(data.comercialAmount),
+      legalAmount: Number(data.legalAmount),
     };
     if (param.id) {
-      mutationEdit.mutate(formData);
+      mutationEdit.mutate(
+        { id: String(param.id), data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Patrimonio actualizado con exito");
+            router.back();
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        { data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Patrimonio creado con exito");
+            router.back();
+          },
+        }
+      );
     }
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate();
+    mutationDelete.mutate(
+      { id: String(param.id) },
+      {
+        onSuccess: () => {
+          toast.success("Patrimonio eliminado con exito");
+          router.back();
+        },
+      }
+    );
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
-    if (user) {
-      const userjson = JSON.parse(user);
-      setCurrencyOptions(userjson.currencies);
-    }
+    refetch();
+    setCurrencyOptions(
+      badges?.map((v) => {
+        return {
+          label: String(v.code),
+          value: String(v.id),
+        };
+      })
+    );
     if (param.id) {
       setTitle("Edicion de Patrimonio");
     }
@@ -150,7 +101,7 @@ export default function useHeritagesCreateViewModel() {
     if (data) {
       reset({
         ...data,
-        badge_id: { label: data.currency?.code, value: data.currency?.id },
+        badgeId: { label: data.badge?.code, value: data.badge?.id },
       });
     }
   }, [data]);

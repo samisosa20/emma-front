@@ -3,15 +3,11 @@ import { MdAddCircleOutline } from "react-icons/md";
 
 //components
 import useComponents from "@/share/components";
+import useComponentsLayout from "../../../components";
 
 // Helpers
-import {
-  formatCurrency,
-  driverEvent,
-  getCurrencyFormatter,
-} from "@/share/helpers";
+import { driverEvent, getCurrencyFormatter } from "@/share/helpers";
 import { GetApiV2Events200 } from "@@@/domain/models";
-import Image from "next/image";
 
 type EventList = {
   id: number;
@@ -22,6 +18,7 @@ type EventList = {
 const Events = (props: { data: GetApiV2Events200 }) => {
   const { data } = props;
   const { Typography, TitleHelp } = useComponents();
+  const { CurrencyBadgeFlag } = useComponentsLayout();
 
   return (
     <div>
@@ -55,18 +52,7 @@ const Events = (props: { data: GetApiV2Events200 }) => {
                 {event.balances.map((balance, index) => (
                   <div className="flex items-center justify-between py-2 border-b border-gray-200">
                     {balance.flag !== null && balance.flag !== undefined && (
-                      <div className="flex items-center gap-2">
-                        <Image
-                          src={balance.flag}
-                          width={20}
-                          height={20}
-                          className="rounded-full w-5 h-5 object-cover"
-                          alt={String(balance.code)}
-                        />
-                        <Typography variant="h6" className={`text-[10px]`}>
-                          {balance.code}
-                        </Typography>
-                      </div>
+                      <CurrencyBadgeFlag badge={balance} />
                     )}
                     <Typography
                       key={index}

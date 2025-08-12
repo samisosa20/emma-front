@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 //components
 import useComponents from "@/share/components";
 
 // Interface
 import { CardsProps } from "./Cards.interface";
 import { getCurrencyFormatter } from "@/share/helpers";
-import Image from "next/image";
+import CurrencyBadgeFlag from "../CurrencyBadgeFlag";
 
 const Cards = (props: CardsProps) => {
   const { data, title } = props;
@@ -35,18 +37,7 @@ const Cards = (props: CardsProps) => {
               </Typography>
             )}
             {value.flag !== null && value.flag !== undefined && (
-              <div className="flex items-center gap-2">
-                <Image
-                  src={value.flag}
-                  width={20}
-                  height={20}
-                  className="rounded-full w-5 h-5 object-cover"
-                  alt={value.code}
-                />
-                <Typography variant="h6" className={`text-[10px]`}>
-                  {value.code}
-                </Typography>
-              </div>
+              <CurrencyBadgeFlag badge={value} />
             )}
 
             <Typography
