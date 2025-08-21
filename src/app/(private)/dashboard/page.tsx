@@ -14,7 +14,6 @@ export default function Page() {
     handleSubmit,
     onSubmit,
     getMovements,
-    getMovementsGroup,
     listMovements,
     listOptionsTypeReport,
     typeReport,
@@ -25,6 +24,7 @@ export default function Page() {
     handleChangeSlideStepper,
     selectedWeek,
     dataBalance,
+    dataHistory,
   } = useDashboardViewModel();
   const { Loading } = useComponents();
 
@@ -39,7 +39,6 @@ export default function Page() {
       currencyOptions={currencyOptions}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
-      getMovementsGroup={getMovementsGroup}
       getMovements={getMovements}
       listMovements={listMovements}
       listOptionsTypeReport={listOptionsTypeReport}
@@ -51,6 +50,7 @@ export default function Page() {
       handleChangeSlideStepper={handleChangeSlideStepper}
       selectedWeek={selectedWeek}
       dataBalance={dataBalance}
+      dataHistory={dataHistory}
     />
   );
 }

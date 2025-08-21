@@ -12,5 +12,4 @@ export type PutApiV2HeritagesIdBody = {
   legalAmount?: number;
   badgeId?: string;
   year?: number;
-  userId?: string;
 };

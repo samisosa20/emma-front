@@ -14,7 +14,6 @@ export type DeleteApiV2HeritagesId200 = {
   legalAmount: number;
   badge: DeleteApiV2HeritagesId200Badge;
   year: number;
-  userId: string;
   createdAt: string;
   updatedAt: string;
 };

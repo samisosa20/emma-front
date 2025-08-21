@@ -36,6 +36,11 @@ import type {
   GetApiV2ReportsGeneralBalance400,
   GetApiV2ReportsGeneralBalance401,
   GetApiV2ReportsGeneralBalance500,
+  GetApiV2ReportsHistory200,
+  GetApiV2ReportsHistory400,
+  GetApiV2ReportsHistory401,
+  GetApiV2ReportsHistory500,
+  GetApiV2ReportsHistoryParams,
   GetApiV2ReportsTypePeriod200Item,
   GetApiV2ReportsTypePeriod400,
   GetApiV2ReportsTypePeriod401,
@@ -606,6 +611,142 @@ export function useGetApiV2ReportsCategoryIdStatsSuspense<TData = Awaited<Return
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV2ReportsCategoryIdStatsSuspenseQueryOptions(id,options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Balance historico
+ */
+export const getApiV2ReportsHistory = (
+    params: GetApiV2ReportsHistoryParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2ReportsHistory200>(
+      {url: `/api/v2/reports/history`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2ReportsHistoryQueryKey = (params?: GetApiV2ReportsHistoryParams,) => {
+    return [`/api/v2/reports/history`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetApiV2ReportsHistoryQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsHistoryQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsHistory>>> = ({ signal }) => getApiV2ReportsHistory(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsHistory>>>
+export type GetApiV2ReportsHistoryQueryError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>
+
+
+export function useGetApiV2ReportsHistory<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsHistory<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2ReportsHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2ReportsHistory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsHistory<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsHistory<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsHistoryQueryOptions(params,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2ReportsHistorySuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2ReportsHistoryQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2ReportsHistory>>> = ({ signal }) => getApiV2ReportsHistory(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2ReportsHistorySuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2ReportsHistory>>>
+export type GetApiV2ReportsHistorySuspenseQueryError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>
+
+
+export function useGetApiV2ReportsHistorySuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsHistorySuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2ReportsHistorySuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2ReportsHistorySuspense<TData = Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError = ErrorType<GetApiV2ReportsHistory400 | GetApiV2ReportsHistory401 | GetApiV2ReportsHistory500>>(
+ params: GetApiV2ReportsHistoryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2ReportsHistory>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2ReportsHistorySuspenseQueryOptions(params,options)
 
   const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

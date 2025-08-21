@@ -14,7 +14,6 @@ export type GetApiV2HeritagesId200 = {
   legalAmount: number;
   badge: GetApiV2HeritagesId200Badge;
   year: number;
-  userId: string;
   createdAt: string;
   updatedAt: string;
 };

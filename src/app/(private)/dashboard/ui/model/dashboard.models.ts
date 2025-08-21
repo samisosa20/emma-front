@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getISOWeek } from "date-fns";
+import { getISOWeek, format, startOfMonth, endOfMonth } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import { ReportUseCase } from "@@/application/report.use-case";
@@ -12,6 +12,8 @@ import { useUserStore } from "@/share/storage";
 import {
   useGetApiV2ReportsTypePeriodSuspense,
   useGetApiV2ReportsGeneralBalanceSuspense,
+  useGetApiV2ReportsHistorySuspense,
+  getApiV2ReportsHistory,
 } from "@@@/endpoints/report/report";
 
 export default function useDashboardViewModel() {
@@ -27,6 +29,11 @@ export default function useDashboardViewModel() {
     "monthly" | "daily" | "weekly" | "yearly"
   >("monthly");
   const [listMovements, setListMovements] = useState<any[]>([]);
+  const [historyBalance, setHistoryBalance] = useState<any>({
+    current: [],
+    lastYear: [],
+    previousPeriod: [],
+  });
   const [filters, setFilters] = useState<{
     badgeId?: number;
     month?: number;
@@ -81,7 +88,13 @@ export default function useDashboardViewModel() {
     },
   ];
 
-  const { handleSubmit, control, setValue } = useForm();
+  const { handleSubmit, control, setValue, getValues } = useForm({
+    defaultValues: {
+      endDate: new Date(),
+      startDate: new Date(),
+      badgeId: {},
+    },
+  });
 
   const { isLoading, data, isError } = useGetApiV2ReportsTypePeriodSuspense(
     typeReport,
@@ -108,37 +121,40 @@ export default function useDashboardViewModel() {
   const { data: dataBalance, refetch: refetchBalance } =
     useGetApiV2ReportsGeneralBalanceSuspense();
 
-  const onSubmit = (data: any) => {
+  const today = new Date();
+
+  // Fecha de inicio: el primer día del mes actual
+  const firstDayOfMonth = startOfMonth(today);
+
+  // Fecha de fin: el último día del mes actual
+  const lastDayOfMonth = endOfMonth(today);
+
+  // Llama a la API con las fechas formateadas
+  const { data: dataHistory } = useGetApiV2ReportsHistorySuspense({
+    ...(filters.badgeId && { badgeId: String(filters.badgeId) }),
+    startDate: format(firstDayOfMonth, "yyyy-MM-dd"),
+    endDate: format(lastDayOfMonth, "yyyy-MM-dd"),
+  });
+
+  const onSubmit = async (data: any) => {
     setFilters((prev) => ({ ...prev, badgeId: data.badgeId?.value }));
+    const result = await getApiV2ReportsHistory({
+      badgeId: data.badgeId?.value as string,
+      startDate: data.startDate.toISOString(),
+      endDate: data.endDate.toISOString(),
+    });
+    setHistoryBalance(result);
   };
 
   const getMovements = async (id: number) => {
     if (id) {
-      const { getReportCategory } = new ReportUseCase(
-        new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      /* const result = await getReportCategory({
-        ...filters,
-        category_id: id.toString(),
-      });
-
-      if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
-      // @ts-ignore
-      setListMovements(result); */
+      setListMovements([]);
     } else {
       setListMovements([]);
     }
   };
 
-  const getMovementsGroup = async (id: number) => {
+  /* const getMovementsGroup = async (id: number) => {
     if (id) {
       const { getReportGroup } = new ReportUseCase(
         new ReportApiAdapter({
@@ -147,7 +163,7 @@ export default function useDashboardViewModel() {
         })
       );
 
-      /* const result = await getReportGroup({
+     const result = await getReportGroup({
         ...filters,
         group_id: id.toString(),
       });
@@ -158,11 +174,11 @@ export default function useDashboardViewModel() {
       }
 
       // @ts-ignore
-      setListMovements(result); */
+      setListMovements(result); 
     } else {
       setListMovements([]);
     }
-  };
+  };*/
 
   const handleChangeSlideStepper = (
     val: number,
@@ -215,7 +231,6 @@ export default function useDashboardViewModel() {
     handleSubmit,
     onSubmit,
     getMovements,
-    getMovementsGroup,
     listMovements,
     listOptionsTypeReport,
     typeReport,
@@ -226,5 +241,6 @@ export default function useDashboardViewModel() {
     handleChangeSlideStepper,
     selectedWeek,
     dataBalance,
+    dataHistory,
   };
 }

@@ -14,7 +14,6 @@ export type GetApiV2Heritages200ContentItem = {
   legalAmount: number;
   badge: GetApiV2Heritages200ContentItemBadge;
   year: number;
-  userId: string;
   createdAt: string;
   updatedAt: string;
 };

@@ -6,10 +6,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApiV2HeritagesBody = {
-  name?: string;
-  comercialAmount?: number;
-  legalAmount?: number;
-  badgeId?: string;
-  year?: number;
+export type GetApiV2ReportsHistory400 = {
+  statusCode?: number;
+  error?: string;
+  message?: string;
 };

@@ -1,9 +1,7 @@
 "use client";
 import { Controller } from "react-hook-form";
 import {
-  AreaChart,
   XAxis,
-  Area,
   Tooltip,
   CartesianGrid,
   YAxis,
@@ -12,6 +10,9 @@ import {
   Pie,
   Cell,
   Label,
+  Line,
+  Legend,
+  LineChart,
 } from "recharts";
 import { getISOWeeksInYear } from "date-fns";
 
@@ -41,6 +42,35 @@ const monthNames = [
   "Diciembre",
 ];
 
+function CustomizedTick(props: any) {
+  const { x, y, stroke, payload } = props;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={24} fill="#666">
+        <tspan textAnchor="middle">{new Date(payload.value).getDate()}</tspan>
+      </text>
+    </g>
+  );
+}
+
+const formatYAxisTick = (value: number) => {
+  if (Math.abs(value) >= 1000000000) {
+    return (value / 1000000000).toFixed(1) + "B";
+  }
+  if (Math.abs(value) >= 1000000) {
+    return (value / 1000000).toFixed(1) + "M";
+  }
+  if (Math.abs(value) >= 1000) {
+    return (value / 1000).toFixed(1) + "K";
+  }
+  return value;
+};
+
+const currencyFormatter = (value: number, name: string) => {
+  // Retorna el valor formateado y el nombre de la serie
+  return [getCurrencyFormatter("USD", value), name];
+};
+
 export default function Dashboard(props: any) {
   const {
     data,
@@ -59,6 +89,7 @@ export default function Dashboard(props: any) {
     handleChangeSlideStepper,
     selectedWeek,
     dataBalance,
+    dataHistory,
   } = props;
   const {
     Typography,
@@ -99,7 +130,7 @@ export default function Dashboard(props: any) {
             )}
           />
           <Controller
-            name={"start_date"}
+            name={"startDate"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -118,7 +149,7 @@ export default function Dashboard(props: any) {
             )}
           />
           <Controller
-            name={"end_date"}
+            name={"endDate"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -250,6 +281,62 @@ export default function Dashboard(props: any) {
       {dataBalance?.length > 0 && (
         <div className="mt-6">
           <Cards title="balance" data={dataBalance} />
+        </div>
+      )}
+      {dataHistory && (
+        <div id="fiona-chart_incomes" className="bg-white mt-6">
+          <Typography variant="p" className="px-4 pt-4">
+            Historial balance
+          </Typography>
+          <div className="flex items-center justify-center w-full h-72">
+            <ResponsiveContainer>
+              <LineChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  allowDuplicatedCategory={false}
+                  type="number"
+                />
+
+                <YAxis tickFormatter={formatYAxisTick} />
+                <Tooltip formatter={currencyFormatter} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="cumulativeBalance"
+                  name="Actual"
+                  data={dataHistory.current.map((v: any) => {
+                    return { ...v, date: new Date(v.date).getDate() };
+                  })}
+                  stroke="#8884d8"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="cumulativeBalance"
+                  data={dataHistory.previousPeriod.map((v: any) => {
+                    return { ...v, date: new Date(v.date).getDate() };
+                  })}
+                  stroke="#82ca9d"
+                  name="Anterior"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="cumulativeBalance"
+                  data={dataHistory.lastYear.map((v: any) => {
+                    return { ...v, date: new Date(v.date).getDate() };
+                  })}
+                  stroke="#8dd1e1"
+                  name="Año anterior"
+                  dot={false}
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
     </div>
