@@ -95,7 +95,8 @@ export default function useMovementsViewModel() {
       }),
       accountId: data.account.value,
       ...(data.type == 0 && {
-        amountEnd: data.type == 0 ? Math.abs(data.amountEnd) : null,
+        amountEnd:
+          data.type == 0 ? Math.abs(data.amountEnd ?? data.amount) : null,
         accountEndId: data.type == 0 ? data.accountEnd.value : null,
       }),
       description: data.description !== undefined ? data.description : null,
