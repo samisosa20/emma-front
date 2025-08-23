@@ -14,6 +14,7 @@ export type GetApiV2InvestmentsId200 = {
   name: string;
   initAmount: number;
   endAmount: number;
+  dateInvestment: string;
   badge: GetApiV2InvestmentsId200Badge;
   totalReturns: number;
   totalWithdrawal: number;

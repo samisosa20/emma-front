@@ -13,7 +13,7 @@ type CurrencyBadgeProps = {
 };
 
 export default function CurrencyBadgeFlag({ badge }: CurrencyBadgeProps) {
-  if (!badge.code || !badge.flag) {
+  if (!badge?.code || !badge?.flag) {
     return null;
   }
 

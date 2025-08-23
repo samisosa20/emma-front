@@ -3,13 +3,16 @@ import { MdAddCircleOutline } from "react-icons/md";
 
 //components
 import useComponents from "@/share/components";
+import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
-import { formatCurrency, driverInvestment } from "@/share/helpers";
+import { getCurrencyFormatter, driverInvestment } from "@/share/helpers";
+import { GetApiV2Investments200ContentItem } from "@@@/domain/models";
 
 export default function Investments(props: any) {
   const { data } = props;
   const { Typography, TitleHelp } = useComponents();
+  const { CurrencyBadgeFlag } = useComponentsLayout();
 
   return (
     <div>
@@ -34,24 +37,24 @@ export default function Investments(props: any) {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.investments?.map((investment: any) => (
+          data.content?.map((investment: GetApiV2Investments200ContentItem) => (
             <Link href={`/investments/${investment.id}`} key={investment.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">
                   <Typography variant="h2">{investment.name}</Typography>
-                  <Typography variant="h5">
-                    {investment.currency?.code}
-                  </Typography>
+                  <CurrencyBadgeFlag badge={investment.badge} />
                 </div>
                 <Typography
                   variant="h5"
                   className={
-                    investment.end_amount > 0
-                      ? "text-green-500"
-                      : "text-red-500"
+                    investment.endAmount > 0 ? "text-green-500" : "text-red-500"
                   }
                 >
-                  {formatCurrency.format(investment.end_amount)}
+                  {investment.badge?.symbol}
+                  {getCurrencyFormatter(
+                    investment.badge?.code,
+                    investment.endAmount
+                  )}
                 </Typography>
                 <div className="flex items-center justify-between">
                   <Typography variant="h5" className="font-semibold">
@@ -66,20 +69,24 @@ export default function Investments(props: any) {
                     Rend.
                   </Typography>
                   <Typography variant="h6">
-                    {formatCurrency.format(investment.returns)}
+                    {investment.badge?.symbol}
+                    {getCurrencyFormatter(
+                      investment.badge?.code,
+                      investment.totalReturns
+                    )}
                   </Typography>
                 </div>
                 <div className="flex items-center justify-between">
                   <Typography variant="h5" className="font-semibold">
                     Total
                   </Typography>
-                  <Typography variant="h6">{investment.total_rate}</Typography>
+                  <Typography variant="h6">{investment.totalRate}</Typography>
                 </div>
               </div>
             </Link>
           ))}
       </div>
-      {data && data.investments.length === 0 && (
+      {data && data.meta.totalCount === 0 && (
         <div className="bg-white rounded shadow-sm">
           <Typography className="text-center py-6">Sin Inversiones</Typography>
         </div>

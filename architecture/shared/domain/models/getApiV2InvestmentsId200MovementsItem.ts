@@ -5,7 +5,16 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
+import type { GetApiV2InvestmentsId200MovementsItemAccount } from './getApiV2InvestmentsId200MovementsItemAccount';
+import type { GetApiV2InvestmentsId200MovementsItemEvent } from './getApiV2InvestmentsId200MovementsItemEvent';
+import type { GetApiV2InvestmentsId200MovementsItemCategory } from './getApiV2InvestmentsId200MovementsItemCategory';
 
 export type GetApiV2InvestmentsId200MovementsItem = {
   amount?: number;
+  datePurchase?: string;
+  id?: string;
+  description?: string;
+  account?: GetApiV2InvestmentsId200MovementsItemAccount;
+  event?: GetApiV2InvestmentsId200MovementsItemEvent;
+  category?: GetApiV2InvestmentsId200MovementsItemCategory;
 };

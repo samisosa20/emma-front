@@ -2,22 +2,23 @@ import { Controller } from "react-hook-form";
 import { MdArrowBack, MdDeleteOutline, MdCarCrash } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import {
-  AreaChart,
   Line,
   XAxis,
-  Area,
   Tooltip,
   CartesianGrid,
   YAxis,
   ResponsiveContainer,
+  LineChart,
 } from "recharts";
+import { format } from "date-fns";
 
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
-import { formatCurrency } from "@/share/helpers";
+import { getCurrencyFormatter } from "@/share/helpers";
+import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
 
 export default function InvestmentsCreate(props: any) {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function InvestmentsCreate(props: any) {
     idAppretiation,
     handleDeleteAppre = () => {},
     metrics = [],
+    data,
   } = props;
 
   return (
@@ -81,7 +83,7 @@ export default function InvestmentsCreate(props: any) {
       </div>
       {handleDelete && (
         <div className="mt-6">
-          <Cards title="balance" data={metrics} />
+          <Cards title="Metricas" data={metrics} />
         </div>
       )}
       <div className="mt-6 bg-white w-full px-6 py-4 max-w-[640px] mx-auto">
@@ -111,7 +113,7 @@ export default function InvestmentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"init_amount"}
+            name={"initAmount"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -119,7 +121,7 @@ export default function InvestmentsCreate(props: any) {
                   type="number"
                   placeholder="Monto inicial"
                   label="Monto inicial"
-                  id="init_amount"
+                  id="initAmount"
                   step="0.01"
                   onChange={(e) => {
                     onChange(e);
@@ -131,14 +133,14 @@ export default function InvestmentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
                   label="Moneda"
                   placeholder="Seleciona una opcion"
-                  id="badge_id"
+                  id="badgeId"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -150,7 +152,7 @@ export default function InvestmentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"date_investment"}
+            name={"dateInvestment"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -158,7 +160,7 @@ export default function InvestmentsCreate(props: any) {
                   type="date"
                   placeholder="Fecha de apertura"
                   label="Fecha de apertura"
-                  id="date_investment"
+                  id="dateInvestment"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -183,65 +185,50 @@ export default function InvestmentsCreate(props: any) {
           <Typography variant="p" className="p-4">
             Historico
           </Typography>
-          <ResponsiveContainer minWidth={300} aspect={3.25}>
-            <AreaChart
-              data={listAppretiations
-                .map((v: any) => {
-                  return {
-                    amount: v.amount,
-                    date: v.date_appreciation,
-                    init_amount: v.investment,
-                  };
-                })
-                .slice(0, 10)}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            >
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="date" />
-              <YAxis
-                tickFormatter={(value) => {
-                  if (value >= 1000000) {
-                    return `$ ${value / 1000000}M`;
-                  } else if (value >= 1000) {
-                    return `$ ${value / 1000}K`;
-                  }
-                  return value;
-                }}
-              />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip
-                formatter={(value, name) => {
-                  return [
-                    formatCurrency.format(Number(value)),
-                    name === "amount" ? "Apreciación" : "Inversión",
-                  ];
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="init_amount"
-                stroke="#82ca9d"
-                fillOpacity={1}
-                fill="url(#colorPv)"
-              />
-              <Area
-                type="monotone"
-                dataKey="amount"
-                stroke="#8884d8"
-                fillOpacity={1}
-                fill="url(#colorUv)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          <div className="flex items-center justify-center w-full h-72">
+            <ResponsiveContainer>
+              <LineChart
+                data={listAppretiations
+                  .map((v: any) => {
+                    return {
+                      amount: v.amount,
+                      date: v.dateAppreciation.split("T")[0],
+                    };
+                  })
+                  .slice(0, 10)}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              >
+                <XAxis dataKey="date" />
+                <YAxis
+                  tickFormatter={(value) => {
+                    if (value >= 1000000) {
+                      return `$ ${value / 1000000}M`;
+                    } else if (value >= 1000) {
+                      return `$ ${value / 1000}K`;
+                    }
+                    return value;
+                  }}
+                />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip
+                  formatter={(value, name) => {
+                    return [
+                      getCurrencyFormatter(data?.badge?.code, Number(value)),
+                      name === "amount" ? "Apreciación" : "Inversión",
+                    ];
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#82ca9d"
+                  name="Valorizacion"
+                  dot={false}
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
       {listAppretiations && (
@@ -258,15 +245,19 @@ export default function InvestmentsCreate(props: any) {
               onClick={() => handleEditAppretiation(appretiation.id)}
             >
               <div className="flex justify-between items-center">
+                <CurrencyBadgeFlag badge={data?.badge} />
                 <Typography
                   variant="h4"
                   className={
                     appretiation.amount > 0 ? "text-green-500" : "text-red-500"
                   }
                 >
-                  {formatCurrency.format(appretiation.amount)}
+                  {data?.badge?.symbol}
+                  {getCurrencyFormatter(data?.badge?.code, appretiation.amount)}
                 </Typography>
-                <Typography>{appretiation.date_appreciation}</Typography>
+                <Typography>
+                  {appretiation.dateAppreciation.split("T")[0]}
+                </Typography>
               </div>
             </div>
           ))}
@@ -289,18 +280,24 @@ export default function InvestmentsCreate(props: any) {
               <div className="flex justify-between items-center">
                 <div className="font-bold">
                   {movement.category?.name}{" "}
-                  {movement.add_withdrawal && " (Retiro/Abono)"}
+                  {movement.addWithdrawal && " (Retiro/Abono)"}
                 </div>
                 <div
                   className={
                     movement.amount > 0 ? "text-green-500" : "text-red-500"
                   }
                 >
-                  {formatCurrency.format(movement.amount)}
+                  {movement?.account?.badge?.symbol}
+                  {getCurrencyFormatter(
+                    movement?.account?.badge?.code,
+                    movement.amount
+                  )}
                 </div>
               </div>
               <div className="flex justify-between items-center pb-1">
-                <Typography>{movement.date_purchase}</Typography>
+                <Typography>
+                  {format(new Date(movement.datePurchase), "yyyy-MM-dd HH:mm")}
+                </Typography>
                 <Typography>{movement.account?.name}</Typography>
               </div>
               {movement.description && (
@@ -346,7 +343,7 @@ export default function InvestmentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"date_appreciation"}
+            name={"dateAppreciation"}
             control={controlAppre}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -354,7 +351,7 @@ export default function InvestmentsCreate(props: any) {
                   type="date"
                   placeholder="Fecha de la valorizacion"
                   label="Fecha de la valorizacion"
-                  id="date_appreciation"
+                  id="dateAppreciation"
                   onChange={(e) => {
                     onChange(e);
                   }}

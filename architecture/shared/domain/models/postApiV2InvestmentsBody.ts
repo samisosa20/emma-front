@@ -10,6 +10,7 @@ export type PostApiV2InvestmentsBody = {
   name?: string;
   initAmount?: number;
   endAmount?: number;
+  dateInvestment?: string;
   badgeId?: string;
   userId?: string;
 };

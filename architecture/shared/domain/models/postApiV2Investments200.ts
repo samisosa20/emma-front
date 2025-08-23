@@ -12,6 +12,7 @@ export type PostApiV2Investments200 = {
   name: string;
   initAmount: number;
   endAmount: number;
+  dateInvestment: string;
   badge: PostApiV2Investments200Badge;
   totalReturns: number;
   totalWithdrawal: number;

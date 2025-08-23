@@ -22,7 +22,9 @@ const Cards = (props: CardsProps) => {
         {data.map((value, i) => (
           <div
             className={`flex items-center py-2 border-b border-gray-200 ${
-              value.variation || value.code ? "justify-between" : "justify-end"
+              value.variation || value.code || value.title
+                ? "justify-between"
+                : "justify-end"
             }`}
             key={value.code + "-" + i}
           >
@@ -36,19 +38,31 @@ const Cards = (props: CardsProps) => {
                 {value.variation}%
               </Typography>
             )}
-            {value.flag !== null && value.flag !== undefined && (
-              <CurrencyBadgeFlag badge={value} />
+            {!value.title &&
+              value.flag !== null &&
+              value.flag !== undefined && <CurrencyBadgeFlag badge={value} />}
+            {value.title !== null && value.title !== undefined && (
+              <Typography variant="h6" className={``}>
+                {value.title}
+              </Typography>
             )}
 
-            <Typography
-              variant="h6"
-              className={`font-medium ${
-                value.amount < 0 ? "text-red-500" : "text-green-500"
-              }`}
-            >
-              <span>{value.symbol}</span>
-              {getCurrencyFormatter(value.code, value.amount)}
-            </Typography>
+            {value.amount && (
+              <Typography
+                variant="h6"
+                className={`font-medium ${
+                  value.amount < 0 ? "text-red-500" : "text-green-500"
+                }`}
+              >
+                <span>{value.symbol}</span>
+                {getCurrencyFormatter(value.code, value.amount)}
+              </Typography>
+            )}
+            {value.text && (
+              <Typography variant="h6" className={`font-medium`}>
+                {value.text}
+              </Typography>
+            )}
           </div>
         ))}
       </div>

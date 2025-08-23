@@ -1,30 +1,32 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 const investmentParamsSchema = z.object({
   name: z.string(),
-  init_amount: z.union([z.string(), z.number()]),
-  end_amount: z.union([z.string(), z.number()]),
-  badge_id: z.union([z.string(), z.number()]),
-  date_investment: z.string(),
+  initAmount: z.union([z.string(), z.number()]),
+  endAmount: z.union([z.string(), z.number()]),
+  badgeId: z.union([z.string(), z.number()]),
+  dateInvestment: z.string(),
 });
 
 const investmentSchema = z.object({
   name: z.string(),
-  init_amount: z.union([z.string(), z.number()]),
-  end_amount: z.union([z.string(), z.number()]),
-  badge_id: z.object({
+  initAmount: z.union([z.string(), z.number()]),
+  endAmount: z.union([z.string(), z.number()]),
+  badgeId: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),
-  date_investment: z.string(),
+  dateInvestment: z.string(),
 });
 
 const investmentAppretiationSchema = z.object({
   amount: z.union([z.string(), z.number()]),
-  date_appreciation: z.string(),
+  dateAppreciation: z.string(),
 });
 
 export type InvestmentSchema = z.infer<typeof investmentParamsSchema>;
-export type InvestmentAppretiaitonSchema = z.infer<typeof investmentAppretiationSchema>;
+export type InvestmentAppretiaitonSchema = z.infer<
+  typeof investmentAppretiationSchema
+>;
 
 export { investmentSchema, investmentAppretiationSchema };

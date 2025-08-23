@@ -10,4 +10,5 @@ export type PutApiV2InvestmentsIdBody = {
   name?: string;
   initAmount?: number;
   endAmount?: number;
+  dateInvestment?: string;
 };

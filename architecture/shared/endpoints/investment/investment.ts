@@ -32,6 +32,10 @@ import type {
   DeleteApiV2InvestmentsId400,
   DeleteApiV2InvestmentsId401,
   DeleteApiV2InvestmentsId500,
+  DeleteApiV2InvestmentsIdAppreciationAppreciationId200,
+  DeleteApiV2InvestmentsIdAppreciationAppreciationId400,
+  DeleteApiV2InvestmentsIdAppreciationAppreciationId401,
+  DeleteApiV2InvestmentsIdAppreciationAppreciationId500,
   GetApiV2Investments200,
   GetApiV2Investments400,
   GetApiV2Investments401,
@@ -45,10 +49,20 @@ import type {
   PostApiV2Investments401,
   PostApiV2Investments500,
   PostApiV2InvestmentsBody,
+  PostApiV2InvestmentsIdAppreciation200,
+  PostApiV2InvestmentsIdAppreciation400,
+  PostApiV2InvestmentsIdAppreciation401,
+  PostApiV2InvestmentsIdAppreciation500,
+  PostApiV2InvestmentsIdAppreciationBody,
   PutApiV2InvestmentsId200,
   PutApiV2InvestmentsId400,
   PutApiV2InvestmentsId401,
   PutApiV2InvestmentsId500,
+  PutApiV2InvestmentsIdAppreciationAppreciationId200,
+  PutApiV2InvestmentsIdAppreciationAppreciationId400,
+  PutApiV2InvestmentsIdAppreciationAppreciationId401,
+  PutApiV2InvestmentsIdAppreciationAppreciationId500,
+  PutApiV2InvestmentsIdAppreciationAppreciationIdBody,
   PutApiV2InvestmentsIdBody
 } from '../../domain/models';
 
@@ -507,6 +521,189 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteApiV2InvestmentsIdMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    /**
+ * Crear una nueva apreciación
+ */
+export const postApiV2InvestmentsIdAppreciation = (
+    id: string,
+    postApiV2InvestmentsIdAppreciationBody: BodyType<PostApiV2InvestmentsIdAppreciationBody>,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<PostApiV2InvestmentsIdAppreciation200>(
+      {url: `/api/v2/investments/${id}/appreciation`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postApiV2InvestmentsIdAppreciationBody, signal
+    },
+      options);
+    }
+  
+
+
+export const getPostApiV2InvestmentsIdAppreciationMutationOptions = <TError = ErrorType<PostApiV2InvestmentsIdAppreciation400 | PostApiV2InvestmentsIdAppreciation401 | PostApiV2InvestmentsIdAppreciation500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>, TError,{id: string;data: BodyType<PostApiV2InvestmentsIdAppreciationBody>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>, TError,{id: string;data: BodyType<PostApiV2InvestmentsIdAppreciationBody>}, TContext> => {
+
+const mutationKey = ['postApiV2InvestmentsIdAppreciation'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>, {id: string;data: BodyType<PostApiV2InvestmentsIdAppreciationBody>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  postApiV2InvestmentsIdAppreciation(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiV2InvestmentsIdAppreciationMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>>
+    export type PostApiV2InvestmentsIdAppreciationMutationBody = BodyType<PostApiV2InvestmentsIdAppreciationBody>
+    export type PostApiV2InvestmentsIdAppreciationMutationError = ErrorType<PostApiV2InvestmentsIdAppreciation400 | PostApiV2InvestmentsIdAppreciation401 | PostApiV2InvestmentsIdAppreciation500>
+
+    export const usePostApiV2InvestmentsIdAppreciation = <TError = ErrorType<PostApiV2InvestmentsIdAppreciation400 | PostApiV2InvestmentsIdAppreciation401 | PostApiV2InvestmentsIdAppreciation500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>, TError,{id: string;data: BodyType<PostApiV2InvestmentsIdAppreciationBody>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postApiV2InvestmentsIdAppreciation>>,
+        TError,
+        {id: string;data: BodyType<PostApiV2InvestmentsIdAppreciationBody>},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApiV2InvestmentsIdAppreciationMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    /**
+ * Actualizar una apreciación existente por ID
+ */
+export const putApiV2InvestmentsIdAppreciationAppreciationId = (
+    id: string,
+    appreciationId: string,
+    putApiV2InvestmentsIdAppreciationAppreciationIdBody: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>,
+ options?: SecondParameter<typeof apiClient>,) => {
+      
+      
+      return apiClient<PutApiV2InvestmentsIdAppreciationAppreciationId200>(
+      {url: `/api/v2/investments/${id}/appreciation/${appreciationId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putApiV2InvestmentsIdAppreciationAppreciationIdBody
+    },
+      options);
+    }
+  
+
+
+export const getPutApiV2InvestmentsIdAppreciationAppreciationIdMutationOptions = <TError = ErrorType<PutApiV2InvestmentsIdAppreciationAppreciationId400 | PutApiV2InvestmentsIdAppreciationAppreciationId401 | PutApiV2InvestmentsIdAppreciationAppreciationId500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string;data: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string;data: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>}, TContext> => {
+
+const mutationKey = ['putApiV2InvestmentsIdAppreciationAppreciationId'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>, {id: string;appreciationId: string;data: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>}> = (props) => {
+          const {id,appreciationId,data} = props ?? {};
+
+          return  putApiV2InvestmentsIdAppreciationAppreciationId(id,appreciationId,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutApiV2InvestmentsIdAppreciationAppreciationIdMutationResult = NonNullable<Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>>
+    export type PutApiV2InvestmentsIdAppreciationAppreciationIdMutationBody = BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>
+    export type PutApiV2InvestmentsIdAppreciationAppreciationIdMutationError = ErrorType<PutApiV2InvestmentsIdAppreciationAppreciationId400 | PutApiV2InvestmentsIdAppreciationAppreciationId401 | PutApiV2InvestmentsIdAppreciationAppreciationId500>
+
+    export const usePutApiV2InvestmentsIdAppreciationAppreciationId = <TError = ErrorType<PutApiV2InvestmentsIdAppreciationAppreciationId400 | PutApiV2InvestmentsIdAppreciationAppreciationId401 | PutApiV2InvestmentsIdAppreciationAppreciationId500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string;data: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof putApiV2InvestmentsIdAppreciationAppreciationId>>,
+        TError,
+        {id: string;appreciationId: string;data: BodyType<PutApiV2InvestmentsIdAppreciationAppreciationIdBody>},
+        TContext
+      > => {
+
+      const mutationOptions = getPutApiV2InvestmentsIdAppreciationAppreciationIdMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    /**
+ * Eliminar una apreciación existente por ID
+ */
+export const deleteApiV2InvestmentsIdAppreciationAppreciationId = (
+    id: string,
+    appreciationId: string,
+ options?: SecondParameter<typeof apiClient>,) => {
+      
+      
+      return apiClient<DeleteApiV2InvestmentsIdAppreciationAppreciationId200>(
+      {url: `/api/v2/investments/${id}/appreciation/${appreciationId}`, method: 'DELETE'
+    },
+      options);
+    }
+  
+
+
+export const getDeleteApiV2InvestmentsIdAppreciationAppreciationIdMutationOptions = <TError = ErrorType<DeleteApiV2InvestmentsIdAppreciationAppreciationId400 | DeleteApiV2InvestmentsIdAppreciationAppreciationId401 | DeleteApiV2InvestmentsIdAppreciationAppreciationId500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string}, TContext> => {
+
+const mutationKey = ['deleteApiV2InvestmentsIdAppreciationAppreciationId'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>, {id: string;appreciationId: string}> = (props) => {
+          const {id,appreciationId} = props ?? {};
+
+          return  deleteApiV2InvestmentsIdAppreciationAppreciationId(id,appreciationId,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiV2InvestmentsIdAppreciationAppreciationIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>>
+    
+    export type DeleteApiV2InvestmentsIdAppreciationAppreciationIdMutationError = ErrorType<DeleteApiV2InvestmentsIdAppreciationAppreciationId400 | DeleteApiV2InvestmentsIdAppreciationAppreciationId401 | DeleteApiV2InvestmentsIdAppreciationAppreciationId500>
+
+    export const useDeleteApiV2InvestmentsIdAppreciationAppreciationId = <TError = ErrorType<DeleteApiV2InvestmentsIdAppreciationAppreciationId400 | DeleteApiV2InvestmentsIdAppreciationAppreciationId401 | DeleteApiV2InvestmentsIdAppreciationAppreciationId500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>, TError,{id: string;appreciationId: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteApiV2InvestmentsIdAppreciationAppreciationId>>,
+        TError,
+        {id: string;appreciationId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteApiV2InvestmentsIdAppreciationAppreciationIdMutationOptions(options);
 
       return useMutation(mutationOptions , queryClient);
     }

@@ -12,6 +12,7 @@ export type DeleteApiV2InvestmentsId200 = {
   name: string;
   initAmount: number;
   endAmount: number;
+  dateInvestment: string;
   badge: DeleteApiV2InvestmentsId200Badge;
   totalReturns: number;
   totalWithdrawal: number;

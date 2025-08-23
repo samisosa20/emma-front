@@ -8,5 +8,7 @@ export interface CardsProps {
     variation?: number;
     symbol: string;
     flag?: string;
+    title?: string;
+    text?: string;
   }[];
 }

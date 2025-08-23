@@ -12,6 +12,7 @@ export type PutApiV2MovementsId200Investment = {
   name?: string;
   initAmount?: number;
   endAmount?: number;
+  dateInvestment?: string;
   badge?: PutApiV2MovementsId200InvestmentBadge;
   totalReturns?: number;
   totalWithdrawal?: number;
