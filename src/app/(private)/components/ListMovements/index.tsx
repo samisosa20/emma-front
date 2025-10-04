@@ -33,7 +33,7 @@ export default function ListMovements({
   const { Typography } = useComponents();
   return (
     <div className="mt-6 max-h-[65vh] overflow-y-auto">
-      {listMovements.map(
+      {listMovements?.map(
         (movement: GetApiV2Movements200ContentItem, index: number) => {
           const Icon = getIconComponent(movement.category.icon ?? "PiAcorn");
           const currentDate = format(
@@ -105,7 +105,7 @@ export default function ListMovements({
           Haz clic para cargar mas.
         </Typography>
       )}
-      {listMovements.length === 0 && (
+      {(!listMovements || listMovements?.length === 0) && (
         <Typography className="text-center py-6">Sin resultados</Typography>
       )}
     </div>

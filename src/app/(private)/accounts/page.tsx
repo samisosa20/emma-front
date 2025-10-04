@@ -100,7 +100,9 @@ const Accounts = () => {
                     <Typography
                       variant="p"
                       className={`text-right ${
-                        account?.balance ? "text-green-500" : "text-red-500"
+                        account?.balance >= 0
+                          ? "text-green-500"
+                          : "text-red-500"
                       }`}
                     >
                       {account?.badge?.symbol}

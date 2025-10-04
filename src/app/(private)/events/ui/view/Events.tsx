@@ -50,7 +50,10 @@ const Events = (props: { data: GetApiV2Events200 }) => {
                   <Typography variant="h2">{event.name}</Typography>
                 </div>
                 {event.balances.map((balance, index) => (
-                  <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-gray-200"
+                  >
                     {balance.flag !== null && balance.flag !== undefined && (
                       <CurrencyBadgeFlag badge={balance} />
                     )}

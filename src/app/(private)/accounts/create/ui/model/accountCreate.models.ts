@@ -17,11 +17,15 @@ import { useUserStore } from "@/share/storage";
 const useAccountCreate = () => {
   const router = useRouter();
   const param = useParams();
-  const { badges, user } = useUserStore();
+  const { badges, user, accountsType } = useUserStore();
 
-  const [typeOptions, setTypeOptions] = useState([]);
+  const [typeOptions, setTypeOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [isDesactivate, setIsDesactivate] = useState(false);
-  const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [title, setTitle] = useState("Creacion de Cuentas");
 
   const { handleSubmit, control, reset, watch } = useForm({
@@ -191,11 +195,23 @@ const useAccountCreate = () => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
     if (user) {
-      const userjson = JSON.parse(user);
-      setTypeOptions(userjson.accounts_type);
-      setCurrencyOptions(userjson.currencies);
+      setTypeOptions(
+        accountsType?.map((v) => {
+          return {
+            label: String(v.name),
+            value: String(v.id),
+          };
+        })
+      );
+      setCurrencyOptions(
+        badges?.map((v) => {
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
+        })
+      );
     }
     if (param.id) {
       setTitle("Edicion de Cuentas");
