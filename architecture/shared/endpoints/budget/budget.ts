@@ -40,6 +40,11 @@ import type {
   GetApiV2BudgetsId400,
   GetApiV2BudgetsId401,
   GetApiV2BudgetsId500,
+  GetApiV2BudgetsListYear200Item,
+  GetApiV2BudgetsListYear400,
+  GetApiV2BudgetsListYear401,
+  GetApiV2BudgetsListYear500,
+  GetApiV2BudgetsListYearParams,
   PostApiV2Budgets200,
   PostApiV2Budgets400,
   PostApiV2Budgets401,
@@ -510,4 +515,139 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
+    /**
+ * Obtener el listado por años de los presupuestos
+ */
+export const getApiV2BudgetsListYear = (
+    params?: GetApiV2BudgetsListYearParams,
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2BudgetsListYear200Item[]>(
+      {url: `/api/v2/budgets/list-year`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2BudgetsListYearQueryKey = (params?: GetApiV2BudgetsListYearParams,) => {
+    return [`/api/v2/budgets/list-year`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetApiV2BudgetsListYearQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsListYearQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>> = ({ signal }) => getApiV2BudgetsListYear(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2BudgetsListYearQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>>
+export type GetApiV2BudgetsListYearQueryError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>
+
+
+export function useGetApiV2BudgetsListYear<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params: undefined |  GetApiV2BudgetsListYearParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2BudgetsListYear>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2BudgetsListYear>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2BudgetsListYear<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2BudgetsListYear>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2BudgetsListYear>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2BudgetsListYear<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2BudgetsListYear<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2BudgetsListYearQueryOptions(params,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2BudgetsListYearSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsListYearQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>> = ({ signal }) => getApiV2BudgetsListYear(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2BudgetsListYearSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>>
+export type GetApiV2BudgetsListYearSuspenseQueryError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>
+
+
+export function useGetApiV2BudgetsListYearSuspense<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params: undefined |  GetApiV2BudgetsListYearParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2BudgetsListYearSuspense<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2BudgetsListYearSuspense<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2BudgetsListYearSuspense<TData = Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError = ErrorType<GetApiV2BudgetsListYear400 | GetApiV2BudgetsListYear401 | GetApiV2BudgetsListYear500>>(
+ params?: GetApiV2BudgetsListYearParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2BudgetsListYear>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2BudgetsListYearSuspenseQueryOptions(params,options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

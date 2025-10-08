@@ -227,56 +227,61 @@ export default function Dashboard(props: any) {
             )}
           </div>
         </div>
-        <div id="fiona-chart_incomes" className="bg-white">
-          <Typography variant="p" className="px-4 pt-4">
-            Movimientos
-          </Typography>
-          <div className="flex items-center justify-center">
-            <PieChart
-              width={340}
-              height={340}
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-            >
-              <Pie
-                data={data}
-                dataKey="amount"
-                nameKey="category"
-                innerRadius={130}
-                outerRadius={150}
-                cx="50%"
-                cy="50%"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div id="fiona-chart_incomes" className="bg-white">
+            <Typography variant="p" className="px-4 pt-4">
+              Movimientos
+            </Typography>
+            <div className="flex items-center justify-center">
+              <PieChart
+                width={340}
+                height={340}
+                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
               >
-                {data &&
-                  data.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-              </Pie>
-              <Tooltip
-                formatter={(value) => {
-                  return (
-                    data[0]?.symbol +
-                    getCurrencyFormatter(data[0]?.code, Number(value))
-                  );
-                }}
-              />
-              <Label width={30} position="center">
-                {`${data[0]?.symbol}${getCurrencyFormatter(
-                  data[0]?.code,
-                  data?.reduce((sum: number, item: any) => sum + item.amount, 0)
-                )}`}
-              </Label>
-            </PieChart>
+                <Pie
+                  data={data}
+                  dataKey="amount"
+                  nameKey="category"
+                  innerRadius={130}
+                  outerRadius={150}
+                  cx="50%"
+                  cy="50%"
+                >
+                  {data &&
+                    data.map((entry: any, index: number) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value) => {
+                    return (
+                      data[0]?.symbol +
+                      getCurrencyFormatter(data[0]?.code, Number(value))
+                    );
+                  }}
+                />
+                <Label width={30} position="center">
+                  {`${data[0]?.symbol}${getCurrencyFormatter(
+                    data[0]?.code,
+                    data?.reduce(
+                      (sum: number, item: any) => sum + item.amount,
+                      0
+                    )
+                  )}`}
+                </Label>
+              </PieChart>
+            </div>
           </div>
+          <ListItems
+            title="Consolidado"
+            data={data}
+            variant="modal"
+            showHistory
+            currency={data.currency}
+            onClickModal={getMovements}
+            dataModal={listMovements}
+          />
         </div>
-        <ListItems
-          title="Consolidado"
-          data={data}
-          variant="modal"
-          showHistory
-          currency={data.currency}
-          onClickModal={getMovements}
-          dataModal={listMovements}
-        />
       </div>
       {dataBalance?.length > 0 && (
         <div className="mt-6">

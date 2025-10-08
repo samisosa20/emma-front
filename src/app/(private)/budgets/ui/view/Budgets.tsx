@@ -6,7 +6,8 @@ import { MdAddCircleOutline } from "react-icons/md";
 import useComponents from "@/share/components";
 
 // Helpers
-import { formatCurrency, driverBudget } from "@/share/helpers";
+import { driverBudget, getCurrencyFormatter } from "@/share/helpers";
+import { GetApiV2BudgetsListYear200Item } from "@@@/domain/models";
 
 export default function Budgets(props: any) {
   const { data } = props;
@@ -33,18 +34,18 @@ export default function Budgets(props: any) {
       </div>
       <div className="mt-6">
         {data &&
-          data.map((budget: any) => (
-            <div className="mb-4" key={budget.currency}>
+          data.map((budget: GetApiV2BudgetsListYear200Item) => (
+            <div className="mb-4" key={budget.badge}>
               <div className="flex items-center justify-between">
-                <Typography variant="h2">{budget.currency}</Typography>
+                <Typography variant="h2">{budget.badge}</Typography>
               </div>
               <div
                 className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2`}
               >
-                {budget.years.map((year: any) => (
+                {budget.years.map((year) => (
                   <Link
-                    href={`/budgets/${year.year}/${budget.currency}`}
-                    key={year.year + budget.currency}
+                    href={`/budgets/${year.year}/${year.badge?.id}`}
+                    key={year.year + budget.badge}
                   >
                     <div className="bg-white rounded shadow-sm p-4">
                       <Typography variant="h2">{year.year}</Typography>
@@ -53,7 +54,11 @@ export default function Budgets(props: any) {
                           Ingresos:
                         </Typography>
                         <Typography variant="h6" className={"text-green-500"}>
-                          {formatCurrency.format(year.incomes)}
+                          {year.badge?.symbol}
+                          {getCurrencyFormatter(
+                            year.badge?.code,
+                            Number(year.incomes)
+                          )}
                         </Typography>
                       </div>
                       <div className="flex items-center justify-between">
@@ -61,7 +66,30 @@ export default function Budgets(props: any) {
                           Egresos:
                         </Typography>
                         <Typography variant="h6" className={"text-red-500"}>
-                          {formatCurrency.format(year.expensives)}
+                          {year.badge?.symbol}
+                          {getCurrencyFormatter(
+                            year.badge?.code,
+                            Number(year.expenses)
+                          )}
+                        </Typography>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Typography variant="h5" className="font-semibold">
+                          Utilidad:
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                          className={
+                            Number(year.utility) >= 0
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }
+                        >
+                          {year.badge?.symbol}
+                          {getCurrencyFormatter(
+                            year.badge?.code,
+                            Number(year.utility)
+                          )}
                         </Typography>
                       </div>
                     </div>
