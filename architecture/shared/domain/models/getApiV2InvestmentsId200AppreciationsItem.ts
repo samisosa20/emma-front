@@ -7,6 +7,7 @@
  */
 
 export type GetApiV2InvestmentsId200AppreciationsItem = {
+  id?: string;
   amount?: number;
   dateAppreciation?: string;
 };

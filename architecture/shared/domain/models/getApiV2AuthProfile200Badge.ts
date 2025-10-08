@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2AppreciationsId200Badge = {
+export type GetApiV2AuthProfile200Badge = {
   id?: string;
   code?: string;
   name?: string;

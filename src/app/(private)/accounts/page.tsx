@@ -9,6 +9,7 @@ import useAccounts from "./controller";
 import useComponents from "@/share/components";
 import useComponentsLayout from "../components";
 import { getCurrencyFormatter } from "@/share/helpers";
+import CurrencyBadgeFlag from "../components/CurrencyBadgeFlag";
 
 const Accounts = () => {
   const { Typography, Switch, Input, Loading, TitleHelp } = useComponents();
@@ -94,6 +95,7 @@ const Accounts = () => {
                 <div className="bg-white rounded shadow-sm p-4">
                   <div className="flex items-center justify-between">
                     <Typography variant="h2">{account?.name}</Typography>
+                    <CurrencyBadgeFlag badge={account?.badge} />
                   </div>
                   <div className="flex items-center justify-between">
                     <Typography>{account?.type?.name}</Typography>

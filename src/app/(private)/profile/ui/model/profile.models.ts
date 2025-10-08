@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -15,12 +15,17 @@ import type {
   DestroyAccountSchema,
 } from "@/share/validation";
 
+import { useGetApiV2AuthProfileSuspense } from "@@@/endpoints/auth/auth";
+import { useUserStore } from "@/share/storage";
+
 export default function useProfileViewModel() {
   const router = useRouter();
-  const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [idProfile, setIdProfile] = useState(0);
+  const { badges, user, logout } = useUserStore();
+
+  const [currencyOptions, setCurrencyOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [emailUser, setEmailUser] = useState("");
   const [verify, setVerify] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -36,26 +41,7 @@ export default function useProfileViewModel() {
     resolver: zodResolver(destroyAccountSchema),
   });
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["profile"],
-    queryFn: async () => {
-      const { getProfile } = new AuthUseCase(
-        new AuthApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await getProfile();
-
-      if (result.error) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
-      return result;
-    },
-  });
+  const { isLoading, data, isError } = useGetApiV2AuthProfileSuspense();
 
   const mutation = useMutation({
     mutationFn: async (data: ParamsProfileSchema) => {
@@ -67,7 +53,7 @@ export default function useProfileViewModel() {
             customConfig: customConfigHeader(),
           })
         );
-        const result = await updateProfile(idProfile, data);
+        const result = await updateProfile(0, data);
         if (result.error) {
           toast.error(result.message);
           setIsSubmitting(true);
@@ -75,7 +61,7 @@ export default function useProfileViewModel() {
         }
         const profile = JSON.parse(localStorage.getItem("fiona-user") ?? "{}");
         profile.name = data.name;
-        profile.currency = Number(data.badge_id);
+        profile.currency = Number(data.badgeId);
         localStorage.setItem("fiona-user", JSON.stringify(profile));
         toast.success(result.message);
       }
@@ -126,7 +112,7 @@ export default function useProfileViewModel() {
   });
 
   const onSubmitDestroy = (data: DestroyAccountSchema) => {
-    if (data.email !== emailUser) {
+    if (data.email !== user?.email) {
       setError("email", {
         type: "custom",
         message: "El texto ingresado no coincide con el solicitado",
@@ -147,7 +133,7 @@ export default function useProfileViewModel() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("fiona-user");
+    logout();
     router.push("/login");
   };
 
@@ -165,18 +151,21 @@ export default function useProfileViewModel() {
   }, [isError]);
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
     if (user) {
-      const userjson = JSON.parse(user);
-      setVerify(userjson.confirmedEmailAt);
-      setCurrencyOptions(userjson.currencies);
+      setVerify(!!user?.confirmedEmailAt);
+      setCurrencyOptions(
+        badges?.map((v) => {
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
+        })
+      );
     }
   }, []);
 
   useEffect(() => {
     if (data) {
-      setIdProfile(data.id);
-      setEmailUser(data.email);
       reset(data);
     }
   }, [data]);
@@ -194,7 +183,7 @@ export default function useProfileViewModel() {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
-    emailUser,
+    user,
     verify,
     handeResendVerify,
     isSubmitting,

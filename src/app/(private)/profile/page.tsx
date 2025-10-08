@@ -19,7 +19,7 @@ export default function Page() {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
-    emailUser,
+    user,
     verify,
     handeResendVerify,
     isSubmitting,
@@ -44,7 +44,7 @@ export default function Page() {
       controlDestroy={controlDestroy}
       onSubmitDestroy={onSubmitDestroy}
       handleSubmitDestroy={handleSubmitDestroy}
-      emailUser={emailUser}
+      user={user}
       verify={verify}
       handeResendVerify={handeResendVerify}
       isSubmitting={isSubmitting}

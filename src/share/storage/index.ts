@@ -18,6 +18,7 @@ type UserStore = {
   accountsType: PostApiV2AuthLogin200AccountsTypeItem[];
   user: PostApiV2AuthLogin200Data;
   setLoginData: (login: PostApiV2AuthLogin200) => void;
+  logout: () => void;
 };
 
 export const useUserStore = create<UserStore>()(
@@ -37,6 +38,15 @@ export const useUserStore = create<UserStore>()(
           periods: login.periods,
           badges: login.badges,
           accountsType: login.accountsType,
+        }),
+      logout: () =>
+        set({
+          token: "",
+          user: {},
+          groupsCategory: [],
+          periods: [],
+          badges: [],
+          accountsType: [],
         }),
     }),
     {

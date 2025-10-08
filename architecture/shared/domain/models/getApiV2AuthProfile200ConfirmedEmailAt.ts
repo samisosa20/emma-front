@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2Appreciations200MetaPreviousPage = null | number;
+export type GetApiV2AuthProfile200ConfirmedEmailAt = null | string;

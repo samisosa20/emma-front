@@ -5,9 +5,6 @@ import { useRouter } from "next/navigation";
 //components
 import useComponents from "@/share/components";
 
-// Helpers
-import { formatCurrency } from "@/share/helpers";
-
 export default function PaymentsCreate(props: any) {
   const router = useRouter();
   const { Typography, Button, Input, FormControl, AutoComplete } =
@@ -21,6 +18,7 @@ export default function PaymentsCreate(props: any) {
     handleDelete,
     listAccounts,
     listCategories,
+    isSubmitting,
   } = props;
 
   return (
@@ -38,6 +36,7 @@ export default function PaymentsCreate(props: any) {
               <Button
                 onClick={handleDelete}
                 className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
+                disabled={isSubmitting}
               >
                 <MdDeleteOutline />
                 <Typography className="text-white">Eliminar</Typography>
@@ -124,7 +123,7 @@ export default function PaymentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"start_date"}
+            name={"startDate"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -132,7 +131,7 @@ export default function PaymentsCreate(props: any) {
                   type="date"
                   placeholder="Fecha de inicio"
                   label="Fecha de inicio"
-                  id="start_date"
+                  id="startDate"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -143,7 +142,7 @@ export default function PaymentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"end_date"}
+            name={"endDate"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -151,7 +150,7 @@ export default function PaymentsCreate(props: any) {
                   type="date"
                   placeholder="Fecha final"
                   label="Fecha final"
-                  id="end_date"
+                  id="endDate"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -162,7 +161,7 @@ export default function PaymentsCreate(props: any) {
             )}
           />
           <Controller
-            name={"specific_day"}
+            name={"specificDay"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -170,11 +169,10 @@ export default function PaymentsCreate(props: any) {
                   type="number"
                   placeholder="Dia de la transacción"
                   label="Dia de la transacción"
-                  id="specific_day"
+                  id="specificDay"
                   step="1"
                   min="1"
                   max="31"
-                  defaultValue={1}
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -188,6 +186,7 @@ export default function PaymentsCreate(props: any) {
             <Button
               type="submit"
               className="mt-8 col-span-2 w-full lg:w-[350px]"
+              disabled={isSubmitting}
             >
               Guardar
             </Button>

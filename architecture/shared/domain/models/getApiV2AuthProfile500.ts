@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2Appreciations401 = {
+export type GetApiV2AuthProfile500 = {
   statusCode?: number;
   error?: string;
   message?: string;

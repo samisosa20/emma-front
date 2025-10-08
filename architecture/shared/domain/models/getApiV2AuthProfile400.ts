@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2AppreciationsId200Type = {
-  id?: string;
-  name?: string;
-  createdAt?: string;
-  updatedAt?: string;
+export type GetApiV2AuthProfile400 = {
+  statusCode?: number;
+  error?: string;
+  message?: string;
 };

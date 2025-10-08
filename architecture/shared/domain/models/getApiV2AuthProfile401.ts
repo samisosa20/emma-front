@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type DeleteApiV2MovementsId200InvestmentAppreciationsItem = {
-  amount?: number;
+export type GetApiV2AuthProfile401 = {
+  statusCode?: number;
+  error?: string;
+  message?: string;
 };

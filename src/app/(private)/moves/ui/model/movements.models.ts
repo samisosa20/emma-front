@@ -23,7 +23,7 @@ import { useUserStore } from "@/share/storage";
 export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
-  const { badges, user } = useUserStore();
+  const { user } = useUserStore();
 
   const [title, setTitle] = useState("Creacion de Movimientos");
   const [listAccounts, setListAccounts] = useState<any[]>([]);

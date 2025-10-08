@@ -1,224 +1,160 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { paymentsSchema } from "@/share/validation";
-import type { PaymentsParamsSchema } from "@/share/validation";
-import { customConfigHeader } from "@/share/helpers";
 
-import { PaymentUseCase } from "@@/application/payment.use-case";
-import { PaymentApiAdapter } from "@@/infrastructure/payment-api.adapter";
-import { AccountUseCase } from "@@/application/account.use-case";
-import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
-import { CategoryUseCase } from "@@/application/category.use-case";
-import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
+import {
+  useGetApiV2PlannedPaymentsIdSuspense,
+  useDeleteApiV2PlannedPaymentsId,
+  usePutApiV2PlannedPaymentsId,
+  usePostApiV2PlannedPayments,
+} from "@@@/endpoints/planned-payment/planned-payment";
+import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
+import { useUserStore } from "@/share/storage";
 
 export default function usePaymentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
+  const { user } = useUserStore();
+
   const [title, setTitle] = useState("Creacion de Pagos");
   const [listAccounts, setListAccounts] = useState<any>([]);
   const [listCategories, setListCategories] = useState<any>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
       account: undefined,
       category: undefined,
       description: "",
-      end_date: "",
-      start_date: undefined,
-      amount: "",
-      specific_day: 1,
+      endDate: "",
+      startDate: undefined,
+      amount: 0,
+      specificDay: 1,
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createPayment } = new PaymentUseCase(
-          new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createPayment(data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutation = usePostApiV2PlannedPayments();
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: PaymentsParamsSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editPayment } = new PaymentUseCase(
-          new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await editPayment(id, data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationEdit = usePutApiV2PlannedPaymentsId();
 
-  const mutationDelete = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deletePayment } = new PaymentUseCase(
-          new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await deletePayment(id);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationDelete = useDeleteApiV2PlannedPaymentsId();
 
-  const { data } = useQuery({
-    queryKey: ["investmentDetail", param.id],
-    queryFn: async () => {
-      if (param.id) {
-        const { getPaymentDetail } = new PaymentUseCase(
-          new PaymentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
+  const { data, refetch } = useGetApiV2PlannedPaymentsIdSuspense(
+    String(param.id)
+  );
 
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(String(param.id));
-        const result = await getPaymentDetail(id);
+  const { data: dataListAccounts, isError: isErrorAccount } =
+    useGetApiV2AccountsSuspense();
 
-        return result;
-      }
-      return null;
-    },
-  });
-
-  const { data: dataListAccounts } = useQuery({
-    queryKey: ["accountPayments"],
-    queryFn: async () => {
-      const { listAccounts } = new AccountUseCase(
-        new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await listAccounts();
-
-      return result;
-    },
-  });
-
-  const { data: dataListCategories } = useQuery({
-    queryKey: ["categoryPayments"],
-    queryFn: async () => {
-      const { listSelectCategories } = new CategoryUseCase(
-        new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const result = await listSelectCategories();
-
-      return result;
-    },
-  });
+  const { data: dataListCategories, isError: isErrorCategory } =
+    useGetApiV2CategoriesSuspense();
 
   const onSubmit = (data: any) => {
+    setIsSubmitting(true);
     const formData = {
-      ...data,
-      category_id: data.category ? data.category.value : 0,
-      account_id: data.account.value,
+      amount: Number(data.amount),
+      specificDay: Number(data.specificDay),
+      description: data.description ? data.description : null,
+      categoryId: data.category ? data.category.value : 0,
+      accountId: data.account.value,
+      startDate: new Date(data.startDate).toISOString(),
+      endDate: data.endDate ? new Date(data.endDate).toISOString() : null,
     };
     if (param.id) {
-      mutationEdit.mutate(formData);
+      mutationEdit.mutate(
+        {
+          data: formData,
+          id: String(param.id),
+        },
+        {
+          onSuccess: (data) => {
+            toast.success("Pago editado correctamente");
+            router.back();
+          },
+          onError: (error) => {
+            toast.error(error.message);
+            setIsSubmitting(false);
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        {
+          data: formData,
+        },
+        {
+          onSuccess: (data) => {
+            toast.success("Pago creado correctamente");
+            router.back();
+          },
+          onError: (error) => {
+            toast.error(error.message);
+            setIsSubmitting(false);
+          },
+        }
+      );
     }
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate();
+    setIsSubmitting(true);
+    mutationDelete.mutate(
+      { id: String(param.id) },
+      {
+        onSuccess: (data) => {
+          toast.success("Pago eliminado correctamente");
+          router.back();
+        },
+        onError: (error) => {
+          toast.error(error.message);
+          setIsSubmitting(false);
+        },
+      }
+    );
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
     if (!user) {
-      localStorage.removeItem("fiona-user");
       router.push("/login");
     } else {
       if (param.id) {
+        refetch();
         setTitle("Edicion de Pagos");
       }
     }
   }, []);
 
   useEffect(() => {
-    if (data) {
-      // @ts-ignore
+    if (data?.id) {
       reset({
         account: { value: data.account?.id, label: data.account?.name },
         category: { value: data.category?.id, label: data.category?.name },
         description: data.description ? data.description : "",
-        end_date: data.end_date ? data.end_date : "",
-        start_date: data.start_date.split(" ")[0],
-        amount: data.amount.toString(),
-        specific_day: data.specific_day.toString(),
+        endDate: data.endDate ? data.endDate.split("T")[0] : "",
+        startDate: data.startDate.split("T")[0],
+        amount: data.amount,
+        specificDay: data.specificDay,
       });
     }
   }, [data]);
 
   useEffect(() => {
-    if (dataListAccounts && dataListAccounts.accounts) {
+    if (dataListAccounts && dataListAccounts.content) {
       setListAccounts(
-        dataListAccounts.accounts
-          .filter((v) => !v.deleted_at)
+        dataListAccounts.content
+          .filter((v) => !v.deletedAt)
           .map((account) => {
             return {
-              label: account.name,
+              label: account.name + " - " + account.badge?.code,
               value: account.id,
-              badge_id: account.badge_id,
+              badgeId: account.badge.id,
             };
           })
       );
@@ -226,8 +162,17 @@ export default function usePaymentsCreateViewModel() {
   }, [dataListAccounts]);
 
   useEffect(() => {
-    if (dataListCategories && Array.isArray(dataListCategories)) {
-      setListCategories(dataListCategories);
+    if (dataListCategories && Array.isArray(dataListCategories.content)) {
+      setListCategories(
+        dataListCategories.content.map((category) => {
+          return {
+            label: category.name,
+            value: category.id,
+            icon: category.icon,
+            color: category.color,
+          };
+        })
+      );
     }
   }, [dataListCategories]);
 
@@ -239,5 +184,6 @@ export default function usePaymentsCreateViewModel() {
     listCategories,
     listAccounts,
     handleDelete,
+    isSubmitting,
   };
 }

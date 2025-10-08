@@ -6,16 +6,32 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery,
+  useSuspenseQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query';
 
 import type {
+  GetApiV2AuthProfile200,
+  GetApiV2AuthProfile400,
+  GetApiV2AuthProfile401,
+  GetApiV2AuthProfile500,
   PostApiV2AuthConfirmEmail200,
   PostApiV2AuthConfirmEmail400,
   PostApiV2AuthConfirmEmail401,
@@ -356,4 +372,138 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
+    /**
+ * Obtener detalles del perfil del usuario autenticado
+ */
+export const getApiV2AuthProfile = (
     
+ options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+) => {
+      
+      
+      return apiClient<GetApiV2AuthProfile200>(
+      {url: `/api/v2/auth/profile`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getGetApiV2AuthProfileQueryKey = () => {
+    return [`/api/v2/auth/profile`] as const;
+    }
+
+    
+export const getGetApiV2AuthProfileQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2AuthProfileQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2AuthProfile>>> = ({ signal }) => getApiV2AuthProfile(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2AuthProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2AuthProfile>>>
+export type GetApiV2AuthProfileQueryError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>
+
+
+export function useGetApiV2AuthProfile<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2AuthProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2AuthProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2AuthProfile<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV2AuthProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV2AuthProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2AuthProfile<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2AuthProfile<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2AuthProfileQueryOptions(options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetApiV2AuthProfileSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2AuthProfileQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2AuthProfile>>> = ({ signal }) => getApiV2AuthProfile(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV2AuthProfileSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV2AuthProfile>>>
+export type GetApiV2AuthProfileSuspenseQueryError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>
+
+
+export function useGetApiV2AuthProfileSuspense<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2AuthProfileSuspense<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV2AuthProfileSuspense<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiV2AuthProfileSuspense<TData = Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError = ErrorType<GetApiV2AuthProfile400 | GetApiV2AuthProfile401 | GetApiV2AuthProfile500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2AuthProfile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV2AuthProfileSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

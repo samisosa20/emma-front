@@ -6,8 +6,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PutApiV2AppreciationsId400 = {
-  statusCode?: number;
-  error?: string;
-  message?: string;
-};
+export type GetApiV2AuthProfile200PhoneCode = null | string;

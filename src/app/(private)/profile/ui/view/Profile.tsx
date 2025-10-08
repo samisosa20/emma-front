@@ -16,7 +16,7 @@ export default function Profile(props: any) {
     controlDestroy,
     onSubmitDestroy,
     handleSubmitDestroy,
-    emailUser,
+    user,
     verify,
     handeResendVerify,
     isSubmitting,
@@ -80,14 +80,14 @@ export default function Profile(props: any) {
             )}
           />
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
                   label="Moneda"
                   placeholder="Seleciona una opcion"
-                  id="badge_id"
+                  id="badgeId"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -106,15 +106,17 @@ export default function Profile(props: any) {
           )}
         </form>
       </div>
-      {!verify && <div className="max-w-[640px] mx-auto mt-8">
-        <Button
-          onClick={() => handeResendVerify()}
-          className="w-full bg-green-500 hover:bg-green-300 text-white"
-          disabled={isSubmitting}
-        >
-          Reenviar confirmacion
-        </Button>
-      </div>}
+      {!verify && (
+        <div className="max-w-[640px] mx-auto mt-8">
+          <Button
+            onClick={() => handeResendVerify()}
+            className="w-full bg-green-500 hover:bg-green-300 text-white"
+            disabled={isSubmitting}
+          >
+            Reenviar confirmacion
+          </Button>
+        </div>
+      )}
       <div className="max-w-[640px] mx-auto mt-8">
         <Button
           onClick={() => handleClose()}
@@ -135,7 +137,7 @@ export default function Profile(props: any) {
             resultará en la pérdida de todos los datos asociados.
           </Typography>
           <Typography className="mb-4">
-            Para confirmar dijita <b>{emailUser}</b> y pulsa en eliminar
+            Para confirmar dijita <b>{user?.email}</b> y pulsa en eliminar
           </Typography>
           <Controller
             name={"email"}
@@ -144,7 +146,7 @@ export default function Profile(props: any) {
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type="text"
-                  placeholder={emailUser}
+                  placeholder={user?.email}
                   onChange={(e) => {
                     onChange(e);
                   }}

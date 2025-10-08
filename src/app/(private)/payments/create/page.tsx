@@ -1,7 +1,7 @@
-'use client';
-import PaymentsCreate from './ui/view/PaymentsCreate';
+"use client";
+import PaymentsCreate from "./ui/view/PaymentsCreate";
 
-import usePaymentsCreateViewModel from './ui/model/paymentsCreate.models';
+import usePaymentsCreateViewModel from "./ui/model/paymentsCreate.models";
 
 const Page = () => {
   const {
@@ -11,6 +11,7 @@ const Page = () => {
     title,
     listAccounts,
     listCategories,
+    isSubmitting,
   } = usePaymentsCreateViewModel();
   return (
     <PaymentsCreate
@@ -20,6 +21,7 @@ const Page = () => {
       title={title}
       listAccounts={listAccounts}
       listCategories={listCategories}
+      isSubmitting={isSubmitting}
     />
   );
 };
