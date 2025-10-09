@@ -32,7 +32,7 @@ import type {
   DeleteApiV2BudgetsId400,
   DeleteApiV2BudgetsId401,
   DeleteApiV2BudgetsId500,
-  GetApiV2Budgets200,
+  GetApiV2Budgets200Item,
   GetApiV2Budgets400,
   GetApiV2Budgets401,
   GetApiV2Budgets500,
@@ -45,6 +45,7 @@ import type {
   GetApiV2BudgetsListYear401,
   GetApiV2BudgetsListYear500,
   GetApiV2BudgetsListYearParams,
+  GetApiV2BudgetsParams,
   PostApiV2Budgets200,
   PostApiV2Budgets400,
   PostApiV2Budgets401,
@@ -69,33 +70,34 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
  * Listar todos los presupuestos con paginación
  */
 export const getApiV2Budgets = (
-    
+    params?: GetApiV2BudgetsParams,
  options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
 ) => {
       
       
-      return apiClient<GetApiV2Budgets200>(
-      {url: `/api/v2/budgets/`, method: 'GET', signal
+      return apiClient<GetApiV2Budgets200Item[]>(
+      {url: `/api/v2/budgets/`, method: 'GET',
+        params, signal
     },
       options);
     }
   
 
-export const getGetApiV2BudgetsQueryKey = () => {
-    return [`/api/v2/budgets/`] as const;
+export const getGetApiV2BudgetsQueryKey = (params?: GetApiV2BudgetsParams,) => {
+    return [`/api/v2/budgets/`, ...(params ? [params]: [])] as const;
     }
 
     
-export const getGetApiV2BudgetsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetApiV2BudgetsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Budgets>>> = ({ signal }) => getApiV2Budgets(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Budgets>>> = ({ signal }) => getApiV2Budgets(params, requestOptions, signal);
 
       
 
@@ -109,7 +111,7 @@ export type GetApiV2BudgetsQueryError = ErrorType<GetApiV2Budgets400 | GetApiV2B
 
 
 export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>> & Pick<
+ params: undefined |  GetApiV2BudgetsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV2Budgets>>,
           TError,
@@ -119,7 +121,7 @@ export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Bud
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>> & Pick<
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV2Budgets>>,
           TError,
@@ -129,16 +131,16 @@ export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Bud
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV2BudgetsQueryOptions(options)
+  const queryOptions = getGetApiV2BudgetsQueryOptions(params,options)
 
   const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -149,16 +151,16 @@ export function useGetApiV2Budgets<TData = Awaited<ReturnType<typeof getApiV2Bud
 
 
 
-export const getGetApiV2BudgetsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetApiV2BudgetsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV2BudgetsQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Budgets>>> = ({ signal }) => getApiV2Budgets(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV2Budgets>>> = ({ signal }) => getApiV2Budgets(params, requestOptions, signal);
 
       
 
@@ -172,24 +174,24 @@ export type GetApiV2BudgetsSuspenseQueryError = ErrorType<GetApiV2Budgets400 | G
 
 
 export function useGetApiV2BudgetsSuspense<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params: undefined |  GetApiV2BudgetsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2BudgetsSuspense<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetApiV2BudgetsSuspense<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetApiV2BudgetsSuspense<TData = Awaited<ReturnType<typeof getApiV2Budgets>>, TError = ErrorType<GetApiV2Budgets400 | GetApiV2Budgets401 | GetApiV2Budgets500>>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+ params?: GetApiV2BudgetsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getApiV2Budgets>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient 
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV2BudgetsSuspenseQueryOptions(options)
+  const queryOptions = getGetApiV2BudgetsSuspenseQueryOptions(params,options)
 
   const query = useSuspenseQuery(queryOptions , queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
