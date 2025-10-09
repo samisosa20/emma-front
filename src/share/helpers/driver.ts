@@ -9,7 +9,7 @@ export function driverWelcome() {
         element:
           window.innerWidth < 1000 ? "#fiona-logo-header" : "#fiona-logo-aside",
         popover: {
-          title: "Bienvenid@ a EMMA",
+          title: "Bienvenid@ a FIONA",
           description:
             "Te dare un recorrido por toda la app, puedes salir del tour cuando tu quieras, Da clic aquí para volver al dashboard.",
           align: "start",

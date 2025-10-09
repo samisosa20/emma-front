@@ -4,10 +4,12 @@ import { useRouter, usePathname } from "next/navigation";
 
 // Components
 import useComponents from "@/share/components";
+import { useUserStore } from "@/share/storage";
 
 export default function ModalVerify() {
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useUserStore();
 
   const [isOpen, setIsOpen] = useState(false);
   const { Typography, Modal, Button } = useComponents();
@@ -18,17 +20,15 @@ export default function ModalVerify() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
     if (user && pathname !== "/profile" && pathname !== "/support") {
-      const userjson = JSON.parse(user);
-      setIsOpen(!userjson.confirmedEmailAt);
+      setIsOpen(!!user?.confirmedEmailAt);
     }
   }, [pathname]);
 
   return (
     <Modal isOpen={isOpen} title="">
       <Typography variant="h4" className="text-justify mb-4">
-        ¡Bienvenido/a a <b>EMMA</b>!
+        ¡Bienvenido/a a <b>FIONA</b>!
       </Typography>
       <Typography className="text-justify">
         Estamos encantados de tenerte con nosotros. Antes de comenzar a explorar
