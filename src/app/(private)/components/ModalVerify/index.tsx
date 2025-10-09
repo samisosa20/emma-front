@@ -21,7 +21,7 @@ export default function ModalVerify() {
 
   useEffect(() => {
     if (user && pathname !== "/profile" && pathname !== "/support") {
-      setIsOpen(!!user?.confirmedEmailAt);
+      setIsOpen(!user?.confirmedEmailAt);
     }
   }, [pathname]);
 
