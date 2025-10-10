@@ -1,7 +1,7 @@
 "use client";
-import BudgetCreate from "./ui/view/BudgetCreate";
+import BudgetCreate from "@/app/(private)/budgets/create/ui/view/BudgetCreate";
 
-import useBudgetsCreateViewModel from "./ui/model/budgetsCreate.models";
+import useBudgetCreate from "@/app/(private)/budgets/create/ui/model/budgetsCreate.models";
 
 const Page = () => {
   const {
@@ -12,8 +12,10 @@ const Page = () => {
     currencyOptions,
     periodsOptions,
     listCategories,
+    handleDelete,
     isLoading,
-  } = useBudgetsCreateViewModel();
+  } = useBudgetCreate();
+
   return (
     <BudgetCreate
       handleSubmit={handleSubmit}
@@ -23,6 +25,7 @@ const Page = () => {
       currencyOptions={currencyOptions}
       periodsOptions={periodsOptions}
       listCategories={listCategories}
+      handleDelete={handleDelete}
       isLoading={isLoading}
     />
   );

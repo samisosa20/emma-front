@@ -7,10 +7,9 @@
  */
 
 export type PostApiV2BudgetsBody = {
-  name?: string;
+  year?: number;
+  badgeId?: string;
   amount?: number;
-  startDate?: string;
-  endDate?: string;
+  periodId?: string;
   categoryId?: string;
-  userId?: string;
 };

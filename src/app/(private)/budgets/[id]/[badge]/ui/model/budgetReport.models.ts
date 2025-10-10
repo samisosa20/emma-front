@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useRouter, useParams } from "next/navigation";
 
-import { useGetApiV2BudgetsSuspense } from "@@@/endpoints/budget/budget";
+import { useGetApiV2Budgets } from "@@@/endpoints/budget/budget";
 
 export default function useBudgetReportViewModel() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export default function useBudgetReportViewModel() {
 
   const [openCollapse, setOpenCollapse] = useState("");
 
-  const { isLoading, data, isError } = useGetApiV2BudgetsSuspense({
+  const { isLoading, data, isError, refetch } = useGetApiV2Budgets({
     badgeId: String(params.badge),
     year: Number(params.id),
   });
@@ -23,6 +23,7 @@ export default function useBudgetReportViewModel() {
 
   useEffect(() => {
     if (isError) router.push("/login");
+    refetch();
   }, [isError]);
 
   return {

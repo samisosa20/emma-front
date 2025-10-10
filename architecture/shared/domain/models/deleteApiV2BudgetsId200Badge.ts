@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PutApiV2BudgetsIdBody = {
-  year?: number;
-  badgeId?: string;
-  amount?: number;
-  periodId?: string;
-  categoryId?: string;
+export type DeleteApiV2BudgetsId200Badge = {
+  id?: string;
+  name?: string;
+  code?: string;
+  symbol?: string;
+  flag?: string;
 };

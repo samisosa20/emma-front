@@ -5,15 +5,18 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
+import type { DeleteApiV2BudgetsId200Badge } from './deleteApiV2BudgetsId200Badge';
+import type { DeleteApiV2BudgetsId200Category } from './deleteApiV2BudgetsId200Category';
 
 export type DeleteApiV2BudgetsId200 = {
   id: string;
-  name: string;
+  year: number;
+  badgeId: string;
   amount: number;
-  startDate: string;
-  endDate: string;
+  periodId: string;
   categoryId: string;
-  userId: string;
+  badge: DeleteApiV2BudgetsId200Badge;
+  category: DeleteApiV2BudgetsId200Category;
   createdAt: string;
   updatedAt: string;
 };

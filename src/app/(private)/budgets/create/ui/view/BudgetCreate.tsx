@@ -20,6 +20,7 @@ export default function BudgetCreate(props: any) {
     handleDelete,
     periodsOptions = [],
     listCategories = [],
+    isLoading,
   } = props;
 
   return (
@@ -35,6 +36,7 @@ export default function BudgetCreate(props: any) {
           <div>
             {handleDelete && (
               <Button
+                disabled={isLoading}
                 onClick={handleDelete}
                 className="flex items-center space-x-2 bg-red-500 hover:bg-red-300 p-2 rounded shadow-sm text-white"
               >
@@ -54,7 +56,7 @@ export default function BudgetCreate(props: any) {
           className="w-full"
         >
           <Controller
-            name={"category"}
+            name={"categoryId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -92,14 +94,14 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
                   label="Moneda"
                   placeholder="Seleciona una opcion"
-                  id="badge_id"
+                  id="badgeId"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -111,14 +113,14 @@ export default function BudgetCreate(props: any) {
             )}
           />
           <Controller
-            name={"period_id"}
+            name={"periodId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
                   label="Periodo"
                   placeholder="Seleciona una opcion"
-                  id="period_id"
+                  id="periodId"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -154,6 +156,7 @@ export default function BudgetCreate(props: any) {
             <Button
               type="submit"
               className="mt-8 col-span-2 w-full lg:w-[350px]"
+              disabled={isLoading}
             >
               Guardar
             </Button>

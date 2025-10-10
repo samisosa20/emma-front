@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import useComponents from "@/share/components";
 
 // Helpers
-import { formatCurrency, getCurrencyFormatter } from "@/share/helpers";
+import { getCurrencyFormatter } from "@/share/helpers";
 import { GetApiV2Budgets200Item } from "@@@/domain/models";
 
 export default function BudgetRepor(props: any) {
@@ -59,7 +59,7 @@ export default function BudgetRepor(props: any) {
 
               return (
                 <React.Fragment key={budget.id}>
-                  <Link href={`/budgets/${params.id}/${budget.id}/edit`}>
+                  <Link href={`/budgets/${budget.id}/edit`}>
                     <div className="shadow-sm bg-white rounded py-2 px-2 mb-2">
                       <div className="flex justify-between items-center">
                         <div className={`flex items-center gap-x-2 w-1/2`}>

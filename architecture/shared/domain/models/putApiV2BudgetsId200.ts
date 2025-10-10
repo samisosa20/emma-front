@@ -5,15 +5,18 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
+import type { PutApiV2BudgetsId200Badge } from './putApiV2BudgetsId200Badge';
+import type { PutApiV2BudgetsId200Category } from './putApiV2BudgetsId200Category';
 
 export type PutApiV2BudgetsId200 = {
   id: string;
-  name: string;
+  year: number;
+  badgeId: string;
   amount: number;
-  startDate: string;
-  endDate: string;
+  periodId: string;
   categoryId: string;
-  userId: string;
+  badge: PutApiV2BudgetsId200Badge;
+  category: PutApiV2BudgetsId200Category;
   createdAt: string;
   updatedAt: string;
 };
