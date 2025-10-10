@@ -11,9 +11,9 @@ import type { DeleteApiV2AccountsId200Badge } from './deleteApiV2AccountsId200Ba
 export type DeleteApiV2AccountsId200 = {
   id: string;
   name: string;
+  description: string;
   type: DeleteApiV2AccountsId200Type;
   badge: DeleteApiV2AccountsId200Badge;
-  balance: number;
   initAmount: number;
   createdAt: string;
   updatedAt: string;

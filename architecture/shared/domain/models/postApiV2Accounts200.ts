@@ -11,9 +11,9 @@ import type { PostApiV2Accounts200Badge } from './postApiV2Accounts200Badge';
 export type PostApiV2Accounts200 = {
   id: string;
   name: string;
+  description: string;
   type: PostApiV2Accounts200Type;
   badge: PostApiV2Accounts200Badge;
-  balance: number;
   initAmount: number;
   createdAt: string;
   updatedAt: string;

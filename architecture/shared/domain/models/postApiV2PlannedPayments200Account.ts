@@ -11,6 +11,7 @@ import type { PostApiV2PlannedPayments200AccountBadge } from './postApiV2Planned
 export type PostApiV2PlannedPayments200Account = {
   id?: string;
   name?: string;
+  description?: string;
   type?: PostApiV2PlannedPayments200AccountType;
   badge?: PostApiV2PlannedPayments200AccountBadge;
   balance?: number;

@@ -107,7 +107,6 @@ const AccountDetail = (props: any) => {
                     }}
                     options={listEvents}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}
@@ -125,7 +124,6 @@ const AccountDetail = (props: any) => {
                       onChange(e);
                     }}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}
@@ -143,7 +141,6 @@ const AccountDetail = (props: any) => {
                       onChange(e);
                     }}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}
@@ -161,7 +158,6 @@ const AccountDetail = (props: any) => {
                       onChange(e);
                     }}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}
@@ -180,7 +176,6 @@ const AccountDetail = (props: any) => {
                       onChange(e);
                     }}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}
@@ -199,7 +194,6 @@ const AccountDetail = (props: any) => {
                       onChange(e);
                     }}
                     iserror={!!fieldState.error}
-                    value={value}
                   />
                 </FormControl>
               )}

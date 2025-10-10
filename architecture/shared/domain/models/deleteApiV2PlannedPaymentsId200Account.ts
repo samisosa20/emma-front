@@ -11,6 +11,7 @@ import type { DeleteApiV2PlannedPaymentsId200AccountBadge } from './deleteApiV2P
 export type DeleteApiV2PlannedPaymentsId200Account = {
   id?: string;
   name?: string;
+  description?: string;
   type?: DeleteApiV2PlannedPaymentsId200AccountType;
   badge?: DeleteApiV2PlannedPaymentsId200AccountBadge;
   balance?: number;

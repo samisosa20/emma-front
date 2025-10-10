@@ -6,10 +6,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PutApiV2AccountsIdBody = {
+export type PatchApiV2AccountsIdDesactivate200Badge = {
+  id?: string;
+  code?: string;
   name?: string;
-  description?: string;
-  accountTypeId?: string;
-  badgeId?: string;
-  initAmount?: number;
+  flag?: string;
+  symbol?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };

@@ -8,6 +8,7 @@
 
 export type PostApiV2AccountsBody = {
   name?: string;
+  description?: string;
   accountTypeId?: string;
   badgeId?: string;
   initAmount?: number;

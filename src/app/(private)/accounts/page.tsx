@@ -59,7 +59,6 @@ const Accounts = () => {
         <div className="lg:w-[250px]">
           <Input
             placeholder="Nombre de la cuenta"
-            value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)
             }

@@ -11,6 +11,7 @@ import type { GetApiV2Movements200ContentItemAccountBadge } from './getApiV2Move
 export type GetApiV2Movements200ContentItemAccount = {
   id?: string;
   name?: string;
+  description?: string;
   type?: GetApiV2Movements200ContentItemAccountType;
   badge?: GetApiV2Movements200ContentItemAccountBadge;
   balance?: number;

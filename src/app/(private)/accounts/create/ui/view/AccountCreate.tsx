@@ -107,14 +107,14 @@ const Accounts = (props: any) => {
             )}
           />
           <Controller
-            name={"type_id"}
+            name={"typeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Select
                   label="Tipo de cuenta"
                   placeholder="Seleciona una opcion"
-                  id="type_id"
+                  id="typeId"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -126,7 +126,7 @@ const Accounts = (props: any) => {
             )}
           />
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -145,7 +145,7 @@ const Accounts = (props: any) => {
             )}
           />
           <Controller
-            name={"init_amount"}
+            name={"initAmount"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>

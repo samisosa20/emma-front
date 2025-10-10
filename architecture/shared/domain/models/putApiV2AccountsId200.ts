@@ -11,9 +11,9 @@ import type { PutApiV2AccountsId200Badge } from './putApiV2AccountsId200Badge';
 export type PutApiV2AccountsId200 = {
   id: string;
   name: string;
+  description: string;
   type: PutApiV2AccountsId200Type;
   badge: PutApiV2AccountsId200Badge;
-  balance: number;
   initAmount: number;
   createdAt: string;
   updatedAt: string;

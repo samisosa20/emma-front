@@ -11,6 +11,7 @@ import type { GetApiV2PlannedPayments200ContentItemAccountBadge } from './getApi
 export type GetApiV2PlannedPayments200ContentItemAccount = {
   id?: string;
   name?: string;
+  description?: string;
   type?: GetApiV2PlannedPayments200ContentItemAccountType;
   badge?: GetApiV2PlannedPayments200ContentItemAccountBadge;
   balance?: number;

@@ -40,6 +40,14 @@ import type {
   GetApiV2AccountsId400,
   GetApiV2AccountsId401,
   GetApiV2AccountsId500,
+  PatchApiV2AccountsIdDesactivate200,
+  PatchApiV2AccountsIdDesactivate400,
+  PatchApiV2AccountsIdDesactivate401,
+  PatchApiV2AccountsIdDesactivate500,
+  PatchApiV2AccountsIdRestore200,
+  PatchApiV2AccountsIdRestore400,
+  PatchApiV2AccountsIdRestore401,
+  PatchApiV2AccountsIdRestore500,
   PostApiV2Accounts200,
   PostApiV2Accounts400,
   PostApiV2Accounts401,
@@ -507,6 +515,122 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteApiV2AccountsIdMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    /**
+ * Eliminar una cuenta por ID
+ */
+export const patchApiV2AccountsIdDesactivate = (
+    id: string,
+ options?: SecondParameter<typeof apiClient>,) => {
+      
+      
+      return apiClient<PatchApiV2AccountsIdDesactivate200>(
+      {url: `/api/v2/accounts/${id}/desactivate`, method: 'PATCH'
+    },
+      options);
+    }
+  
+
+
+export const getPatchApiV2AccountsIdDesactivateMutationOptions = <TError = ErrorType<PatchApiV2AccountsIdDesactivate400 | PatchApiV2AccountsIdDesactivate401 | PatchApiV2AccountsIdDesactivate500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['patchApiV2AccountsIdDesactivate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  patchApiV2AccountsIdDesactivate(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiV2AccountsIdDesactivateMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>>
+    
+    export type PatchApiV2AccountsIdDesactivateMutationError = ErrorType<PatchApiV2AccountsIdDesactivate400 | PatchApiV2AccountsIdDesactivate401 | PatchApiV2AccountsIdDesactivate500>
+
+    export const usePatchApiV2AccountsIdDesactivate = <TError = ErrorType<PatchApiV2AccountsIdDesactivate400 | PatchApiV2AccountsIdDesactivate401 | PatchApiV2AccountsIdDesactivate500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof patchApiV2AccountsIdDesactivate>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPatchApiV2AccountsIdDesactivateMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    /**
+ * Eliminar una cuenta por ID
+ */
+export const patchApiV2AccountsIdRestore = (
+    id: string,
+ options?: SecondParameter<typeof apiClient>,) => {
+      
+      
+      return apiClient<PatchApiV2AccountsIdRestore200>(
+      {url: `/api/v2/accounts/${id}/restore`, method: 'PATCH'
+    },
+      options);
+    }
+  
+
+
+export const getPatchApiV2AccountsIdRestoreMutationOptions = <TError = ErrorType<PatchApiV2AccountsIdRestore400 | PatchApiV2AccountsIdRestore401 | PatchApiV2AccountsIdRestore500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['patchApiV2AccountsIdRestore'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  patchApiV2AccountsIdRestore(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiV2AccountsIdRestoreMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>>
+    
+    export type PatchApiV2AccountsIdRestoreMutationError = ErrorType<PatchApiV2AccountsIdRestore400 | PatchApiV2AccountsIdRestore401 | PatchApiV2AccountsIdRestore500>
+
+    export const usePatchApiV2AccountsIdRestore = <TError = ErrorType<PatchApiV2AccountsIdRestore400 | PatchApiV2AccountsIdRestore401 | PatchApiV2AccountsIdRestore500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof patchApiV2AccountsIdRestore>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPatchApiV2AccountsIdRestoreMutationOptions(options);
 
       return useMutation(mutationOptions , queryClient);
     }
