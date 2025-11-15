@@ -8,7 +8,10 @@ import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
-import { GetApiV2Heritages200ContentItem } from "@@@/domain/models";
+import {
+  GetApiV2Heritages200ContentItem,
+  GetApiV2Heritages200InvestmentsItem,
+} from "@@@/domain/models";
 
 const HeritageYear = (props: any) => {
   const { data } = props;
@@ -48,35 +51,11 @@ const HeritageYear = (props: any) => {
             <Cards title="balance" data={data.balances} />
           </div>
         )}
-        <div className="bg-white rounded shadow-sm p-4">
-          <div className="flex items-center justify-between">
-            <Typography variant="h2">Inversión total</Typography>
+        {data && data.investments?.length > 0 && (
+          <div className="mt-6">
+            <Cards title="Inversiones" data={data.investments} />
           </div>
-          {data &&
-            data.investments?.map(
-              (investment: { badge: any; total_end_amount: number }) => (
-                <div
-                  className="flex items-center justify-end"
-                  key={investment.badge}
-                >
-                  <Typography
-                    variant="h5"
-                    className={
-                      investment.total_end_amount > 0
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }
-                  >
-                    {investment.badge?.symbol}
-                    {getCurrencyFormatter(
-                      investment.badge?.code,
-                      investment.total_end_amount
-                    )}
-                  </Typography>
-                </div>
-              )
-            )}
-        </div>
+        )}
       </div>
       <div
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}

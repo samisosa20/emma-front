@@ -215,6 +215,7 @@ export * from './getApiV2Heritages200';
 export * from './getApiV2Heritages200BalancesItem';
 export * from './getApiV2Heritages200ContentItem';
 export * from './getApiV2Heritages200ContentItemBadge';
+export * from './getApiV2Heritages200InvestmentsItem';
 export * from './getApiV2Heritages400';
 export * from './getApiV2Heritages401';
 export * from './getApiV2Heritages500';

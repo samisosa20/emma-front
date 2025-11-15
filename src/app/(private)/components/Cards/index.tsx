@@ -47,7 +47,7 @@ const Cards = (props: CardsProps) => {
               </Typography>
             )}
 
-            {value.amount && (
+            {value.amount !== null && value.amount !== undefined && (
               <Typography
                 variant="h6"
                 className={`font-medium ${

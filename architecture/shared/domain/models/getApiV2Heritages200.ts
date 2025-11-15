@@ -7,8 +7,10 @@
  */
 import type { GetApiV2Heritages200ContentItem } from './getApiV2Heritages200ContentItem';
 import type { GetApiV2Heritages200BalancesItem } from './getApiV2Heritages200BalancesItem';
+import type { GetApiV2Heritages200InvestmentsItem } from './getApiV2Heritages200InvestmentsItem';
 
 export type GetApiV2Heritages200 = {
   content: GetApiV2Heritages200ContentItem[];
   balances: GetApiV2Heritages200BalancesItem[];
+  investments: GetApiV2Heritages200InvestmentsItem[];
 };
