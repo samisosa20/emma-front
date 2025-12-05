@@ -54,6 +54,7 @@ const useAccountCreate = () => {
       ...data,
       description: data.description ? data.description : "",
       badgeId: data.badgeId.value,
+      limit: data.limit ? Number(data.limit) : 0,
     };
     if (param.id) {
       mutationEdit.mutate(
