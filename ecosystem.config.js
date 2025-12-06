@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 module.exports = {
   apps: [
     {
@@ -7,21 +5,9 @@ module.exports = {
       exec_mode: "cluster",
       instances: "2",
       script: "server.js",
-      args: "start -p " + process.env.NEXT_PUBLIC_PORT,
-      env_local: {
-        APP_ENV: "local",
-        NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT,
-        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-      },
-      env_development: {
-        APP_ENV: "dev",
-        NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT,
-        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-      },
-      env_production: {
-        APP_ENV: "prod",
-        NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT,
-        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+      env: {
+        NODE_ENV: "production",
+        PORT: 3030,
       },
     },
   ],
