@@ -5,8 +5,8 @@ module.exports = {
     {
       name: "FionaNextApp",
       exec_mode: "cluster",
-      instances: "1", // Or a number of instances
-      script: "node_modules/next/dist/bin/next",
+      instances: "2",
+      script: "server.js",
       args: "start -p " + process.env.NEXT_PUBLIC_PORT,
       env_local: {
         APP_ENV: "local",
