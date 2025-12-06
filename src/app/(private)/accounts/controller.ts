@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-import { AccountUseCase } from "@@/application/account.use-case";
-import { AccountApiAdapter } from "@@/infrastructure/account-api.adapter";
+import { driverAccount } from "@/share/helpers";
 
-import { customConfigHeader, driverAccount } from "@/share/helpers";
+import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiV2ReportsGeneralBalanceSuspense } from "@@@/endpoints/report/report";
 
 const useAccounts = () => {
   const router = useRouter();
@@ -13,23 +12,9 @@ const useAccounts = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["accounts"],
-    queryFn: async () => {
-      const { listAccounts } = new AccountUseCase(
-        new AccountApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-      const result = await listAccounts();
-      if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-      return result;
-    },
-  });
+  const { isLoading, data, isError, refetch } = useGetApiV2AccountsSuspense();
+  const { data: dataBalance, refetch: refetchBalance } =
+    useGetApiV2ReportsGeneralBalanceSuspense();
 
   const handleDrive = () => {
     driverAccount();
@@ -41,6 +26,8 @@ const useAccounts = () => {
   };
 
   useEffect(() => {
+    refetch();
+    refetchBalance();
     if (isError) router.push("/login");
   }, [isError, router]);
   return {
@@ -51,6 +38,7 @@ const useAccounts = () => {
     search,
     setSearch,
     handleDrive,
+    dataBalance,
   };
 };
 

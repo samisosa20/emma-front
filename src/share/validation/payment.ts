@@ -1,31 +1,35 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 const paymentsSchema = z.object({
   account: z.object({
-    value: z.union([z.string(), z.number()]),
+    value: z.string(),
     label: z.string(),
   }),
   category: z.object({
-    value: z.union([z.string(), z.number()]),
+    value: z.string(),
     label: z.string(),
   }),
-  description: z.string().optional()
-  .transform((e) => (e === '' ? undefined : e)),
-  end_date: z.string().optional()
-  .transform((e) => (e === '' ? undefined : e)),
-  start_date: z.string(),
-  amount: z.string(),
-  specific_day: z.union([z.string(), z.number()]),
+  description: z
+    .string()
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
+  endDate: z
+    .string()
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
+  startDate: z.string(),
+  amount: z.union([z.string(), z.number()]),
+  specificDay: z.union([z.string(), z.number()]),
 });
 
 const paymentParamsSchema = z.object({
   description: z.union([z.null(), z.string()]),
   amount: z.union([z.string(), z.number()]),
-  account_id: z.union([z.string(), z.number()]),
-  category_id: z.union([z.string(), z.number()]),
-  start_date: z.string(),
-  end_date: z.union([z.null(), z.string()]),
-  specific_day: z.string(),
+  accountId: z.string(),
+  categoryId: z.string(),
+  startDate: z.string(),
+  endDate: z.union([z.null(), z.string()]),
+  specificDay: z.string(),
 });
 
 export type PaymentsSchema = z.infer<typeof paymentsSchema>;

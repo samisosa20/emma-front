@@ -21,7 +21,7 @@ export default function useBlogs() {
         })
       );
       const slugValue = Array.isArray(slug) ? slug[0] : slug;
-      const result = await getBlogDetail(slugValue);
+      const result = await getBlogDetail(slugValue as any);
 
       return result;
     },

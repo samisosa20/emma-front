@@ -7,13 +7,11 @@ import useComponents from "@/share/components";
 
 // Interface
 import { ListItems as ListItemsProps } from "./ListItems.interface";
-import { driverListGroupExpensive } from "@/share/helpers";
-import { unescape } from "querystring";
-
-const formatoMoneda = new Intl.NumberFormat("es-US", {
-  style: "currency",
-  currency: "USD",
-});
+import {
+  driverListGroupExpensive,
+  getCurrencyFormatter,
+  getIconComponent,
+} from "@/share/helpers";
 
 const ListDefault = (props: ListItemsProps) => {
   const { data, title } = props;
@@ -27,14 +25,14 @@ const ListDefault = (props: ListItemsProps) => {
             className={`mb-2 pt-2 ${index > 0 ? "border-t" : ""}`}
             key={"ListDefault" + index}
           >
-            <Typography variant="h5">{card.title}</Typography>
+            <Typography variant="h5">{card.category}</Typography>
             <Typography
               variant="h3"
               className={`text-right ${
-                card.value >= 0 ? "text-green-500" : "text-red-500"
+                card.amount >= 0 ? "text-green-500" : "text-red-500"
               }`}
             >
-              {formatoMoneda.format(card.value)}
+              {getCurrencyFormatter("USD", card.amount)}
             </Typography>
           </div>
         ))}
@@ -60,11 +58,11 @@ const ListUtil = (props: ListItemsProps) => {
             </Typography>
             <div className="flex justify-between items- center">
               <Typography variant="p" className={`text-right`}>
-                {formatoMoneda.format(card.value)}
+                {getCurrencyFormatter("USD", card.value)}
                 {` (${Math.abs(card.percentage ?? 0)}%)`}
               </Typography>
               <Typography variant="p" className={`text-right`}>
-                {formatoMoneda.format(card.limit ?? 0)}
+                {getCurrencyFormatter("USD", card.limit ?? 0)}
               </Typography>
             </div>
             <div className="w-full bg-gray-200 rounded">
@@ -123,49 +121,50 @@ const ListModal = (props: ListItemsProps) => {
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
       <div className="h-[243px] overflow-y-auto">
-        {data?.map((card, index) => (
-          <div
-            className={`mb-2 pt-2 ${
-              index > 0 ? "border-t" : ""
-            } cursor-pointer`}
-            key={"ListModal" + index}
-            onClick={() => handleSelectItem(card.id)}
-          >
-            <Typography variant="h5">
-              {card.title} {card.father ? ` (${card.father})` : ""}{" "}
-              <span id={`fiona-percentage_${card.title?.replace(/ /g, "_")}`}>
-                {card.percentage !== null && card.percentage !== undefined
-                  ? ` (${card.percentage}%)`
-                  : ""}
-              </span>
-            </Typography>
+        {data?.map((card, index) => {
+          const Icon = getIconComponent(card.icon ?? "PiAcorn");
+          return (
             <div
-              className={`flex items-center ${
-                card.variation ? "justify-between" : "justify-end"
-              }`}
+              className={`mb-2 pt-2 ${
+                index > 0 ? "border-t" : ""
+              } cursor-pointer`}
+              key={"ListModal" + index}
+              onClick={() => handleSelectItem(card.amount)} // TODO: change
             >
-              {card.variation !== null && card.variation !== undefined && (
-                <Typography
-                  variant="h6"
-                  className={`${
-                    card.variation < 0 ? "text-red-500" : "text-green-500"
-                  }`}
-                  id={`fiona-variation_${card.title?.replace(/ /g, "_")}`}
+              <div className={`flex items-center justify-between`}>
+                <div className={`flex items-center gap-x-2 w-1/2`}>
+                  <div
+                    className={`rounded-full shadow-sm w-8 h-8 hover:opacity-80 flex justify-center items-center`}
+                    style={{
+                      background: card.color,
+                    }}
+                  >
+                    <Icon size={16} className="text-gray-200" />
+                  </div>
+                  <Typography variant="h5" className="text-xs">
+                    {card.category}
+                  </Typography>
+                </div>
+                <div
+                  className={`flex items-center gap-x-2 min-w-2/5 justify-between`}
                 >
-                  {card.variation}%
-                </Typography>
-              )}
-              <Typography
-                variant="h3"
-                className={`text-right ${
-                  card.value >= 0 ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {formatoMoneda.format(card.value)}
-              </Typography>
+                  <Typography variant="h3" className={`text-right text-sm`}>
+                    {`${card.participation}%`}
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    className={`text-right text-sm ${
+                      card.amount >= 0 ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {card.symbol}
+                    {getCurrencyFormatter("USD", card.amount)}
+                  </Typography>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <Modal
         title="Listado de movimientos"
@@ -176,7 +175,9 @@ const ListModal = (props: ListItemsProps) => {
           dataModal.map((data, index) => (
             <div className={`${index > 0 ? "border-t" : ""} py-3`} key={index}>
               <div className="flex items-center justify-between">
-                <Typography>{formatoMoneda.format(data.amount)}</Typography>
+                <Typography>
+                  {getCurrencyFormatter("USD", data.amount)}
+                </Typography>
                 <Typography>
                   {data.account?.name ??
                     `${data.category?.name} ${

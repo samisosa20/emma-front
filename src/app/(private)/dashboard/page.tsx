@@ -1,17 +1,35 @@
-'use client';
+"use client";
 //components
-import useComponents from '@/share/components';
-import Dashboard from './ui/view/Dashboard';
+import useComponents from "@/share/components";
+import Dashboard from "./ui/view/Dashboard";
 
-import useDashboardViewModel from './ui/model/dashboard.models';
+import useDashboardViewModel from "./ui/model/dashboard.models";
 
 export default function Page() {
-  const { isLoading, data, currencyOptions, control, handleSubmit, onSubmit, getMovements, getMovementsGroup, listMovements } =
-    useDashboardViewModel();
+  const {
+    isLoading,
+    data,
+    currencyOptions,
+    control,
+    handleSubmit,
+    onSubmit,
+    getMovements,
+    listMovements,
+    listOptionsTypeReport,
+    typeReport,
+    listOptionsPeriodReport,
+    periodReport,
+    filters,
+    monthIndex,
+    handleChangeSlideStepper,
+    selectedWeek,
+    dataBalance,
+    dataHistory,
+  } = useDashboardViewModel();
   const { Loading } = useComponents();
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
@@ -21,9 +39,18 @@ export default function Page() {
       currencyOptions={currencyOptions}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
-      getMovementsGroup={getMovementsGroup}
       getMovements={getMovements}
       listMovements={listMovements}
+      listOptionsTypeReport={listOptionsTypeReport}
+      typeReport={typeReport}
+      listOptionsPeriodReport={listOptionsPeriodReport}
+      periodReport={periodReport}
+      filters={filters}
+      monthIndex={monthIndex}
+      handleChangeSlideStepper={handleChangeSlideStepper}
+      selectedWeek={selectedWeek}
+      dataBalance={dataBalance}
+      dataHistory={dataHistory}
     />
   );
 }

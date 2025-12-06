@@ -13,6 +13,8 @@ import {
 } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
+import * as PiIcons from "react-icons/pi";
+import { addWeeks, endOfISOWeek, startOfISOWeek, format } from "date-fns";
 
 export * from "./driver";
 
@@ -40,8 +42,8 @@ export function customConfigHeader() {
     };
 }
 
-export function getDateString() {
-  const currentDate = new Date();
+export function getDateString(date?: string) {
+  const currentDate = date ? new Date(date) : new Date();
   const timeZoneOffsetMinutes = currentDate.getTimezoneOffset();
 
   currentDate.setMinutes(currentDate.getMinutes() - timeZoneOffsetMinutes);
@@ -247,3 +249,40 @@ export const colors = [
   "#33FF66",
   "#CC6633",
 ];
+
+export const getCurrencyFormatter = (
+  badgeCode: string = "USD",
+  value: number
+) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "decimal",
+  }).format(value);
+};
+
+export function getIconComponent(name: string): React.ElementType {
+  return PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
+}
+
+export const isEmptyObject = (obj: any) => {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    !Array.isArray(obj) &&
+    Object.keys(obj).length === 0 &&
+    obj.constructor === Object
+  );
+};
+/**
+ * Devuelve el rango de fechas (inicio - fin) de una semana ISO dada.
+ * @param year El año (por ejemplo, 2025)
+ * @param weekNumber La semana ISO (por ejemplo, 1)
+ * @returns Un string como "01/01 - 07/01"
+ */
+export function getWeekDateRange(year: number, weekNumber: number): string {
+  // Empieza desde la semana 1 del año (semana que contiene el 4 de enero)
+  const firstWeekStart = startOfISOWeek(new Date(year, 0, 4)); // ISOWeek 1 empieza desde aquí
+  const weekStart = addWeeks(firstWeekStart, weekNumber - 1);
+  const weekEnd = endOfISOWeek(weekStart);
+
+  return `${format(weekStart, "dd/MM")} - ${format(weekEnd, "dd/MM")}`;
+}

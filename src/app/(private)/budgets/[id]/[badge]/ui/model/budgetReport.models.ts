@@ -1,11 +1,9 @@
+"use client";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import { useRouter, useParams } from "next/navigation";
-import { BudgetUseCase } from "@@/application/budget.use-case";
-import { BudgetApiAdapter } from "@@/infrastructure/budget-api.adapter";
 
-import { customConfigHeader } from "@/share/helpers";
+import { useGetApiV2Budgets } from "@@@/endpoints/budget/budget";
 
 export default function useBudgetReportViewModel() {
   const router = useRouter();
@@ -13,42 +11,9 @@ export default function useBudgetReportViewModel() {
 
   const [openCollapse, setOpenCollapse] = useState("");
 
-  const { isLoading, data, isError } = useQuery({
-    queryKey: ["ReportBudget", params],
-    queryFn: async () => {
-      const { getReporttPerYear } = new BudgetUseCase(
-        new BudgetApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-      const year = Array.isArray(params.id)
-        ? parseInt(params.id[0])
-        : parseInt(params.id);
-
-      const badge = Array.isArray(params.badge)
-        ? params.badge[0]
-        : params.badge;
-
-      const user = localStorage.getItem("fiona-user");
-
-      if (user) {
-        const badge_id = JSON.parse(user).currencies.filter(
-          (v: any) => v.label === badge
-        )[0].value;
-        const result = await getReporttPerYear({
-          year: year,
-          badge_id: badge_id,
-        });
-        if (result.status === 401) {
-          localStorage.removeItem("fiona-user");
-          router.push("/login");
-        }
-
-        return result;
-      }
-    },
+  const { isLoading, data, isError, refetch } = useGetApiV2Budgets({
+    badgeId: String(params.badge),
+    year: Number(params.id),
   });
 
   const handleOpen = (id: string) => {
@@ -58,6 +23,7 @@ export default function useBudgetReportViewModel() {
 
   useEffect(() => {
     if (isError) router.push("/login");
+    refetch();
   }, [isError]);
 
   return {

@@ -1,10 +1,10 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 const heritageSchema = z.object({
   name: z.string(),
-  comercial_amount: z.union([z.string(), z.number()]),
-  legal_amount: z.union([z.string(), z.number()]),
-  badge_id: z.object({
+  comercialAmount: z.union([z.string(), z.number()]),
+  legalAmount: z.union([z.string(), z.number()]),
+  badgeId: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),

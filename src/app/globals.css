@@ -1,8 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap");
 
-@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap");
+@import "tailwindcss";
+@source inline("grid-cols-{0..9}");
+
+@theme {
+  --font-dosis: "Dosis", sans-serif;
+
+  --color-primary: #201d2c;
+  --color-secondary: #ffe98a;
+}
 
 body {
   @apply bg-neutral-100 overflow-x-hidden;

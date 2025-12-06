@@ -5,7 +5,8 @@ import { MdAddCircleOutline } from "react-icons/md";
 import useComponents from "@/share/components";
 
 // Helpers
-import { formatCurrency, driverPayment } from "@/share/helpers";
+import { driverPayment, getCurrencyFormatter } from "@/share/helpers";
+import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
 
 export default function Payments(props: any) {
   const { data } = props;
@@ -34,11 +35,12 @@ export default function Payments(props: any) {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.map((payment: any) => (
+          data.content.map((payment: any) => (
             <Link href={`/payments/${payment.id}`} key={payment.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">
                   <Typography variant="h2">{payment.category?.name}</Typography>
+                  <CurrencyBadgeFlag badge={payment.account?.badge} />
                 </div>
                 <div className="flex items-center justify-between">
                   <Typography variant="h4">{payment.account?.name}</Typography>
@@ -48,22 +50,28 @@ export default function Payments(props: any) {
                       payment.amount > 0 ? "text-green-500" : "text-red-500"
                     }
                   >
-                    {formatCurrency.format(payment.amount)}
+                    {payment.account?.badge?.symbol}
+                    {getCurrencyFormatter(
+                      payment.account?.badge?.code,
+                      payment.amount
+                    )}
                   </Typography>
                 </div>
                 <div className="flex items-center justify-between">
                   <Typography variant="h5">
-                    <b>Dia:</b> {payment.specific_day}
+                    <b>Dia:</b> {payment.specificDay}
                   </Typography>
                   <Typography variant="h5">
-                    {!payment.end_date ? "Para siempre" : payment.end_date}
+                    {!payment.endDate
+                      ? "Para siempre"
+                      : payment.endDate.split("T")[0]}
                   </Typography>
                 </div>
               </div>
             </Link>
           ))}
       </div>
-      {data && data.length === 0 && (
+      {data && data.content?.length === 0 && (
         <div className="bg-white rounded shadow-sm">
           <Typography className="text-center py-6">
             Sin Pagos recurrentes

@@ -4,8 +4,15 @@ import AccountCreate from "./ui/view/AccountCreate";
 import useAccountCreate from "./ui/model/accountCreate.models";
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, typeOptions, currencyOptions, title, watchType } =
-    useAccountCreate();
+  const {
+    handleSubmit,
+    onSubmit,
+    control,
+    typeOptions,
+    currencyOptions,
+    title,
+    watchType,
+  } = useAccountCreate();
 
   return (
     <AccountCreate

@@ -20,9 +20,9 @@ const Header = () => {
   const pathname = usePathname();
 
   const obtenerIniciales = (name: string) => {
-    const partesDelNombre = name.split(" ");
-    const iniciales = partesDelNombre.map((parte) => parte[0].toUpperCase());
-    return iniciales.join("");
+    const partesDelNombre = name?.split(" ");
+    const iniciales = partesDelNombre?.map((parte) => parte[0].toUpperCase());
+    return iniciales?.join("");
   };
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const Header = () => {
           <li>
             <Link href={"/profile"} onClick={() => setIsOpen(false)}>
               <div className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center left-6 right-6 w-profile">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0">
                   {obtenerIniciales(userName)}
                 </div>
                 <span className="ml-2 text-white font-medium text-sm truncate">

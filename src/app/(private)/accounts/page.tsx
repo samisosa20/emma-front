@@ -8,6 +8,8 @@ import useAccounts from "./controller";
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "../components";
+import { getCurrencyFormatter } from "@/share/helpers";
+import CurrencyBadgeFlag from "../components/CurrencyBadgeFlag";
 
 const Accounts = () => {
   const { Typography, Switch, Input, Loading, TitleHelp } = useComponents();
@@ -21,12 +23,8 @@ const Accounts = () => {
     search,
     setSearch,
     handleDrive,
+    dataBalance,
   } = useAccounts();
-
-  const formatoMoneda = new Intl.NumberFormat("es-US", {
-    style: "currency",
-    currency: "USD",
-  });
 
   if (isLoading) {
     return <Loading />;
@@ -49,9 +47,11 @@ const Accounts = () => {
           </Link>
         </div>
       </div>
-      <div className="mt-6">
-        {data && <Cards title="balance" data={data.balances} />}
-      </div>
+      {dataBalance?.length > 0 && (
+        <div className="mt-6">
+          <Cards title="balance" data={dataBalance} />
+        </div>
+      )}
       <div
         id="fiona-search"
         className="mt-6 flex space-x-4 items-center justify-end"
@@ -59,7 +59,6 @@ const Accounts = () => {
         <div className="lg:w-[250px]">
           <Input
             placeholder="Nombre de la cuenta"
-            value={search}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(event.target.value)
             }
@@ -75,45 +74,42 @@ const Accounts = () => {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.accounts
+          data.content
             ?.filter((account) => {
               if (search !== "") {
                 return isChecked
-                  ? !account?.deleted_at &&
+                  ? !account?.deletedAt &&
                       account?.name
                         ?.toUpperCase()
                         ?.includes(search?.toUpperCase())
-                  : !!account?.deleted_at &&
+                  : !!account?.deletedAt &&
                       account?.name
                         ?.toUpperCase()
                         ?.includes(search?.toUpperCase());
               }
-              return isChecked ? !account?.deleted_at : !!account?.deleted_at;
+              return isChecked ? !account?.deletedAt : !!account?.deletedAt;
             })
             .map((account) => (
               <Link href={`/accounts/${account?.id}`} key={account?.id}>
                 <div className="bg-white rounded shadow-sm p-4">
                   <div className="flex items-center justify-between">
                     <Typography variant="h2">{account?.name}</Typography>
-                    <Typography variant="p">
-                      {account?.currency?.code}
-                    </Typography>
+                    <CurrencyBadgeFlag badge={account?.badge} />
                   </div>
-                  <Typography variant="h6" className="h-[40px]">
-                    {account?.description}
-                  </Typography>
                   <div className="flex items-center justify-between">
                     <Typography>{account?.type?.name}</Typography>
                     <Typography
                       variant="p"
                       className={`text-right ${
-                        account?.balance + account?.init_amount >= 0
+                        account?.balance >= 0
                           ? "text-green-500"
                           : "text-red-500"
                       }`}
                     >
-                      {formatoMoneda.format(
-                        account?.balance + account?.init_amount
+                      {account?.badge?.symbol}
+                      {getCurrencyFormatter(
+                        account?.badge?.code,
+                        account?.balance
                       )}
                     </Typography>
                   </div>
@@ -121,7 +117,7 @@ const Accounts = () => {
               </Link>
             ))}
       </div>
-      {data && data.accounts?.length === 0 && (
+      {data && data.content?.length === 0 && (
         <div className="bg-white rounded shadow-sm">
           <Typography className="text-center py-6">Sin cuentas</Typography>
         </div>

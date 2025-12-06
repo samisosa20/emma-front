@@ -11,23 +11,18 @@ import imgLogo from "../../../../../public/img/logo.png";
 import useComponents from "@/share/components";
 
 import { links } from "@/share/helpers";
+import { useUserStore } from "@/share/storage";
 
 export default function Navbar() {
   const { Typography } = useComponents();
   const pathname = usePathname();
-
-  const [userName, setUserName] = useState("Demo");
+  const { user } = useUserStore();
 
   const obtenerIniciales = (name: string) => {
-    const partesDelNombre = name.split(" ");
-    const iniciales = partesDelNombre.map((parte) => parte[0].toUpperCase());
-    return iniciales.join("");
+    const partesDelNombre = name?.split(" ");
+    const iniciales = partesDelNombre?.map((parte) => parte[0]?.toUpperCase());
+    return iniciales?.join("");
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("fiona-user"))
-      setUserName(JSON.parse(localStorage.getItem("fiona-user") ?? "{}").name);
-  }, []);
 
   return (
     <aside className="hidden lg:block bg-primary p-4">
@@ -88,11 +83,11 @@ export default function Navbar() {
               className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]"
               id="fiona-profile-aside"
             >
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold flex-shrink-0">
-                {obtenerIniciales(userName)}
+              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0">
+                {obtenerIniciales(user.name ?? "")}
               </div>
               <span className="ml-2 text-white font-medium text-sm truncate">
-                {userName}
+                {user.name}
               </span>
             </div>
           </Link>

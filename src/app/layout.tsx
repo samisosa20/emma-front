@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
+
+import Loading from "@/share/components/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
+
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import { Suspense } from "react";
-import Loading from "@/share/components/Loader";
 
 export const metadata: Metadata = {
   title: "Fiona | wallet",

@@ -1,7 +1,7 @@
-'use client';
-import InvestmentsCreate from './ui/view/InvestmentsCreate';
+"use client";
+import InvestmentsCreate from "./ui/view/InvestmentsCreate";
 
-import useInvestmentsCreateViewModel from './ui/model/investmentsCreate.models';
+import useInvestmentsCreateViewModel from "./ui/model/investmentsCreate.models";
 
 const Page = () => {
   const {
@@ -13,6 +13,7 @@ const Page = () => {
     onSubmitAppre,
     handleSubmitAppre,
     controlAppre,
+    data,
   } = useInvestmentsCreateViewModel();
   return (
     <InvestmentsCreate
@@ -24,6 +25,7 @@ const Page = () => {
       onSubmitAppre={onSubmitAppre}
       handleSubmitAppre={handleSubmitAppre}
       controlAppre={controlAppre}
+      data={data}
     />
   );
 };

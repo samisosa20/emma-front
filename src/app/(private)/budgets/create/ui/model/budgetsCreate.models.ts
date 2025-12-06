@@ -1,192 +1,169 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { budgetSchema } from "@/share/validation";
-import type { BudgetParamsSchema } from "@/share/validation";
-import { customConfigHeader } from "@/share/helpers";
 
-import { BudgetUseCase } from "@@/application/budget.use-case";
-import { BudgetApiAdapter } from "@@/infrastructure/budget-api.adapter";
-import { CategoryUseCase } from "@@/application/category.use-case";
-import { CategoryApiAdapter } from "@@/infrastructure/category-api.adapter";
+import { useUserStore } from "@/share/storage";
+
+import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
+import {
+  useGetApiV2BudgetsIdSuspense,
+  usePostApiV2Budgets,
+  usePutApiV2BudgetsId,
+  useDeleteApiV2BudgetsId,
+} from "@@@/endpoints/budget/budget";
 
 export default function useBudgetsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
+  const { badges, user, periods } = useUserStore();
+
   const [title, setTitle] = useState("Creacion de Presupuesto");
-  const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [periodsOptions, setPeriodsOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [periodsOptions, setPeriodsOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [listCategories, setListCategories] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(budgetSchema),
     defaultValues: {
-      period_id: "",
+      periodId: "",
       amount: 0,
       year: new Date().getFullYear().toString(),
-      category: {},
-      badge_id: {},
+      categoryId: undefined,
+      badgeId: undefined,
     },
   });
 
-  const { data: dataListCategories, isError: isErrorCategory } = useQuery({
-    queryKey: ["categoriesMove"],
-    queryFn: async () => {
-      const { listSelectCategories } = new CategoryUseCase(
-        new CategoryApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-          customConfig: customConfigHeader(),
-        })
-      );
-      const result = await listSelectCategories();
+  const { data: dataListCategories } = useGetApiV2CategoriesSuspense();
 
-      return result;
-    },
-  });
+  const mutation = usePostApiV2Budgets();
 
-  const mutation = useMutation({
-    mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createBudget } = new BudgetUseCase(
-          new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createBudget(data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationEdit = usePutApiV2BudgetsId();
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: BudgetParamsSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editBudget } = new BudgetUseCase(
-          new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await editBudget(id, data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationDelete = useDeleteApiV2BudgetsId();
 
-  const mutationDelete = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deleteBudget } = new BudgetUseCase(
-          new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await deleteBudget(id);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
-
-  const { data } = useQuery({
-    queryKey: ["budgetDetail", param.id],
-    queryFn: async () => {
-      if (param.id) {
-        const { getBudgetDetail } = new BudgetUseCase(
-          new BudgetApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await getBudgetDetail(id);
-
-        return result;
-      }
-      return null;
-    },
-  });
+  const { data } = useGetApiV2BudgetsIdSuspense(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
-      category_id: data.category.value,
-      badge_id: data.badge_id.value,
+      categoryId: data.categoryId.value,
+      badgeId: data.badgeId.value,
     };
+    setIsLoading(true);
     if (param.id) {
-      mutationEdit.mutate(formData);
+      mutationEdit.mutate(
+        {
+          id: String(param.id),
+          data: formData,
+        },
+        {
+          onSuccess: () => {
+            setIsLoading(false);
+            toast.success("Presupuesto actualizado correctamente");
+            router.back();
+          },
+          onError: () => {
+            setIsLoading(false);
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        {
+          data: formData,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Presupuesto creado correctamente");
+            router.back();
+            setIsLoading(false);
+          },
+          onError: () => {
+            setIsLoading(false);
+          },
+        }
+      );
     }
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate();
+    setIsLoading(true);
+    mutationDelete.mutate(
+      {
+        id: String(param.id),
+      },
+      {
+        onSuccess: () => {
+          toast.success("Presupuesto eliminado correctamente");
+          router.back();
+          setIsLoading(false);
+        },
+        onError: () => {
+          setIsLoading(false);
+        },
+      }
+    );
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
-    if (!user) {
-      localStorage.removeItem("fiona-user");
-      router.push("/login");
-    } else {
-      const userjson = JSON.parse(user);
-      setCurrencyOptions(userjson.currencies);
-      setPeriodsOptions(userjson.periods);
-      if (param.id) {
-        setTitle("Edicion de Presupuesto");
-      }
+    if (user) {
+      setPeriodsOptions(
+        periods?.map((v) => {
+          return {
+            label: String(v.name),
+            value: String(v.id),
+          };
+        })
+      );
+      setCurrencyOptions(
+        badges?.map((v) => {
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
+        })
+      );
     }
-  }, []);
+    if (param.id) {
+      setTitle("Edicion de Presupuesto");
+    }
+  }, [param.id]);
 
   useEffect(() => {
-    if (data) {
+    if (data?.id) {
       reset({
-        category: { value: data.category?.id, label: data.category?.name },
+        categoryId: { value: data.category?.id, label: data.category?.name },
         amount: data.amount,
-        period_id: data.period_id.toString(),
-        badge_id: { value: data.currency?.id, label: data.currency?.code },
+        periodId: data.periodId,
+        badgeId: { value: data.badge?.id, label: data.badge?.code },
         year: data.year.toString(),
       });
     }
   }, [data]);
 
   useEffect(() => {
-    if (dataListCategories && Array.isArray(dataListCategories)) {
-      setListCategories(dataListCategories);
+    if (dataListCategories && Array.isArray(dataListCategories.content)) {
+      setListCategories(
+        dataListCategories.content.map((category) => {
+          return {
+            label: category.name,
+            value: category.id,
+            icon: category.icon,
+            color: category.color,
+          };
+        })
+      );
     }
   }, [dataListCategories]);
 
@@ -199,5 +176,6 @@ export default function useBudgetsCreateViewModel() {
     handleDelete,
     periodsOptions,
     listCategories,
+    isLoading,
   };
 }

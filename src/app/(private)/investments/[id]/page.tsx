@@ -1,7 +1,7 @@
-'use client';
-import InvestmentsCreate from '@/app/(private)/investments/create/ui/view/InvestmentsCreate';
+"use client";
+import InvestmentsCreate from "@/app/(private)/investments/create/ui/view/InvestmentsCreate";
 
-import useInvestmentsCreateViewModel from '@/app/(private)/investments/create/ui/model/investmentsCreate.models';
+import useInvestmentsCreateViewModel from "@/app/(private)/investments/create/ui/model/investmentsCreate.models";
 
 const Page = () => {
   const {
@@ -22,6 +22,7 @@ const Page = () => {
     idAppretiation,
     handleDeleteAppre,
     metrics,
+    data,
   } = useInvestmentsCreateViewModel();
 
   return (
@@ -44,6 +45,7 @@ const Page = () => {
       idAppretiation={idAppretiation}
       handleDeleteAppre={handleDeleteAppre}
       metrics={metrics}
+      data={data}
     />
   );
 };

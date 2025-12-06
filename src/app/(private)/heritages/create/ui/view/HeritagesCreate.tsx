@@ -68,7 +68,7 @@ export default function HeritagesCreate(props: any) {
             )}
           />
           <Controller
-            name={"comercial_amount"}
+            name={"comercialAmount"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -76,7 +76,7 @@ export default function HeritagesCreate(props: any) {
                   type="number"
                   placeholder="Valor comercial"
                   label="Valor comercial"
-                  id="comercial_amount"
+                  id="comercialAmount"
                   step="0.01"
                   onChange={(e) => {
                     onChange(e);
@@ -88,7 +88,7 @@ export default function HeritagesCreate(props: any) {
             )}
           />
           <Controller
-            name={"legal_amount"}
+            name={"legalAmount"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -96,7 +96,7 @@ export default function HeritagesCreate(props: any) {
                   type="number"
                   placeholder="Valor legal"
                   label="Valor legal"
-                  id="legal_amount"
+                  id="legalAmount"
                   step="0.01"
                   onChange={(e) => {
                     onChange(e);
@@ -108,14 +108,14 @@ export default function HeritagesCreate(props: any) {
             )}
           />
           <Controller
-            name={"badge_id"}
+            name={"badgeId"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <AutoComplete
                   label="Moneda"
                   placeholder="Seleciona una opcion"
-                  id="badge_id"
+                  id="badgeId"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}

@@ -1,7 +1,7 @@
-'use client';
-import PaymentsCreate from '@/app/(private)/payments/create/ui/view/PaymentsCreate';
+"use client";
+import PaymentsCreate from "@/app/(private)/payments/create/ui/view/PaymentsCreate";
 
-import usePaymentsCreateViewModel from '@/app/(private)/payments/create/ui/model/paymentsCreate.models';
+import usePaymentsCreateViewModel from "@/app/(private)/payments/create/ui/model/paymentsCreate.models";
 
 const Page = () => {
   const {
@@ -12,6 +12,7 @@ const Page = () => {
     listAccounts,
     listCategories,
     handleDelete,
+    isSubmitting,
   } = usePaymentsCreateViewModel();
 
   return (
@@ -23,6 +24,7 @@ const Page = () => {
       listAccounts={listAccounts}
       listCategories={listCategories}
       handleDelete={handleDelete}
+      isSubmitting={isSubmitting}
     />
   );
 };

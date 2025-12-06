@@ -1,3 +1,4 @@
+"use client";
 import { MdDeleteOutline, MdArrowBack } from "react-icons/md";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -48,7 +49,7 @@ export default function Movements(props: any) {
               <div onClick={() => router.back()}>
                 <MdArrowBack />
               </div>
-              <TitleHelp title={title} onClick={driverMovement} />
+              <TitleHelp title={"Movimientos"} onClick={driverMovement} />
             </div>
             {!handleDelete && (
               <Typography>
@@ -129,7 +130,7 @@ export default function Movements(props: any) {
             )}
           />
           <Controller
-            name={"date_purchase"}
+            name={"datePurchase"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -137,7 +138,7 @@ export default function Movements(props: any) {
                   type="datetime-local"
                   placeholder="Fecha"
                   label="Fecha"
-                  id="date_purchase"
+                  id="datePurchase"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -237,7 +238,7 @@ export default function Movements(props: any) {
               {!!investmentWatch && (
                 <div className="mb-4">
                   <Controller
-                    name={"add_withdrawal"}
+                    name={"addWithdrawal"}
                     control={control}
                     render={({
                       field: { onChange, onBlur, value },
@@ -246,7 +247,7 @@ export default function Movements(props: any) {
                       <FormControl fieldState={fieldState} withOutHeight>
                         <Switch
                           label="Es un retiro o una adicion o reinversión?"
-                          name={"add_withdrawal"}
+                          name={"addWithdrawal"}
                           handleCheckboxChange={(e) => {
                             onChange(e);
                           }}
@@ -261,7 +262,7 @@ export default function Movements(props: any) {
           )}
           <div className={typeWatch !== "0" ? "hidden" : ""}>
             <Controller
-              name={"account_end"}
+              name={"accountEnd"}
               control={control}
               render={({ field: { onChange, onBlur, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={true}>
@@ -280,9 +281,9 @@ export default function Movements(props: any) {
             />
             {accountEndWatch &&
               accountWatch &&
-              accountEndWatch.badge_id !== accountWatch.badge_id && (
+              accountEndWatch.badgeId !== accountWatch.badgeId && (
                 <Controller
-                  name={"amount_end"}
+                  name={"amountEnd"}
                   control={control}
                   render={({
                     field: { onChange, onBlur, value },
@@ -293,7 +294,7 @@ export default function Movements(props: any) {
                         type="number"
                         placeholder="Monto recibido"
                         label="Monto recibido"
-                        id="amount_end"
+                        id="amountEnd"
                         step="0.01"
                         min="0"
                         onChange={(e: any) => {

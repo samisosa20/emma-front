@@ -1,16 +1,20 @@
+import React from "react";
+
 import { Controller } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
 //components
 import useComponents from "@/share/components";
+import useComponentsLayout from "../../../../components";
 
 // Helpers
-import { formatCurrency } from "@/share/helpers";
+import { getCurrencyFormatter } from "@/share/helpers";
 
 const EventsCreate = (props: any) => {
   const router = useRouter();
   const { Typography, Button, Input, FormControl } = useComponents();
+  const { ListMovements, CurrencyBadgeFlag } = useComponentsLayout();
 
   const {
     handleSubmit,
@@ -55,7 +59,7 @@ const EventsCreate = (props: any) => {
             )}
           />
           <Controller
-            name={"end_event"}
+            name={"endEvent"}
             control={control}
             render={({ field: { onChange, onBlur, value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
@@ -63,7 +67,7 @@ const EventsCreate = (props: any) => {
                   type="date"
                   placeholder="Fin evento"
                   label="Fin evento"
-                  id="end_event"
+                  id="endEvent"
                   onChange={(e) => {
                     onChange(e);
                   }}
@@ -88,29 +92,35 @@ const EventsCreate = (props: any) => {
           Categorías
         </Typography>
       )}
-      <div className="mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto">
+      <div className="mt-6  max-h-[65vh] overflow-y-auto">
         {listCategories &&
-          listCategories.map((category: any) => (
+          listCategories.map((category: any, i: number) => (
             <div
-              className="border-b border-gray-300 py-2 px-1"
-              key={category.name + category.badge_id}
+              className="border-b border-gray-300 py-2 px-1 bg-white rounded shadow-sm mb-3"
+              key={i}
             >
-              <div className="flex justify-between items-center">
-                <div className="font-bold">{category.name}</div>
-                <Typography variant="p">
-                  {formatCurrency.format(category.balance) +
-                    " " +
-                    category.currency}
-                </Typography>
-              </div>
-              <div className="w-full bg-gray-200 rounded">
-                <div
-                  className="h-3 bg-red-500 rounded"
-                  style={{
-                    width: `${category.percentage}`,
-                  }}
-                ></div>
-              </div>
+              <CurrencyBadgeFlag badge={category} />
+              {category.categories.map((subCategory: any, i: number) => (
+                <React.Fragment key={subCategory.name + `-${i}`}>
+                  <div className="flex justify-between items-center py-1">
+                    <Typography variant="h6" className="font-medium">
+                      {subCategory.name}
+                    </Typography>
+                    <Typography variant="p">
+                      {category.symbol}
+                      {getCurrencyFormatter(category.code, subCategory.amount)}
+                    </Typography>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded">
+                    <div
+                      className="h-3 bg-red-500 rounded"
+                      style={{
+                        width: `${subCategory.percentage}%`,
+                      }}
+                    ></div>
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
           ))}
       </div>
@@ -119,34 +129,12 @@ const EventsCreate = (props: any) => {
           Movimientos
         </Typography>
       )}
-      <div className="mt-6 bg-white rounded shadow-sm max-h-[65vh] overflow-y-auto">
-        {listMovements &&
-          listMovements.map((movement: any) => (
-            <div
-              className="border-b border-gray-300 py-2 px-1"
-              key={movement.id}
-            >
-              <div className="flex justify-between items-center">
-                <div className="font-bold">{movement?.category?.name}</div>
-                <div
-                  className={
-                    movement.amount > 0 ? "text-green-500" : "text-red-500"
-                  }
-                >
-                  {formatCurrency.format(movement.amount)}
-                </div>
-              </div>
-              <div className="flex justify-between items-center pb-1">
-                <Typography>{movement.date_purchase}</Typography>
-                <Typography>{movement.account?.name}</Typography>
-              </div>
-              {movement.description && (
-                <div className="border-t pt-1">
-                  <Typography variant="h5">{movement.description}</Typography>
-                </div>
-              )}
-            </div>
-          ))}
+      <div className="mt-6 max-h-[65vh] overflow-y-auto">
+        <ListMovements
+          listMovements={listMovements}
+          setPage={() => {}}
+          keyTitle="category"
+        />
       </div>
     </div>
   );

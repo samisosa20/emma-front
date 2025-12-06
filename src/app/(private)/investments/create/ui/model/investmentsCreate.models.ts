@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -9,35 +8,42 @@ import {
   investmentSchema,
   investmentAppretiationSchema,
 } from "@/share/validation";
-import type {
-  InvestmentSchema,
-  InvestmentAppretiaitonSchema,
-} from "@/share/validation";
-import { customConfigHeader, formatCurrency } from "@/share/helpers";
 
-import { InvestmentUseCase } from "@@/application/investment.use-case";
-import { InvestmentApiAdapter } from "@@/infrastructure/investment-api.adapter";
+import {
+  useGetApiV2InvestmentsIdSuspense,
+  usePostApiV2Investments,
+  usePutApiV2InvestmentsId,
+  useDeleteApiV2InvestmentsId,
+  usePutApiV2InvestmentsIdAppreciationAppreciationId,
+  useDeleteApiV2InvestmentsIdAppreciationAppreciationId,
+  usePostApiV2InvestmentsIdAppreciation,
+} from "@@@/endpoints/investment/investment";
+import { useUserStore } from "@/share/storage";
 
 export default function useInvestmentsCreateViewModel() {
-  const router = useRouter();
   const param = useParams();
+  const router = useRouter();
+
+  const { badges } = useUserStore();
 
   const [title, setTitle] = useState("Creacion de Inversiones");
   const [listMovements, setListMovements] = useState<any>([]);
   const [listAppretiations, setListAppretiations] = useState<any>([]);
-  const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [metrics, setMetrics] = useState<any>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [idAppretiation, setIdAppretiation] = useState<number>();
+  const [idAppretiation, setIdAppretiation] = useState<string>();
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(investmentSchema),
     defaultValues: {
       name: "",
-      init_amount: "",
-      end_amount: "0",
-      badge_id: {},
-      date_investment: "",
+      initAmount: "",
+      endAmount: "0",
+      badgeId: {},
+      dateInvestment: "",
     },
   });
 
@@ -49,268 +55,221 @@ export default function useInvestmentsCreateViewModel() {
     resolver: zodResolver(investmentAppretiationSchema),
     defaultValues: {
       amount: "",
-      date_appreciation: new Date().toISOString().split("T")[0],
+      dateAppreciation: new Date().toISOString().split("T")[0],
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: InvestmentSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createInvestment } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await createInvestment(data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutation = usePostApiV2Investments();
 
-  const mutationEdit = useMutation({
-    mutationFn: async (data: InvestmentSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editInvestment } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await editInvestment(id, data);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationEdit = usePutApiV2InvestmentsId();
 
-  const mutationDelete = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deleteInvestment } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await deleteInvestment(id);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        router.back();
-      }
-    },
-  });
+  const mutationDelete = useDeleteApiV2InvestmentsId();
 
-  const { data, refetch } = useQuery({
-    queryKey: ["investmentDetail", param.id],
-    queryFn: async () => {
-      if (param.id) {
-        const { getInvestmentDetail } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
+  const { data, refetch } = useGetApiV2InvestmentsIdSuspense(String(param.id));
 
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await getInvestmentDetail(id);
+  const mutationAppre = usePostApiV2InvestmentsIdAppreciation();
 
-        return result;
-      }
-      return null;
-    },
-  });
+  const mutationEditAppre =
+    usePutApiV2InvestmentsIdAppreciationAppreciationId();
 
-  const mutationAppre = useMutation({
-    mutationFn: async (data: InvestmentAppretiaitonSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { createAppretiation } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await createAppretiation({ ...data, investment_id: id });
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        resetAppre();
-        setIsOpen(false);
-        refetch();
-      }
-    },
-  });
-
-  const mutationEditAppre = useMutation({
-    mutationFn: async (data: InvestmentAppretiaitonSchema) => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { editAppretiation } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const id = Array.isArray(param.id)
-          ? parseInt(param.id[0])
-          : parseInt(param.id);
-        const result = await editAppretiation(idAppretiation ?? 0, {
-          ...data,
-          investment_id: id,
-        });
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        resetAppre();
-        setIsOpen(false);
-        refetch();
-      }
-    },
-  });
-
-  const mutationDeleteAppre = useMutation({
-    mutationFn: async () => {
-      const user = localStorage.getItem("fiona-user");
-      if (user) {
-        const { deleteAppretiation } = new InvestmentUseCase(
-          new InvestmentApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-            customConfig: customConfigHeader(),
-          })
-        );
-        const result = await deleteAppretiation(idAppretiation ?? 0);
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-        toast.success(result.message);
-        resetAppre();
-        setIsOpen(false);
-        refetch();
-      }
-    },
-  });
+  const mutationDeleteAppre =
+    useDeleteApiV2InvestmentsIdAppreciationAppreciationId();
 
   const onSubmit = (data: any) => {
     const formData = {
       ...data,
-      badge_id: data.badge_id.value,
+      badgeId: data.badgeId.value,
+      dateInvestment: new Date(data.dateInvestment).toISOString(),
     };
     if (param.id) {
-      mutationEdit.mutate(formData);
+      mutationEdit.mutate(
+        {
+          id: String(param.id),
+          data: formData,
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            toast.success("Inversion Actualizada");
+          },
+          onError: () => {
+            toast.error("Error al actualizar la inversion");
+          },
+        }
+      );
     } else {
-      mutation.mutate(formData);
+      mutation.mutate(
+        {
+          data: formData,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Inversion Creada");
+            router.back();
+          },
+          onError: () => {
+            toast.error("Error al crear la inversion");
+          },
+        }
+      );
     }
   };
 
   const onSubmitAppre = (data: any) => {
     if (idAppretiation !== undefined) {
-      mutationEditAppre.mutate(data);
+      mutationEditAppre.mutate(
+        {
+          id: String(param.id),
+          appreciationId: String(idAppretiation),
+          data: {
+            ...data,
+            dateAppreciation: new Date(data.dateAppreciation),
+          },
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            toast.success("Apreciacion Actualizada");
+            handleAppretiation();
+          },
+          onError: () => {
+            toast.error("Error al actualizar la apreciacion");
+          },
+        }
+      );
     } else {
-      mutationAppre.mutate(data);
+      mutationAppre.mutate(
+        {
+          id: String(param.id),
+          data: {
+            ...data,
+            dateAppreciation: new Date(data.dateAppreciation),
+          },
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            toast.success("Apreciacion Creada");
+            handleAppretiation();
+          },
+          onError: () => {
+            toast.error("Error al crear la apreciacion");
+          },
+        }
+      );
     }
   };
 
   const handleDelete = () => {
-    mutationDelete.mutate();
+    mutationDelete.mutate(
+      {
+        id: String(param.id),
+      },
+      {
+        onSuccess: () => {
+          router.back();
+          toast.success("Inversion Eliminada");
+        },
+        onError: () => {
+          toast.error("Error al eliminar la inversion");
+        },
+      }
+    );
   };
 
   const handleDeleteAppre = () => {
-    mutationDeleteAppre.mutate();
+    mutationDeleteAppre.mutate(
+      {
+        id: String(param.id),
+        appreciationId: String(idAppretiation),
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          toast.success("Apreciacion Eliminada");
+          handleAppretiation();
+        },
+        onError: () => {
+          toast.error("Error al eliminar la apreciacion");
+        },
+      }
+    );
   };
 
   const handleAppretiation = () => {
     setIsOpen(!isOpen);
     resetAppre({
       amount: "",
-      date_appreciation: new Date().toISOString().split("T")[0],
+      dateAppreciation: new Date().toISOString().split("T")[0],
     });
     setIdAppretiation(undefined);
   };
 
-  const handleEditAppretiation = (id: number) => {
+  const handleEditAppretiation = (id: string) => {
     setIsOpen(!isOpen);
     setIdAppretiation(id);
 
     const getInfo = listAppretiations.filter((v: any) => v.id === id)[0];
-    resetAppre(getInfo);
+    resetAppre({
+      amount: getInfo.amount,
+      dateAppreciation: getInfo.dateAppreciation.split("T")[0],
+    });
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
-    if (!user) {
-      localStorage.removeItem("fiona-user");
-      router.push("/login");
-    } else {
-      const userjson = JSON.parse(user);
-      setCurrencyOptions(userjson.currencies);
-      if (param.id) {
-        setTitle("Edicion de Inversiones");
-      }
+    refetch();
+    setCurrencyOptions(
+      badges?.map((v) => {
+        return {
+          label: String(v.code),
+          value: String(v.id),
+        };
+      })
+    );
+    if (param.id) {
+      setTitle("Edicion de Inversiones");
     }
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (!!data && Object.keys(data).length > 0) {
       reset({
         name: data.name,
-        init_amount: data.init_amount.toString(),
-        end_amount: data.end_amount.toString(),
-        badge_id: {
-          label: data.currency?.code,
-          value: data.badge_id.toString(),
+        initAmount: data.initAmount.toString(),
+        endAmount: data.endAmount.toString(),
+        badgeId: {
+          label: data.badge?.code,
+          value: data.badge.id,
         },
-        date_investment: data.date_investment,
+        dateInvestment: data.dateInvestment.split("T")[0],
       });
       setListMovements(data.movements);
       setListAppretiations(data.appreciations);
       setMetrics([
         {
           title: "Saldo actual",
-          values: [formatCurrency.format(Number(data.end_amount))],
+          amount: data.endAmount,
+          flag: data.badge?.flag,
+          symbol: data.badge?.symbol,
+          code: data.badge?.code,
         },
         {
           title: "Rendimientos Acu.",
-          values: [formatCurrency.format(data.returns)],
+          amount: data.totalReturns,
+          flag: data.badge?.flag,
+          symbol: data.badge?.symbol,
+          code: data.badge?.code,
         },
         {
           title: "Valorizacion",
-          values: [data.valorization],
+          amount: data.endAmount - data.totalWithdrawal,
+          flag: data.badge?.flag,
+          symbol: data.badge?.symbol,
+          code: data.badge?.code,
         },
         {
           title: "Valorizacion + Rendimientos",
-          values: [data.total_rate],
+          text: data.totalRate,
         },
       ]);
     }
@@ -334,5 +293,6 @@ export default function useInvestmentsCreateViewModel() {
     idAppretiation,
     handleDeleteAppre,
     metrics,
+    data,
   };
 }
