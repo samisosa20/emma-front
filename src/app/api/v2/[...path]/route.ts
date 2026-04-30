@@ -1,6 +1,4 @@
-import { auth } from "@/share/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
 
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
     return handleRequest(request, params);
@@ -24,18 +22,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { path: 
 
 async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
   const targetPath = path.join("/");
-  const isLogin = targetPath.includes("auth/login");
 
-  let session = null;
-  if (!isLogin) {
-    session = await auth.api.getSession({
-      headers: await headers()
-    });
-
-    if (!session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-  }
+  // Note: Local session validation removed since backend now handles auth via Better Auth
+  // We just forward everything to the backend. The backend will validate its own session cookies.
 
   const backendUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!backendUrl) {
@@ -44,17 +33,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
   const url = new URL(`${backendUrl}/${targetPath}${request.nextUrl.search}`);
 
-  const backendToken = request.cookies.get("backend_token")?.value;
-
   const requestHeaders = new Headers(request.headers);
   // Remove headers that might interfere with the proxy
   requestHeaders.delete("host");
-  requestHeaders.delete("cookie");
   requestHeaders.delete("connection");
-
-  if (backendToken) {
-    requestHeaders.set("Authorization", `Bearer ${backendToken}`);
-  }
 
   try {
     const response = await fetch(url.toString(), {
@@ -63,10 +45,9 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       body: request.method !== "GET" && request.method !== "HEAD" ? await request.blob() : undefined,
     });
 
-    // Forward backend response headers
+    // Forward backend response headers (including Set-Cookie for Better Auth)
     const responseHeaders = new Headers();
     response.headers.forEach((value, key) => {
-        // Skip security headers that Next.js might want to control
         if (!["content-encoding", "transfer-encoding", "content-length"].includes(key.toLowerCase())) {
             responseHeaders.set(key, value);
         }
@@ -85,6 +66,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         headers: responseHeaders
     });
 
+    // For traditional login compatibility, still handle the JWT token if present
+    const isLogin = targetPath.includes("auth/login");
     if (isLogin && response.ok && contentType?.includes("application/json")) {
       const data = JSON.parse(body as string);
       if (data.token) {

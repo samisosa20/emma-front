@@ -7,8 +7,10 @@ interface Session {
 }
 
 export default async function middleware(request: NextRequest) {
+  // Check session against the backend auth endpoint via the proxy or directly
+  // Using the proxied path /api/v2/auth/get-session
   const { data: session } = await betterFetch<Session>(
-    "/api/auth/get-session",
+    "/api/v2/auth/get-session",
     {
       baseURL: request.nextUrl.origin,
       headers: {
