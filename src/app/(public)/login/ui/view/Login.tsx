@@ -12,7 +12,7 @@ import useComponents from "@/share/components";
 export default function Login(props: any) {
   const { Button, Typography, Input, FormControl, Checkbox } = useComponents();
 
-  const { handleSubmit, onSubmit, control, isSubmitting } = props;
+  const { handleSubmit, onSubmit, onGoogleLogin, control, isSubmitting } = props;
 
   return (
     <div className="flex items-center flex-col justify-center min-screen-fiona bg-primary space-y-4">
@@ -96,6 +96,39 @@ export default function Login(props: any) {
               disabled={isSubmitting}
             >
               Iniciar sesión
+            </Button>
+            <div className="my-4 flex items-center before:flex-1 before:border-t before:border-gray-300 after:flex-1 after:border-t after:border-gray-300">
+              <p className="mx-4 mb-0 text-center font-semibold text-gray-600">
+                O
+              </p>
+            </div>
+            <Button
+              variant="outlined"
+              block
+              type="button"
+              onClick={onGoogleLogin}
+              disabled={isSubmitting}
+              className="flex items-center justify-center space-x-2"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.18 1-.78 1.85-1.63 2.25v1.86h2.64c1.55-1.42 2.43-3.5 2.43-5.87z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-2.64-1.86c-.73.49-1.66.78-2.64.78-2.85 0-5.27-1.92-6.13-4.51H5.17v2.07C6.98 20.44 9.32 23 12 23z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M5.87 14.75c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V8.5H5.17C4.42 10 4 11.7 4 13.5s.42 3.5 1.17 5l.7-1.75z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 9.32 1 6.98 3.56 5.17 6.43l3.35 2.59C9.38 6.43 11.15 5.38 12 5.38z"
+                />
+              </svg>
+              <span>Continuar con Google</span>
             </Button>
             <Link href="/forgot" className="lg:hidden">
               <Typography

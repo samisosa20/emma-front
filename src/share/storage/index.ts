@@ -11,7 +11,6 @@ import {
 } from "@@@/domain/models";
 
 type UserStore = {
-  token: string;
   groupsCategory: PostApiV2AuthLogin200GroupsCategoryItem[];
   periods: PostApiV2AuthLogin200PeriodsItem[];
   badges: PostApiV2AuthLogin200BadgesItem[];
@@ -24,7 +23,6 @@ type UserStore = {
 export const useUserStore = create<UserStore>()(
   persist(
     (set, get) => ({
-      token: "",
       user: {},
       groupsCategory: [],
       periods: [],
@@ -32,7 +30,6 @@ export const useUserStore = create<UserStore>()(
       accountsType: [],
       setLoginData: (login) =>
         set({
-          token: login.token,
           user: login.data,
           groupsCategory: login.groupsCategory,
           periods: login.periods,
@@ -41,7 +38,6 @@ export const useUserStore = create<UserStore>()(
         }),
       logout: () =>
         set({
-          token: "",
           user: {},
           groupsCategory: [],
           periods: [],

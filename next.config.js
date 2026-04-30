@@ -10,14 +10,6 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = withPWA({
   output: "standalone",
-  async rewrites() {
-    return [
-      {
-        source: "/api/v2/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {

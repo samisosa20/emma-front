@@ -24,16 +24,10 @@ function getTimezone() {
 }
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "/api/v2",
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
-  const { token } = useUserStore.getState();
-
-  if (token) {
-    request.headers["Authorization"] = `Bearer ${token}`;
-  }
-
   request.headers["Content-Type"] = "application/json";
   request.headers["Timezone"] = getTimezone();
 
