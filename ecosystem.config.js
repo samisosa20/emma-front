@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "FionaNextApp",
       exec_mode: "cluster",
-      instances: "2",
+      instances: "1",
       script: "server.js",
       env: {
         NODE_ENV: "production",
