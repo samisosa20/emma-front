@@ -1,4 +1,4 @@
-import { defineConfig } from "orval";
+import { defineConfig } from 'orval';
 
 export default defineConfig({
   api: {
@@ -7,6 +7,22 @@ export default defineConfig({
       filters: {
         mode: "exclude",
         tags: ["Default", "Example"],
+      },
+      override: {
+        transformer: (specs) => {
+          const paths = specs.paths;
+          const newPaths: typeof paths = {};
+
+          Object.keys(paths).forEach((key) => {
+            const newKey = key.replace(/^\/api\/v2/, '/api');
+            newPaths[newKey] = paths[key];
+          });
+
+          return {
+            ...specs,
+            paths: newPaths,
+          };
+        },
       },
     },
     output: {

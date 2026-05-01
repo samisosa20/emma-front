@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import { heritageSchema } from "@/share/validation";
 
 import {
-  useGetApiV2HeritagesIdSuspense,
-  usePostApiV2Heritages,
-  usePutApiV2HeritagesId,
-  useDeleteApiV2HeritagesId,
+  useGetApiHeritagesIdSuspense,
+  usePostApiHeritages,
+  usePutApiHeritagesId,
+  useDeleteApiHeritagesId,
 } from "@@@/endpoints/heritage/heritage";
 import { useUserStore } from "@/share/storage";
 
@@ -32,13 +32,13 @@ export default function useHeritagesCreateViewModel() {
     },
   });
 
-  const mutation = usePostApiV2Heritages();
+  const mutation = usePostApiHeritages();
 
-  const mutationEdit = usePutApiV2HeritagesId();
+  const mutationEdit = usePutApiHeritagesId();
 
-  const mutationDelete = useDeleteApiV2HeritagesId();
+  const mutationDelete = useDeleteApiHeritagesId();
 
-  const { data, refetch } = useGetApiV2HeritagesIdSuspense(String(param.id));
+  const { data, refetch } = useGetApiHeritagesIdSuspense(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {

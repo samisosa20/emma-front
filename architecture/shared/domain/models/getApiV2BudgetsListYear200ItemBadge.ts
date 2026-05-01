@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2BudgetsListYear200ItemBadge = {
+export type GetApiBudgetsListYear200ItemBadge = {
   name?: string;
   code?: string;
   symbol?: string;

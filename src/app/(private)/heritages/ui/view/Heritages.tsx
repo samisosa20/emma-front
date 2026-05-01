@@ -8,10 +8,10 @@ import useComponentsLayout from "../../../components";
 
 // Helpers
 import { getCurrencyFormatter, driverHeritage } from "@/share/helpers";
-import { GetApiV2HeritagesYear200Item } from "@@@/domain/models";
+import { GetApiHeritagesYear200Item } from "@@@/domain/models";
 
 export default function Heritages(props: {
-  data: GetApiV2HeritagesYear200Item[];
+  data: GetApiHeritagesYear200Item[];
 }) {
   const { data } = props;
   const { Typography, TitleHelp } = useComponents();

@@ -7,7 +7,7 @@ import useComponents from "@/share/components";
 
 // Helpers
 import { driverBudget, getCurrencyFormatter } from "@/share/helpers";
-import { GetApiV2BudgetsListYear200Item } from "@@@/domain/models";
+import { GetApiBudgetsListYear200Item } from "@@@/domain/models";
 
 export default function Budgets(props: any) {
   const { data } = props;
@@ -34,7 +34,7 @@ export default function Budgets(props: any) {
       </div>
       <div className="mt-6">
         {data &&
-          data.map((budget: GetApiV2BudgetsListYear200Item) => (
+          data.map((budget: GetApiBudgetsListYear200Item) => (
             <div className="mb-4" key={budget.badge}>
               <div className="flex items-center justify-between">
                 <Typography variant="h2">{budget.badge}</Typography>

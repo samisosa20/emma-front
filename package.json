@@ -11,6 +11,7 @@
     "orval": "npx orval --config ./architecture/orval.config.ts"
   },
   "dependencies": {
+    "@better-fetch/fetch": "^1.1.21",
     "@hookform/resolvers": "5.2.2",
     "@material-tailwind/react": "2.1.10",
     "@tailwindcss/postcss": "^4.1.18",
@@ -21,6 +22,7 @@
     "@types/react-dom": "19.2.3",
     "autoprefixer": "10.4.23",
     "axios": "1.13.2",
+    "better-auth": "^1.6.9",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "driver.js": "1.4.0",

@@ -10,10 +10,10 @@ import { customConfigHeader, driverWelcome } from "@/share/helpers";
 import { useUserStore } from "@/share/storage";
 
 import {
-  useGetApiV2ReportsTypePeriodSuspense,
-  useGetApiV2ReportsGeneralBalanceSuspense,
-  useGetApiV2ReportsHistorySuspense,
-  getApiV2ReportsHistory,
+  useGetApiReportsTypePeriodSuspense,
+  useGetApiReportsGeneralBalanceSuspense,
+  useGetApiReportsHistorySuspense,
+  getApiReportsHistory,
 } from "@@@/endpoints/report/report";
 
 export default function useDashboardViewModel() {
@@ -96,7 +96,7 @@ export default function useDashboardViewModel() {
     },
   });
 
-  const { isLoading, data, isError } = useGetApiV2ReportsTypePeriodSuspense(
+  const { isLoading, data, isError } = useGetApiReportsTypePeriodSuspense(
     typeReport,
     periodReport,
     {
@@ -119,7 +119,7 @@ export default function useDashboardViewModel() {
   );
 
   const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiV2ReportsGeneralBalanceSuspense();
+    useGetApiReportsGeneralBalanceSuspense();
 
   const today = new Date();
 
@@ -130,7 +130,7 @@ export default function useDashboardViewModel() {
   const lastDayOfMonth = endOfMonth(today);
 
   // Llama a la API con las fechas formateadas
-  const { data: dataHistory } = useGetApiV2ReportsHistorySuspense({
+  const { data: dataHistory } = useGetApiReportsHistorySuspense({
     ...(filters.badgeId && { badgeId: String(filters.badgeId) }),
     startDate: format(firstDayOfMonth, "yyyy-MM-dd"),
     endDate: format(lastDayOfMonth, "yyyy-MM-dd"),
@@ -138,7 +138,7 @@ export default function useDashboardViewModel() {
 
   const onSubmit = async (data: any) => {
     setFilters((prev) => ({ ...prev, badgeId: data.badgeId?.value }));
-    const result = await getApiV2ReportsHistory({
+    const result = await getApiReportsHistory({
       badgeId: data.badgeId?.value as string,
       startDate: data.startDate.toISOString(),
       endDate: data.endDate.toISOString(),

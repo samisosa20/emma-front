@@ -9,12 +9,12 @@ import { accountSchema } from "@/share/validation";
 
 import { useUserStore } from "@/share/storage";
 import {
-  useGetApiV2AccountsIdSuspense,
-  useDeleteApiV2AccountsId,
-  usePostApiV2Accounts,
-  usePutApiV2AccountsId,
-  usePatchApiV2AccountsIdRestore,
-  usePatchApiV2AccountsIdDesactivate,
+  useGetApiAccountsIdSuspense,
+  useDeleteApiAccountsId,
+  usePostApiAccounts,
+  usePutApiAccountsId,
+  usePatchApiAccountsIdRestore,
+  usePatchApiAccountsIdDesactivate,
 } from "@@@/endpoints/account/account";
 
 const useAccountCreate = () => {
@@ -37,17 +37,17 @@ const useAccountCreate = () => {
 
   const watchType = watch("typeId");
 
-  const mutation = usePostApiV2Accounts();
+  const mutation = usePostApiAccounts();
 
-  const mutationEdit = usePutApiV2AccountsId();
+  const mutationEdit = usePutApiAccountsId();
 
-  const mutationDelete = useDeleteApiV2AccountsId();
+  const mutationDelete = useDeleteApiAccountsId();
 
-  const mutationDesactive = usePatchApiV2AccountsIdDesactivate();
+  const mutationDesactive = usePatchApiAccountsIdDesactivate();
 
-  const mutationRestore = usePatchApiV2AccountsIdRestore();
+  const mutationRestore = usePatchApiAccountsIdRestore();
 
-  const { data } = useGetApiV2AccountsIdSuspense(String(param.id));
+  const { data } = useGetApiAccountsIdSuspense(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {

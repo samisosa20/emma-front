@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 import { paymentsSchema } from "@/share/validation";
 
 import {
-  useGetApiV2PlannedPaymentsIdSuspense,
-  useDeleteApiV2PlannedPaymentsId,
-  usePutApiV2PlannedPaymentsId,
-  usePostApiV2PlannedPayments,
+  useGetApiPlannedPaymentsIdSuspense,
+  useDeleteApiPlannedPaymentsId,
+  usePutApiPlannedPaymentsId,
+  usePostApiPlannedPayments,
 } from "@@@/endpoints/planned-payment/planned-payment";
-import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
-import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
 import { useUserStore } from "@/share/storage";
 
 export default function usePaymentsCreateViewModel() {
@@ -40,21 +40,21 @@ export default function usePaymentsCreateViewModel() {
     },
   });
 
-  const mutation = usePostApiV2PlannedPayments();
+  const mutation = usePostApiPlannedPayments();
 
-  const mutationEdit = usePutApiV2PlannedPaymentsId();
+  const mutationEdit = usePutApiPlannedPaymentsId();
 
-  const mutationDelete = useDeleteApiV2PlannedPaymentsId();
+  const mutationDelete = useDeleteApiPlannedPaymentsId();
 
-  const { data, refetch } = useGetApiV2PlannedPaymentsIdSuspense(
+  const { data, refetch } = useGetApiPlannedPaymentsIdSuspense(
     String(param.id)
   );
 
   const { data: dataListAccounts, isError: isErrorAccount } =
-    useGetApiV2AccountsSuspense();
+    useGetApiAccountsSuspense();
 
   const { data: dataListCategories, isError: isErrorCategory } =
-    useGetApiV2CategoriesSuspense();
+    useGetApiCategoriesSuspense();
 
   const onSubmit = (data: any) => {
     setIsSubmitting(true);

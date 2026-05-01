@@ -9,10 +9,10 @@ import { categorySchema } from "@/share/validation";
 import type { CategorySchema } from "@/share/validation";
 
 import {
-  usePostApiV2Categories,
-  usePutApiV2CategoriesId,
-  useDeleteApiV2CategoriesId,
-  useGetApiV2CategoriesIdSuspense,
+  usePostApiCategories,
+  usePutApiCategoriesId,
+  useDeleteApiCategoriesId,
+  useGetApiCategoriesIdSuspense,
 } from "@@@/endpoints/category/category";
 
 export default function useCategoryCreateViewModel() {
@@ -26,13 +26,13 @@ export default function useCategoryCreateViewModel() {
     resolver: zodResolver(categorySchema),
   });
 
-  const mutation = usePostApiV2Categories();
+  const mutation = usePostApiCategories();
 
-  const mutationEdit = usePutApiV2CategoriesId();
+  const mutationEdit = usePutApiCategoriesId();
 
-  const mutationDelete = useDeleteApiV2CategoriesId();
+  const mutationDelete = useDeleteApiCategoriesId();
 
-  const { data } = useGetApiV2CategoriesIdSuspense(String(param.id), {
+  const { data } = useGetApiCategoriesIdSuspense(String(param.id), {
     query: {
       queryKey: ["categoryDetail", param.id ?? 0],
     },

@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 import { eventSchema } from "@/share/validation";
 
 import {
-  usePostApiV2Events,
-  usePutApiV2EventsId,
-  useGetApiV2EventsId,
+  usePostApiEvents,
+  usePutApiEventsId,
+  useGetApiEventsId,
 } from "@@@/endpoints/event/event";
 
 const useEventCreate = () => {
@@ -24,11 +24,11 @@ const useEventCreate = () => {
     resolver: zodResolver(eventSchema),
   });
 
-  const mutation = usePostApiV2Events();
+  const mutation = usePostApiEvents();
 
-  const mutationEdit = usePutApiV2EventsId();
+  const mutationEdit = usePutApiEventsId();
 
-  const { data, refetch } = useGetApiV2EventsId(String(param.id));
+  const { data, refetch } = useGetApiEventsId(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {

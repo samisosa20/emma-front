@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
 
 export default function useCategoriesViewModel() {
   const router = useRouter();
@@ -9,7 +9,7 @@ export default function useCategoriesViewModel() {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiV2CategoriesSuspense();
+  const { isLoading, data, isError, refetch } = useGetApiCategoriesSuspense();
 
   const handleToggle = () => {
     setSearch("");

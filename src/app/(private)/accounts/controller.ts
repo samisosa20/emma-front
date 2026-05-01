@@ -3,8 +3,8 @@ import { useRouter } from "next/navigation";
 
 import { driverAccount } from "@/share/helpers";
 
-import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
-import { useGetApiV2ReportsGeneralBalanceSuspense } from "@@@/endpoints/report/report";
+import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiReportsGeneralBalanceSuspense } from "@@@/endpoints/report/report";
 
 const useAccounts = () => {
   const router = useRouter();
@@ -12,9 +12,9 @@ const useAccounts = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiV2AccountsSuspense();
+  const { isLoading, data, isError, refetch } = useGetApiAccountsSuspense();
   const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiV2ReportsGeneralBalanceSuspense();
+    useGetApiReportsGeneralBalanceSuspense();
 
   const handleDrive = () => {
     driverAccount();

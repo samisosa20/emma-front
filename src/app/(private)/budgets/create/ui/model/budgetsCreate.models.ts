@@ -9,12 +9,12 @@ import { budgetSchema } from "@/share/validation";
 
 import { useUserStore } from "@/share/storage";
 
-import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
 import {
-  useGetApiV2BudgetsIdSuspense,
-  usePostApiV2Budgets,
-  usePutApiV2BudgetsId,
-  useDeleteApiV2BudgetsId,
+  useGetApiBudgetsIdSuspense,
+  usePostApiBudgets,
+  usePutApiBudgetsId,
+  useDeleteApiBudgetsId,
 } from "@@@/endpoints/budget/budget";
 
 export default function useBudgetsCreateViewModel() {
@@ -44,15 +44,15 @@ export default function useBudgetsCreateViewModel() {
     },
   });
 
-  const { data: dataListCategories } = useGetApiV2CategoriesSuspense();
+  const { data: dataListCategories } = useGetApiCategoriesSuspense();
 
-  const mutation = usePostApiV2Budgets();
+  const mutation = usePostApiBudgets();
 
-  const mutationEdit = usePutApiV2BudgetsId();
+  const mutationEdit = usePutApiBudgetsId();
 
-  const mutationDelete = useDeleteApiV2BudgetsId();
+  const mutationDelete = useDeleteApiBudgetsId();
 
-  const { data } = useGetApiV2BudgetsIdSuspense(String(param.id));
+  const { data } = useGetApiBudgetsIdSuspense(String(param.id));
 
   const onSubmit = (data: any) => {
     const formData = {

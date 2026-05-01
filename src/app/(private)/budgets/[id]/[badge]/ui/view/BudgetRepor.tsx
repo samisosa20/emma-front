@@ -9,7 +9,7 @@ import useComponents from "@/share/components";
 
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
-import { GetApiV2Budgets200Item } from "@@@/domain/models";
+import { GetApiBudgets200Item } from "@@@/domain/models";
 
 export default function BudgetRepor(props: any) {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function BudgetRepor(props: any) {
         {/* list Incomes */}
         <div className="col-span-1">
           <div className="p-4 mb-3 pt-3">
-            {data?.map((budget: GetApiV2Budgets200Item, key: number) => {
+            {data?.map((budget: GetApiBudgets200Item, key: number) => {
               const porcentage =
                 Math.abs(budget.executed / budget.planned) * 100;
               const color =
