@@ -4,12 +4,13 @@ import { useRouter, usePathname } from "next/navigation";
 
 // Components
 import useComponents from "@/share/components";
-import { useUserStore } from "@/share/storage";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function ModalVerify() {
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useUserStore();
+  const { data: session } = authClient.useSession();
+  const user = session?.user || { isConfirmed: false };
 
   const [isOpen, setIsOpen] = useState(false);
   const { Typography, Modal, Button } = useComponents();
@@ -21,7 +22,7 @@ export default function ModalVerify() {
 
   useEffect(() => {
     if (user && pathname !== "/profile" && pathname !== "/support") {
-      setIsOpen(!user?.confirmedEmailAt);
+      setIsOpen(!user?.isConfirmed);
     }
   }, [pathname]);
 

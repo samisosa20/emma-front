@@ -16,11 +16,12 @@ import type {
 } from "@/share/validation";
 
 import { useGetApiAuthProfileSuspense } from "@@@/endpoints/auth/auth";
-import { useUserStore } from "@/share/storage";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useProfileViewModel() {
   const router = useRouter();
-  const { badges, user, logout } = useUserStore();
+  const { data: session } = authClient.useSession();
+  const user = session?.user || { email: "", name: "", image: "", isConfirmed: false };
 
   const [currencyOptions, setCurrencyOptions] = useState<
     { label: string; value: string }[]
@@ -132,8 +133,8 @@ export default function useProfileViewModel() {
     });
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await authClient.signOut();
     router.push("/login");
   };
 
@@ -152,14 +153,14 @@ export default function useProfileViewModel() {
 
   useEffect(() => {
     if (user) {
-      setVerify(!!user?.confirmedEmailAt);
+      setVerify(!!user?.isConfirmed);
       setCurrencyOptions(
-        badges?.map((v) => {
+        session?.badges?.map((v) => {
           return {
             label: String(v.code),
             value: String(v.id),
           };
-        })
+        }) || []
       );
     }
   }, []);

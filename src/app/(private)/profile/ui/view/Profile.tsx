@@ -46,15 +46,14 @@ export default function Profile(props: any) {
           <Controller
             name={"name"}
             control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+            render={({ field: { value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type="text"
                   placeholder="Nombre"
                   label="Nombre"
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
+                  readOnly
+                  disabled
                   iserror={!!fieldState.error}
                   value={value}
                 />
@@ -64,17 +63,16 @@ export default function Profile(props: any) {
           <Controller
             name={"password"}
             control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+            render={({ field: { value }, fieldState }) => (
               <FormControl fieldState={fieldState} withLabel={true}>
                 <Input
                   type="password"
                   placeholder="Contraseña"
                   label="Contraseña"
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
+                  readOnly
+                  disabled
                   iserror={!!fieldState.error}
-                  value={value}
+                  value={"********"}
                 />
               </FormControl>
             )}

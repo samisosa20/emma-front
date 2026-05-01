@@ -16,6 +16,10 @@ const nextConfig = withPWA({
         protocol: "https",
         hostname: "flagcdn.com",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
   async rewrites() {

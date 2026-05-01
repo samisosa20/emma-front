@@ -14,10 +14,12 @@ import {
   useDeleteApiCategoriesId,
   useGetApiCategoriesIdSuspense,
 } from "@@@/endpoints/category/category";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useCategoryCreateViewModel() {
   const router = useRouter();
   const param = useParams();
+   const { data: session } = authClient.useSession();
 
   const [title, setTitle] = useState("Creacion de Categoría");
   const [groupsOptions, setGroupsOptions] = useState([]);
@@ -77,11 +79,9 @@ export default function useCategoryCreateViewModel() {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("fiona-user");
-    if (user) {
-      const userjson = JSON.parse(user);
+    if (session?.user) {
       setGroupsOptions(
-        userjson.groupsCategory.map((g: any) => {
+        session?.groupCategories?.map((g: any) => {
           return { value: g.id, label: g.name };
         })
       );

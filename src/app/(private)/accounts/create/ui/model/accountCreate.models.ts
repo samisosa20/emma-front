@@ -16,11 +16,12 @@ import {
   usePatchApiAccountsIdRestore,
   usePatchApiAccountsIdDesactivate,
 } from "@@@/endpoints/account/account";
+import { authClient } from "@/share/lib/auth-client";
 
 const useAccountCreate = () => {
   const router = useRouter();
   const param = useParams();
-  const { badges, user, accountsType } = useUserStore();
+  const { data: session } = authClient.useSession();
 
   const [typeOptions, setTypeOptions] = useState<
     { label: string; value: string }[]
@@ -127,9 +128,9 @@ const useAccountCreate = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (session?.user) {
       setTypeOptions(
-        accountsType?.map((v) => {
+        session?.accountTypes?.map((v) => {
           return {
             label: String(v.name),
             value: String(v.id),
@@ -137,7 +138,7 @@ const useAccountCreate = () => {
         })
       );
       setCurrencyOptions(
-        badges?.map((v) => {
+        session?.badges?.map((v) => {
           return {
             label: String(v.code),
             value: String(v.id),

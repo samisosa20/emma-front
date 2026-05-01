@@ -11,12 +11,14 @@ import imgLogo from "../../../../../public/img/logo.png";
 import useComponents from "@/share/components";
 
 import { links } from "@/share/helpers";
-import { useUserStore } from "@/share/storage";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function Navbar() {
   const { Typography } = useComponents();
   const pathname = usePathname();
-  const { user } = useUserStore();
+  const { data: session } = authClient.useSession();
+  const user = session?.user || { name: "", image: "" };
+
 
   const obtenerIniciales = (name: string) => {
     const partesDelNombre = name?.split(" ");
@@ -83,8 +85,18 @@ export default function Navbar() {
               className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]"
               id="fiona-profile-aside"
             >
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0">
-                {obtenerIniciales(user.name ?? "")}
+              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0 overflow-hidden">
+                {user.image ? (
+                  <Image
+                    src={user.image}
+                    alt={user.name}
+                    width={40}
+                    height={40}
+                    className="object-cover w-full h-full"
+                  />
+                ) : (
+                  obtenerIniciales(user.name ?? "")
+                )}
               </div>
               <span className="ml-2 text-white font-medium text-sm truncate">
                 {user.name}
