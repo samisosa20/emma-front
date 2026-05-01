@@ -7,6 +7,8 @@
 
 @theme {
   --font-dosis: "Dosis", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
 
   --color-primary: #201d2c;
   --color-secondary: #ffe98a;
