@@ -7,7 +7,7 @@ import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { getCurrencyFormatter, driverInvestment } from "@/share/helpers";
-import { GetApiV2Investments200ContentItem } from "@@@/domain/models";
+import { GetApiInvestments200ContentItem } from "@@@/domain/models";
 
 export default function Investments(props: any) {
   const { data } = props;
@@ -37,7 +37,7 @@ export default function Investments(props: any) {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.content?.map((investment: GetApiV2Investments200ContentItem) => (
+          data.content?.map((investment: GetApiInvestments200ContentItem) => (
             <Link href={`/investments/${investment.id}`} key={investment.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">

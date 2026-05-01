@@ -2,21 +2,21 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 import {
-  PostApiV2AuthLogin200,
-  PostApiV2AuthLogin200AccountsTypeItem,
-  PostApiV2AuthLogin200BadgesItem,
-  PostApiV2AuthLogin200Data,
-  PostApiV2AuthLogin200GroupsCategoryItem,
-  PostApiV2AuthLogin200PeriodsItem,
+  PostApiAuthLogin200,
+  PostApiAuthLogin200AccountsTypeItem,
+  PostApiAuthLogin200BadgesItem,
+  PostApiAuthLogin200Data,
+  PostApiAuthLogin200GroupsCategoryItem,
+  PostApiAuthLogin200PeriodsItem,
 } from "@@@/domain/models";
 
 type UserStore = {
-  groupsCategory: PostApiV2AuthLogin200GroupsCategoryItem[];
-  periods: PostApiV2AuthLogin200PeriodsItem[];
-  badges: PostApiV2AuthLogin200BadgesItem[];
-  accountsType: PostApiV2AuthLogin200AccountsTypeItem[];
-  user: PostApiV2AuthLogin200Data;
-  setLoginData: (login: PostApiV2AuthLogin200) => void;
+  groupsCategory: PostApiAuthLogin200GroupsCategoryItem[];
+  periods: PostApiAuthLogin200PeriodsItem[];
+  badges: PostApiAuthLogin200BadgesItem[];
+  accountsType: PostApiAuthLogin200AccountsTypeItem[];
+  user: PostApiAuthLogin200Data;
+  setLoginData: (login: PostApiAuthLogin200) => void;
   logout: () => void;
 };
 

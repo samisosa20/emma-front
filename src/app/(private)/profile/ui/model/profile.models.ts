@@ -15,7 +15,7 @@ import type {
   DestroyAccountSchema,
 } from "@/share/validation";
 
-import { useGetApiV2AuthProfileSuspense } from "@@@/endpoints/auth/auth";
+import { useGetApiAuthProfileSuspense } from "@@@/endpoints/auth/auth";
 import { useUserStore } from "@/share/storage";
 
 export default function useProfileViewModel() {
@@ -41,7 +41,7 @@ export default function useProfileViewModel() {
     resolver: zodResolver(destroyAccountSchema),
   });
 
-  const { isLoading, data, isError } = useGetApiV2AuthProfileSuspense();
+  const { isLoading, data, isError } = useGetApiAuthProfileSuspense();
 
   const mutation = useMutation({
     mutationFn: async (data: ParamsProfileSchema) => {

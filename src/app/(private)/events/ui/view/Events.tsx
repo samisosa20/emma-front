@@ -7,7 +7,7 @@ import useComponentsLayout from "../../../components";
 
 // Helpers
 import { driverEvent, getCurrencyFormatter } from "@/share/helpers";
-import { GetApiV2Events200 } from "@@@/domain/models";
+import { GetApiEvents200 } from "@@@/domain/models";
 
 type EventList = {
   id: number;
@@ -15,7 +15,7 @@ type EventList = {
   balance: { movements: number; currency: string }[];
 };
 
-const Events = (props: { data: GetApiV2Events200 }) => {
+const Events = (props: { data: GetApiEvents200 }) => {
   const { data } = props;
   const { Typography, TitleHelp } = useComponents();
   const { CurrencyBadgeFlag } = useComponentsLayout();

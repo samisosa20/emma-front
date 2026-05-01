@@ -8,15 +8,15 @@ import { movementSchema } from "@/share/validation";
 
 import { getDateString, isEmptyObject } from "@/share/helpers";
 
-import { useGetApiV2InvestmentsSuspense } from "@@@/endpoints/investment/investment";
-import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
-import { useGetApiV2CategoriesSuspense } from "@@@/endpoints/category/category";
-import { useGetApiV2AccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiInvestmentsSuspense } from "@@@/endpoints/investment/investment";
+import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
+import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
 import {
-  useGetApiV2MovementsIdSuspense,
-  usePostApiV2Movements,
-  usePutApiV2MovementsId,
-  useDeleteApiV2MovementsId,
+  useGetApiMovementsIdSuspense,
+  usePostApiMovements,
+  usePutApiMovementsId,
+  useDeleteApiMovementsId,
 } from "@@@/endpoints/movement/movement";
 import { useUserStore } from "@/share/storage";
 
@@ -60,25 +60,25 @@ export default function useMovementsViewModel() {
   const accountWatch = watch("account");
   const investmentWatch = watch("investment");
 
-  const { data: detalMovement, refetch } = useGetApiV2MovementsIdSuspense(
+  const { data: detalMovement, refetch } = useGetApiMovementsIdSuspense(
     String(param.id)
   );
 
   const { data: dataListAccounts, isError: isErrorAccount } =
-    useGetApiV2AccountsSuspense();
+    useGetApiAccountsSuspense();
 
   const { data: dataListCategories, isError: isErrorCategory } =
-    useGetApiV2CategoriesSuspense();
+    useGetApiCategoriesSuspense();
 
   const { data: dataListEvents, isError: isErrorEvents } =
-    useGetApiV2EventsSuspense();
+    useGetApiEventsSuspense();
 
   const { data: dataListInvestments, isError: isErrorInvestments } =
-    useGetApiV2InvestmentsSuspense();
+    useGetApiInvestmentsSuspense();
 
-  const mutation = usePostApiV2Movements();
-  const mutationEdit = usePutApiV2MovementsId();
-  const mutationDelete = useDeleteApiV2MovementsId();
+  const mutation = usePostApiMovements();
+  const mutationEdit = usePutApiMovementsId();
+  const mutationDelete = useDeleteApiMovementsId();
 
   const onSubmit = (data: any) => {
     setIsSubmitting(true);

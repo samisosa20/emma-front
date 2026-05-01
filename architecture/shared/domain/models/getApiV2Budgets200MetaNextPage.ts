@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2Budgets200MetaNextPage = null | number;
+export type GetApiBudgets200MetaNextPage = null | number;

@@ -10,13 +10,13 @@ import {
 } from "@/share/validation";
 
 import {
-  useGetApiV2InvestmentsIdSuspense,
-  usePostApiV2Investments,
-  usePutApiV2InvestmentsId,
-  useDeleteApiV2InvestmentsId,
-  usePutApiV2InvestmentsIdAppreciationAppreciationId,
-  useDeleteApiV2InvestmentsIdAppreciationAppreciationId,
-  usePostApiV2InvestmentsIdAppreciation,
+  useGetApiInvestmentsIdSuspense,
+  usePostApiInvestments,
+  usePutApiInvestmentsId,
+  useDeleteApiInvestmentsId,
+  usePutApiInvestmentsIdAppreciationAppreciationId,
+  useDeleteApiInvestmentsIdAppreciationAppreciationId,
+  usePostApiInvestmentsIdAppreciation,
 } from "@@@/endpoints/investment/investment";
 import { useUserStore } from "@/share/storage";
 
@@ -59,21 +59,21 @@ export default function useInvestmentsCreateViewModel() {
     },
   });
 
-  const mutation = usePostApiV2Investments();
+  const mutation = usePostApiInvestments();
 
-  const mutationEdit = usePutApiV2InvestmentsId();
+  const mutationEdit = usePutApiInvestmentsId();
 
-  const mutationDelete = useDeleteApiV2InvestmentsId();
+  const mutationDelete = useDeleteApiInvestmentsId();
 
-  const { data, refetch } = useGetApiV2InvestmentsIdSuspense(String(param.id));
+  const { data, refetch } = useGetApiInvestmentsIdSuspense(String(param.id));
 
-  const mutationAppre = usePostApiV2InvestmentsIdAppreciation();
+  const mutationAppre = usePostApiInvestmentsIdAppreciation();
 
   const mutationEditAppre =
-    usePutApiV2InvestmentsIdAppreciationAppreciationId();
+    usePutApiInvestmentsIdAppreciationAppreciationId();
 
   const mutationDeleteAppre =
-    useDeleteApiV2InvestmentsIdAppreciationAppreciationId();
+    useDeleteApiInvestmentsIdAppreciationAppreciationId();
 
   const onSubmit = (data: any) => {
     const formData = {

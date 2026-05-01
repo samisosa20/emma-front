@@ -1,4 +1,3 @@
-import { useUserStore } from "@/share/storage";
 import Axios, {
   AxiosError,
   AxiosRequestConfig,
@@ -23,9 +22,7 @@ function getTimezone() {
   return `UTC${timezoneOffset}`;
 }
 
-export const AXIOS_INSTANCE = Axios.create({
-  baseURL: "/api/v2",
-});
+export const AXIOS_INSTANCE = Axios.create();
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";

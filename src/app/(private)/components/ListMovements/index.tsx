@@ -12,13 +12,13 @@ import {
   getIconComponent,
 } from "@/share/helpers";
 import {
-  GetApiV2Movements200ContentItem,
-  GetApiV2Movements200Meta,
+  GetApiMovements200ContentItem,
+  GetApiMovements200Meta,
 } from "@@@/domain/models";
 
 type listMovements = {
-  listMovements: GetApiV2Movements200ContentItem[];
-  meta?: GetApiV2Movements200Meta;
+  listMovements: GetApiMovements200ContentItem[];
+  meta?: GetApiMovements200Meta;
   setPage: any;
   keyTitle: "category" | "event" | "account" | "investment";
 };
@@ -34,7 +34,7 @@ export default function ListMovements({
   return (
     <div className="mt-6 max-h-[65vh] overflow-y-auto">
       {listMovements?.map(
-        (movement: GetApiV2Movements200ContentItem, index: number) => {
+        (movement: GetApiMovements200ContentItem, index: number) => {
           const Icon = getIconComponent(movement.category.icon ?? "PiAcorn");
           const currentDate = format(
             new Date(movement.datePurchase),

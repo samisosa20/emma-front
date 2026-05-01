@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { loginSchema } from "@/share/validation";
 import type { LoginSchema } from "@/share/validation";
 
-import { usePostApiV2AuthLogin } from "@@@/endpoints/auth/auth";
+import { usePostApiAuthLogin } from "@@@/endpoints/auth/auth";
 import { useUserStore } from "@/share/storage";
 import { authClient } from "@/share/lib/auth-client";
 
@@ -26,7 +26,7 @@ export default function useLogin() {
     },
   });
 
-  const mutation = usePostApiV2AuthLogin();
+  const mutation = usePostApiAuthLogin();
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     setIsSubmitting(true);

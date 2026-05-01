@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { useGetApiV2AccountsIdSuspense } from "@@@/endpoints/account/account";
-import { useGetApiV2MovementsSuspense } from "@@@/endpoints/movement/movement";
-import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
-import { useGetApiV2ReportsAccountIdBalanceSuspense } from "@@@/endpoints/report/report";
-import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
+import { useGetApiAccountsIdSuspense } from "@@@/endpoints/account/account";
+import { useGetApiMovementsSuspense } from "@@@/endpoints/movement/movement";
+import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
+import { useGetApiReportsAccountIdBalanceSuspense } from "@@@/endpoints/report/report";
+import { GetApiMovements200ContentItem } from "@@@/domain/models";
 
 const useAccount = () => {
   const param = useParams();
@@ -17,7 +17,7 @@ const useAccount = () => {
   const [page, setPage] = useState(1);
   const [listEvents, setListEvents] = useState<any[]>([]);
   const [listMovements, setListMovement] = useState<
-    GetApiV2Movements200ContentItem[]
+    GetApiMovements200ContentItem[]
   >([]);
   const [filters, setFilters] = useState({
     event_id: null,
@@ -39,23 +39,23 @@ const useAccount = () => {
     },
   });
 
-  const { isLoading, data, isError } = useGetApiV2AccountsIdSuspense(
+  const { isLoading, data, isError } = useGetApiAccountsIdSuspense(
     String(param.id)
   );
   const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiV2ReportsAccountIdBalanceSuspense(String(param.id));
+    useGetApiReportsAccountIdBalanceSuspense(String(param.id));
 
   const {
     isLoading: loadingMovement,
     data: dataMovements,
     refetch: refreshMove,
-  } = useGetApiV2MovementsSuspense({
+  } = useGetApiMovementsSuspense({
     accountId: String(param.id),
     page: page.toString(),
   });
 
   const { data: dataListEvents, isError: isErrorEvents } =
-    useGetApiV2EventsSuspense();
+    useGetApiEventsSuspense();
 
   const onSubmit = (data: any) => {
     setPage(1);

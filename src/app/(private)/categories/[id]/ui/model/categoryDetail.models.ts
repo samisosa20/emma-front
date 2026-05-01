@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { useGetApiV2CategoriesIdSuspense } from "@@@/endpoints/category/category";
-import { useGetApiV2Movements } from "@@@/endpoints/movement/movement";
-import { useGetApiV2ReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
-import { GetApiV2Movements200ContentItem } from "@@@/domain/models";
+import { useGetApiCategoriesIdSuspense } from "@@@/endpoints/category/category";
+import { useGetApiMovements } from "@@@/endpoints/movement/movement";
+import { useGetApiReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
+import { GetApiMovements200ContentItem } from "@@@/domain/models";
 
 export default function useCategoryDetailViewModel() {
   const param = useParams();
@@ -23,12 +23,12 @@ export default function useCategoryDetailViewModel() {
   const [currency, setCurrency] = useState("");
   const [page, setPage] = useState(1);
   const [listMovements, setListMovement] = useState<
-    GetApiV2Movements200ContentItem[]
+    GetApiMovements200ContentItem[]
   >([]);
 
   const { handleSubmit, control } = useForm();
 
-  const { isLoading, data, isError } = useGetApiV2CategoriesIdSuspense(
+  const { isLoading, data, isError } = useGetApiCategoriesIdSuspense(
     String(param.id),
     {
       query: {
@@ -38,13 +38,13 @@ export default function useCategoryDetailViewModel() {
   );
 
   const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiV2ReportsCategoryIdStatsSuspense(String(param.id));
+    useGetApiReportsCategoryIdStatsSuspense(String(param.id));
 
   const {
     isLoading: loadingMovement,
     data: dataMovements,
     refetch: refreshMove,
-  } = useGetApiV2Movements({
+  } = useGetApiMovements({
     categoryId: String(param.id),
     page: page.toString(),
   });

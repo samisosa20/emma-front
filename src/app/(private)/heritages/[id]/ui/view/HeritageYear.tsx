@@ -9,8 +9,8 @@ import useComponentsLayout from "@/app/(private)/components";
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
 import {
-  GetApiV2Heritages200ContentItem,
-  GetApiV2Heritages200InvestmentsItem,
+  GetApiHeritages200ContentItem,
+  GetApiHeritages200InvestmentsItem,
 } from "@@@/domain/models";
 
 const HeritageYear = (props: any) => {
@@ -61,7 +61,7 @@ const HeritageYear = (props: any) => {
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
         {data &&
-          data.content.map((heritage: GetApiV2Heritages200ContentItem) => (
+          data.content.map((heritage: GetApiHeritages200ContentItem) => (
             <Link href={`/heritages/${heritage.id}/edit`} key={heritage.id}>
               <div className="bg-white rounded shadow-sm p-4">
                 <div className="flex items-center justify-between">

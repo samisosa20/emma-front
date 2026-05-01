@@ -5,15 +5,15 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
-import type { GetApiV2Budgets200MetaPreviousPage } from './getApiV2Budgets200MetaPreviousPage';
-import type { GetApiV2Budgets200MetaNextPage } from './getApiV2Budgets200MetaNextPage';
+import type { GetApiBudgets200MetaPreviousPage } from './getApiBudgets200MetaPreviousPage';
+import type { GetApiBudgets200MetaNextPage } from './getApiBudgets200MetaNextPage';
 
-export type GetApiV2Budgets200Meta = {
+export type GetApiBudgets200Meta = {
   isFirstPage: boolean;
   isLastPage: boolean;
   currentPage: number;
-  previousPage: GetApiV2Budgets200MetaPreviousPage;
-  nextPage: GetApiV2Budgets200MetaNextPage;
+  previousPage: GetApiBudgets200MetaPreviousPage;
+  nextPage: GetApiBudgets200MetaNextPage;
   pageCount: number;
   totalCount: number;
 };

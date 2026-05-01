@@ -5,10 +5,10 @@
  * Documentation in swagger API to EMMA
  * OpenAPI spec version: 1.0.0
  */
-import type { GetApiV2Budgets200ContentItem } from './getApiV2Budgets200ContentItem';
-import type { GetApiV2Budgets200Meta } from './getApiV2Budgets200Meta';
+import type { GetApiBudgets200ContentItem } from './getApiBudgets200ContentItem';
+import type { GetApiBudgets200Meta } from './getApiBudgets200Meta';
 
-export type GetApiV2Budgets200 = {
-  content: GetApiV2Budgets200ContentItem[];
-  meta: GetApiV2Budgets200Meta;
+export type GetApiBudgets200 = {
+  content: GetApiBudgets200ContentItem[];
+  meta: GetApiBudgets200Meta;
 };

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2AuthProfile200Type = {
+export type GetApiAuthProfile200Type = {
   id?: string;
   name?: string;
   createdAt?: string;

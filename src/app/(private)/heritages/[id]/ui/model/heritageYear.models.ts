@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 
-import { useGetApiV2HeritagesSuspense } from "@@@/endpoints/heritage/heritage";
+import { useGetApiHeritagesSuspense } from "@@@/endpoints/heritage/heritage";
 
 const useHeritageYear = () => {
   const param = useParams();
@@ -10,7 +10,7 @@ const useHeritageYear = () => {
 
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiV2HeritagesSuspense({
+  const { isLoading, data, isError, refetch } = useGetApiHeritagesSuspense({
     year: Number(param.id),
   });
 

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApiV2Budgets200ContentItem = {
+export type GetApiBudgets200ContentItem = {
   id: string;
   name: string;
   amount: number;

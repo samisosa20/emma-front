@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { useGetApiV2HeritagesYearSuspense } from "@@@/endpoints/heritage/heritage";
+import { useGetApiHeritagesYearSuspense } from "@@@/endpoints/heritage/heritage";
 
 export default function useHeritagesViewModel() {
   const router = useRouter();
   const { isLoading, data, isError, refetch } =
-    useGetApiV2HeritagesYearSuspense();
+    useGetApiHeritagesYearSuspense();
 
   useEffect(() => {
     refetch();

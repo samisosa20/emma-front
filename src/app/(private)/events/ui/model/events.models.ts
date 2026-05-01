@@ -2,11 +2,11 @@ import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { useGetApiV2EventsSuspense } from "@@@/endpoints/event/event";
+import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
 
 const useEvents = () => {
   const router = useRouter();
-  const { isLoading, data, isError, refetch } = useGetApiV2EventsSuspense();
+  const { isLoading, data, isError, refetch } = useGetApiEventsSuspense();
 
   useEffect(() => {
     refetch();
