@@ -1,4 +1,8 @@
 "use client";
+import Image from "next/image";
+
+// Assets
+import imgLogo from "../../../../../../public/img/logo.png";
 
 export default function Login(props: any) {
   const { onGoogleLogin, isSubmitting } = props;
@@ -17,17 +21,24 @@ export default function Login(props: any) {
         <div className="bg-wf-on-primary rounded-xl p-8 shadow-[0_4px_24px_rgba(4,12,33,0.08)] border border-wf-surface-variant flex flex-col gap-6">
           {/* Branding Header */}
           <div className="flex flex-col items-center gap-2 text-center">
-            <div className="w-12 h-12 bg-wf-primary text-wf-on-primary rounded-lg flex items-center justify-center mb-1 shadow-sm">
-              <span className="material-symbols-outlined" style={{ fontSize: "28px" }}>account_balance_wallet</span>
+            <div className="mb-2">
+              <Image
+                src={imgLogo}
+                alt="WealthFlow Logo"
+                width={180}
+                height={48}
+                className="h-auto w-auto"
+                priority
+              />
             </div>
             <h1 className="font-manrope text-3xl font-bold text-wf-primary">WealthFlow</h1>
-            <p className="font-inter text-base text-wf-on-surface-variant">Manage your global finances in one place</p>
+            <p className="font-inter text-base text-wf-on-surface-variant">Gestiona tus finanzas globales en un solo lugar</p>
           </div>
 
           {/* Value Prop Banner */}
           <div className="bg-wf-surface-container-low rounded-lg p-4 border border-wf-surface-variant flex items-start gap-4">
             <span className="material-symbols-outlined text-wf-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
-            <p className="font-inter text-[14px] leading-tight text-wf-on-surface-variant">Secure, encrypted access to all your accounts. Bank-level security standard.</p>
+            <p className="font-inter text-[14px] leading-tight text-wf-on-surface-variant">Acceso seguro y encriptado a todas tus cuentas. Estándar de seguridad bancaria.</p>
           </div>
 
           {/* Login Actions */}
@@ -44,16 +55,16 @@ export default function Login(props: any) {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
               </svg>
-              Continue with Google
+              Continuar con Google
             </button>
           </div>
 
           {/* Footer Links */}
           <div className="text-center mt-2">
             <p className="font-inter text-[13px] text-wf-on-surface-variant">
-              By continuing, you agree to our
-              <a className="text-wf-primary hover:underline underline-offset-2 ml-1" href="#">Terms of Service</a> and
-              <a className="text-wf-primary hover:underline underline-offset-2 ml-1" href="#">Privacy Policy</a>.
+              Al continuar, aceptas nuestros
+              <a className="text-wf-primary hover:underline underline-offset-2 ml-1" href="#">Términos de Servicio</a> y
+              <a className="text-wf-primary hover:underline underline-offset-2 ml-1" href="#">Política de Privacidad</a>.
             </p>
           </div>
         </div>
