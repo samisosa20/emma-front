@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 // Component
 import useComponents from "./components";
+import ConditionalWrapper from "./components/ConditionalWrapper";
 
 export const metadata: Metadata = {
   title: "Fiona | wallet",
@@ -15,11 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const { Header, Footer } = useComponents();
+
   return (
-    <div>
-      <Header />
+    <ConditionalWrapper Header={Header as any} Footer={Footer as any}>
       {children}
-      <Footer />
-    </div>
+    </ConditionalWrapper>
   );
 }
