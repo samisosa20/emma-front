@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
 
 @import "tailwindcss";
 @source inline("grid-cols-{0..9}");
@@ -8,10 +10,88 @@
 
   --color-primary: #201d2c;
   --color-secondary: #ffe98a;
+
+  --color-wf-background: #fcf8fb;
+  --color-wf-on-primary-fixed-variant: #3e465e;
+  --color-wf-secondary: #006d37;
+  --color-wf-on-tertiary-fixed: #410006;
+  --color-wf-surface: #fcf8fb;
+  --color-wf-on-surface-variant: #45464d;
+  --color-wf-surface-container-low: #f6f3f5;
+  --color-wf-primary-fixed-dim: #bec6e3;
+  --color-wf-on-background: #1b1b1d;
+  --color-wf-on-secondary-fixed-variant: #005228;
+  --color-wf-outline-variant: #c6c6cd;
+  --color-wf-surface-dim: #dcd9db;
+  --color-wf-error: #ba1a1a;
+  --color-wf-surface-container: #f0edef;
+  --color-wf-tertiary-fixed-dim: #ffb3b0;
+  --color-wf-tertiary: #240002;
+  --color-wf-surface-container-highest: #e4e2e4;
+  --color-wf-inverse-on-surface: #f3f0f2;
+  --color-wf-error-container: #ffdad6;
+  --color-wf-surface-variant: #e4e2e4;
+  --color-wf-tertiary-fixed: #ffdad8;
+  --color-wf-on-surface: #1b1b1d;
+  --color-wf-on-primary: #ffffff;
+  --color-wf-outline: #76777e;
+  --color-wf-primary: #040c21;
+  --color-wf-inverse-surface: #303032;
+  --color-wf-secondary-fixed-dim: #4ae183;
+  --color-wf-on-error: #ffffff;
+  --color-wf-surface-tint: #565e77;
+  --color-wf-tertiary-container: #4e0009;
+  --color-wf-on-primary-fixed: #131b30;
+  --color-wf-on-error-container: #93000a;
+  --color-wf-on-secondary-container: #00743a;
+  --color-wf-on-primary-container: #8189a4;
+  --color-wf-on-secondary: #ffffff;
+  --color-wf-secondary-fixed: #6bfe9c;
+  --color-wf-surface-container-high: #eae7e9;
+  --color-wf-secondary-container: #6bfe9c;
+  --color-wf-surface-container-lowest: #ffffff;
+  --color-wf-on-secondary-fixed: #00210c;
+  --color-wf-inverse-primary: #bec6e3;
+  --color-wf-on-tertiary-fixed-variant: #8c1520;
+  --color-wf-surface-bright: #fcf8fb;
+  --color-wf-primary-fixed: #dae2ff;
+  --color-wf-on-tertiary-container: #e85a5b;
+  --color-wf-primary-container: #1a2238;
+  --color-wf-on-tertiary: #ffffff;
+
+  --spacing-wf-md: 16px;
+  --spacing-wf-container-margin: 24px;
+  --spacing-wf-xs: 4px;
+  --spacing-wf-gutter: 20px;
+  --spacing-wf-xl: 32px;
+  --spacing-wf-unit: 4px;
+  --spacing-wf-sm: 8px;
+  --spacing-wf-lg: 24px;
+
+  --font-wf-body-regular: "Inter", sans-serif;
+  --font-wf-label-caps: "Inter", sans-serif;
+  --font-wf-currency-display: "Inter", sans-serif;
+  --font-wf-headline-md: "Manrope", sans-serif;
+  --font-wf-headline-lg: "Manrope", sans-serif;
 }
 
 body {
-  @apply bg-neutral-100 overflow-x-hidden;
+  @apply bg-wf-background text-wf-on-background font-wf-body-regular antialiased overflow-x-hidden;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 .w-profile {

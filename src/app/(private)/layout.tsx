@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { MdAttachMoney } from "react-icons/md";
 
 // Component
 import Navbar from "./components/Navbar";
@@ -20,28 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="grid grid-rows-[65px_1fr] lg:grid-rows-none lg:grid-cols-[200px_1fr] h-screen relative">
-        <Header />
+    <div className="flex flex-col h-screen w-full overflow-hidden bg-wf-background">
+      <Header />
+      <div className="flex flex-1 overflow-hidden">
         <Navbar />
-        <main className="pt-6 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between pb-22 lg:pb-0">
-          {children}
-          <div className="h-[35px] inset-x-0 text-center mt-4">
-            <p className="text-sm text-gray-700">
-              © Copyright 2023 - {new Date().getFullYear()}
-            </p>
+        <main className="flex-1 overflow-y-auto p-wf-container-margin md:p-wf-xl relative">
+          <div className="max-w-7xl mx-auto flex flex-col gap-wf-xl pb-24 md:pb-0">
+            {children}
+            <footer className="h-[35px] text-center mt-auto pt-8">
+              <p className="text-sm text-wf-on-surface-variant font-wf-body-regular">
+                © Copyright 2023 - {new Date().getFullYear()} WealthFlow
+              </p>
+            </footer>
           </div>
         </main>
-        <Link href={"/moves"} className="hidden lg:block absolute">
-          <div
-            id="fiona-btn_movements"
-            className="fixed bottom-4 right-2 h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] bg-primary text-white rounded-full grid items-center justify-center"
-          >
-            <MdAttachMoney className="h-[20px] w-[20px]" />
-          </div>
-        </Link>
-        <BottomBar />
       </div>
+      <BottomBar />
       <ModalVerify />
     </div>
   );

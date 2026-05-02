@@ -1,127 +1,42 @@
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { MdMenu, MdOutlineClose } from "react-icons/md";
-import { usePathname } from "next/navigation";
-
-// Assets
-import imgLogo from "../../../../../public/img/logo.png";
-
-// Components
-import useComponents from "@/share/components";
-
-import { links } from "@/share/helpers";
+import { useState } from "react";
+import { authClient } from "@/share/lib/auth-client";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUserName] = useState("Demo");
-  const { Typography } = useComponents();
-  const pathname = usePathname();
-
-  const obtenerIniciales = (name: string) => {
-    const partesDelNombre = name?.split(" ");
-    const iniciales = partesDelNombre?.map((parte) => parte[0].toUpperCase());
-    return iniciales?.join("");
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("fiona-user"))
-      setUserName(JSON.parse(localStorage.getItem("fiona-user") ?? "{}").name);
-  }, []);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
   return (
-    <nav className="lg:hidden bg-primary px-4 py-3">
-      <div className="flex items-center justify-between">
-        <div id="fiona-logo-header">
-          <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-            <Image src={imgLogo} alt="Logo fiona" width="166" height="45" />
-          </Link>
-        </div>
-        <div id="fiona-menu-mobile" onClick={() => setIsOpen(true)}>
-          <MdMenu className="text-white w-[24px] h-[24px]" />
-        </div>
+    <header className="hidden md:flex bg-white/80 backdrop-blur-md text-slate-900 font-wf-headline-md antialiased w-full top-0 border-b border-wf-outline-variant/30 shadow-sm sticky z-40 justify-between items-center px-6 py-3">
+      <div className="text-xl font-extrabold tracking-tight text-wf-primary">
+        WealthFlow
       </div>
-      <div
-        className={`${
-          isOpen ? "h-screen" : "hidden h-0"
-        } fixed inset-0 w-screen bg-primary px-4 pt-4 transition-all z-10`}
-      >
-        <div className="flex items-center justify-between">
-          <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-            <Image src={imgLogo} alt="Logo fiona" width="166" height="45" />
-          </Link>
-          <div onClick={() => setIsOpen(false)}>
-            <MdOutlineClose className="text-white w-[24px] h-[24px]" />
-          </div>
+      <div className="flex items-center gap-wf-md">
+        <div className="relative">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline">
+            search
+          </span>
+          <input
+            className="bg-wf-surface-container-low border border-wf-outline-variant focus:border-wf-primary text-wf-on-surface rounded-full py-2 pl-10 pr-4 text-sm w-64 transition-colors outline-none"
+            placeholder="Search..."
+            type="text"
+          />
         </div>
-        <ul className="mt-8 text-white">
-          {links
-            .filter((v) => v.show)
-            .map((link, index) => {
-              const Icon = link.icon;
-              if (typeof link.link === "string") {
-                return (
-                  <Link
-                    href={link.link}
-                    key={index}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <li
-                      className={`${
-                        pathname === link.link ? "text-secondary" : "text-white"
-                      } ${
-                        !link.mobile ? "hidden lg:block" : ""
-                      } mb-2 flex space-x-4 items-center hover:text-secondary`}
-                    >
-                      <Icon />
-                      <Typography
-                        variant="h2"
-                        className={`${
-                          pathname === link.link
-                            ? "text-secondary"
-                            : "text-white"
-                        } hover:text-secondary`}
-                      >
-                        {link.name}
-                      </Typography>
-                    </li>
-                  </Link>
-                );
-              }
-              return (
-                <div onClick={link.onClick} key={index}>
-                  <li
-                    className={`${
-                      !link.mobile ? "hidden lg:block" : ""
-                    } text-white mb-2 flex space-x-4 items-center hover:text-secondary cursor-pointer`}
-                  >
-                    <Icon />
-                    <Typography
-                      variant="h2"
-                      className={`text-white hover:text-secondary`}
-                    >
-                      {link.name}
-                    </Typography>
-                  </li>
-                </div>
-              );
-            })}
-          <li>
-            <Link href={"/profile"} onClick={() => setIsOpen(false)}>
-              <div className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center left-6 right-6 w-profile">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0">
-                  {obtenerIniciales(userName)}
-                </div>
-                <span className="ml-2 text-white font-medium text-sm truncate">
-                  {userName}
-                </span>
-              </div>
-            </Link>
-          </li>
-        </ul>
+        <button className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center">
+          {user?.image ? (
+            <img
+              src={user.image}
+              alt={user.name}
+              className="w-8 h-8 rounded-full"
+            />
+          ) : (
+            <span className="material-symbols-outlined text-wf-on-surface-variant">
+              account_circle
+            </span>
+          )}
+        </button>
       </div>
-    </nav>
+    </header>
   );
 };
 

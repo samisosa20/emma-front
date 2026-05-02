@@ -29,7 +29,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.png"></link>
         <meta name="theme-color" content="#fff" />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <Suspense fallback={<Loading />}>
           <Providers>
             <ToastContainer
