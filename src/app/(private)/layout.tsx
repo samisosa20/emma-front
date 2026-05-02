@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { MdAttachMoney } from "react-icons/md";
 
 // Component
 import Navbar from "./components/Navbar";
@@ -9,7 +7,7 @@ import ModalVerify from "./components/ModalVerify";
 import BottomBar from "./components/BottomBar";
 
 export const metadata: Metadata = {
-  title: "Fiona | wallet",
+  title: "WealthFlow | wallet",
   description:
     "Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.",
 };
@@ -20,28 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="grid grid-rows-[65px_1fr] lg:grid-rows-none lg:grid-cols-[200px_1fr] h-screen relative">
-        <Header />
+    <div className="bg-wf-background text-wf-on-background font-inter antialiased min-h-screen flex flex-col overflow-hidden">
+      <Header />
+      <div className="flex flex-1 h-screen md:h-[calc(100vh-64px)] w-full overflow-hidden">
         <Navbar />
-        <main className="pt-6 px-4 lg:px-16 2xl:w-[1440px] 2xl:mx-auto flex flex-col justify-between pb-22 lg:pb-0">
-          {children}
-          <div className="h-[35px] inset-x-0 text-center mt-4">
-            <p className="text-sm text-gray-700">
-              © Copyright 2023 - {new Date().getFullYear()}
-            </p>
+        <main className="flex-1 overflow-y-auto bg-wf-background p-6 md:p-8 pb-24 md:pb-8">
+          <div className="max-w-7xl mx-auto">
+            {children}
+            <footer className="h-[35px] inset-x-0 text-center mt-12 mb-4">
+              <p className="text-xs text-wf-on-surface-variant font-inter">
+                © {new Date().getFullYear()} WealthFlow. Todos los derechos reservados.
+              </p>
+            </footer>
           </div>
         </main>
-        <Link href={"/moves"} className="hidden lg:block absolute">
-          <div
-            id="fiona-btn_movements"
-            className="fixed bottom-4 right-2 h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] bg-primary text-white rounded-full grid items-center justify-center"
-          >
-            <MdAttachMoney className="h-[20px] w-[20px]" />
-          </div>
-        </Link>
-        <BottomBar />
       </div>
+      <BottomBar />
       <ModalVerify />
     </div>
   );
