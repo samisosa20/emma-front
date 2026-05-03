@@ -41,22 +41,21 @@ const useEventCreate = () => {
     },
   });
 
-  const onDelete = () => {
+  const onDelete = (onSuccess?: () => void) => {
     if (param.id) {
-      if (confirm("¿Estás seguro de que deseas eliminar este evento?")) {
-        mutationDelete.mutate(
-          { id: String(param.id) },
-          {
-            onSuccess: () => {
-              toast.success("Evento eliminado con éxito");
-              router.push("/events");
-            },
-            onError: (error) => {
-              toast.error(error.message);
-            },
-          }
-        );
-      }
+      mutationDelete.mutate(
+        { id: String(param.id) },
+        {
+          onSuccess: () => {
+            toast.success("Evento eliminado con éxito");
+            onSuccess?.();
+            router.push("/events");
+          },
+          onError: (error) => {
+            toast.error(error.message);
+          },
+        }
+      );
     }
   };
 
