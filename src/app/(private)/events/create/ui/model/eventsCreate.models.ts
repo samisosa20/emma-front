@@ -10,6 +10,7 @@ import {
   usePostApiEvents,
   usePutApiEventsId,
   useGetApiEventsId,
+  useDeleteApiEventsId,
 } from "@@@/endpoints/event/event";
 
 const useEventCreate = () => {
@@ -32,12 +33,32 @@ const useEventCreate = () => {
   const mutation = usePostApiEvents();
 
   const mutationEdit = usePutApiEventsId();
+  const mutationDelete = useDeleteApiEventsId();
 
   const { data, refetch } = useGetApiEventsId(String(param?.id || ""), {
     query: {
       enabled: !!param?.id,
     },
   });
+
+  const onDelete = () => {
+    if (param.id) {
+      if (confirm("¿Estás seguro de que deseas eliminar este evento?")) {
+        mutationDelete.mutate(
+          { id: String(param.id) },
+          {
+            onSuccess: () => {
+              toast.success("Evento eliminado con éxito");
+              router.push("/events");
+            },
+            onError: (error) => {
+              toast.error(error.message);
+            },
+          }
+        );
+      }
+    }
+  };
 
   const onSubmit = (data: any) => {
     const formData = {
@@ -106,6 +127,7 @@ const useEventCreate = () => {
     listMovements,
     listCategories,
     data,
+    onDelete,
   };
 };
 

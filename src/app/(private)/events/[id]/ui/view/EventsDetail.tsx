@@ -22,6 +22,7 @@ const EventsDetail = (props: any) => {
     listMovements,
     listCategories,
     data,
+    onDelete,
   } = props;
 
   const eventType = listEventTypes.find((t) => t.value === (data?.type || "event"));
@@ -293,6 +294,16 @@ const EventsDetail = (props: any) => {
               className="w-full bg-transparent border border-wf-outline-variant text-wf-on-surface-variant py-3 rounded-lg font-semibold hover:bg-wf-surface-container-low transition-all"
             >
               Cancelar
+            </button>
+          </div>
+          <div className="pt-wf-lg border-t border-wf-outline-variant/30 mt-wf-lg">
+            <button
+              type="button"
+              onClick={onDelete}
+              className="w-full bg-transparent border border-wf-error/30 text-wf-error py-3 rounded-lg font-semibold hover:bg-wf-error/5 transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-[20px]">delete</span>
+              Eliminar Evento
             </button>
           </div>
         </form>

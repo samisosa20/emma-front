@@ -11,12 +11,14 @@ const Page = () => {
     listMovements,
     listCategories,
     data,
+    onDelete,
   } = useEventCreate();
 
   return (
     <EventsDetail
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
+      onDelete={onDelete}
       control={control}
       title={title}
       listMovements={listMovements}
