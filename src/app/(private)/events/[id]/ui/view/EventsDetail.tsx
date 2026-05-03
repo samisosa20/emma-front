@@ -28,23 +28,41 @@ const EventsDetail = (props: any) => {
     onDelete,
   } = props;
 
-  const eventType = listEventTypes.find((t) => t.value === (data?.type || "event"));
+  const eventType = listEventTypes.find(
+    (t) => t.value === (data?.type || "event"),
+  );
 
   // Calculate totals and breakdown
-  const expenses = listCategories?.filter((cat: any) =>
-    cat.categories.some((sub: any) => sub.amount < 0)
-  ) || [];
-  const incomes = listCategories?.filter((cat: any) =>
-    cat.categories.some((sub: any) => sub.amount >= 0)
-  ) || [];
+  const expenses =
+    listCategories?.filter((cat: any) =>
+      cat.categories.some((sub: any) => sub.amount < 0),
+    ) || [];
+  const incomes =
+    listCategories?.filter((cat: any) =>
+      cat.categories.some((sub: any) => sub.amount >= 0),
+    ) || [];
 
-  const totalExpenses = expenses.reduce((acc: number, curr: any) =>
-    acc + curr.categories.reduce((sAcc: number, sCurr: any) => sAcc + (sCurr.amount < 0 ? Math.abs(sCurr.amount) : 0), 0)
-  , 0);
+  const totalExpenses = expenses.reduce(
+    (acc: number, curr: any) =>
+      acc +
+      curr.categories.reduce(
+        (sAcc: number, sCurr: any) =>
+          sAcc + (sCurr.amount < 0 ? Math.abs(sCurr.amount) : 0),
+        0,
+      ),
+    0,
+  );
 
-  const totalIncomes = incomes.reduce((acc: number, curr: any) =>
-    acc + curr.categories.reduce((sAcc: number, sCurr: any) => sAcc + (sCurr.amount >= 0 ? sCurr.amount : 0), 0)
-  , 0);
+  const totalIncomes = incomes.reduce(
+    (acc: number, curr: any) =>
+      acc +
+      curr.categories.reduce(
+        (sAcc: number, sCurr: any) =>
+          sAcc + (sCurr.amount >= 0 ? sCurr.amount : 0),
+        0,
+      ),
+    0,
+  );
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
@@ -59,7 +77,9 @@ const EventsDetail = (props: any) => {
             <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1">
               arrow_back
             </span>
-            <span className="font-wf-body-regular text-base">Volver a Eventos</span>
+            <span className="font-wf-body-regular text-base">
+              Volver a Eventos
+            </span>
           </button>
         </div>
 
@@ -108,28 +128,36 @@ const EventsDetail = (props: any) => {
               </span>
             </div>
             <div className="space-y-4">
-              {expenses.map((category: any) => (
-                category.categories.filter((s:any) => s.amount < 0).map((subCategory: any, idx: number) => (
-                  <div key={`${category.code}-${idx}`}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="font-medium text-wf-on-surface-variant">
-                        {subCategory.name}
-                      </span>
-                      <span className="font-bold text-wf-primary">
-                        ${getCurrencyFormatter(category.code, Math.abs(subCategory.amount))}
-                      </span>
+              {expenses.map((category: any) =>
+                category.categories
+                  .filter((s: any) => s.amount < 0)
+                  .map((subCategory: any, idx: number) => (
+                    <div key={`${category.code}-${idx}`}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="font-medium text-wf-on-surface-variant">
+                          {subCategory.name}
+                        </span>
+                        <span className="font-bold text-wf-primary">
+                          $
+                          {getCurrencyFormatter(
+                            category.code,
+                            Math.abs(subCategory.amount),
+                          )}
+                        </span>
+                      </div>
+                      <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                        <div
+                          className="bg-wf-on-tertiary-container h-full"
+                          style={{ width: `${subCategory.percentage}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                      <div
-                        className="bg-wf-on-tertiary-container h-full"
-                        style={{ width: `${subCategory.percentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))
-              ))}
+                  )),
+              )}
               {expenses.length === 0 && (
-                <p className="text-sm text-wf-on-surface-variant italic">No hay gastos registrados.</p>
+                <p className="text-sm text-wf-on-surface-variant italic">
+                  No hay gastos registrados.
+                </p>
               )}
             </div>
           </div>
@@ -145,28 +173,36 @@ const EventsDetail = (props: any) => {
               </span>
             </div>
             <div className="space-y-4">
-              {incomes.map((category: any) => (
-                category.categories.filter((s:any) => s.amount >= 0).map((subCategory: any, idx: number) => (
-                  <div key={`${category.code}-${idx}`}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="font-medium text-wf-on-surface-variant">
-                        {subCategory.name}
-                      </span>
-                      <span className="font-bold text-wf-primary">
-                        ${getCurrencyFormatter(category.code, subCategory.amount)}
-                      </span>
+              {incomes.map((category: any) =>
+                category.categories
+                  .filter((s: any) => s.amount >= 0)
+                  .map((subCategory: any, idx: number) => (
+                    <div key={`${category.code}-${idx}`}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="font-medium text-wf-on-surface-variant">
+                          {subCategory.name}
+                        </span>
+                        <span className="font-bold text-wf-primary">
+                          $
+                          {getCurrencyFormatter(
+                            category.code,
+                            subCategory.amount,
+                          )}
+                        </span>
+                      </div>
+                      <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                        <div
+                          className="bg-wf-secondary h-full"
+                          style={{ width: `${subCategory.percentage}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                      <div
-                        className="bg-wf-secondary h-full"
-                        style={{ width: `${subCategory.percentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))
-              ))}
+                  )),
+              )}
               {incomes.length === 0 && (
-                <p className="text-sm text-wf-on-surface-variant italic">No hay ingresos registrados.</p>
+                <p className="text-sm text-wf-on-surface-variant italic">
+                  No hay ingresos registrados.
+                </p>
               )}
             </div>
           </div>
@@ -196,7 +232,7 @@ const EventsDetail = (props: any) => {
       <aside
         className={`${
           isEditPanelOpen ? "translate-x-0" : "translate-x-full"
-        } fixed lg:relative right-0 top-0 h-full w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-transform duration-300 z-50 flex flex-col shadow-xl lg:shadow-none ${!isEditPanelOpen && "hidden lg:hidden"}`}
+        } fixed lg:relative right-0 top-0 h-screen w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-transform duration-300 z-50 flex flex-col shadow-xl lg:shadow-none ${!isEditPanelOpen && "hidden lg:hidden"}`}
       >
         <div className="flex justify-between items-center lg:block">
           <div>
@@ -215,7 +251,10 @@ const EventsDetail = (props: any) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-wf-md flex-1">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-wf-md flex-1"
+        >
           <div>
             <Controller
               name={"name"}
@@ -318,21 +357,13 @@ const EventsDetail = (props: any) => {
               onClick={() => setIsDeleteModalOpen(true)}
               className="w-full bg-transparent border border-wf-error/30 text-wf-error py-3 rounded-lg font-semibold hover:bg-wf-error/5 transition-all flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-[20px]">delete</span>
+              <span className="material-symbols-outlined text-[20px]">
+                delete
+              </span>
               Eliminar Evento
             </button>
           </div>
         </form>
-
-        {/* Decorative Card at Bottom of Sidebar */}
-        <div className="mt-auto p-wf-md rounded-xl bg-white/40 border border-white/60 relative overflow-hidden group min-h-[100px] flex items-end">
-          <div className="relative z-10">
-            <p className="text-xs font-bold text-wf-primary">Fiona Insight</p>
-            <p className="text-[10px] text-wf-on-surface-variant leading-tight">
-              Continúa con tu excelente seguimiento. ¡Estás alcanzando tus metas financieras!
-            </p>
-          </div>
-        </div>
       </aside>
 
       {/* Delete Confirmation Modal */}
@@ -343,7 +374,8 @@ const EventsDetail = (props: any) => {
       >
         <div className="flex flex-col gap-4 p-4">
           <Typography variant="p" className="text-wf-on-surface-variant">
-            ¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.
+            ¿Estás seguro de que deseas eliminar este evento? Esta acción no se
+            puede deshacer.
           </Typography>
           <div className="flex gap-3 justify-end mt-4">
             <button
