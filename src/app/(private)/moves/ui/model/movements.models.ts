@@ -134,9 +134,10 @@ export default function useMovementsViewModel() {
         ...(data.type === "0" && {
           amountEnd: Math.abs(amountEndClean ?? amountClean),
           accountEndId: data.accountEnd ? String(data.accountEnd.value) : undefined,
-        }),
-        userId: user?.id
+        })
       };
+
+      console.log(postData)
 
       mutation.mutate(
         { data: postData as any },

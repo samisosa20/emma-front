@@ -60,13 +60,19 @@ AXIOS_INSTANCE.interceptors.response.use(
 
 export const apiClient = <T>(
   url: string,
-  options: AxiosRequestConfig
+  options: AxiosRequestConfig & { body?: string }
 ): Promise<T> => {
   const source = Axios.CancelToken.source();
 
+  // Orval generates RequestInit-style options with `body` (JSON string),
+  // but Axios uses `data`. Map `body` -> `data` for compatibility.
+  const { body, headers, ...restOptions } = options;
+
   const promise = AXIOS_INSTANCE({
     url,
-    ...options,
+    ...restOptions,
+    ...(body !== undefined && { data: JSON.parse(body) }),
+    headers: headers as Record<string, string>,
     cancelToken: source.token,
   }).then(({ data }) => data);
 
