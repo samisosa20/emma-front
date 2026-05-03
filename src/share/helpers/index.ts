@@ -323,3 +323,52 @@ export const listEventTypes = [
     textColor: "#455A64" 
   },
 ];
+
+export const listAccountTypes = [
+  {
+    value: "General",
+    label: "General",
+    icon: "payments",
+    bgColor: "#E3F2FD",
+    textColor: "#1565C0",
+  },
+  {
+    value: "Cuenta de ahorro",
+    label: "Cuenta de ahorro",
+    icon: "savings",
+    bgColor: "#E8F5E9",
+    textColor: "#2E7D32",
+  },
+  {
+    value: "Tarjeta de credito",
+    label: "Tarjeta de crédito",
+    icon: "credit_card",
+    bgColor: "#FFF3E0",
+    textColor: "#E65100",
+  },
+  {
+    value: "Inversion",
+    label: "Inversión",
+    icon: "show_chart",
+    bgColor: "#F3E5F5",
+    textColor: "#7B1FA2",
+  },
+  {
+    value: "Credito",
+    label: "Crédito",
+    icon: "account_balance",
+    bgColor: "#FFEBEE",
+    textColor: "#C62828",
+  },
+  {
+    value: "Efectivo",
+    label: "Efectivo",
+    icon: "account_balance_wallet",
+    bgColor: "#ECEFF1",
+    textColor: "#455A64",
+  },
+];
+
+export const getAccountType = (typeName: string) =>
+  listAccountTypes.find((t) => t.value === typeName) ??
+  listAccountTypes[listAccountTypes.length - 1];
