@@ -12,9 +12,10 @@ import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
 
 const EventsDetail = (props: any) => {
   const router = useRouter();
-  const { FormControl } = useComponents();
+  const { FormControl, Modal, Typography, Button } = useComponents();
   const { ListMovements } = useComponentsLayout();
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const {
     handleSubmit,
@@ -314,7 +315,7 @@ const EventsDetail = (props: any) => {
           <div className="pt-wf-lg border-t border-wf-outline-variant/30 mt-wf-lg">
             <button
               type="button"
-              onClick={onDelete}
+              onClick={() => setIsDeleteModalOpen(true)}
               className="w-full bg-transparent border border-wf-error/30 text-wf-error py-3 rounded-lg font-semibold hover:bg-wf-error/5 transition-all flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-[20px]">delete</span>
@@ -333,6 +334,33 @@ const EventsDetail = (props: any) => {
           </div>
         </div>
       </aside>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Confirmar Eliminación"
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      >
+        <div className="flex flex-col gap-4 p-4">
+          <Typography variant="p" className="text-wf-on-surface-variant">
+            ¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.
+          </Typography>
+          <div className="flex gap-3 justify-end mt-4">
+            <button
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="px-4 py-2 rounded-lg font-semibold text-wf-on-surface-variant hover:bg-wf-surface-container transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => onDelete(() => setIsDeleteModalOpen(false))}
+              className="px-4 py-2 rounded-lg font-semibold bg-wf-error text-white hover:opacity-90 transition-opacity shadow-md"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </Modal>
 
       {/* Overlay for mobile sidebar */}
       {isEditPanelOpen && (
