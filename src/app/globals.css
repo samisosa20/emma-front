@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
 
 @import "tailwindcss";
 @source inline("grid-cols-{0..9}");
@@ -59,10 +60,40 @@
   --color-wf-on-tertiary-container: #e85a5b;
   --color-wf-primary-container: #1a2238;
   --color-wf-on-tertiary: #ffffff;
+
+  --spacing-wf-md: 16px;
+  --spacing-wf-container-margin: 24px;
+  --spacing-wf-xs: 4px;
+  --spacing-wf-gutter: 20px;
+  --spacing-wf-xl: 32px;
+  --spacing-wf-unit: 4px;
+  --spacing-wf-sm: 8px;
+  --spacing-wf-lg: 24px;
+
+  --font-wf-body-regular: "Inter", sans-serif;
+  --font-wf-label-caps: "Inter", sans-serif;
+  --font-wf-currency-display: "Inter", sans-serif;
+  --font-wf-headline-md: "Manrope", sans-serif;
+  --font-wf-headline-lg: "Manrope", sans-serif;
 }
 
 body {
-  @apply bg-neutral-100 overflow-x-hidden;
+  @apply bg-wf-background text-wf-on-background font-wf-body-regular antialiased overflow-x-hidden;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 .w-profile {

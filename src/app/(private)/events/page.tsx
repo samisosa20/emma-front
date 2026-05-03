@@ -7,15 +7,15 @@ import Events from './ui/view/Events';
 import useEvents from './ui/model/events.models';
 
 const Page = () => {
-  const { data, isLoading } = useEvents();
+  const modelProps = useEvents();
 
   const { Loading } = useComponents();
 
-  if (isLoading) {
+  if (modelProps.isLoading) {
     return <Loading/>;
   }
 
-  return <Events data={data} />;
+  return <Events {...modelProps} />;
 };
 
 export default Page;

@@ -22,13 +22,22 @@ const useEventCreate = () => {
 
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(eventSchema),
+    defaultValues: {
+      name: "",
+      type: "",
+      endEvent: "",
+    },
   });
 
   const mutation = usePostApiEvents();
 
   const mutationEdit = usePutApiEventsId();
 
-  const { data, refetch } = useGetApiEventsId(String(param.id));
+  const { data, refetch } = useGetApiEventsId(String(param?.id || ""), {
+    query: {
+      enabled: !!param?.id,
+    },
+  });
 
   const onSubmit = (data: any) => {
     const formData = {

@@ -1,7 +1,7 @@
 import { InputProps } from "./Input.interface";
 
 const Input: React.FC<InputProps> = (props) => {
-  const { iserror, ...res } = props;
+  const { iserror, value, ...res } = props;
   return (
     <div>
       {props.label && (
@@ -13,6 +13,7 @@ const Input: React.FC<InputProps> = (props) => {
         className={`border rounded-lg w-full h-12 px-4 border-gray-300 ${
           iserror ? "border-red-500" : "text-primary"
         }`}
+        value={value ?? ""}
         {...res}
       />
     </div>

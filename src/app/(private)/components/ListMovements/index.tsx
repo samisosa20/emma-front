@@ -43,7 +43,7 @@ export default function ListMovements({
           const isNewDay = currentDate !== previousDate;
           previousDate = currentDate;
           return (
-            <React.Fragment key={movement.id}>
+            <React.Fragment key={`${movement.id}-${index}`}>
               {isNewDay && <Typography>{currentDate}</Typography>}
               <Link href={`/moves/${movement.id}`}>
                 <div className="shadow-sm bg-white rounded py-2 px-2 mb-2">

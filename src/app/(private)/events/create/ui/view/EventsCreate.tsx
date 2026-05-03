@@ -9,7 +9,8 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "../../../../components";
 
 // Helpers
-import { getCurrencyFormatter } from "@/share/helpers";
+import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
+import Select from "@/share/components/Select";
 
 const EventsCreate = (props: any) => {
   const router = useRouter();
@@ -49,6 +50,25 @@ const EventsCreate = (props: any) => {
                   placeholder="Nombre del evento"
                   label="Nombre del evento"
                   id="name"
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
+                  iserror={!!fieldState.error}
+                  value={value}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={"type"}
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState }) => (
+              <FormControl fieldState={fieldState} withLabel={true}>
+                <Select
+                  options={listEventTypes}
+                  placeholder="Tipo de evento"
+                  label="Tipo de evento"
+                  id="type"
                   onChange={(e) => {
                     onChange(e);
                   }}

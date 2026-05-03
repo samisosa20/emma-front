@@ -1,110 +1,52 @@
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Assets
-import imgLogo from "../../../../../public/img/logo.png";
-
-// Components
-import useComponents from "@/share/components";
-
 import { links } from "@/share/helpers";
-import { authClient } from "@/share/lib/auth-client";
 
 export default function Navbar() {
-  const { Typography } = useComponents();
   const pathname = usePathname();
-  const { data: session } = authClient.useSession();
-  const user = session?.user || { name: "", image: "" };
-
-
-  const obtenerIniciales = (name: string) => {
-    const partesDelNombre = name?.split(" ");
-    const iniciales = partesDelNombre?.map((parte) => parte[0]?.toUpperCase());
-    return iniciales?.join("");
-  };
 
   return (
-    <aside className="hidden lg:block bg-primary p-4">
-      <div id="fiona-logo-aside">
-        <Link href="/dashboard">
-          <Image src={imgLogo} alt="Logo fiona" />
-        </Link>
-      </div>
-      <ul className="mt-4 text-white">
+    <nav className="hidden lg:flex flex-col bg-white text-wf-primary font-wf-headline-md text-sm font-medium w-64 border-r border-wf-outline-variant/30 shrink-0 h-full">
+      <div className="flex-1 py-4 flex flex-col gap-2 px-4 overflow-y-auto">
         {links
           .filter((v) => v.show)
           .map((link, index) => {
-            const Icon = link.icon;
+            const isActive = pathname === link.link;
+
             if (typeof link.link === "string") {
               return (
                 <Link
                   href={link.link}
                   key={index}
-                  className={!link.mobile ? "hidden lg:block" : ""}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ease-in-out ${
+                    isActive
+                      ? "bg-wf-surface-container text-wf-primary font-semibold border-r-4 border-wf-primary"
+                      : "text-wf-on-surface-variant hover:bg-wf-surface-container-low"
+                  }`}
                 >
-                  <li
-                    className={`${
-                      pathname === link.link ? "text-secondary" : "text-white"
-                    } mb-2 flex space-x-4 items-center hover:text-secondary`}
+                  <span
+                    className={`material-symbols-outlined ${
+                      isActive ? "filled" : ""
+                    }`}
                   >
-                    <Icon />
-                    <Typography
-                      variant="h3"
-                      className={`${
-                        pathname === link.link ? "text-secondary" : "text-white"
-                      } hover:text-secondary`}
-                    >
-                      {link.name}
-                    </Typography>
-                  </li>
+                    {link.icon}
+                  </span>
+                  <span className="font-wf-body-regular">{link.name}</span>
                 </Link>
               );
             }
-            return (
-              <div onClick={link.onClick} key={index}>
-                <li
-                  className={`text-white mb-2 flex space-x-4 items-center hover:text-secondary cursor-pointer`}
-                >
-                  <Icon />
-                  <Typography
-                    variant="h3"
-                    className={`text-white hover:text-secondary`}
-                  >
-                    {link.name}
-                  </Typography>
-                </li>
-              </div>
-            );
           })}
-        <li>
-          <Link href={"/profile"}>
-            <div
-              className="bg-neutral-700 rounded py-2 px-3 fixed bottom-8 flex items-center w-[168px]"
-              id="fiona-profile-aside"
-            >
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0 overflow-hidden">
-                {user.image ? (
-                  <Image
-                    src={user.image}
-                    alt={user.name}
-                    width={40}
-                    height={40}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  obtenerIniciales(user.name ?? "")
-                )}
-              </div>
-              <span className="ml-2 text-white font-medium text-sm truncate">
-                {user.name}
-              </span>
-            </div>
-          </Link>
-        </li>
-      </ul>
-    </aside>
+      </div>
+      <div className="p-4 border-t border-wf-outline-variant/30">
+        <Link href="/moves">
+          <button className="w-full bg-wf-primary text-wf-on-primary font-wf-body-regular py-3 rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+            <span className="material-symbols-outlined text-[20px]">add</span>
+            Nueva transacción
+          </button>
+        </Link>
+      </div>
+    </nav>
   );
 }
