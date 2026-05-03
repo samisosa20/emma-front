@@ -90,6 +90,7 @@ const useEventCreate = () => {
     if (data) {
       reset({
         name: data.name,
+        type: data.type,
         endEvent: data?.endEvent?.split("T")[0],
       });
       setListMovements(data.movements);
@@ -104,6 +105,7 @@ const useEventCreate = () => {
     title,
     listMovements,
     listCategories,
+    data,
   };
 };
 
