@@ -14,11 +14,12 @@ const Page = () => {
     listCategories,
     listEvents,
     listInvestments,
-    title,
     typeWatch,
     accountEndWatch,
     accountWatch,
     investmentWatch,
+    isSubmitting,
+    errors,
   } = useMovementsViewModel();
 
   return (
@@ -26,7 +27,6 @@ const Page = () => {
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
-      title={title}
       listAccounts={listAccounts}
       listCategories={listCategories}
       listEvents={listEvents}
@@ -35,6 +35,8 @@ const Page = () => {
       accountWatch={accountWatch}
       accountEndWatch={accountEndWatch}
       investmentWatch={investmentWatch}
+      isSubmitting={isSubmitting}
+      errors={errors}
     />
   );
 };

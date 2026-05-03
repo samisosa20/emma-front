@@ -1,28 +1,46 @@
 "use client";
 import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
-import { Controller } from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 //components
 import useComponents from "@/share/components";
+import { MovementOption } from "../model/movements.models";
+import { MovementSchema } from "@/share/validation";
 
-export default function Movements(props: any) {
-  const {
-    handleSubmit,
-    onSubmit,
-    control,
-    listAccounts,
-    listCategories,
-    listEvents,
-    listInvestments,
-    handleDelete,
-    typeWatch,
-    accountEndWatch,
-    accountWatch,
-    investmentWatch,
-    isSubmitting,
-  } = props;
+interface MovementsProps {
+  handleSubmit: (callback: (data: MovementSchema) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onSubmit: (data: MovementSchema) => void;
+  control: Control<MovementSchema>;
+  listAccounts: MovementOption[];
+  listCategories: MovementOption[];
+  listEvents: MovementOption[];
+  listInvestments: MovementOption[];
+  handleDelete?: () => void;
+  typeWatch: string;
+  accountEndWatch?: MovementOption;
+  accountWatch?: MovementOption;
+  investmentWatch?: MovementOption;
+  isSubmitting: boolean;
+  errors: FieldErrors<MovementSchema>;
+}
 
+export default function Movements({
+  handleSubmit,
+  onSubmit,
+  control,
+  listAccounts,
+  listCategories,
+  listEvents,
+  listInvestments,
+  handleDelete,
+  typeWatch,
+  accountEndWatch,
+  accountWatch,
+  investmentWatch,
+  isSubmitting,
+  errors,
+}: MovementsProps) {
   const router = useRouter();
 
   const {

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState, useCallback } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useParams } from "next/navigation";
 
-import { movementSchema } from "@/share/validation";
+import { movementSchema, MovementSchema } from "@/share/validation";
 
 import { getDateString, isEmptyObject } from "@/share/helpers";
 
@@ -19,26 +19,35 @@ import {
   useDeleteApiMovementsId,
 } from "@@@/endpoints/movement/movement";
 import { useUserStore } from "@/share/storage";
+import { PostApiMovementsBody, PutApiMovementsIdBody } from "@@@/domain/models";
+
+export interface MovementOption {
+  label: string;
+  value: string | number;
+  badgeId?: number;
+  badgeCode?: string;
+  icon?: string;
+  color?: string;
+}
 
 export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
   const { user } = useUserStore();
 
-  const [title, setTitle] = useState("Creacion de Movimientos");
-  const [listAccounts, setListAccounts] = useState<any[]>([]);
-  const [listCategories, setListCategories] = useState<any[]>([]);
-  const [listEvents, setListEvents] = useState<any[]>([]);
-  const [listInvestments, setListInvestments] = useState<any[]>([]);
+  const [title, setTitle] = useState("Creación de Movimientos");
+  const [listAccounts, setListAccounts] = useState<MovementOption[]>([]);
+  const [listCategories, setListCategories] = useState<MovementOption[]>([]);
+  const [listEvents, setListEvents] = useState<MovementOption[]>([]);
+  const [listInvestments, setListInvestments] = useState<MovementOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     handleSubmit,
     control,
     reset,
-    watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<MovementSchema>({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       datePurchase: getDateString(new Date().toISOString()),
@@ -51,14 +60,14 @@ export default function useMovementsViewModel() {
       event: undefined,
       category: undefined,
       description: undefined,
-      amount: undefined,
+      amount: "",
     },
   });
 
-  const typeWatch = watch("type");
-  const accountEndWatch = watch("accountEnd");
-  const accountWatch = watch("account");
-  const investmentWatch = watch("investment");
+  const typeWatch = useWatch({ control, name: "type" });
+  const accountEndWatch = useWatch({ control, name: "accountEnd" });
+  const accountWatch = useWatch({ control, name: "account" });
+  const investmentWatch = useWatch({ control, name: "investment" });
 
   const { data: detalMovement, refetch } = useGetApiMovementsIdSuspense(
     String(param.id)
@@ -80,36 +89,36 @@ export default function useMovementsViewModel() {
   const mutationEdit = usePutApiMovementsId();
   const mutationDelete = useDeleteApiMovementsId();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: MovementSchema) => {
     setIsSubmitting(true);
     const amountClean = Number(String(data.amount).replace(/,/g, ""));
     const amountEndClean = data.amountEnd ? Number(String(data.amountEnd).replace(/,/g, "")) : null;
 
-    const formData = {
-      categoryId: data.category ? data.category.value : "",
-      type: data.type == 0 ? "transfer" : "move",
-      amount: data.type == 1 ? Math.abs(amountClean) : amountClean * -1,
+    const commonData = {
+      categoryId: data.category ? String(data.category.value) : "",
+      type: data.type === "0" ? "transfer" : "move",
+      amount: data.type === "1" ? Math.abs(amountClean) : amountClean * -1,
       datePurchase: new Date(data.datePurchase).toISOString(),
-      ...(data.event !== undefined && {
-        eventId: data.event ? data.event.value : null,
-      }),
-      ...(data.investment !== undefined && {
-        investmentId: data.investment ? data.investment.value : null,
-      }),
-      accountId: data.account.value,
-      ...(data.type == 0 && {
-        amountEnd:
-          data.type == 0 ? Math.abs(amountEndClean ?? amountClean) : null,
-        accountEndId: data.type == 0 ? data.accountEnd.value : null,
-      }),
-      description: data.description !== undefined ? data.description : null,
+      eventId: data.event ? String(data.event.value) : null,
+      investmentId: data.investment ? String(data.investment.value) : null,
+      accountId: String(data.account.value),
+      description: data.description ?? null,
       addWithdrawal: data.addWithdrawal ?? false,
     };
+
     if (param.id) {
+      const editData: PutApiMovementsIdBody & { accountEndId?: string; amountEnd?: number } = {
+        ...commonData,
+        ...(data.type === "0" && {
+          amountEnd: Math.abs(amountEndClean ?? amountClean),
+          accountEndId: data.accountEnd ? String(data.accountEnd.value) : undefined,
+        })
+      };
+
       mutationEdit.mutate(
-        { id: String(param.id), data: formData },
+        { id: String(param.id), data: editData as any },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
             toast.success("Datos guardados correctamente");
             router.back();
           },
@@ -120,10 +129,19 @@ export default function useMovementsViewModel() {
         }
       );
     } else {
+      const postData: PostApiMovementsBody & { accountEndId?: string; amountEnd?: number } = {
+        ...commonData,
+        ...(data.type === "0" && {
+          amountEnd: Math.abs(amountEndClean ?? amountClean),
+          accountEndId: data.accountEnd ? String(data.accountEnd.value) : undefined,
+        }),
+        userId: user?.id
+      };
+
       mutation.mutate(
-        { data: formData },
+        { data: postData as any },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
             toast.success("Datos guardados correctamente");
             router.back();
           },
@@ -141,7 +159,7 @@ export default function useMovementsViewModel() {
     mutationDelete.mutate(
       { id: String(param.id) },
       {
-        onSuccess: (result) => {
+        onSuccess: () => {
           toast.success("Datos guardados correctamente");
           router.back();
         },
@@ -159,13 +177,13 @@ export default function useMovementsViewModel() {
       router.push("/login");
     } else {
       if (param.id) {
-        setTitle("Edicion de Movimientos");
+        setTitle("Edición de Movimientos");
       }
     }
-  }, []);
+  }, [user, param.id, refetch, router]);
 
   useEffect(() => {
-    if (dataListAccounts && dataListAccounts.content) {
+    if (dataListAccounts?.content) {
       setListAccounts(
         dataListAccounts.content
           .filter((v) => !v.deletedAt)
@@ -182,7 +200,7 @@ export default function useMovementsViewModel() {
   }, [dataListAccounts]);
 
   useEffect(() => {
-    if (dataListCategories && Array.isArray(dataListCategories.content)) {
+    if (dataListCategories?.content && Array.isArray(dataListCategories.content)) {
       setListCategories(
         dataListCategories.content.map((category) => {
           return {
@@ -197,7 +215,7 @@ export default function useMovementsViewModel() {
   }, [dataListCategories]);
 
   useEffect(() => {
-    if (dataListEvents && Array.isArray(dataListEvents.content)) {
+    if (dataListEvents?.content && Array.isArray(dataListEvents.content)) {
       setListEvents(
         dataListEvents.content.map((event) => {
           return { label: event.name, value: event.id };
@@ -207,7 +225,7 @@ export default function useMovementsViewModel() {
   }, [dataListEvents]);
 
   useEffect(() => {
-    if (dataListInvestments && Array.isArray(dataListInvestments.content)) {
+    if (dataListInvestments?.content && Array.isArray(dataListInvestments.content)) {
       setListInvestments(
         dataListInvestments.content.map((investment) => {
           return { label: investment.name, value: investment.id };
@@ -225,7 +243,7 @@ export default function useMovementsViewModel() {
     ) {
       router.push("/login");
     }
-  }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments]);
+  }, [isErrorAccount, isErrorCategory, isErrorEvents, isErrorInvestments, router]);
 
   useEffect(() => {
     if (detalMovement?.id) {
@@ -246,71 +264,58 @@ export default function useMovementsViewModel() {
             ? "1"
             : "-1",
         datePurchase: getDateString(detalMovement.datePurchase),
-        ...(detalMovement.description && {
-          description: detalMovement.description,
-        }),
-        ...(isEmptyObject(detalMovement.transferOut) &&
-          isEmptyObject(detalMovement.transferIn) && {
-            category: {
-              label: detalMovement.category?.name,
-              value: detalMovement.category?.id,
-              badgeId: detalMovement.account?.badge?.id,
-            },
-          }),
+        description: detalMovement.description ?? undefined,
+        category: (isEmptyObject(detalMovement.transferOut) && isEmptyObject(detalMovement.transferIn)) ? {
+          label: detalMovement.category?.name ?? "",
+          value: detalMovement.category?.id ?? "",
+        } : undefined,
         account:
           !isEmptyObject(detalMovement.transferOut) ||
           !isEmptyObject(detalMovement.transferIn)
             ? !isEmptyObject(detalMovement.transferOut)
               ? {
-                  label: detalMovement.transferOut?.account?.name,
-                  value: detalMovement.transferOut?.account?.id,
+                  label: detalMovement.transferOut?.account?.name ?? "",
+                  value: detalMovement.transferOut?.account?.id ?? "",
                   badgeId: detalMovement.transferOut?.account?.badgeId,
                 }
               : {
-                  label: detalMovement.account?.name,
-                  value: detalMovement.account?.id,
+                  label: detalMovement.account?.name ?? "",
+                  value: detalMovement.account?.id ?? "",
                   badgeId: detalMovement.account?.badge?.id,
                 }
             : {
-                label: detalMovement.account?.name,
-                value: detalMovement.account?.id,
+                label: detalMovement.account?.name ?? "",
+                value: detalMovement.account?.id ?? "",
                 badgeId: detalMovement.account?.badge?.id,
               },
         ...((!isEmptyObject(detalMovement.transferOut) ||
           !isEmptyObject(detalMovement.transferIn)) && {
           accountEnd: !isEmptyObject(detalMovement.transferIn)
             ? {
-                label: detalMovement.transferIn?.account?.name,
-                value: detalMovement.transferIn?.account?.id,
+                label: detalMovement.transferIn?.account?.name ?? "",
+                value: detalMovement.transferIn?.account?.id ?? "",
                 badgeId: detalMovement.transferIn?.account?.badgeId,
               }
             : {
-                label: detalMovement.account?.name,
-                value: detalMovement.account?.id,
-                badgeId: detalMovement.account?.badge?.id ?? "",
+                label: detalMovement.account?.name ?? "",
+                value: detalMovement.account?.id ?? "",
+                badgeId: detalMovement.account?.badge?.id ?? undefined,
               },
-        }),
-        ...((!isEmptyObject(detalMovement.transferOut) ||
-          !isEmptyObject(detalMovement.transferIn)) && {
           amountEnd: !isEmptyObject(detalMovement.transferIn)
             ? detalMovement.transferIn?.amount?.toString()
             : detalMovement.amount.toString(),
         }),
-        ...(detalMovement.event?.id && {
-          event: {
-            label: detalMovement.event?.name,
-            value: detalMovement.event?.id,
-          },
-        }),
-        ...(detalMovement.investment?.id && {
-          investment: {
-            label: detalMovement.investment?.name,
-            value: detalMovement.investment?.id,
-          },
-        }),
+        event: detalMovement.event?.id ? {
+          label: detalMovement.event?.name ?? "",
+          value: detalMovement.event?.id,
+        } : undefined,
+        investment: detalMovement.investment?.id ? {
+          label: detalMovement.investment?.name ?? "",
+          value: detalMovement.investment?.id,
+        } : undefined,
       });
     }
-  }, [detalMovement]);
+  }, [detalMovement, reset]);
 
   return {
     handleSubmit,
@@ -327,5 +332,6 @@ export default function useMovementsViewModel() {
     accountWatch,
     investmentWatch,
     isSubmitting,
+    errors,
   };
 }
