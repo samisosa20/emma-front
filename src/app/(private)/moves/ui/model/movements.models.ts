@@ -82,10 +82,13 @@ export default function useMovementsViewModel() {
 
   const onSubmit = (data: any) => {
     setIsSubmitting(true);
+    const amountClean = Number(String(data.amount).replace(/,/g, ""));
+    const amountEndClean = data.amountEnd ? Number(String(data.amountEnd).replace(/,/g, "")) : null;
+
     const formData = {
       categoryId: data.category ? data.category.value : "",
       type: data.type == 0 ? "transfer" : "move",
-      amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
+      amount: data.type == 1 ? Math.abs(amountClean) : amountClean * -1,
       datePurchase: new Date(data.datePurchase).toISOString(),
       ...(data.event !== undefined && {
         eventId: data.event ? data.event.value : null,
@@ -96,7 +99,7 @@ export default function useMovementsViewModel() {
       accountId: data.account.value,
       ...(data.type == 0 && {
         amountEnd:
-          data.type == 0 ? Math.abs(data.amountEnd ?? data.amount) : null,
+          data.type == 0 ? Math.abs(amountEndClean ?? amountClean) : null,
         accountEndId: data.type == 0 ? data.accountEnd.value : null,
       }),
       description: data.description !== undefined ? data.description : null,

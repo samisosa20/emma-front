@@ -1,5 +1,5 @@
 "use client";
-import { MdClose, MdArrowUpward, MdArrowDownward, MdExpandMore } from "react-icons/md";
+import { MdArrowUpward, MdArrowDownward } from "react-icons/md";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -33,32 +33,34 @@ export default function Movements(props: any) {
 
   const isEdit = !!handleDelete;
 
+  // Helper to format currency display (simple version)
+  const formatValue = (val: string) => {
+    if (!val) return "";
+    const parts = val.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
+
+  const cleanValue = (val: string) => {
+    return val.replace(/,/g, "");
+  };
+
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-wf-container-margin md:p-wf-xl relative min-h-screen overflow-hidden">
+    <main className="flex-1 flex flex-col items-center justify-center p-wf-container-margin md:p-wf-xl relative min-h-screen">
       {/* Overlay for focused atmosphere */}
       <div className="absolute inset-0 bg-wf-background/90 backdrop-blur-sm z-0"></div>
 
-      <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] z-10 border border-wf-outline-variant overflow-hidden flex flex-col">
+      <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] z-10 border border-wf-outline-variant flex flex-col">
         {/* Header */}
-        <div className="px-wf-lg py-wf-md border-b border-wf-surface-variant flex items-center justify-between bg-wf-surface-container-low">
-          <div className="flex items-center gap-wf-sm">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="text-wf-on-surface-variant hover:text-wf-primary transition-colors flex items-center justify-center p-wf-xs rounded-full hover:bg-wf-surface-container-highest"
-            >
-              <MdClose size={24} />
-            </button>
-            <img alt="Fiona Logo" className="h-6 mr-wf-xs" src="https://lh3.googleusercontent.com/aida/ADBb0uhvR4v-kZuqTQ7ckTKJVIl0K-zR5pWdT2z3u0McXsPr_nrG5D1Cajjs7xZWOJ-KTva0vBu9ye9tGXsD1Irds2iXyBuqgXUaGxsCTSVb2-kcu93JSynUA3FItevUoJDF6jsbwBoZLkqmhiIvBDvVnaBXERiG2AGfT4nlb9-Nht4puOHLjbzsLUjQdWk9-LdFmWU9BljhCltXnkh_x8GeKmneWdeJ8VyvV8BxGzW2xXsrL2MIFsrkPZl7ko81gw_usl5p3q_lACsU"/>
-            <h1 className="font-wf-headline-md text-wf-on-surface text-xl md:text-2xl">
-              {isEdit ? "Editar Movimiento" : "Nuevo Movimiento"}
-            </h1>
-          </div>
+        <div className="px-wf-lg py-wf-md border-b border-wf-surface-variant flex items-center justify-center bg-wf-surface-container-low">
+          <h1 className="font-wf-headline-md text-wf-on-surface text-xl md:text-2xl text-center">
+            {isEdit ? "Editar Transacción" : "Nueva Transacción"}
+          </h1>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 overflow-hidden">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1">
           {/* Content Area */}
-          <div className="p-wf-lg flex flex-col gap-wf-xl overflow-y-auto max-h-[70vh]">
+          <div className="p-wf-lg flex flex-col gap-wf-xl">
 
             {/* Type Toggle */}
             <div className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs">
@@ -109,7 +111,7 @@ export default function Movements(props: any) {
             </div>
 
             {/* Amount Input */}
-            <div className="flex flex-col items-center gap-wf-sm py-wf-md">
+            <div className="flex flex-col items-center gap-wf-xs py-wf-md">
               <span className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">Monto</span>
               <div className="flex items-baseline gap-wf-xs">
                 <span className="font-wf-currency-display text-2xl text-wf-on-surface-variant">$</span>
@@ -118,22 +120,24 @@ export default function Movements(props: any) {
                   control={control}
                   render={({ field: { onChange, value }, fieldState }) => (
                     <input
-                      type="number"
-                      step="0.01"
-                      min="0"
+                      type="text"
                       placeholder="0.00"
-                      className={`w-48 bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? 'text-wf-error' : ''}`}
-                      onChange={onChange}
-                      value={value ?? ""}
+                      className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? 'text-wf-error' : ''}`}
+                      onChange={(e) => {
+                        const val = cleanValue(e.target.value);
+                        if (/^\d*\.?\d{0,2}$/.test(val)) {
+                          onChange(val);
+                        }
+                      }}
+                      value={formatValue(value ?? "")}
                     />
                   )}
                 />
               </div>
-              <div className="relative mt-wf-sm">
-                <div className="bg-wf-surface-container text-wf-on-surface font-wf-label-caps text-xs py-wf-xs pl-wf-sm pr-wf-lg rounded-full border border-wf-outline-variant flex items-center gap-1">
-                  <span>{accountWatch?.badgeCode ?? 'USD'}</span>
-                  <MdExpandMore size={16} className="text-wf-on-surface-variant" />
-                </div>
+              <div className="mt-1">
+                <span className="text-wf-on-surface-variant font-wf-label-caps text-xs tracking-widest opacity-70">
+                  {accountWatch?.badgeCode ?? 'USD'}
+                </span>
               </div>
             </div>
 
@@ -144,7 +148,7 @@ export default function Movements(props: any) {
                   {typeWatch !== "0" ? "Cuenta" : "Cuenta Saliente"}
                 </label>
                 <div className="relative">
-                  <div className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-wf-primary-fixed flex items-center justify-center z-10">
+                  <div className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-wf-primary-fixed flex items-center justify-center z-10 pointer-events-none">
                     <MdArrowUpward className="text-wf-on-primary-fixed" size={16} />
                   </div>
                   <Controller
@@ -168,7 +172,7 @@ export default function Movements(props: any) {
                 <div className="flex flex-col gap-wf-xs">
                   <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">Cuenta Destino</label>
                   <div className="relative">
-                    <div className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-wf-secondary-container flex items-center justify-center z-10">
+                    <div className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-wf-secondary-container flex items-center justify-center z-10 pointer-events-none">
                       <MdArrowDownward className="text-wf-on-secondary-container" size={16} />
                     </div>
                     <Controller
@@ -221,13 +225,16 @@ export default function Movements(props: any) {
                       control={control}
                       render={({ field: { onChange, value }, fieldState }) => (
                         <input
-                          type="number"
-                          step="0.01"
-                          min="0"
+                          type="text"
                           className="w-full bg-wf-surface-container-lowest pl-wf-xl pr-wf-md py-wf-md rounded-lg border border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary font-wf-body-regular text-wf-on-surface outline-none transition-colors placeholder:text-wf-outline"
                           placeholder="Monto equivalente"
-                          onChange={onChange}
-                          value={value ?? ""}
+                          onChange={(e) => {
+                            const val = cleanValue(e.target.value);
+                            if (/^\d*\.?\d{0,2}$/.test(val)) {
+                              onChange(val);
+                            }
+                          }}
+                          value={formatValue(value ?? "")}
                         />
                       )}
                     />
