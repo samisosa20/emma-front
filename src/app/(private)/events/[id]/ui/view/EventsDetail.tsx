@@ -178,8 +178,8 @@ const EventsDetail = (props: any) => {
       {/* Integrated Edit Panel (Right Sidebar) */}
       <aside
         className={`${
-          isEditPanelOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
-        } fixed lg:relative right-0 top-0 h-full w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-transform duration-300 z-50 flex flex-col shadow-xl lg:shadow-none`}
+          isEditPanelOpen ? "translate-x-0" : "translate-x-full"
+        } fixed lg:relative right-0 top-0 h-full w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-transform duration-300 z-50 flex flex-col shadow-xl lg:shadow-none ${!isEditPanelOpen && "hidden lg:hidden"}`}
       >
         <div className="flex justify-between items-center lg:block">
           <div>

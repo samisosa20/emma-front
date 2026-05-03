@@ -60,13 +60,15 @@ AXIOS_INSTANCE.interceptors.response.use(
 
 export const apiClient = <T>(
   url: string,
-  options: AxiosRequestConfig
+  options: AxiosRequestConfig & { body?: any }
 ): Promise<T> => {
   const source = Axios.CancelToken.source();
+  const { body, ...rest } = options;
 
   const promise = AXIOS_INSTANCE({
     url,
-    ...options,
+    ...rest,
+    data: body || rest.data,
     cancelToken: source.token,
   }).then(({ data }) => data);
 

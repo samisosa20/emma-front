@@ -1,0 +1,29 @@
+
+> fiona-front@3.0.0 dev
+> next dev --turbopack
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 1520ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+⨯ Error [TypeError]: fetch failed
+    at async middleware (src/middleware.ts:15:29)
+  13 |   const apiUrl = process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin;
+  14 |
+> 15 |   const { data: session } = await betterFetch<Session>(
+     |                             ^
+  16 |     "/auth/get-session",
+  17 |     {
+  18 |       baseURL: apiUrl,
+ GET /events/123 404 in 1323ms (next.js: -380837µs, proxy.ts: 1319ms, application-code: 385ms)
+[browser] Uncaught TypeError: fetch failed
+    at async middleware (src/middleware.ts:15:29)
+  13 |   const apiUrl = process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin;
+  14 |
+> 15 |   const { data: session } = await betterFetch<Session>(
+     |                             ^
+  16 |     "/auth/get-session",
+  17 |     {
+  18 |       baseURL: apiUrl,
