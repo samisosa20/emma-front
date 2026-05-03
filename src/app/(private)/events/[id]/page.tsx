@@ -1,19 +1,29 @@
-'use client';
-import EventCreate from '@/app/(private)/events/create/ui/view/EventsCreate';
-
-import useEventCreate from '@/app/(private)/events/create/ui/model/eventsCreate.models';
+"use client";
+import EventsDetail from "@/app/(private)/events/[id]/ui/view/EventsDetail";
+import useEventCreate from "@/app/(private)/events/create/ui/model/eventsCreate.models";
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, listMovements, listCategories } = useEventCreate();
+  const {
+    handleSubmit,
+    onSubmit,
+    control,
+    title,
+    listMovements,
+    listCategories,
+    data,
+    onDelete,
+  } = useEventCreate();
 
   return (
-    <EventCreate
+    <EventsDetail
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
+      onDelete={onDelete}
       control={control}
       title={title}
       listMovements={listMovements}
       listCategories={listCategories}
+      data={data}
     />
   );
 };
