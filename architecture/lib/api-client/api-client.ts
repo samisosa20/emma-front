@@ -22,12 +22,7 @@ function getTimezone() {
   return `UTC${timezoneOffset}`;
 }
 
-export const AXIOS_INSTANCE = Axios.create({
-  baseURL:
-    typeof window !== "undefined"
-      ? ""
-      : `http://localhost:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`,
-});
+export const AXIOS_INSTANCE = Axios.create();
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";
