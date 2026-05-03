@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 //components
 import useComponents from "@/share/components";
@@ -10,6 +11,7 @@ import useComponentsLayout from "../../../../components";
 import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
 
 const EventsDetail = (props: any) => {
+  const router = useRouter();
   const { FormControl } = useComponents();
   const { ListMovements } = useComponentsLayout();
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
@@ -47,6 +49,19 @@ const EventsDetail = (props: any) => {
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
       {/* Center Content Area */}
       <div className="flex-1 p-wf-container-margin md:p-wf-xl space-y-wf-lg overflow-y-auto">
+        {/* Page Header (Sub-header) */}
+        <div className="mb-4 flex items-center justify-between">
+          <button
+            onClick={() => router.push("/events")}
+            className="text-wf-on-surface-variant hover:text-wf-on-surface transition-colors flex items-center gap-2 group"
+          >
+            <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1">
+              arrow_back
+            </span>
+            <span className="font-wf-body-regular text-base">Volver a Eventos</span>
+          </button>
+        </div>
+
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md mb-wf-xl">
           <div>
