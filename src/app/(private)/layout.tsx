@@ -27,7 +27,7 @@ export default function RootLayout({
             {children}
             <footer className="h-[35px] text-center mt-auto pt-8">
               <p className="text-sm text-wf-on-surface-variant font-wf-body-regular">
-                © Copyright 2023 - {new Date().getFullYear()} WealthFlow
+                © Copyright 2023 - {new Date().getFullYear()} Fiona
               </p>
             </footer>
           </div>

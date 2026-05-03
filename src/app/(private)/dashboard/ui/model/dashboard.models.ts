@@ -3,10 +3,7 @@ import { useForm } from "react-hook-form";
 import { getISOWeek, format, startOfMonth, endOfMonth } from "date-fns";
 import { useRouter } from "next/navigation";
 
-import { ReportUseCase } from "@@/application/report.use-case";
-import { ReportApiAdapter } from "@@/infrastructure/report-api.adapter";
-
-import { customConfigHeader, driverWelcome } from "@/share/helpers";
+import { driverWelcome } from "@/share/helpers";
 import { useUserStore } from "@/share/storage";
 
 import {
@@ -96,7 +93,7 @@ export default function useDashboardViewModel() {
     },
   });
 
-  const { isLoading, data, isError } = useGetApiReportsTypePeriodSuspense(
+  const { isLoading, data: rawData, isError } = useGetApiReportsTypePeriodSuspense(
     typeReport,
     periodReport,
     {
@@ -118,8 +115,12 @@ export default function useDashboardViewModel() {
     }
   );
 
-  const { data: dataBalance, refetch: refetchBalance } =
+  const data = Array.isArray(rawData) ? rawData : (rawData as any)?.data ?? [];
+
+  const { data: rawDataBalance, refetch: refetchBalance } =
     useGetApiReportsGeneralBalanceSuspense();
+
+  const dataBalance = Array.isArray(rawDataBalance) ? rawDataBalance : (rawDataBalance as any)?.data ?? [];
 
   const today = new Date();
 
@@ -130,11 +131,13 @@ export default function useDashboardViewModel() {
   const lastDayOfMonth = endOfMonth(today);
 
   // Llama a la API con las fechas formateadas
-  const { data: dataHistory } = useGetApiReportsHistorySuspense({
+  const { data: rawDataHistory } = useGetApiReportsHistorySuspense({
     ...(filters.badgeId && { badgeId: String(filters.badgeId) }),
     startDate: format(firstDayOfMonth, "yyyy-MM-dd"),
     endDate: format(lastDayOfMonth, "yyyy-MM-dd"),
   });
+
+  const dataHistory = (rawDataHistory as any)?.data ?? rawDataHistory;
 
   const onSubmit = async (data: any) => {
     setFilters((prev) => ({ ...prev, badgeId: data.badgeId?.value }));

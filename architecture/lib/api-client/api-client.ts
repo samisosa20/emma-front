@@ -22,7 +22,12 @@ function getTimezone() {
   return `UTC${timezoneOffset}`;
 }
 
-export const AXIOS_INSTANCE = Axios.create();
+export const AXIOS_INSTANCE = Axios.create({
+  baseURL:
+    typeof window !== "undefined"
+      ? ""
+      : `http://localhost:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`,
+});
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";
@@ -54,18 +59,16 @@ AXIOS_INSTANCE.interceptors.response.use(
 );
 
 export const apiClient = <T>(
-  config: AxiosRequestConfig,
-  options?: AxiosRequestConfig
+  url: string,
+  options: AxiosRequestConfig
 ): Promise<T> => {
   const source = Axios.CancelToken.source();
 
-  let axiosConfig: AxiosRequestConfig = {
-    ...config,
+  const promise = AXIOS_INSTANCE({
+    url,
     ...options,
     cancelToken: source.token,
-  };
-
-  const promise = AXIOS_INSTANCE(axiosConfig).then(({ data }) => data);
+  }).then(({ data }) => data);
 
   // @ts-ignore
   promise.cancel = () => {
@@ -74,7 +77,6 @@ export const apiClient = <T>(
 
   return promise;
 };
-
 export default apiClient;
 
 export interface ErrorType<Error> extends AxiosError<Error> {}

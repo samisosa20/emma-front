@@ -247,7 +247,7 @@ export default function Dashboard(props: any) {
                   cx="50%"
                   cy="50%"
                 >
-                  {data &&
+                  {Array.isArray(data) &&
                     data.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -265,8 +265,8 @@ export default function Dashboard(props: any) {
                     data[0]?.code,
                     data?.reduce(
                       (sum: number, item: any) => sum + item.amount,
-                      0
-                    )
+                      0,
+                    ),
                   )}`}
                 </Label>
               </PieChart>
@@ -277,7 +277,6 @@ export default function Dashboard(props: any) {
             data={data}
             variant="modal"
             showHistory
-            currency={data.currency}
             onClickModal={getMovements}
             dataModal={listMovements}
           />

@@ -2,14 +2,6 @@ import {
   MdAttachMoney,
   MdWallet,
   MdEventNote,
-  MdOutlineStackedLineChart,
-  MdAccountBalance,
-  MdOutlinePayment,
-  MdDownload,
-  MdAutoFixHigh,
-  MdGroupWork,
-  MdSupport,
-  MdBook,
 } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
@@ -103,63 +95,63 @@ export const links = [
     name: "Cuentas",
     link: "/accounts",
     show: true,
-    icon: MdWallet,
+    icon: "account_balance_wallet",
     mobile: false,
   },
   {
     name: "Eventos",
     link: "/events",
     show: true,
-    icon: MdEventNote,
+    icon: "event",
     mobile: false,
   },
   {
     name: "Inversiones",
     link: "/investments",
     show: true,
-    icon: MdOutlineStackedLineChart,
+    icon: "candlestick_chart",
     mobile: true,
   },
   {
     name: "Presupuesto",
     link: "/budgets",
     show: true,
-    icon: MdAttachMoney,
+    icon: "savings",
     mobile: true,
   },
   {
     name: "Patrimonio",
     link: "/heritages",
     show: true,
-    icon: MdAccountBalance,
+    icon: "money_bag",
     mobile: true,
   },
   {
     name: "Categorías",
     link: "/categories",
     show: true,
-    icon: BiSolidCategoryAlt,
+    icon: "category",
     mobile: false,
   },
   {
     name: "Pagos",
     link: "/payments",
     show: true,
-    icon: MdOutlinePayment,
+    icon: "receipt_long",
     mobile: true,
   },
   {
-    name: "Herramientas",
+    name: "Experimentos",
     link: "/tools",
     show: true,
-    icon: MdAutoFixHigh,
+    icon: "experiment",
     mobile: true,
   },
   {
     name: "Descargar App",
     link: false,
     show: false,
-    icon: MdDownload,
+    icon: "download",
     mobile: true,
     onClick: handleAddToHomeScreen,
   },
@@ -167,7 +159,7 @@ export const links = [
     name: "Unirse a whatsapp",
     link: false,
     show: false,
-    icon: MdGroupWork,
+    icon: "work",
     mobile: true,
     onClick: handleGoToWpp,
   },
@@ -175,14 +167,14 @@ export const links = [
     name: "Soporte",
     link: "/support",
     show: false,
-    icon: MdSupport,
+    icon: "support",
     mobile: false,
   },
   {
     name: "Blogs",
     link: "/blogs",
     show: false,
-    icon: MdBook,
+    icon: "book",
     mobile: false,
   },
 ];
@@ -286,3 +278,48 @@ export function getWeekDateRange(year: number, weekNumber: number): string {
 
   return `${format(weekStart, "dd/MM")} - ${format(weekEnd, "dd/MM")}`;
 }
+
+export const listEventTypes = [
+  { 
+    value: "travel", 
+    label: "Viaje", 
+    bgColor: "#E3F2FD",
+    textColor: "#1976D2" 
+  },
+  { 
+    value: "school", 
+    label: "Estudio", 
+    bgColor: "#F3E5F5",
+    textColor: "#7B1FA2" 
+  },
+  { 
+    value: "home_repair_service", 
+    label: "Proyecto", 
+    bgColor: "#E8F5E9",
+    textColor: "#2E7D32" 
+  },
+  { 
+    value: "celebration", 
+    label: "Fiesta", 
+    bgColor: "#FFF3E0",
+    textColor: "#E65100" 
+  },
+  { 
+    value: "work", 
+    label: "Trabajo", 
+    bgColor: "#EFEBE9",
+    textColor: "#5D4037" 
+  },
+  { 
+    value: "health_cross", 
+    label: "Salud", 
+    bgColor: "#FFEBEE",
+    textColor: "#C62828" 
+  },
+  { 
+    value: "event", 
+    label: "Otro", 
+    bgColor: "#ECEFF1",
+    textColor: "#455A64" 
+  },
+];

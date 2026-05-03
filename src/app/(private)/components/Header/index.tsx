@@ -1,15 +1,33 @@
-"use client";
-import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { headers } from "next/headers";
 import { authClient } from "@/share/lib/auth-client";
 
-const Header = () => {
-  const { data: session } = authClient.useSession();
+// Assets
+import imgLogo from "../../../../../public/img/logo.png";
+
+const Header = async () => {
+  const reqHeaders = await headers();
+  const { data: session } = await authClient.getSession({
+    fetchOptions: {
+      headers: reqHeaders,
+    },
+  });
   const user = session?.user;
 
   return (
     <header className="hidden md:flex bg-white/80 backdrop-blur-md text-slate-900 font-wf-headline-md antialiased w-full top-0 border-b border-wf-outline-variant/30 shadow-sm sticky z-40 justify-between items-center px-6 py-3">
       <div className="text-xl font-extrabold tracking-tight text-wf-primary">
-        WealthFlow
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <Image
+            src={imgLogo}
+            alt="Fiona Logo"
+            className="h-8 mb-1"
+            width={32}
+            height={32}
+            style={{ width: "auto" }}
+          />
+        </Link>
       </div>
       <div className="flex items-center gap-wf-md">
         <div className="relative">

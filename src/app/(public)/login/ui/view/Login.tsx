@@ -24,14 +24,14 @@ export default function Login(props: any) {
             <div className="mb-2">
               <Image
                 src={imgLogo}
-                alt="WealthFlow Logo"
+                alt="Fiona Logo"
                 width={180}
                 height={48}
                 className="h-auto w-auto"
                 priority
               />
             </div>
-            <h1 className="font-manrope text-3xl font-bold text-wf-primary">WealthFlow</h1>
+            <h1 className="font-manrope text-3xl font-bold text-wf-primary">Fiona</h1>
             <p className="font-inter text-base text-wf-on-surface-variant">Gestiona tus finanzas globales en un solo lugar</p>
           </div>
 
