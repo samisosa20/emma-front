@@ -4,7 +4,7 @@ import CategoryCreate from '@/app/(private)/categories/create/ui/view/CategoryCr
 import categoryCreateViewModel from '@/app/(private)/categories/create/ui/model/categoryCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, groupsOptions, handleDelete, listCategories } = categoryCreateViewModel();
+  const { handleSubmit, onSubmit, control, title, groupsOptions, handleDelete, listCategories, watch, setValue } = categoryCreateViewModel();
 
   return (
     <CategoryCreate
@@ -15,6 +15,8 @@ const Page = () => {
       groupsOptions={groupsOptions}
       handleDelete={handleDelete}
       listCategories={listCategories}
+      watch={watch}
+      setValue={setValue}
     />
   );
 };

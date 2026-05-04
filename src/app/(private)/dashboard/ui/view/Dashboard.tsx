@@ -240,9 +240,9 @@ export default function Dashboard(props: any) {
             <Typography variant="p" className="px-4 pt-4">
               Movimientos
             </Typography>
-            <div className="flex items-center justify-center h-[340px] w-full">
+            <div className="flex items-center justify-center h-[340px] w-full" style={{ minWidth: 0, minHeight: 340 }}>
               {isMounted ? (
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                   <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                     <Pie
                       data={data}
@@ -302,9 +302,9 @@ export default function Dashboard(props: any) {
           <Typography variant="p" className="px-4 pt-4">
             Historial balance
           </Typography>
-          <div className="flex items-center justify-center w-full h-72">
-            {isMounted && (
-              <ResponsiveContainer width="100%" height="100%">
+          <div className="flex items-center justify-center w-full h-72" style={{ minWidth: 0, minHeight: 288 }}>
+            {isMounted ? (
+              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <LineChart margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
@@ -351,6 +351,8 @@ export default function Dashboard(props: any) {
                   />
                 </LineChart>
               </ResponsiveContainer>
+            ) : (
+              <div className="h-full w-full" />
             )}
           </div>
         </div>

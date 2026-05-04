@@ -29,8 +29,8 @@ const Button = (props: ButtonProps) => {
       className={twMerge(
         button.base,
         button.size[size],
-        button.variant[variant],
-        button[variant][color],
+        button.variant?.[variant],
+        button[variant]?.[color],
         block && button.block,
         disabled && button.disabled,
         className

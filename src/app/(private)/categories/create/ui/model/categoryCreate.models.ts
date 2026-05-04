@@ -24,8 +24,12 @@ export default function useCategoryCreateViewModel() {
   const [title, setTitle] = useState("Creacion de Categoría");
   const [groupsOptions, setGroupsOptions] = useState([]);
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset, watch, setValue } = useForm({
     resolver: zodResolver(categorySchema),
+    defaultValues: {
+      color: "#6bfe9c",
+      icon: "category",
+    }
   });
 
   const mutation = usePostApiCategories();
@@ -105,5 +109,7 @@ export default function useCategoryCreateViewModel() {
     groupsOptions,
     handleDelete,
     listCategories: [],
+    watch,
+    setValue,
   };
 }

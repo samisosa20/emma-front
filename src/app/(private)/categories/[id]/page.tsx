@@ -16,15 +16,22 @@ const Page = () => {
     search,
     isChecked,
     currencyOptions,
-    control,
+    controlFilters,
+    controlEdit,
     onSubmit,
-    handleSubmit,
+    handleFilterSubmit,
     currency,
     loadingMovement,
     listMovements,
     meta,
+    page,
     setPage,
     dataBalance,
+    watch,
+    setValue,
+    handleSubmitEdit,
+    onEditSubmit,
+    handleDelete,
   } = useCategoryDetailViewModel();
 
   if (isLoading || data === undefined || loadingMovement) {
@@ -38,15 +45,22 @@ const Page = () => {
       setSearch={setSearch}
       isChecked={isChecked}
       handleToggle={handleToggle}
-      control={control}
+      controlFilters={controlFilters}
+      controlEdit={controlEdit}
       currencyOptions={currencyOptions}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
+      handleFilterSubmit={handleFilterSubmit}
+      onFilterSubmit={onSubmit}
       currency={currency}
       listMovements={listMovements}
       meta={meta}
+      page={page}
       setPage={setPage}
       dataBalance={dataBalance}
+      watch={watch}
+      setValue={setValue}
+      handleEditSubmit={handleSubmitEdit}
+      onEditSubmit={onEditSubmit}
+      handleDelete={handleDelete}
     />
   );
 };
