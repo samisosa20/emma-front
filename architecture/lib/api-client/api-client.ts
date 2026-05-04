@@ -34,8 +34,6 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Timezone"] = getTimezone();
 
   if (typeof window === "undefined") {
-    request.headers.delete("host");
-    
     try {
       const { cookies } = await import("next/headers");
       const cookieStore = await cookies();
@@ -51,6 +49,7 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
 
   return request;
 }
+
 function handleRequestError(error: AxiosError): Promise<AxiosError> {
   return Promise.reject(error);
 }
