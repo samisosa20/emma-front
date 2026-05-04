@@ -23,8 +23,14 @@ const Page = () => {
     loadingMovement,
     listMovements,
     meta,
+    page,
     setPage,
     dataBalance,
+    watch,
+    setValue,
+    handleSubmitEdit,
+    onEditSubmit,
+    handleDelete,
   } = useCategoryDetailViewModel();
 
   if (isLoading || data === undefined || loadingMovement) {
@@ -45,8 +51,14 @@ const Page = () => {
       currency={currency}
       listMovements={listMovements}
       meta={meta}
+      page={page}
       setPage={setPage}
       dataBalance={dataBalance}
+      watch={watch}
+      setValue={setValue}
+      handleSubmit={handleSubmitEdit}
+      onSubmit={onEditSubmit}
+      handleDelete={handleDelete}
     />
   );
 };

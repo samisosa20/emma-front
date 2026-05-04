@@ -4,7 +4,7 @@ import CategoryCreate from "./ui/view/CategoryCreate";
 import useCategoryCreateViewModel from "./ui/model/categoryCreate.models";
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, groupsOptions } =
+  const { handleSubmit, onSubmit, control, title, groupsOptions, watch, setValue } =
     useCategoryCreateViewModel();
   return (
     <CategoryCreate
@@ -13,6 +13,8 @@ const Page = () => {
       control={control}
       title={title}
       groupsOptions={groupsOptions}
+      watch={watch}
+      setValue={setValue}
     />
   );
 };

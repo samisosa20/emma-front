@@ -3,10 +3,15 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { useGetApiCategoriesIdSuspense } from "@@@/endpoints/category/category";
+import {
+  useGetApiCategoriesIdSuspense,
+  usePutApiCategoriesId,
+  useDeleteApiCategoriesId
+} from "@@@/endpoints/category/category";
 import { useGetApiMovements } from "@@@/endpoints/movement/movement";
 import { useGetApiReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
 import { GetApiMovements200ContentItem } from "@@@/domain/models";
+import { toast } from "react-toastify";
 
 export default function useCategoryDetailViewModel() {
   const param = useParams();
@@ -36,6 +41,46 @@ export default function useCategoryDetailViewModel() {
       },
     }
   );
+
+  const { reset, watch, setValue, handleSubmit: handleSubmitEdit } = useForm();
+
+  const mutationEdit = usePutApiCategoriesId();
+  const mutationDelete = useDeleteApiCategoriesId();
+
+  useEffect(() => {
+    if (data) {
+      reset(data as any);
+    }
+  }, [data]);
+
+  const onEditSubmit = (data: any) => {
+    const id = Array.isArray(param.id) ? param.id[0] : param.id;
+    mutationEdit.mutate(
+      {
+        id: String(id),
+        data: data,
+      },
+      {
+        onSuccess: (result) => {
+          toast.success("Categoría actualizada");
+        },
+      }
+    );
+  };
+
+  const handleDelete = () => {
+    const id = Array.isArray(param.id) ? param.id[0] : param.id;
+    if (id) {
+        mutationDelete.mutate({
+            id: String(id),
+        }, {
+            onSuccess: () => {
+                toast.success("Categoría eliminada");
+                router.push("/categories");
+            }
+        });
+    }
+  };
 
   const { data: dataBalance, refetch: refetchBalance } =
     useGetApiReportsCategoryIdStatsSuspense(String(param.id));
@@ -114,7 +159,13 @@ export default function useCategoryDetailViewModel() {
     loadingMovement,
     listMovements,
     meta: dataMovements?.meta,
+    page,
     setPage,
     dataBalance,
+    watch,
+    setValue,
+    handleSubmitEdit,
+    onEditSubmit,
+    handleDelete,
   };
 }
