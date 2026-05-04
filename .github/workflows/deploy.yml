@@ -45,29 +45,31 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
-            CONTAINER="fiona_front"
+
+            CONTAINER_NAME="${{ secrets.DOCKER_CONTAINER_NAME }}"
             IMAGE="${{ secrets.DOCKER_USERNAME }}/fiona-front:latest"
-            PORT_EXT="${{ secrets.NEXT_PUBLIC_PORT || '3030' }}" # Puerto externo (default 3030)
+            PORT_EXT="${{ secrets.NEXT_PUBLIC_PORT }}"
 
-            echo "=== Actualizando Imagen ==="
-            docker pull $IMAGE
+            echo "=== Deteniendo contenedor existente ==="
+            docker stop $CONTAINER_NAME 2>/dev/null || true
+            docker rm $CONTAINER_NAME 2>/dev/null || true
 
-            echo "=== Reiniciando Contenedor ==="
-            docker stop $CONTAINER || true
-            docker rm $CONTAINER || true
-
+            echo "=== Iniciando contenedor con network host (Linux) ==="
             docker run -d \
-              --name $CONTAINER \
-              --network fiona_network \
+              --name $CONTAINER_NAME \
+              --network host \
               --restart unless-stopped \
               --cpus="1.5" \
               --memory="1g" \
-              -p ${PORT_EXT}:3030 \
               -e PORT=3030 \
-              -e NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
               -e HOSTNAME="0.0.0.0" \
-              -e NEXT_PUBLIC_INTERNAL_API_URL="http://127.0.0.1:3030" \
+              -e NEXT_PUBLIC_INTERNAL_API_URL="http://localhost:3030" \
+              -e NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
               $IMAGE
+
+            echo "=== Verificando ==="
+            sleep 5
+            docker logs $CONTAINER_NAME --tail 30
 
             echo "=== Limpieza ==="
             docker image prune -f

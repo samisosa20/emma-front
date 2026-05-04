@@ -25,9 +25,8 @@ function getTimezone() {
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: typeof window !== "undefined"
-      ? ""
-      : (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://127.0.0.1:3030"),
-  httpAgent: typeof window === "undefined" ? new http.Agent({ keepAlive: false }) : undefined,
+    ? ""
+    : (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://localhost:3030"),
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
@@ -36,11 +35,9 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
 
   if (typeof window === "undefined") {
     request.headers.delete("host");
-    request.headers.delete("connection");
-
+    
     try {
-      // Importación dinámica para evitar errores en el cliente
-      const { cookies } = require("next/headers");
+      const { cookies } = await import("next/headers");
       const cookieStore = await cookies();
       const allCookies = cookieStore.toString();
 
@@ -48,14 +45,12 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
         request.headers["Cookie"] = allCookies;
       }
     } catch (e) {
-      // Estamos fuera del contexto de una petición (ej. compilación)
       console.warn("No se pudieron obtener cookies en el servidor");
     }
   }
 
   return request;
 }
-
 function handleRequestError(error: AxiosError): Promise<AxiosError> {
   return Promise.reject(error);
 }
