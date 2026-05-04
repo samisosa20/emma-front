@@ -1,18 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { headers } from "next/headers";
 import { authClient } from "@/share/lib/auth-client";
 
 // Assets
 import imgLogo from "../../../../../public/img/logo.png";
 
 const Header = async () => {
-  const reqHeaders = await headers();
-  const { data: session } = await authClient.getSession({
-    fetchOptions: {
-      headers: reqHeaders,
-    },
-  });
+  const { data: session } = await authClient.getSession();
   const user = session?.user;
 
   return (

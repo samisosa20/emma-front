@@ -6,7 +6,7 @@ import { useEffect } from "react";
 // Assets
 import imgLogo from "../../public/img/logo.png";
 
-export default function NotFound({
+export default function ErrorPage({
   error,
 }: {
   error: Error & { digest?: string };
