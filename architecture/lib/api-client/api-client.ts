@@ -5,7 +5,6 @@ import Axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { format } from "date-fns";
-import http from "http";
 
 export interface ApiErrorResponse {
   message: string;
@@ -23,12 +22,17 @@ function getTimezone() {
   return `UTC${timezoneOffset}`;
 }
 
+// AXIOS INSTANCE
+// ==========================================
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: typeof window !== "undefined"
-    ? ""
-    : (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://localhost:3030"),
+  baseURL: typeof window === "undefined" 
+    ? (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://localhost:3030") 
+    : "",
 });
 
+// ==========================================
+// INTERCEPTOR: Request Success
+// ==========================================
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";
   request.headers["Timezone"] = getTimezone();
@@ -47,18 +51,59 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
     }
   }
 
+  console.log("=== AXIOS REQUEST ===");
+  console.log("URL:", request.url);
+  console.log("BaseURL:", request.baseURL);
+  console.log("Method:", request.method);
+
   return request;
 }
 
+// ==========================================
+// INTERCEPTOR: Request Error
+// ==========================================
 function handleRequestError(error: AxiosError): Promise<AxiosError> {
+  console.error("=== AXIOS REQUEST ERROR ===");
+  console.error("URL:", error.config?.url);
+  console.error("Method:", error.config?.method);
+  console.error("Error:", error.message);
+  console.error("Code:", error.code);
+  
   return Promise.reject(error);
 }
 
+// ==========================================
+// INTERCEPTOR: Response Success
+// ==========================================
 function handleResponseSuccess(response: AxiosResponse) {
+  console.log("=== AXIOS RESPONSE SUCCESS ===");
+  console.log("URL:", response.config.url);
+  console.log("Status:", response.status);
+  
   return response;
 }
 
-async function handleResponseError(error: AxiosError<ApiErrorResponse>) {
+// ==========================================
+// INTERCEPTOR: Response Error
+// ==========================================
+async function handleResponseError(error: AxiosError): Promise<AxiosError> {
+  console.error("=== AXIOS RESPONSE ERROR ===");
+  console.error("URL:", error.config?.url);
+  console.error("Status:", error.response?.status);
+  console.error("Error:", error.message);
+  console.error("Code:", error.code);
+  console.error("Cause:", error.cause);
+  
+  // Información adicional de debug
+  if (error.config) {
+    console.error("Full config:", {
+      baseURL: error.config.baseURL,
+      url: error.config.url,
+      method: error.config.method,
+      headers: error.config.headers,
+    });
+  }
+
   return Promise.reject(error);
 }
 

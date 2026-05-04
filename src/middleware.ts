@@ -8,20 +8,23 @@ interface Session {
 
 
 export default async function middleware(request: NextRequest) {
-  // Check session against the backend auth endpoint via the proxy or directly
-  // Using the proxied path /api/v2/auth/get-session
-  const apiUrl = process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://127.0.0.1:3030";
 
-const { data: session } = await betterFetch<Session>(
-  "/api/auth/get-session",
-  {
-    baseURL: apiUrl, // Ahora esto es "http://127.0.0.1:3030"
-    headers: {
-      cookie: request.headers.get("cookie") || "",
-    },
-  }
-);
+  console.log("=== MIDDLEWARE START ===");
+  console.log("URL:", request.url);
+  console.log("Cookies:", request.cookies.getAll());
+  
+  const apiUrl = process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://localhost:3030";
+  console.log("API URL:", apiUrl);
 
+  const response = await fetch(`${apiUrl}/api/auth/get-session`, {
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+    });
+
+    console.log("=== MIDDLEWARE FETCH SUCCESS ===");
+    console.log("Status:", response.status);
+  
   const isPublicRoute =
     request.nextUrl.pathname === "/" ||
     request.nextUrl.pathname.startsWith("/login") ||
@@ -29,11 +32,11 @@ const { data: session } = await betterFetch<Session>(
     request.nextUrl.pathname.startsWith("/forgot") ||
     request.nextUrl.pathname.startsWith("/blogs");
 
-  if (!session && !isPublicRoute) {
+  if (!response.ok && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (session && isPublicRoute && request.nextUrl.pathname !== "/") {
+  if (response.ok && isPublicRoute && request.nextUrl.pathname !== "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
