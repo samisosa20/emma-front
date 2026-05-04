@@ -45,16 +45,17 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
-
-            CONTAINER_NAME="${{ secrets.DOCKER_CONTAINER_NAME }}"
+            CONTAINER="fiona_front"
             IMAGE="${{ secrets.DOCKER_USERNAME }}/fiona-front:latest"
-            PORT_EXT="${{ secrets.NEXT_PUBLIC_PORT }}"
+            PORT_EXT="${{ secrets.NEXT_PUBLIC_PORT || '3030' }}" # Puerto externo (default 3030)
 
-            echo "=== Deteniendo contenedor existente ==="
-            docker stop $CONTAINER_NAME 2>/dev/null || true
-            docker rm $CONTAINER_NAME 2>/dev/null || true
+            echo "=== Actualizando Imagen ==="
+            docker pull $IMAGE
 
-            echo "=== Iniciando contenedor con network host (Linux) ==="
+            echo "=== Reiniciando Contenedor ==="
+            docker stop $CONTAINER || true
+            docker rm $CONTAINER || true
+
             docker run -d \
               --name $CONTAINER_NAME \
               --network host \
