@@ -40,21 +40,21 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   if (typeof window === "undefined") {
     try {
       const { cookies } = await import("next/headers");
-      const cookieStore = await cookies();
+      const cookieStore = cookies();
       const allCookies = cookieStore.toString();
+
+      console.log("=== COOKIES ===");
+      console.log("All cookies string:", allCookies);
 
       if (allCookies) {
         request.headers["Cookie"] = allCookies;
+        console.log("=== COOKIE HEADER SET ===");
+        console.log("Cookie:", request.headers.get("Cookie"));
       }
     } catch (e) {
-      console.warn("No se pudieron obtener cookies en el servidor");
+      console.error("Error getting cookies:", e);
     }
   }
-
-  console.log("=== AXIOS REQUEST ===");
-  console.log("URL:", request.url);
-  console.log("BaseURL:", request.baseURL);
-  console.log("Method:", request.method);
 
   return request;
 }
