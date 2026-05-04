@@ -10,17 +10,17 @@ interface Session {
 export default async function middleware(request: NextRequest) {
   // Check session against the backend auth endpoint via the proxy or directly
   // Using the proxied path /api/v2/auth/get-session
-  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}`;
+  const apiUrl = process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://127.0.0.1:3030";
 
-  const { data: session } = await betterFetch<Session>(
-    "/api/auth/get-session",
-    {
-      baseURL: apiUrl,
-      headers: {
-        cookie: request.headers.get("cookie") || "",
-      },
-    }
-  );
+const { data: session } = await betterFetch<Session>(
+  "/api/auth/get-session",
+  {
+    baseURL: apiUrl, // Ahora esto es "http://127.0.0.1:3030"
+    headers: {
+      cookie: request.headers.get("cookie") || "",
+    },
+  }
+);
 
   const isPublicRoute =
     request.nextUrl.pathname === "/" ||

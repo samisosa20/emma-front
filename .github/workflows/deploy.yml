@@ -58,13 +58,15 @@ jobs:
 
             docker run -d \
               --name $CONTAINER \
+              --network fiona_network \
               --restart unless-stopped \
               --cpus="1.5" \
               --memory="1g" \
               -p ${PORT_EXT}:3030 \
               -e PORT=3030 \
               -e NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
-              -e NEXT_PUBLIC_APP_URL="${{ secrets.NEXT_PUBLIC_APP_URL }}" \
+              -e HOSTNAME="0.0.0.0" \
+              -e NEXT_PUBLIC_INTERNAL_API_URL="http://127.0.0.1:3030" \
               $IMAGE
 
             echo "=== Limpieza ==="

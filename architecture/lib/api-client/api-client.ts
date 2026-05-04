@@ -23,10 +23,9 @@ function getTimezone() {
 }
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL:
-    typeof window !== "undefined"
+  baseURL: typeof window !== "undefined"
       ? ""
-      : `http://localhost:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`,
+      : (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://127.0.0.1:3030"),
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
@@ -34,8 +33,8 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Timezone"] = getTimezone();
 
   if (typeof window === "undefined") {
-    request.headers.delete('connection');
-    request.headers.delete('host');
+    delete request.headers['host'];
+    delete request.headers['connection'];
   }
   return request;
 }

@@ -23,7 +23,6 @@ const Header = async () => {
             src={imgLogo}
             alt="Fiona Logo"
             className="h-8 mb-1"
-            width={32}
             height={32}
             style={{ width: "auto" }}
           />
