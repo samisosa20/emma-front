@@ -1,12 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import { headers } from "next/headers";
 import { authClient } from "@/share/lib/auth-client";
 
 // Assets
 import imgLogo from "../../../../../public/img/logo.png";
 
 const Header = async () => {
-  const { data: session } = await authClient.getSession();
+  const reqHeaders = await headers();
+  const { data: session } = await authClient.getSession({
+    fetchOptions: {
+      headers: reqHeaders,
+    },
+  });
   const user = session?.user;
 
   return (
@@ -33,7 +39,10 @@ const Header = async () => {
             type="text"
           />
         </div>
-        <button className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center">
+        <Link 
+          href="/profile"
+          className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center"
+        >
           {user?.image ? (
             <img
               src={user.image}
@@ -45,7 +54,7 @@ const Header = async () => {
               account_circle
             </span>
           )}
-        </button>
+        </Link>
       </div>
     </header>
   );

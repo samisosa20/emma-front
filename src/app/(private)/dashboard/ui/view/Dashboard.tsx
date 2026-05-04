@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import {
   XAxis,
@@ -102,6 +103,12 @@ export default function Dashboard(props: any) {
   } = useComponents();
   const { ListItems, Filters, Cards } = useComponentsLayout();
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const totalWeeks = getISOWeeksInYear(new Date(filters.year, 0, 1));
 
   return (
@@ -119,6 +126,7 @@ export default function Dashboard(props: any) {
                   label="Moneda"
                   placeholder="Seleciona una opcion"
                   id="badgeId"
+                  instanceId="badge-select"
                   handleOnChange={(e: any) => {
                     onChange(e);
                   }}
@@ -232,44 +240,46 @@ export default function Dashboard(props: any) {
             <Typography variant="p" className="px-4 pt-4">
               Movimientos
             </Typography>
-            <div className="flex items-center justify-center">
-              <PieChart
-                width={340}
-                height={340}
-                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-              >
-                <Pie
-                  data={data}
-                  dataKey="amount"
-                  nameKey="category"
-                  innerRadius={130}
-                  outerRadius={150}
-                  cx="50%"
-                  cy="50%"
-                >
-                  {Array.isArray(data) &&
-                    data.map((entry: any, index: number) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value) => {
-                    return (
-                      data[0]?.symbol +
-                      getCurrencyFormatter(data[0]?.code, Number(value))
-                    );
-                  }}
-                />
-                <Label width={30} position="center">
-                  {`${data[0]?.symbol}${getCurrencyFormatter(
-                    data[0]?.code,
-                    data?.reduce(
-                      (sum: number, item: any) => sum + item.amount,
-                      0,
-                    ),
-                  )}`}
-                </Label>
-              </PieChart>
+            <div className="flex items-center justify-center h-[340px] w-full">
+              {isMounted ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                    <Pie
+                      data={data}
+                      dataKey="amount"
+                      nameKey="category"
+                      innerRadius="80%"
+                      outerRadius="95%"
+                      cx="50%"
+                      cy="50%"
+                    >
+                      {Array.isArray(data) &&
+                        data.map((entry: any, index: number) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value) => {
+                        return (
+                          data[0]?.symbol +
+                          getCurrencyFormatter(data[0]?.code, Number(value))
+                        );
+                      }}
+                    />
+                    <Label width={30} position="center">
+                      {`${data[0]?.symbol}${getCurrencyFormatter(
+                        data[0]?.code,
+                        data?.reduce(
+                          (sum: number, item: any) => sum + item.amount,
+                          0,
+                        ),
+                      )}`}
+                    </Label>
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-full w-full" />
+              )}
             </div>
           </div>
           <ListItems
@@ -293,53 +303,55 @@ export default function Dashboard(props: any) {
             Historial balance
           </Typography>
           <div className="flex items-center justify-center w-full h-72">
-            <ResponsiveContainer>
-              <LineChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="date"
-                  allowDuplicatedCategory={false}
-                  type="number"
-                />
+            {isMounted && (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="date"
+                    allowDuplicatedCategory={false}
+                    type="number"
+                  />
 
-                <YAxis tickFormatter={formatYAxisTick} />
-                <Tooltip formatter={currencyFormatter} />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="cumulativeBalance"
-                  name="Actual"
-                  data={dataHistory.current.map((v: any) => {
-                    return { ...v, date: new Date(v.date).getDate() };
-                  })}
-                  stroke="#8884d8"
-                  dot={false}
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="cumulativeBalance"
-                  data={dataHistory.previousPeriod.map((v: any) => {
-                    return { ...v, date: new Date(v.date).getDate() };
-                  })}
-                  stroke="#82ca9d"
-                  name="Anterior"
-                  dot={false}
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="cumulativeBalance"
-                  data={dataHistory.lastYear.map((v: any) => {
-                    return { ...v, date: new Date(v.date).getDate() };
-                  })}
-                  stroke="#8dd1e1"
-                  name="Año anterior"
-                  dot={false}
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+                  <YAxis tickFormatter={formatYAxisTick} />
+                  <Tooltip formatter={currencyFormatter} />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="cumulativeBalance"
+                    name="Actual"
+                    data={dataHistory.current.map((v: any) => {
+                      return { ...v, date: new Date(v.date).getDate() };
+                    })}
+                    stroke="#8884d8"
+                    dot={false}
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="cumulativeBalance"
+                    data={dataHistory.previousPeriod.map((v: any) => {
+                      return { ...v, date: new Date(v.date).getDate() };
+                    })}
+                    stroke="#82ca9d"
+                    name="Anterior"
+                    dot={false}
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="cumulativeBalance"
+                    data={dataHistory.lastYear.map((v: any) => {
+                      return { ...v, date: new Date(v.date).getDate() };
+                    })}
+                    stroke="#8dd1e1"
+                    name="Año anterior"
+                    dot={false}
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
       )}

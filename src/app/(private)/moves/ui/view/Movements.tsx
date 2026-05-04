@@ -177,6 +177,7 @@ export default function Movements({
                       <AutoComplete
                         placeholder="Selecciona cuenta"
                         handleOnChange={onChange}
+                        instanceId="account-select"
                         options={listAccounts}
                         iserror={!!fieldState.error}
                         value={value}
@@ -200,6 +201,7 @@ export default function Movements({
                         <AutoComplete
                           placeholder="Selecciona destino"
                           handleOnChange={onChange}
+                          instanceId="destination-account-select"
                           options={listAccounts}
                           iserror={!!fieldState.error}
                           value={value}
@@ -223,6 +225,7 @@ export default function Movements({
                       <AutoComplete
                         placeholder="Selecciona categoría"
                         handleOnChange={onChange}
+                        instanceId="category-select"
                         options={listCategories}
                         iserror={!!fieldState.error}
                         value={value}
@@ -310,6 +313,7 @@ export default function Movements({
                         <AutoComplete
                           placeholder="Opcional"
                           handleOnChange={onChange}
+                          instanceId="event-select"
                           options={listEvents}
                           iserror={!!fieldState.error}
                           value={value}
@@ -328,6 +332,7 @@ export default function Movements({
                         <AutoComplete
                           placeholder="Opcional"
                           handleOnChange={onChange}
+                          instanceId="investment-select"
                           options={listInvestments}
                           iserror={!!fieldState.error}
                           value={value}
