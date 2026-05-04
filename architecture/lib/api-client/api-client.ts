@@ -24,10 +24,9 @@ function getTimezone() {
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL:
-    typeof window === "undefined"
-      ? `http://${process.env.NEXT_PUBLIC_APP_URL}`
-      : "",
-  adapter: typeof window === "undefined" ? "http" : undefined,
+    typeof window !== "undefined"
+      ? ""
+      : `http://localhost:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`,
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
