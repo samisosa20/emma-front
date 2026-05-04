@@ -62,6 +62,7 @@ jobs:
               --restart unless-stopped \
               --cpus="1.5" \
               --memory="1g" \
+              --p ${PORT_EXT}:3030 \
               -e PORT=3030 \
               -e HOSTNAME="0.0.0.0" \
               -e NEXT_PUBLIC_INTERNAL_API_URL="http://localhost:3030" \
