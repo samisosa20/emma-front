@@ -5,6 +5,7 @@ import Axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { format } from "date-fns";
+import http from "http";
 
 export interface ApiErrorResponse {
   message: string;
@@ -26,6 +27,7 @@ export const AXIOS_INSTANCE = Axios.create({
   baseURL: typeof window !== "undefined"
       ? ""
       : (process.env.NEXT_PUBLIC_INTERNAL_API_URL || "http://127.0.0.1:3030"),
+  httpAgent: typeof window === "undefined" ? new http.Agent({ keepAlive: false }) : undefined,
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
@@ -33,9 +35,24 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Timezone"] = getTimezone();
 
   if (typeof window === "undefined") {
-    delete request.headers['host'];
-    delete request.headers['connection'];
+    request.headers.delete("host");
+    request.headers.delete("connection");
+
+    try {
+      // Importación dinámica para evitar errores en el cliente
+      const { cookies } = require("next/headers");
+      const cookieStore = await cookies();
+      const allCookies = cookieStore.toString();
+
+      if (allCookies) {
+        request.headers["Cookie"] = allCookies;
+      }
+    } catch (e) {
+      // Estamos fuera del contexto de una petición (ej. compilación)
+      console.warn("No se pudieron obtener cookies en el servidor");
+    }
   }
+
   return request;
 }
 
