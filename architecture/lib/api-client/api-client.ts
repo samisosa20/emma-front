@@ -23,13 +23,21 @@ function getTimezone() {
 }
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: `http://localhost:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`,
+  baseURL:
+    typeof window === "undefined"
+      ? `http://127.0.0.1:${process.env.PORT || process.env.NEXT_PUBLIC_PORT || 3000}`
+      : "",
+  adapter: typeof window === "undefined" ? "http" : undefined,
 });
 
 async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";
   request.headers["Timezone"] = getTimezone();
 
+  if (typeof window === "undefined") {
+    request.headers.delete('connection');
+    request.headers.delete('host');
+  }
   return request;
 }
 
