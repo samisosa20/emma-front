@@ -31,18 +31,26 @@ export default function useCategoryDetailViewModel() {
     GetApiMovements200ContentItem[]
   >([]);
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit: handleFilterSubmit, control: controlFilters } = useForm();
 
-  const { isLoading, data, isError } = useGetApiCategoriesIdSuspense(
-    String(param.id),
-    {
-      query: {
-        queryKey: ["categoryDetail", param.id ?? 0],
-      },
-    }
-  );
+  const {
+    isLoading,
+    data,
+    isError,
+    refetch: refetchCategory,
+  } = useGetApiCategoriesIdSuspense(String(param.id), {
+    query: {
+      queryKey: ["categoryDetail", param.id ?? 0],
+    },
+  });
 
-  const { reset, watch, setValue, handleSubmit: handleSubmitEdit } = useForm();
+  const {
+    reset,
+    watch,
+    setValue,
+    control: controlEdit,
+    handleSubmit: handleSubmitEdit,
+  } = useForm();
 
   const mutationEdit = usePutApiCategoriesId();
   const mutationDelete = useDeleteApiCategoriesId();
@@ -63,6 +71,7 @@ export default function useCategoryDetailViewModel() {
       {
         onSuccess: (result) => {
           toast.success("Categoría actualizada");
+          refetchCategory();
         },
       }
     );
@@ -152,9 +161,10 @@ export default function useCategoryDetailViewModel() {
     search,
     isChecked,
     currencyOptions,
-    control,
+    controlFilters,
+    controlEdit,
     onSubmit,
-    handleSubmit,
+    handleFilterSubmit,
     currency,
     loadingMovement,
     listMovements,

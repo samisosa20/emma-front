@@ -16,9 +16,10 @@ const Page = () => {
     search,
     isChecked,
     currencyOptions,
-    control,
+    controlFilters,
+    controlEdit,
     onSubmit,
-    handleSubmit,
+    handleFilterSubmit,
     currency,
     loadingMovement,
     listMovements,
@@ -44,9 +45,10 @@ const Page = () => {
       setSearch={setSearch}
       isChecked={isChecked}
       handleToggle={handleToggle}
-      control={control}
+      controlFilters={controlFilters}
+      controlEdit={controlEdit}
       currencyOptions={currencyOptions}
-      handleFilterSubmit={handleSubmit}
+      handleFilterSubmit={handleFilterSubmit}
       onFilterSubmit={onSubmit}
       currency={currency}
       listMovements={listMovements}

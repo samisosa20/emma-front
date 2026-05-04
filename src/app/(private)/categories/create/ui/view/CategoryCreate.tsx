@@ -1,6 +1,7 @@
 "use client";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { colors } from "@/share/helpers";
 
 //components
 import useComponents from "@/share/components";
@@ -23,26 +24,59 @@ export default function CategoryCreate(props: any) {
   const selectedColor = watch("color") || "#6bfe9c";
   const selectedIcon = watch("icon") || "category";
 
-  const colorOptions = [
-    "#6bfe9c",
-    "#ffb3b0",
-    "#dae2ff",
-    "#FFD166",
-    "#118AB2",
-    "#040c21",
-  ];
+  const colorOptions = colors;
 
   const iconOptions = [
+    // General & Shopping
+    "category",
+    "shopping_cart",
+    "shopping_bag",
+    "payments",
+    "credit_card",
+    "receipt_long",
+    "savings",
+    "account_balance",
+    "work",
+    "more_horiz",
+    // Food & Home
     "restaurant",
     "local_cafe",
-    "shopping_cart",
-    "commute",
-    "more_horiz",
-    "category",
     "home",
-    "payments",
+    "checkroom",
+    "laundry",
+    "cleaning_services",
+    // Services & Tech
+    "wifi",
+    "public",
+    "electric_bolt",
+    "water_drop",
+    "gas_meter",
+    "tv",
+    "subscriptions",
+    "devices",
+    // Transport & Travel
+    "commute",
     "directions_car",
+    "directions_bus",
+    "train",
+    "flight",
+    "hotel",
+    // Health & Sports
     "medical_services",
+    "pill",
+    "fitness_center",
+    "sports_soccer",
+    "directions_run",
+    "self_improvement",
+    // Leisure & Education
+    "movie",
+    "sports_esports",
+    "celebration",
+    "theater_comedy",
+    "pets",
+    "school",
+    "menu_book",
+    "history_edu",
   ];
 
   return (
@@ -51,7 +85,7 @@ export default function CategoryCreate(props: any) {
         <div className="mb-wf-lg flex justify-between items-start">
           <div>
             <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
-              {title === "Create Category" ? "Crear Categoría" : "Editar Categoría"}
+              {title}
             </h2>
             <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
               Modifica los detalles de esta categoría de gastos.
@@ -126,58 +160,55 @@ export default function CategoryCreate(props: any) {
                     {...field}
                     placeholder="Descripción"
                     className="w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm resize-none"
-                    rows={3}
+                    rows={2}
                   />
                 </FormControl>
               )}
             />
           </div>
 
-          {/* Visuals Group */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
-            {/* Color Selection */}
-            <div className="space-y-wf-sm">
-              <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block">
-                Color
-              </label>
-              <div className="flex flex-wrap gap-3 bg-wf-surface-container-low p-3 rounded-lg border border-wf-outline-variant">
-                {colorOptions.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() => setValue("color", color)}
-                    className={`w-8 h-8 rounded-full transition-all ${
-                      selectedColor === color
-                        ? "ring-2 ring-wf-primary ring-offset-2 scale-110"
-                        : "hover:scale-110"
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+          {/* Visuals - Color (Full Width) */}
+          <div className="space-y-wf-sm">
+            <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block">
+              Seleccionar Color
+            </label>
+            <div className="flex flex-wrap gap-2 bg-wf-surface-container-low p-4 rounded-xl border border-wf-outline-variant max-h-32 overflow-y-auto custom-scrollbar">
+              {colorOptions.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setValue("color", color)}
+                  className={`w-8 h-8 rounded-full transition-all shrink-0 ${
+                    selectedColor === color
+                      ? "ring-2 ring-wf-primary ring-offset-2 scale-110"
+                      : "hover:scale-110"
+                  }`}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
             </div>
+          </div>
 
-            {/* Icon Grid */}
-            <div className="space-y-wf-sm">
-              <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block">
-                Ícono
-              </label>
-              <div className="grid grid-cols-5 gap-2 bg-wf-surface-container-low p-3 rounded-lg border border-wf-outline-variant">
-                {iconOptions.map((icon) => (
-                  <button
-                    key={icon}
-                    type="button"
-                    onClick={() => setValue("icon", icon)}
-                    className={`w-10 h-10 rounded flex items-center justify-center transition-all ${
-                      selectedIcon === icon
-                        ? "bg-white border border-wf-primary text-wf-primary shadow-sm"
-                        : "text-wf-outline hover:bg-white hover:shadow-sm"
-                    }`}
-                  >
-                    <span className="material-symbols-outlined">{icon}</span>
-                  </button>
-                ))}
-              </div>
+          {/* Visuals - Icon (Full Width) */}
+          <div className="space-y-wf-sm">
+            <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block">
+              Seleccionar Ícono
+            </label>
+            <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 bg-wf-surface-container-low p-4 rounded-xl border border-wf-outline-variant max-h-48 overflow-y-auto custom-scrollbar">
+              {iconOptions.map((icon) => (
+                <button
+                  key={icon}
+                  type="button"
+                  onClick={() => setValue("icon", icon)}
+                  className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
+                    selectedIcon === icon
+                      ? "bg-white border-2 border-wf-primary text-wf-primary shadow-md scale-110 z-10"
+                      : "text-wf-outline hover:bg-white hover:shadow-sm"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[20px]">{icon}</span>
+                </button>
+              ))}
             </div>
           </div>
 
