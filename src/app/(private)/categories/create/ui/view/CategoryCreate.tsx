@@ -51,10 +51,10 @@ export default function CategoryCreate(props: any) {
         <div className="mb-wf-lg flex justify-between items-start">
           <div>
             <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
-              {title}
+              {title === "Create Category" ? "Crear Categoría" : "Editar Categoría"}
             </h2>
             <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
-              Modify the details for this spending category.
+              Modifica los detalles de esta categoría de gastos.
             </p>
           </div>
           <div
@@ -77,12 +77,12 @@ export default function CategoryCreate(props: any) {
                 render={({ field, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
                     <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                      Category Name
+                      Nombre de la Categoría
                     </label>
                     <Input
                       {...field}
                       type="text"
-                      placeholder="Category Name"
+                      placeholder="Nombre de la Categoría"
                       className="w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm"
                       iserror={!!fieldState.error}
                     />
@@ -97,11 +97,11 @@ export default function CategoryCreate(props: any) {
                 render={({ field, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
                     <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                      Category Group
+                      Grupo de Categoría
                     </label>
                     <Select
                       {...field}
-                      placeholder="Select a group"
+                      placeholder="Selecciona un grupo"
                       options={groupsOptions}
                       className="w-full"
                       iserror={!!fieldState.error}
@@ -120,11 +120,11 @@ export default function CategoryCreate(props: any) {
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Description <span className="text-wf-outline font-normal lowercase">(Optional)</span>
+                    Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
                   </label>
                   <Textarea
                     {...field}
-                    placeholder="Description"
+                    placeholder="Descripción"
                     className="w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm resize-none"
                     rows={3}
                   />
@@ -160,7 +160,7 @@ export default function CategoryCreate(props: any) {
             {/* Icon Grid */}
             <div className="space-y-wf-sm">
               <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block">
-                Icon
+                Ícono
               </label>
               <div className="grid grid-cols-5 gap-2 bg-wf-surface-container-low p-3 rounded-lg border border-wf-outline-variant">
                 {iconOptions.map((icon) => (

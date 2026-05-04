@@ -46,8 +46,8 @@ const Page = () => {
       handleToggle={handleToggle}
       control={control}
       currencyOptions={currencyOptions}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
+      handleFilterSubmit={handleSubmit}
+      onFilterSubmit={onSubmit}
       currency={currency}
       listMovements={listMovements}
       meta={meta}
@@ -56,8 +56,8 @@ const Page = () => {
       dataBalance={dataBalance}
       watch={watch}
       setValue={setValue}
-      handleSubmit={handleSubmitEdit}
-      onSubmit={onEditSubmit}
+      handleEditSubmit={handleSubmitEdit}
+      onEditSubmit={onEditSubmit}
       handleDelete={handleDelete}
     />
   );

@@ -5,7 +5,7 @@ import Link from "next/link";
 import useComponents from "@/share/components";
 
 // Helpers
-import { driverCategory } from "@/share/helpers";
+import { driverCategory } from "@/share/helpers/driver";
 
 type categoryList = {
   id: number;
@@ -42,7 +42,7 @@ export default function Categories(props: any) {
             Categorías
           </h1>
           <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant mt-wf-unit">
-            Manage and organize your transaction categories.
+            Gestiona y organiza tus categorías de transacciones.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-wf-md">
@@ -53,7 +53,7 @@ export default function Categories(props: any) {
             </span>
             <input
               className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
-              placeholder="Search categories..."
+              placeholder="Buscar categorías..."
               type="text"
               value={search}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -90,7 +90,7 @@ export default function Categories(props: any) {
             className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm"
           >
             <span className="material-symbols-outlined text-sm">add</span>
-            Create Category
+            Crear Categoría
           </Link>
         </div>
       </div>
@@ -130,7 +130,7 @@ export default function Categories(props: any) {
             <span className="material-symbols-outlined text-2xl">add</span>
           </div>
           <span className="font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-on-surface-variant group-hover:text-wf-primary transition-colors mt-2">
-            New Category
+            Nueva Categoría
           </span>
         </Link>
       </div>

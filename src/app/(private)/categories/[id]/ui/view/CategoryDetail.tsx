@@ -13,8 +13,8 @@ export default function CategoryDetail(props: any) {
     data,
     currencyOptions = [],
     control,
-    onSubmit,
-    handleSubmit,
+    onFilterSubmit,
+    handleFilterSubmit,
     listMovements,
     meta,
     page,
@@ -22,6 +22,8 @@ export default function CategoryDetail(props: any) {
     dataBalance,
     watch,
     setValue,
+    onEditSubmit,
+    handleEditSubmit,
     handleDelete,
   } = props;
   const router = useRouter();
@@ -92,7 +94,7 @@ export default function CategoryDetail(props: any) {
               <h3 className="font-wf-headline-md text-wf-headline-md text-wf-primary">Historial de Transacciones</h3>
               <div className="flex gap-wf-sm">
                  <Filters>
-                    <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
+                    <form onSubmit={handleFilterSubmit(onFilterSubmit)} className="p-4 space-y-4">
                         <Controller
                         name={"badge_id"}
                         control={control}
@@ -170,7 +172,7 @@ export default function CategoryDetail(props: any) {
         <div className="lg:col-span-4 hidden lg:block">
           <div className="bg-wf-surface-container-lowest rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-surface-container sticky top-24">
             <h3 className="font-wf-headline-md text-wf-headline-md text-wf-primary mb-wf-lg border-b border-wf-surface-variant pb-wf-sm">Editar Categoría</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-wf-md">
+            <form onSubmit={handleEditSubmit(onEditSubmit)} className="flex flex-col gap-wf-md">
               <Controller
                 name="name"
                 control={control}
@@ -204,22 +206,56 @@ export default function CategoryDetail(props: any) {
                 )}
               />
 
+              <div className="grid grid-cols-2 gap-wf-md">
+                {/* Color Picker placeholder to match design */}
+                <div>
+                  <label className="block font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-wf-xs">COLOR</label>
+                  <div className="flex items-center gap-wf-sm">
+                    <div
+                      className="w-10 h-10 rounded-full shadow-inner border-2 border-wf-surface-container-lowest cursor-pointer"
+                      style={{ backgroundColor: selectedColor }}
+                    ></div>
+                    <button onClick={() => router.push(`/categories/${data.id}/edit`)} className="text-wf-surface-tint hover:text-wf-primary font-wf-body-regular text-sm underline" type="button">Cambiar</button>
+                  </div>
+                </div>
+                {/* Icon Selection placeholder to match design */}
+                <div>
+                  <label className="block font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-wf-xs">ÍCONO</label>
+                  <div className="flex items-center gap-wf-sm">
+                    <div className="w-10 h-10 rounded-lg bg-wf-surface-container flex items-center justify-center text-wf-surface-tint border border-wf-outline-variant cursor-pointer hover:bg-wf-surface-variant transition-colors">
+                      <span className="material-symbols-outlined">{selectedIcon}</span>
+                    </div>
+                    <button onClick={() => router.push(`/categories/${data.id}/edit`)} className="text-wf-surface-tint hover:text-wf-primary font-wf-body-regular text-sm underline" type="button">Cambiar</button>
+                  </div>
+                </div>
+              </div>
+
               {/* Actions */}
-              <div className="flex gap-wf-sm mt-wf-md pt-wf-md border-t border-wf-surface-variant">
-                <Button
+              <div className="flex flex-col gap-wf-sm mt-wf-md pt-wf-md border-t border-wf-surface-variant">
+                <div className="flex gap-wf-sm">
+                    <Button
+                        type="button"
+                        variant="h5"
+                        className="flex-1 py-wf-sm px-wf-md bg-wf-surface-container text-wf-primary rounded-lg hover:bg-wf-surface-variant transition-colors h-auto"
+                        onClick={() => router.back()}
+                    >
+                        CANCELAR
+                    </Button>
+                    <Button
+                        type="submit"
+                        className="flex-1 py-wf-sm px-wf-md bg-wf-primary text-wf-on-primary rounded-lg hover:bg-wf-primary/90 transition-colors h-auto"
+                    >
+                        GUARDAR
+                    </Button>
+                </div>
+                <button
                     type="button"
-                    variant="h5"
-                    className="flex-1 py-wf-sm px-wf-md bg-wf-surface-container text-wf-primary rounded-lg hover:bg-wf-surface-variant transition-colors h-auto"
-                    onClick={() => router.back()}
+                    onClick={handleDelete}
+                    className="w-full py-wf-sm px-wf-md border border-wf-error text-wf-error font-wf-label-caps text-[12px] rounded-lg hover:bg-wf-error-container transition-colors flex items-center justify-center gap-2"
                 >
-                    CANCELAR
-                </Button>
-                <Button
-                    type="submit"
-                    className="flex-1 py-wf-sm px-wf-md bg-wf-primary text-wf-on-primary rounded-lg hover:bg-wf-primary/90 transition-colors h-auto"
-                >
-                    GUARDAR
-                </Button>
+                    <span className="material-symbols-outlined text-[18px]">delete</span>
+                    ELIMINAR
+                </button>
               </div>
             </form>
           </div>
