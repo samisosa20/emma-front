@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
-            CONTAINER="fiona_front"
+            CONTAINER_NAME="fiona_front"
             IMAGE="${{ secrets.DOCKER_USERNAME }}/fiona-front:latest"
             PORT_EXT="${{ secrets.NEXT_PUBLIC_PORT || '3030' }}" # Puerto externo (default 3030)
 
@@ -53,8 +53,8 @@ jobs:
             docker pull $IMAGE
 
             echo "=== Reiniciando Contenedor ==="
-            docker stop $CONTAINER || true
-            docker rm $CONTAINER || true
+            docker stop $CONTAINER_NAME || true
+            docker rm $CONTAINER_NAME || true
 
             docker run -d \
               --name $CONTAINER_NAME \
