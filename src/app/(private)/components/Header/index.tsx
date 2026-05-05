@@ -8,11 +8,7 @@ import imgLogo from "../../../../../public/img/logo.png";
 
 const Header = async () => {
   const reqHeaders = await headers();
-  const { data: session } = await authClient.getSession({
-    fetchOptions: {
-      headers: reqHeaders,
-    },
-  });
+  const { data: session } = await authClient.getSession();
   const user = session?.user;
 
   return (
@@ -39,7 +35,7 @@ const Header = async () => {
             type="text"
           />
         </div>
-        <Link 
+        <Link
           href="/profile"
           className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center"
         >
