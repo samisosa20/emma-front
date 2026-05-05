@@ -1,14 +1,13 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-import { headers } from "next/headers";
-import { authClient } from "@/share/lib/auth-client";
 
 // Assets
 import imgLogo from "../../../../../public/img/logo.png";
+import { useSession } from "@/share/components/SessionProvider";
 
-const Header = async () => {
-  const reqHeaders = await headers();
-  const { data: session } = await authClient.getSession();
+const Header = () => {
+  const { session } = useSession();
   const user = session?.user;
 
   return (
