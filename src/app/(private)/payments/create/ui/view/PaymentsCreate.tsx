@@ -26,11 +26,13 @@ export default function PaymentsCreate(props: any) {
 
   return (
     <div className="flex-1 flex items-center justify-center p-wf-container-margin">
-      <div className="bg-wf-background/70 backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+      <div className="bg-wf-on-primary backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
         <div className="mb-wf-lg flex justify-between items-start">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span className="material-symbols-outlined text-3xl">published_with_changes</span>
+              <span className="material-symbols-outlined text-3xl">
+                published_with_changes
+              </span>
             </div>
             <div>
               <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
@@ -58,7 +60,11 @@ export default function PaymentsCreate(props: any) {
             </span>
             <div className="flex items-baseline gap-wf-xs">
               <span className="font-wf-currency-display text-2xl text-wf-on-surface-variant">
-                {currencyCode === "USD" ? "$" : currencyCode === "EUR" ? "€" : "$"}
+                {currencyCode === "USD"
+                  ? "$"
+                  : currencyCode === "EUR"
+                    ? "€"
+                    : "$"}
               </span>
               <Controller
                 name="amount"
@@ -70,7 +76,10 @@ export default function PaymentsCreate(props: any) {
                     placeholder="0.00"
                     className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
                     onChange={(e) => {
-                      const val = (e.target as HTMLInputElement).value.replace(/,/g, "");
+                      const val = (e.target as HTMLInputElement).value.replace(
+                        /,/g,
+                        "",
+                      );
                       if (/^\d*\.?\d{0,2}$/.test(val)) {
                         field.onChange(val);
                       }
@@ -89,7 +98,9 @@ export default function PaymentsCreate(props: any) {
               control={control}
               render={({ field: { onChange, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
-                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">Cuenta de Origen</label>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Cuenta de Origen
+                  </label>
                   <AutoComplete
                     placeholder="Selecciona cuenta..."
                     handleOnChange={onChange}
@@ -105,7 +116,9 @@ export default function PaymentsCreate(props: any) {
               control={control}
               render={({ field: { onChange, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
-                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">Categoría</label>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Categoría
+                  </label>
                   <AutoComplete
                     placeholder="Selecciona categoría..."
                     handleOnChange={onChange}
@@ -125,7 +138,9 @@ export default function PaymentsCreate(props: any) {
               control={control}
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
-                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">Día del Mes</label>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Día del Mes
+                  </label>
                   <Input
                     {...field}
                     type="number"
@@ -144,7 +159,10 @@ export default function PaymentsCreate(props: any) {
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
+                    Descripción{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (Opcional)
+                    </span>
                   </label>
                   <Input
                     {...field}
@@ -165,7 +183,9 @@ export default function PaymentsCreate(props: any) {
               control={control}
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
-                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">Fecha de Inicio</label>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Fecha de Inicio
+                  </label>
                   <Input
                     {...field}
                     type="date"
@@ -181,7 +201,10 @@ export default function PaymentsCreate(props: any) {
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Fecha Final <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
+                    Fecha Final{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (Opcional)
+                    </span>
                   </label>
                   <Input
                     {...field}
@@ -202,7 +225,9 @@ export default function PaymentsCreate(props: any) {
                 onClick={handleDelete}
                 className="px-6 py-2.5 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container transition-colors flex items-center space-x-2"
               >
-                <span className="material-symbols-outlined text-[18px]">delete</span>
+                <span className="material-symbols-outlined text-[18px]">
+                  delete
+                </span>
                 <span>Eliminar</span>
               </button>
             ) : (
@@ -221,7 +246,9 @@ export default function PaymentsCreate(props: any) {
                 disabled={isSubmitting}
                 className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
               >
-                <span className="material-symbols-outlined text-xl">check_circle</span>
+                <span className="material-symbols-outlined text-xl">
+                  check_circle
+                </span>
                 Guardar Pago
               </Button>
             </div>

@@ -12,7 +12,9 @@ const useAccounts = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiAccountsSuspense();
+  const { isLoading, data, isError, refetch } = useGetApiAccountsSuspense({
+    deleted: '1'
+  });
   const { data: dataBalance, refetch: refetchBalance } =
     useGetApiReportsGeneralBalanceSuspense();
 
@@ -30,6 +32,22 @@ const useAccounts = () => {
     refetchBalance();
     if (isError) router.push("/login");
   }, [isError, router]);
+
+  const filteredAccounts =
+    data?.content?.filter((account: any) => {
+      const matchesSearch =
+        search === "" ||
+        account?.name?.toUpperCase()?.includes(search?.toUpperCase());
+
+        console.log(account.deletedAt, isChecked)
+
+      const matchesStatus = isChecked
+        ? account?.deletedAt === ''
+        : account?.deletedAt !== '';
+
+      return matchesSearch && matchesStatus;
+    }) || [];
+
   return {
     data,
     isLoading,
@@ -39,6 +57,7 @@ const useAccounts = () => {
     setSearch,
     handleDrive,
     dataBalance,
+    filteredAccounts,
   };
 };
 

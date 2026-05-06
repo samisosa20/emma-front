@@ -10,7 +10,7 @@ import { getCurrencyFormatter, getAccountType } from "@/share/helpers";
 import CurrencyBadgeFlag from "../components/CurrencyBadgeFlag";
 
 const Accounts = () => {
-  const { Switch, Loading, TitleHelp } = useComponents();
+  const { SegmentedControl, Loading, TitleHelp } = useComponents();
 
   const {
     data,
@@ -21,25 +21,12 @@ const Accounts = () => {
     setSearch,
     handleDrive,
     dataBalance,
+    filteredAccounts,
   } = useAccounts();
 
   if (isLoading) {
     return <Loading />;
   }
-
-  const filteredAccounts =
-    data?.content?.filter((account) => {
-      const matchesSearch =
-        search === "" ||
-        account?.name?.toUpperCase()?.includes(search?.toUpperCase());
-
-      const matchesStatus = isChecked
-        ? !account?.deletedAt
-        : !!account?.deletedAt;
-
-      return matchesSearch && matchesStatus;
-    }) || [];
-
 
   return (
     <div className="flex flex-col gap-wf-xl">
@@ -68,10 +55,11 @@ const Accounts = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <Switch
+          <SegmentedControl
             isChecked={isChecked}
-            handleCheckboxChange={handleToggle}
-            label={isChecked ? "Activas" : "Inactivas"}
+            handleToggle={handleToggle}
+            activeLabel="Activas"
+            inactiveLabel="Inactivas"
           />
           <Link href={"/accounts/create"}>
             <button className="bg-wf-primary text-wf-on-primary px-6 py-2.5 rounded-full font-wf-body-regular text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap shadow-md">

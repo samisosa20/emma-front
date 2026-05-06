@@ -15,6 +15,7 @@ const Loading = lazy(() => import("./Loader"));
 const TitleHelp = lazy(() => import("./TitleHelp"));
 const Textarea = lazy(() => import("./Textarea"));
 const SlideStepper = lazy(() => import("./SlideStepper"));
+const SegmentedControl = lazy(() => import("./SegmentedControl"));
 
 const useComponents = () => {
   return {
@@ -33,6 +34,7 @@ const useComponents = () => {
     TitleHelp,
     Textarea,
     SlideStepper,
+    SegmentedControl,
   };
 };
 
