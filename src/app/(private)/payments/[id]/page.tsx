@@ -13,6 +13,7 @@ const Page = () => {
     listCategories,
     handleDelete,
     isSubmitting,
+    watch,
   } = usePaymentsCreateViewModel();
 
   return (
@@ -25,6 +26,7 @@ const Page = () => {
       listCategories={listCategories}
       handleDelete={handleDelete}
       isSubmitting={isSubmitting}
+      watch={watch}
     />
   );
 };
