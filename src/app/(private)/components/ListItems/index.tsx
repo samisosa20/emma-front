@@ -13,23 +13,28 @@ import {
   getIconComponent,
 } from "@/share/helpers";
 
+import useComponentsLayout from "@/app/(private)/components";
+
 const ListDefault = (props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-white p-4 shadow-sm rounded">
-      <Typography className="mb-4">{title}</Typography>
-      <div className="h-[243px] overflow-y-auto">
+    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
+      <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs">
+        {title}
+      </Typography>
+      <div className="h-[243px] overflow-y-auto space-y-wf-sm pr-1 custom-scrollbar">
         {data?.map((card, index) => (
           <div
-            className={`mb-2 pt-2 ${index > 0 ? "border-t" : ""}`}
+            className="p-wf-sm rounded-lg bg-white/20 border border-white/30 flex justify-between items-center transition-all hover:bg-white/40"
             key={"ListDefault" + index}
           >
-            <Typography variant="h5">{card.category}</Typography>
+            <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
+              {card.category}
+            </Typography>
             <Typography
-              variant="h3"
-              className={`text-right ${
-                card.amount >= 0 ? "text-green-500" : "text-red-500"
+              className={`font-wf-body-regular font-bold text-sm ${
+                card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
               }`}
             >
               {getCurrencyFormatter("USD", card.amount)}
@@ -45,29 +50,41 @@ const ListUtil = (props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-white p-4 shadow-sm rounded">
-      <Typography className="mb-4">{title}</Typography>
-      <div className="h-[243px] overflow-y-auto">
+    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
+      <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs">
+        {title}
+      </Typography>
+      <div className="h-[243px] overflow-y-auto space-y-wf-md pr-1 custom-scrollbar">
         {data?.map((card, index) => (
           <div
-            className={`mb-2 pt-2 ${index > 0 ? "border-t" : ""}`}
+            className="space-y-wf-xs"
             key={"ListUtil" + index}
           >
-            <Typography variant="h5">
-              {card.title} {card.father ? ` (${card.father})` : ""}
-            </Typography>
-            <div className="flex justify-between items- center">
-              <Typography variant="p" className={`text-right`}>
-                {getCurrencyFormatter("USD", card.value)}
-                {` (${Math.abs(card.percentage ?? 0)}%)`}
+            <div className="flex justify-between items-center">
+              <Typography className="font-wf-body-regular text-sm font-semibold text-wf-on-surface">
+                {card.title} {card.father ? ` (${card.father})` : ""}
               </Typography>
-              <Typography variant="p" className={`text-right`}>
-                {getCurrencyFormatter("USD", card.limit ?? 0)}
+              <Typography className="font-wf-body-regular text-[11px] text-wf-surface-tint">
+                Límite: {getCurrencyFormatter("USD", card.limit ?? 0)}
               </Typography>
             </div>
-            <div className="w-full bg-gray-200 rounded">
+            <div className="flex justify-between items-center text-[12px]">
+              <Typography className="font-wf-body-regular text-wf-on-surface-variant">
+                {getCurrencyFormatter("USD", card.value)}
+              </Typography>
+              <Typography className={`font-bold ${Math.abs(card.percentage ?? 0) > 90 ? 'text-wf-error' : 'text-wf-secondary'}`}>
+                {Math.abs(card.percentage ?? 0)}%
+              </Typography>
+            </div>
+            <div className="w-full bg-wf-surface-container-high rounded-full h-2 overflow-hidden border border-white/20 shadow-inner">
               <div
-                className={`h-3 bg-${card.color}-400 rounded`}
+                className={`h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.1)] ${
+                  Math.abs(card.percentage ?? 0) > 100
+                    ? "bg-wf-error"
+                    : Math.abs(card.percentage ?? 0) > 80
+                    ? "bg-wf-warning"
+                    : "bg-wf-secondary"
+                }`}
                 style={{
                   width: `${
                     Math.abs(card.percentage ?? 0) > 100
@@ -96,6 +113,7 @@ const ListModal = (props: ListItemsProps) => {
     tooltipVariant,
   } = props;
   const { Typography, Modal, TitleHelp } = useComponents();
+  const { ListMovementsDetail } = useComponentsLayout();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -114,47 +132,43 @@ const ListModal = (props: ListItemsProps) => {
   };
 
   return (
-    <div className="bg-white p-4 shadow-sm rounded">
+    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
       <TitleHelp
         title={title}
         variant="p"
+        className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs"
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
-      <div className="h-[243px] overflow-y-auto">
+      <div className="h-[243px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">
         {data?.map((card, index) => {
           const Icon = getIconComponent(card.icon ?? "PiAcorn");
           return (
             <div
-              className={`mb-2 pt-2 ${
-                index > 0 ? "border-t" : ""
-              } cursor-pointer`}
+              className="group p-wf-sm rounded-lg hover:bg-white/40 transition-all cursor-pointer border border-transparent hover:border-white/50"
               key={"ListModal" + index}
-              onClick={() => handleSelectItem(card.amount)} // TODO: change
+              onClick={() => handleSelectItem(card.amount)} // TODO: check if this is the correct ID
             >
-              <div className={`flex items-center justify-between`}>
-                <div className={`flex items-center gap-x-2 w-1/2`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-x-3 w-1/2">
                   <div
-                    className={`rounded-full shadow-sm w-8 h-8 hover:opacity-80 flex justify-center items-center`}
+                    className="rounded-full shadow-sm w-9 h-9 flex justify-center items-center ring-2 ring-white/50 group-hover:scale-110 transition-transform"
                     style={{
                       background: card.color,
                     }}
                   >
-                    <Icon size={16} className="text-gray-200" />
+                    <Icon size={18} className="text-white" />
                   </div>
-                  <Typography variant="h5" className="text-xs">
+                  <Typography className="font-wf-body-regular text-sm text-wf-on-surface truncate">
                     {card.category}
                   </Typography>
                 </div>
-                <div
-                  className={`flex items-center gap-x-2 min-w-2/5 justify-between`}
-                >
-                  <Typography variant="h3" className={`text-right text-sm`}>
-                    {`${card.participation}%`}
+                <div className="flex items-center gap-x-4">
+                  <Typography className="font-wf-body-regular text-xs text-wf-surface-tint">
+                    {card.participation}%
                   </Typography>
                   <Typography
-                    variant="h3"
-                    className={`text-right text-sm ${
-                      card.amount >= 0 ? "text-green-500" : "text-red-500"
+                    className={`font-wf-body-regular font-bold text-sm text-right min-w-[80px] ${
+                      card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
                     }`}
                   >
                     {card.symbol}
@@ -170,43 +184,28 @@ const ListModal = (props: ListItemsProps) => {
         title="Listado de movimientos"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        variant="full"
       >
-        {dataModal &&
-          dataModal.map((data, index) => (
-            <div className={`${index > 0 ? "border-t" : ""} py-3`} key={index}>
-              <div className="flex items-center justify-between">
-                <Typography>
-                  {getCurrencyFormatter("USD", data.amount)}
-                </Typography>
-                <Typography>
-                  {data.account?.name ??
-                    `${data.category?.name} ${
-                      data.category?.category_father
-                        ? ` (${data.category?.category_father?.name})`
-                        : ""
-                    }`}
-                </Typography>
-              </div>
-              <div className="flex items-center justify-between">
-                <Typography>{data.date_purchase}</Typography>
-                {data.event && <Typography>{data.event?.name}</Typography>}
-              </div>
-              {data.description && <Typography>{data.description}</Typography>}
+        <div className="p-wf-lg">
+          <ListMovementsDetail
+            listMovements={dataModal}
+            showFilters={false}
+            title={`Movimientos por Categoría`}
+          />
+          
+          {showHistory && (
+            <div className="text-center mt-wf-xl">
+              <button
+                className="px-wf-xl py-wf-sm rounded-full bg-wf-primary text-wf-on-primary font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary/90 transition-all shadow-md"
+                onClick={() =>
+                  router.push(`categories/${categoryId}?c=${currency?.id}`)
+                }
+              >
+                Ver Historial Completo
+              </button>
             </div>
-          ))}
-        {showHistory && (
-          <div className="text-center mt-6">
-            <Typography
-              variant="p"
-              className="text-black underline cursor-pointer hover:text-gray-400"
-              onClick={() =>
-                router.push(`categories/${categoryId}?c=${currency?.id}`)
-              }
-            >
-              Ver historico
-            </Typography>
-          </div>
-        )}
+          )}
+        </div>
       </Modal>
     </div>
   );
@@ -244,5 +243,6 @@ const ListItems = (props: ListItemsProps) => {
     );
   }
 };
+
 
 export default ListItems;

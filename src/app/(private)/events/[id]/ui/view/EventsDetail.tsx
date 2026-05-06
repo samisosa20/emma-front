@@ -102,7 +102,7 @@ const EventsDetail = (props: any) => {
         {/* Balanced Section: Expenses & Income */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
           {/* Expenses Breakdown Card */}
-          <div className="bg-wf-surface-container-lowest p-wf-lg rounded-xl shadow-sm border border-wf-surface-variant/30 flex flex-col space-y-4">
+          <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex flex-col space-y-4 transition-all">
             <div className="flex justify-between items-center">
               <h3 className="text-wf-label-caps text-[12px] font-semibold text-wf-on-tertiary-container uppercase tracking-wider">
                 Desglose de Gastos
@@ -165,7 +165,7 @@ const EventsDetail = (props: any) => {
           </div>
 
           {/* Income Breakdown Card */}
-          <div className="bg-wf-surface-container-lowest p-wf-lg rounded-xl shadow-sm border border-wf-surface-variant/30 flex flex-col space-y-4">
+          <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex flex-col space-y-4 transition-all">
             <div className="flex justify-between items-center">
               <h3 className="text-wf-label-caps text-[12px] font-semibold text-wf-on-secondary-container uppercase tracking-wider">
                 Ingresos Totales
@@ -228,7 +228,7 @@ const EventsDetail = (props: any) => {
         </div>
 
         {/* Recent Transactions Table */}
-        <div className="bg-wf-surface-container-lowest rounded-xl shadow-sm border border-wf-surface-variant/30 overflow-hidden">
+        <div className="bg-wf-on-primary backdrop-blur-md rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 overflow-hidden">
           <ListMovementsDetail
             listMovements={listMovements}
             handleFilterSubmit={handleFilterSubmit}

@@ -10,7 +10,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  Label,
   Line,
   Legend,
   LineChart,
@@ -112,110 +111,71 @@ export default function Dashboard(props: any) {
   const totalWeeks = getISOWeeksInYear(new Date(filters.year, 0, 1));
 
   return (
-    <div>
-      <TitleHelp title="Dashboard" onClick={driverDash} />
-      <Typography>Aca podrás ver tu información consolidada</Typography>
-      <Filters>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name={"badgeId"}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <AutoComplete
-                  label="Moneda"
-                  placeholder="Seleciona una opcion"
-                  id="badgeId"
-                  instanceId="badge-select"
-                  handleOnChange={(e: any) => {
-                    onChange(e);
-                  }}
-                  options={currencyOptions}
-                  iserror={!!fieldState.error}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
-          <Controller
-            name={"startDate"}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Input
-                  type="date"
-                  step={0.01}
-                  placeholder="Fecha inicial"
-                  label="Fecha inicial"
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  iserror={!!fieldState.error}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
-          <Controller
-            name={"endDate"}
-            control={control}
-            render={({ field: { onChange, onBlur, value }, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={true}>
-                <Input
-                  type="date"
-                  step={0.01}
-                  placeholder="Fecha final"
-                  label="Fecha final"
-                  onChange={(e) => {
-                    onChange(e);
-                  }}
-                  iserror={!!fieldState.error}
-                  value={value}
-                />
-              </FormControl>
-            )}
-          />
-          <Button type="submit" className="w-full absolute bottom-0">
-            Aplicar
-          </Button>
-        </form>
-      </Filters>
-      <div className="mt-6 grid grid-cols-1 gap-4">
-        <div>
-          <div className="flex items-center justify-center gap-4 mb-3">
+    <div className="space-y-wf-gutter">
+      <div className="flex flex-col gap-wf-xs mb-wf-lg">
+        <TitleHelp
+          title="Panel de Control"
+          onClick={driverDash}
+          className="text-wf-primary font-wf-headline-lg"
+        />
+        <Typography className="text-wf-on-surface-variant font-wf-body-regular">
+          Visualiza el estado consolidado de tus finanzas en tiempo real.
+        </Typography>
+      </div>
+
+      <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md border-b border-wf-surface-variant/30 pb-wf-md mb-wf-md">
+          <div className="flex items-center gap-wf-md">
             {listOptionsTypeReport.map((type: any, index: number) => (
-              <Typography
+              <button
                 key={index}
-                className={`${
-                  type.value === typeReport ? "underline text-black" : ""
-                } hover:underline hover:text-black cursor-pointer`}
+                className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                  type.value === typeReport
+                    ? "bg-wf-primary text-wf-on-primary shadow-sm"
+                    : "text-wf-surface-tint hover:bg-wf-surface-container-low"
+                }`}
                 onClick={type.onClick}
               >
                 {type.label}
-              </Typography>
+              </button>
             ))}
           </div>
-          <div className="flex items-center justify-center gap-4 mb-4">
+
+          <div className="flex items-center gap-wf-sm">
             {listOptionsPeriodReport.map((type: any, index: number) => (
-              <Typography
+              <button
                 key={index}
-                className={`${
-                  type.value === periodReport ? "underline text-black" : ""
-                } hover:underline hover:text-black cursor-pointer`}
+                className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                  type.value === periodReport
+                    ? "bg-wf-primary text-wf-on-primary shadow-sm"
+                    : "text-wf-surface-tint hover:bg-wf-surface-container-low"
+                }`}
                 onClick={type.onClick}
               >
                 {type.label}
-              </Typography>
+              </button>
             ))}
           </div>
-          <div className="flex items-center justify-center gap-8 mb-4">
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-wf-xl py-wf-sm">
+          <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+            <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
+              Año
+            </span>
             <SlideStepper
               value={filters.year}
               min={new Date().getFullYear() - 10}
               max={new Date().getFullYear()}
               onChange={(val) => handleChangeSlideStepper(val, "year")}
             />
-            {periodReport === "monthly" && (
+          </div>
+
+          {periodReport === "monthly" && (
+            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+              <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
+                Mes
+              </span>
               <SlideStepper
                 value={monthIndex}
                 min={0}
@@ -223,8 +183,14 @@ export default function Dashboard(props: any) {
                 onChange={(val) => handleChangeSlideStepper(val, "month")}
                 formatValue={(val) => monthNames[val]}
               />
-            )}
-            {periodReport === "weekly" && (
+            </div>
+          )}
+
+          {periodReport === "weekly" && (
+            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+              <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
+                Semana
+              </span>
               <SlideStepper
                 value={selectedWeek}
                 min={1}
@@ -232,58 +198,135 @@ export default function Dashboard(props: any) {
                 onChange={(val) => handleChangeSlideStepper(val, "week")}
                 formatValue={(val) => getWeekDateRange(filters.year, val)}
               />
-            )}
+            </div>
+          )}
+
+          <div className="ml-auto">
+            <Filters>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-wf-md p-wf-md"
+              >
+                <Controller
+                  name={"badgeId"}
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <AutoComplete
+                        label="Moneda"
+                        placeholder="Selecciona moneda"
+                        id="badgeId"
+                        instanceId="badge-select"
+                        handleOnChange={onChange}
+                        options={currencyOptions}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  name={"startDate"}
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <Input
+                        type="date"
+                        label="Desde"
+                        onChange={onChange}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  name={"endDate"}
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState }) => (
+                    <FormControl fieldState={fieldState} withLabel={true}>
+                      <Input
+                        type="date"
+                        label="Hasta"
+                        onChange={onChange}
+                        iserror={!!fieldState.error}
+                        value={value}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Aplicar Filtros
+                </Button>
+              </form>
+            </Filters>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div id="fiona-chart_incomes" className="bg-white">
-            <Typography variant="p" className="px-4 pt-4">
-              Movimientos
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-wf-gutter">
+        <div className="lg:col-span-7 bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+          <div className="flex justify-between items-center mb-wf-lg">
+            <Typography className="font-wf-headline-md text-wf-primary">
+              Distribución de Movimientos
             </Typography>
-            <div className="flex items-center justify-center h-[340px] w-full" style={{ minWidth: 0, minHeight: 340 }}>
-              {isMounted ? (
-                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                  <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                    <Pie
-                      data={data}
-                      dataKey="amount"
-                      nameKey="category"
-                      innerRadius="80%"
-                      outerRadius="95%"
-                      cx="50%"
-                      cy="50%"
-                    >
-                      {Array.isArray(data) &&
-                        data.map((entry: any, index: number) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value) => {
-                        return (
-                          data[0]?.symbol +
-                          getCurrencyFormatter(data[0]?.code, Number(value))
-                        );
-                      }}
-                    />
-                    <Label width={30} position="center">
-                      {`${data[0]?.symbol}${getCurrencyFormatter(
-                        data[0]?.code,
-                        data?.reduce(
-                          (sum: number, item: any) => sum + item.amount,
-                          0,
-                        ),
-                      )}`}
-                    </Label>
-                  </PieChart>
-                </ResponsiveContainer>
-              ) : (
-                <div className="h-full w-full" />
+            <div className="px-wf-sm py-1 bg-wf-surface-container rounded-md text-[10px] font-wf-label-caps text-wf-surface-tint">
+              TOTAL: {data[0]?.symbol}
+              {getCurrencyFormatter(
+                data[0]?.code,
+                data?.reduce((sum: number, item: any) => sum + item.amount, 0),
               )}
             </div>
           </div>
+
+          <div className="h-[380px] w-full relative">
+            {isMounted ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data}
+                    dataKey="amount"
+                    nameKey="category"
+                    innerRadius="70%"
+                    outerRadius="90%"
+                    paddingAngle={4}
+                    cx="50%"
+                    cy="50%"
+                  >
+                    {Array.isArray(data) &&
+                      data.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      borderRadius: "12px",
+                      border: "none",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                    formatter={(value) => [
+                      `${data[0]?.symbol}${getCurrencyFormatter(data[0]?.code, Number(value))}`,
+                      "Monto",
+                    ]}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    height={36}
+                    iconType="circle"
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="h-full w-full bg-wf-surface-container-lowest/50 animate-pulse rounded-lg" />
+            )}
+          </div>
+        </div>
+
+        <div className="lg:col-span-5">
           <ListItems
-            title="Consolidado"
+            title="Consolidado por Categoría"
             data={data}
             variant="modal"
             showHistory
@@ -292,67 +335,95 @@ export default function Dashboard(props: any) {
           />
         </div>
       </div>
+
       {dataBalance?.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-wf-xl">
           <Cards title="balance" data={dataBalance} />
         </div>
       )}
+
       {dataHistory && (
-        <div id="fiona-chart_incomes" className="bg-white mt-6">
-          <Typography variant="p" className="px-4 pt-4">
-            Historial balance
-          </Typography>
-          <div className="flex items-center justify-center w-full h-72" style={{ minWidth: 0, minHeight: 288 }}>
+        <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 mt-wf-xl">
+          <div className="flex justify-between items-center mb-wf-lg">
+            <Typography className="font-wf-headline-md text-wf-primary">
+              Historial de Balance
+            </Typography>
+            <div className="flex gap-wf-sm">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-[#8884d8]"></div>
+                <span className="text-[10px] text-wf-surface-tint">Actual</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-[#82ca9d]"></div>
+                <span className="text-[10px] text-wf-surface-tint">
+                  Anterior
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-[320px] w-full">
             {isMounted ? (
-              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                <LineChart margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(0,0,0,0.05)"
+                    vertical={false}
+                  />
                   <XAxis
                     dataKey="date"
-                    allowDuplicatedCategory={false}
-                    type="number"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 10, fill: "#888" }}
                   />
-
-                  <YAxis tickFormatter={formatYAxisTick} />
-                  <Tooltip formatter={currencyFormatter} />
-                  <Legend />
+                  <YAxis
+                    tickFormatter={formatYAxisTick}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 10, fill: "#888" }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      borderRadius: "12px",
+                      border: "none",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                    formatter={currencyFormatter}
+                  />
                   <Line
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Actual"
-                    data={dataHistory.current.map((v: any) => {
-                      return { ...v, date: new Date(v.date).getDate() };
-                    })}
+                    data={dataHistory.current.map((v: any) => ({
+                      ...v,
+                      date: new Date(v.date).getDate(),
+                    }))}
                     stroke="#8884d8"
-                    dot={false}
-                    strokeWidth={2}
+                    strokeWidth={3}
+                    dot={{ r: 0 }}
+                    activeDot={{ r: 6, strokeWidth: 0 }}
                   />
                   <Line
                     type="monotone"
                     dataKey="cumulativeBalance"
-                    data={dataHistory.previousPeriod.map((v: any) => {
-                      return { ...v, date: new Date(v.date).getDate() };
-                    })}
-                    stroke="#82ca9d"
                     name="Anterior"
-                    dot={false}
+                    data={dataHistory.previousPeriod.map((v: any) => ({
+                      ...v,
+                      date: new Date(v.date).getDate(),
+                    }))}
+                    stroke="#82ca9d"
                     strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="cumulativeBalance"
-                    data={dataHistory.lastYear.map((v: any) => {
-                      return { ...v, date: new Date(v.date).getDate() };
-                    })}
-                    stroke="#8dd1e1"
-                    name="Año anterior"
-                    dot={false}
-                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    dot={{ r: 0 }}
+                    activeDot={{ r: 4, strokeWidth: 0 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full w-full" />
+              <div className="h-full w-full bg-wf-surface-container-lowest/50 animate-pulse rounded-lg" />
             )}
           </div>
         </div>

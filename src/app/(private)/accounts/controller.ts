@@ -39,8 +39,6 @@ const useAccounts = () => {
         search === "" ||
         account?.name?.toUpperCase()?.includes(search?.toUpperCase());
 
-        console.log(account.deletedAt, isChecked)
-
       const matchesStatus = isChecked
         ? account?.deletedAt === ''
         : account?.deletedAt !== '';

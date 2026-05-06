@@ -9,6 +9,7 @@ const ListMovements = lazy(() => import("./ListMovements"));
 const CurrencyBadgeFlag = lazy(() => import("./CurrencyBadgeFlag"));
 const ListMovementsDetail = lazy(() => import("./ListMovementsDetail"));
 const CategoryIcon = lazy(() => import("./CategoryIcon"));
+const MetricCard = lazy(() => import("./MetricCard"));
 
 const useComponents = () => {
   return {
@@ -21,6 +22,7 @@ const useComponents = () => {
     CurrencyBadgeFlag,
     ListMovementsDetail,
     CategoryIcon,
+    MetricCard,
   };
 };
 

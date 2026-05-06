@@ -6,11 +6,6 @@ import { Controller } from "react-hook-form";
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
-import { formatCurrency, getCurrencyFormatter } from "@/share/helpers";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
-import { GetApiMovements200ContentItem } from "@@@/domain/models";
 import ListMovementsDetail from "@/app/(private)/components/ListMovementsDetail";
 
 export default function CategoryDetail(props: any) {
@@ -42,7 +37,7 @@ export default function CategoryDetail(props: any) {
     Select,
     Textarea,
   } = useComponents();
-  const { Filters } = useComponentsLayout();
+  const { Filters, MetricCard } = useComponentsLayout();
 
   const selectedColor = watch("color") || data.color || "#6bfe9c";
   const selectedIcon = watch("icon") || data.icon || "category";
@@ -87,34 +82,42 @@ export default function CategoryDetail(props: any) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-wf-gutter">
         {/* Main Column */}
         <div className="lg:col-span-8 flex flex-col gap-wf-gutter">
-          {/* Metrics Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-wf-gutter">
             <MetricCard
               title="PROMEDIO MENSUAL"
-              amount={
-                dataBalance?.[0]?.avgMonthlyIncome > 0
-                  ? dataBalance[0].avgMonthlyIncome
-                  : dataBalance?.[0]?.avgMonthlyExpense
-              }
-              code={dataBalance?.[0]?.code}
+              metrics={dataBalance?.map((b: any) => ({
+                amount:
+                  b.avgMonthlyIncome > 0
+                    ? b.avgMonthlyIncome
+                    : b.avgMonthlyExpense,
+                code: b.code,
+                flag: b.flag,
+                symbol: b.symbol,
+              }))}
             />
             <MetricCard
               title="LÍMITE INFERIOR"
-              amount={
-                dataBalance?.[0]?.incomeLowerLimit > 0
-                  ? dataBalance[0].incomeLowerLimit
-                  : dataBalance?.[0]?.expenseLowerLimit
-              }
-              code={dataBalance?.[0]?.code}
+              metrics={dataBalance?.map((b: any) => ({
+                amount:
+                  b.incomeLowerLimit > 0
+                    ? b.incomeLowerLimit
+                    : b.expenseLowerLimit,
+                code: b.code,
+                flag: b.flag,
+                symbol: b.symbol,
+              }))}
             />
             <MetricCard
               title="LÍMITE SUPERIOR"
-              amount={
-                dataBalance?.[0]?.incomeUpperLimit > 0
-                  ? dataBalance[0].incomeUpperLimit
-                  : dataBalance?.[0]?.expenseUpperLimit
-              }
-              code={dataBalance?.[0]?.code}
+              metrics={dataBalance?.map((b: any) => ({
+                amount:
+                  b.incomeUpperLimit > 0
+                    ? b.incomeUpperLimit
+                    : b.expenseUpperLimit,
+                code: b.code,
+                flag: b.flag,
+                symbol: b.symbol,
+              }))}
             />
           </div>
 
@@ -229,7 +232,6 @@ export default function CategoryDetail(props: any) {
                 <div className="flex gap-wf-sm">
                   <Button
                     type="button"
-                    variant="h5"
                     className="flex-1 py-wf-sm px-wf-md bg-wf-surface-container text-wf-primary rounded-lg hover:bg-wf-surface-variant transition-colors h-auto"
                     onClick={() => router.back()}
                   >
@@ -255,34 +257,6 @@ export default function CategoryDetail(props: any) {
               </div>
             </form>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MetricCard({
-  title,
-  amount,
-  code,
-}: {
-  title: string;
-  amount?: number;
-  code?: string;
-}) {
-  return (
-    <div className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-shadow border border-wf-surface-container">
-      <h3 className="font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-wf-sm">
-        {title}
-      </h3>
-      <div className="flex flex-col gap-wf-xs">
-        <div className="flex items-baseline gap-wf-xs">
-          <span className="font-wf-currency-display text-wf-currency-display text-wf-primary">
-            {amount ? formatCurrency.format(amount) : "0"}
-          </span>
-          <span className="font-wf-label-caps text-[12px] text-wf-surface-tint">
-            {code}
-          </span>
         </div>
       </div>
     </div>

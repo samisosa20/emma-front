@@ -11,11 +11,7 @@ export default function Payments(props: any) {
   const { data } = props;
   const { Typography } = useComponents();
 
-  const {
-    income,
-    expenses,
-    badges,
-  } = data?.content.reduce(
+  const { income, expenses, badges } = data?.content.reduce(
     (acc: any, payment: any) => {
       const badge = payment.account?.badge;
       if (!badge) return acc;
@@ -54,7 +50,7 @@ export default function Payments(props: any) {
         </div>
         <Link
           href="/payments/create"
-          className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary/90 px-6 py-3 rounded-full font-wf-label-caps text-wf-label-caps uppercase flex items-center justify-center gap-2 transition-colors duration-200 w-full md:w-auto shadow-[0_4px_12px_rgba(4,12,33,0.2)] whitespace-nowrap"
+          className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm"
         >
           <span className="material-symbols-outlined text-lg">add</span>
           Crear Pago Recurrente

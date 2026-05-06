@@ -40,7 +40,7 @@ const Events = (props: ModelProps) => {
               search
             </span>
             <input
-              className="w-full bg-wf-surface-container-highest border-none text-wf-on-surface rounded-full py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-wf-primary transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] outline-none"
+              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
               placeholder="Buscar eventos..."
               type="text"
               value={search}
@@ -48,7 +48,7 @@ const Events = (props: ModelProps) => {
             />
           </div>
           <Link href={"/events/create"}>
-            <button className="bg-wf-primary text-wf-on-primary px-4 py-2.5 rounded-full font-wf-body-regular text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap shadow-md">
+            <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">
               <span className="material-symbols-outlined text-[18px]">add</span>
               Crear Nuevo Evento
             </button>

@@ -22,6 +22,7 @@ interface ListMovementsDetailProps {
   title?: string;
   showFilters?: boolean;
   showCategory?: boolean;
+  children?: React.ReactNode;
 }
 
 const ListMovementsDetail = ({
@@ -35,55 +36,56 @@ const ListMovementsDetail = ({
   title = "Historial de Transacciones",
   showFilters = true,
   showCategory = false,
+  children,
 }: ListMovementsDetailProps) => {
   const { FormControl, AutoComplete, Button } = useComponents();
   const { Filters, CurrencyBadgeFlag, CategoryIcon } = useComponentsLayout();
 
   return (
-    <div className="bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] flex-1 border border-wf-surface-container flex flex-col overflow-hidden">
-      <div className="p-wf-md border-b border-wf-surface-variant flex justify-between items-center bg-wf-surface-container-lowest sticky top-0 z-10">
+    <div className="bg-wf-on-primary backdrop-blur-md rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] flex-1 border border-white/50 flex flex-col overflow-hidden">
+      <div className="p-wf-md border-b border-wf-surface-variant flex justify-between items-center bg-transparent sticky top-0 z-10">
         <h3 className="font-wf-headline-md text-wf-headline-md text-wf-primary">
           {title}
         </h3>
-        {showFilters &&
-          handleFilterSubmit &&
-          onFilterSubmit &&
-          controlFilters && (
-            <div className="flex gap-wf-sm">
-              <Filters>
-                <form
-                  onSubmit={handleFilterSubmit(onFilterSubmit)}
-                  className="p-4 space-y-4"
-                >
-                  <Controller
-                    name={"badge_id"}
-                    control={controlFilters}
-                    render={({ field: { onChange, value }, fieldState }) => (
-                      <FormControl fieldState={fieldState} withLabel={true}>
-                        <AutoComplete
-                          label="Moneda"
-                          placeholder="Selecciona una opción"
-                          id="badge_id"
-                          handleOnChange={onChange}
-                          options={currencyOptions}
-                          iserror={!!fieldState.error}
-                          value={value}
-                        />
-                      </FormControl>
-                    )}
-                  />
-                  <Button type="submit" className="w-full">
-                    Aplicar
-                  </Button>
-                </form>
-              </Filters>
-            </div>
-          )}
+        {showFilters && (
+          <div className="flex gap-wf-sm">
+            <Filters>
+              {children ||
+                (handleFilterSubmit && onFilterSubmit && controlFilters && (
+                  <form
+                    onSubmit={handleFilterSubmit(onFilterSubmit)}
+                    className="p-4 space-y-4"
+                  >
+                    <Controller
+                      name={"badge_id"}
+                      control={controlFilters}
+                      render={({ field: { onChange, value }, fieldState }) => (
+                        <FormControl fieldState={fieldState} withLabel={true}>
+                          <AutoComplete
+                            label="Moneda"
+                            placeholder="Selecciona una opción"
+                            id="badge_id"
+                            handleOnChange={onChange}
+                            options={currencyOptions}
+                            iserror={!!fieldState.error}
+                            value={value}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                    <Button type="submit" className="w-full">
+                      Aplicar
+                    </Button>
+                  </form>
+                ))}
+            </Filters>
+          </div>
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-wf-surface-container-low border-b border-wf-surface-variant">
+            <tr className="bg-wf-surface-container-low/50 border-b border-wf-surface-variant/20">
               <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold">
                 FECHA
               </th>
@@ -108,8 +110,8 @@ const ListMovementsDetail = ({
               (movement: GetApiMovements200ContentItem, index: number) => (
                 <tr
                   key={movement.id}
-                  className={`border-b border-wf-surface-variant hover:bg-wf-surface-container-low transition-colors ${
-                    index % 2 === 1 ? "bg-wf-surface-bright" : ""
+                  className={`border-b border-wf-surface-variant/10 hover:bg-white/50 transition-colors ${
+                    index % 2 === 1 ? "bg-white/20" : ""
                   }`}
                 >
                   <td className="p-wf-md font-wf-body-regular text-wf-on-surface whitespace-nowrap text-sm">
@@ -188,12 +190,12 @@ const ListMovementsDetail = ({
         </table>
       </div>
       {meta && !meta.isLastPage && setPage && (
-        <div className="p-4 text-center">
+        <div className="p-wf-md text-center border-t border-wf-surface-variant/10">
           <button
             onClick={() => setPage((p: number) => p + 1)}
-            className="text-wf-primary font-wf-label-caps text-[12px] uppercase tracking-wider hover:underline"
+            className="px-6 py-2 rounded-full border border-wf-outline text-wf-primary font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary/5 transition-all"
           >
-            Cargar más
+            Cargar más transacciones
           </button>
         </div>
       )}

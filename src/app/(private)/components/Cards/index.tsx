@@ -13,61 +13,69 @@ const Cards = (props: CardsProps) => {
   const { Typography } = useComponents();
 
   return (
-    <div id={`fiona-card_${title}`} className={`grid grid-cols-1 gap-4`}>
+    <div id={`fiona-card_${title}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-wf-gutter">
       <div
-        className="bg-white shadow-sm rounded py-4 px-3 mx-auto w-[250px]"
+        className="bg-wf-on-primary backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-wf-lg border border-white/50 w-full"
         key={title}
       >
-        <Typography variant="h5">{title}</Typography>
-        {data.map((value, i) => (
-          <div
-            className={`flex items-center py-2 border-b border-gray-200 ${
-              value.variation || value.code || value.title
-                ? "justify-between"
-                : "justify-end"
-            }`}
-            key={value.code + "-" + i}
-          >
-            {value.variation !== null && value.variation !== undefined && (
-              <Typography
-                variant="h6"
-                className={`${
-                  value.variation < 0 ? "text-red-500" : "text-green-500"
-                }`}
-              >
-                {value.variation}%
-              </Typography>
-            )}
-            {!value.title &&
-              value.flag !== null &&
-              value.flag !== undefined && <CurrencyBadgeFlag badge={value} />}
-            {value.title !== null && value.title !== undefined && (
-              <Typography variant="h6" className={``}>
-                {value.title}
-              </Typography>
-            )}
+        <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-[11px]">
+          {title}
+        </Typography>
+        <div className="space-y-wf-xs">
+          {data.map((value, i) => (
+            <div
+              className={`flex items-center py-wf-sm border-b border-wf-surface-variant/30 last:border-0 ${
+                value.variation || value.code || value.title
+                  ? "justify-between"
+                  : "justify-end"
+              }`}
+              key={value.code + "-" + i}
+            >
+              {value.variation !== null && value.variation !== undefined && (
+                <div className={`flex items-center gap-1 ${value.variation < 0 ? "text-wf-error" : "text-wf-secondary"}`}>
+                  <span className="material-symbols-outlined text-[14px]">
+                    {value.variation < 0 ? 'trending_down' : 'trending_up'}
+                  </span>
+                  <Typography className="font-wf-body-regular text-[11px] font-bold">
+                    {value.variation}%
+                  </Typography>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-wf-xs">
+                {!value.title &&
+                  value.flag !== null &&
+                  value.flag !== undefined && <CurrencyBadgeFlag badge={value} />}
+                
+                {value.title !== null && value.title !== undefined && (
+                  <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
+                    {value.title}
+                  </Typography>
+                )}
+              </div>
 
-            {value.amount !== null && value.amount !== undefined && (
-              <Typography
-                variant="h6"
-                className={`font-medium ${
-                  value.amount < 0 ? "text-red-500" : "text-green-500"
-                }`}
-              >
-                <span>{value.symbol}</span>
-                {getCurrencyFormatter(value.code, value.amount)}
-              </Typography>
-            )}
-            {value.text && (
-              <Typography variant="h6" className={`font-medium`}>
-                {value.text}
-              </Typography>
-            )}
-          </div>
-        ))}
+              {value.amount !== null && value.amount !== undefined && (
+                <Typography
+                  className={`font-wf-body-regular font-bold text-sm ${
+                    value.amount < 0 ? "text-wf-error" : "text-wf-secondary"
+                  }`}
+                >
+                  <span className="opacity-70 text-[10px] mr-1">{value.symbol}</span>
+                  {getCurrencyFormatter(value.code, value.amount)}
+                </Typography>
+              )}
+              {value.text && (
+                <Typography className="font-wf-body-regular text-sm text-wf-on-surface-variant">
+                  {value.text}
+                </Typography>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default Cards;
