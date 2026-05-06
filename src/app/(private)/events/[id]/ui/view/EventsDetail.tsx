@@ -13,7 +13,7 @@ import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
 const EventsDetail = (props: any) => {
   const router = useRouter();
   const { FormControl, Modal, Typography, Button } = useComponents();
-  const { ListMovements } = useComponentsLayout();
+  const { ListMovementsDetail, CurrencyBadgeFlag } = useComponentsLayout();
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -26,6 +26,12 @@ const EventsDetail = (props: any) => {
     listCategories,
     data,
     onDelete,
+    handleFilterSubmit,
+    onFilterSubmit,
+    controlFilters,
+    currencyOptions,
+    meta,
+    setPage,
   } = props;
 
   const eventType = listEventTypes.find(
@@ -41,28 +47,6 @@ const EventsDetail = (props: any) => {
     listCategories?.filter((cat: any) =>
       cat.categories.some((sub: any) => sub.amount >= 0),
     ) || [];
-
-  const totalExpenses = expenses.reduce(
-    (acc: number, curr: any) =>
-      acc +
-      curr.categories.reduce(
-        (sAcc: number, sCurr: any) =>
-          sAcc + (sCurr.amount < 0 ? Math.abs(sCurr.amount) : 0),
-        0,
-      ),
-    0,
-  );
-
-  const totalIncomes = incomes.reduce(
-    (acc: number, curr: any) =>
-      acc +
-      curr.categories.reduce(
-        (sAcc: number, sCurr: any) =>
-          sAcc + (sCurr.amount >= 0 ? sCurr.amount : 0),
-        0,
-      ),
-    0,
-  );
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
@@ -123,37 +107,55 @@ const EventsDetail = (props: any) => {
               <h3 className="text-wf-label-caps text-[12px] font-semibold text-wf-on-tertiary-container uppercase tracking-wider">
                 Desglose de Gastos
               </h3>
-              <span className="font-wf-currency-display text-lg font-bold text-wf-primary">
-                ${getCurrencyFormatter("USD", totalExpenses)}
-              </span>
             </div>
             <div className="space-y-4">
-              {expenses.map((category: any) =>
-                category.categories
-                  .filter((s: any) => s.amount < 0)
-                  .map((subCategory: any, idx: number) => (
-                    <div key={`${category.code}-${idx}`}>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="font-medium text-wf-on-surface-variant">
-                          {subCategory.name}
-                        </span>
-                        <span className="font-bold text-wf-primary">
-                          $
-                          {getCurrencyFormatter(
-                            category.code,
-                            Math.abs(subCategory.amount),
-                          )}
-                        </span>
-                      </div>
-                      <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                        <div
-                          className="bg-wf-on-tertiary-container h-full"
-                          style={{ width: `${subCategory.percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )),
-              )}
+              {expenses.map((category: any, i: number) => (
+                <div key={i} className="flex flex-col space-y-3">
+                  <div className="flex justify-between items-center">
+                    <CurrencyBadgeFlag badge={category} />
+                    <span className="text-xs font-bold text-wf-on-surface">
+                      $
+                      {getCurrencyFormatter(
+                        category.code,
+                        category.categories
+                          .filter((s: any) => s.amount < 0)
+                          .reduce(
+                            (acc: number, curr: any) =>
+                              acc + Math.abs(curr.amount),
+                            0,
+                          ),
+                      )}
+                    </span>
+                  </div>
+                  <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
+                    {category.categories
+                      .filter((s: any) => s.amount < 0)
+                      .sort((a: any, b: any) => a.amount - b.amount)
+                      .map((subCategory: any, idx: number) => (
+                        <div key={`${category.code}-${idx}`}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-wf-on-surface-variant">
+                              {subCategory.name}
+                            </span>
+                            <span className="font-bold text-wf-primary">
+                              $
+                              {getCurrencyFormatter(
+                                category.code,
+                                Math.abs(subCategory.amount),
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-wf-on-tertiary-container h-full"
+                              style={{ width: `${subCategory.percentage}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
               {expenses.length === 0 && (
                 <p className="text-sm text-wf-on-surface-variant italic">
                   No hay gastos registrados.
@@ -168,37 +170,54 @@ const EventsDetail = (props: any) => {
               <h3 className="text-wf-label-caps text-[12px] font-semibold text-wf-on-secondary-container uppercase tracking-wider">
                 Ingresos Totales
               </h3>
-              <span className="font-wf-currency-display text-lg font-bold text-wf-primary">
-                ${getCurrencyFormatter("USD", totalIncomes)}
-              </span>
             </div>
             <div className="space-y-4">
-              {incomes.map((category: any) =>
-                category.categories
-                  .filter((s: any) => s.amount >= 0)
-                  .map((subCategory: any, idx: number) => (
-                    <div key={`${category.code}-${idx}`}>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="font-medium text-wf-on-surface-variant">
-                          {subCategory.name}
-                        </span>
-                        <span className="font-bold text-wf-primary">
-                          $
-                          {getCurrencyFormatter(
-                            category.code,
-                            subCategory.amount,
-                          )}
-                        </span>
-                      </div>
-                      <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                        <div
-                          className="bg-wf-secondary h-full"
-                          style={{ width: `${subCategory.percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )),
-              )}
+              {incomes.map((category: any, i: number) => (
+                <div key={i} className="flex flex-col space-y-3">
+                  <div className="flex justify-between items-center">
+                    <CurrencyBadgeFlag badge={category} />
+                    <span className="text-xs font-bold text-wf-on-surface">
+                      $
+                      {getCurrencyFormatter(
+                        category.code,
+                        category.categories
+                          .filter((s: any) => s.amount >= 0)
+                          .reduce(
+                            (acc: number, curr: any) => acc + curr.amount,
+                            0,
+                          ),
+                      )}
+                    </span>
+                  </div>
+                  <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
+                    {category.categories
+                      .filter((s: any) => s.amount >= 0)
+                      .sort((a: any, b: any) => b.amount - a.amount)
+                      .map((subCategory: any, idx: number) => (
+                        <div key={`${category.code}-${idx}`}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-wf-on-surface-variant">
+                              {subCategory.name}
+                            </span>
+                            <span className="font-bold text-wf-primary">
+                              $
+                              {getCurrencyFormatter(
+                                category.code,
+                                subCategory.amount,
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-wf-secondary h-full"
+                              style={{ width: `${subCategory.percentage}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
               {incomes.length === 0 && (
                 <p className="text-sm text-wf-on-surface-variant italic">
                   No hay ingresos registrados.
@@ -210,21 +229,16 @@ const EventsDetail = (props: any) => {
 
         {/* Recent Transactions Table */}
         <div className="bg-wf-surface-container-lowest rounded-xl shadow-sm border border-wf-surface-variant/30 overflow-hidden">
-          <div className="p-wf-lg border-b border-wf-surface-variant/30 flex items-center justify-between">
-            <h2 className="font-wf-headline-md text-[24px] text-wf-primary">
-              Transacciones Recientes
-            </h2>
-            <span className="text-wf-primary font-semibold text-sm cursor-pointer hover:underline">
-              Ver Todo
-            </span>
-          </div>
-          <div className="overflow-x-auto">
-            <ListMovements
-              listMovements={listMovements}
-              setPage={() => {}}
-              keyTitle="category"
-            />
-          </div>
+          <ListMovementsDetail
+            listMovements={listMovements}
+            handleFilterSubmit={handleFilterSubmit}
+            onFilterSubmit={onFilterSubmit}
+            controlFilters={controlFilters}
+            currencyOptions={currencyOptions}
+            meta={meta}
+            setPage={setPage}
+            showCategory={true}
+          />
         </div>
       </div>
 

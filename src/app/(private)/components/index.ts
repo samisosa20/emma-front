@@ -7,6 +7,8 @@ const ModalVerify = lazy(() => import("./ModalVerify"));
 const BottomBar = lazy(() => import("./BottomBar"));
 const ListMovements = lazy(() => import("./ListMovements"));
 const CurrencyBadgeFlag = lazy(() => import("./CurrencyBadgeFlag"));
+const ListMovementsDetail = lazy(() => import("./ListMovementsDetail"));
+const CategoryIcon = lazy(() => import("./CategoryIcon"));
 
 const useComponents = () => {
   return {
@@ -17,6 +19,8 @@ const useComponents = () => {
     BottomBar,
     ListMovements,
     CurrencyBadgeFlag,
+    ListMovementsDetail,
+    CategoryIcon,
   };
 };
 

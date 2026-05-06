@@ -3,6 +3,7 @@ import Link from "next/link";
 
 //components
 import useComponents from "@/share/components";
+import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { driverCategory } from "@/share/helpers/driver";
@@ -19,7 +20,8 @@ type categoryList = {
 
 export default function Categories(props: any) {
   const { data, setSearch, handleToggle, search, isChecked } = props;
-  const { Typography } = useComponents();
+  const { Typography, SegmentedControl } = useComponents();
+  const { CategoryIcon } = useComponentsLayout();
 
   const filteredCategories = data?.content?.filter((category: categoryList) => {
     const matchesSearch = category.name
@@ -62,28 +64,7 @@ export default function Categories(props: any) {
             />
           </div>
           {/* Toggle */}
-          <div className="flex items-center gap-2 bg-wf-surface-container-high p-1 rounded-full">
-            <button
-              onClick={() => !isChecked && handleToggle()}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                isChecked
-                  ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface"
-                  : "text-wf-on-surface-variant hover:text-wf-on-surface"
-              }`}
-            >
-              Activos
-            </button>
-            <button
-              onClick={() => isChecked && handleToggle()}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                !isChecked
-                  ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface"
-                  : "text-wf-on-surface-variant hover:text-wf-on-surface"
-              }`}
-            >
-              Inactivos
-            </button>
-          </div>
+          <SegmentedControl isChecked={isChecked} handleToggle={handleToggle} />
           {/* Create Button */}
           <Link
             href={"/categories/create"}
@@ -98,28 +79,26 @@ export default function Categories(props: any) {
       {/* Bento Grid - Categories */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-wf-gutter">
         {filteredCategories?.map((category: categoryList) => (
-            <Link
-              href={`/categories/${category.id}`}
-              key={category.id}
-              className="bg-wf-surface-container-lowest rounded-xl p-wf-md flex flex-col items-center justify-center gap-wf-sm shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-all cursor-pointer border border-wf-surface-container-high group relative overflow-hidden aspect-square"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-wf-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-transform group-hover:scale-110"
-                style={{ backgroundColor: `${category.color}20`, color: category.color }}
-              >
-                <span className="material-symbols-outlined text-3xl filled">
-                  {category.icon && !category.icon.startsWith('Pi') ? category.icon : "category"}
-                </span>
-              </div>
-              <h3 className="font-wf-headline-md text-base text-wf-on-surface text-center px-2 line-clamp-2">
-                {category.name}
-              </h3>
-              <span className="text-xs text-wf-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
-                 Ver detalles
-              </span>
-            </Link>
-          ))}
+          <Link
+            href={`/categories/${category.id}`}
+            key={category.id}
+            className="bg-wf-surface-container-lowest rounded-xl p-wf-md flex flex-col items-center justify-center gap-wf-sm shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-all cursor-pointer border border-wf-surface-container-high group relative overflow-hidden aspect-square"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-wf-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <CategoryIcon
+              icon={category.icon}
+              color={category.color}
+              size="lg"
+              className="mb-2 transition-transform group-hover:scale-110"
+            />
+            <h3 className="font-wf-headline-md text-base text-wf-on-surface text-center px-2 line-clamp-2">
+              {category.name}
+            </h3>
+            <span className="text-xs text-wf-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
+              Ver detalles
+            </span>
+          </Link>
+        ))}
 
         {/* Add New Category Placeholder */}
         <Link
@@ -138,7 +117,7 @@ export default function Categories(props: any) {
       {filteredCategories?.length === 0 && (
         <div className="bg-wf-surface-container-lowest rounded-xl shadow-sm border border-wf-surface-container-high p-12 flex flex-col items-center justify-center">
           <span className="material-symbols-outlined text-wf-outline-variant text-6xl mb-4">
-             category
+            category
           </span>
           <Typography className="text-center text-wf-on-surface-variant">
             Sin Categorías

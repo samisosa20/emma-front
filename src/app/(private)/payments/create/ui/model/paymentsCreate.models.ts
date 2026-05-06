@@ -7,27 +7,29 @@ import { toast } from "react-toastify";
 import { paymentsSchema } from "@/share/validation";
 
 import {
-  useGetApiPlannedPaymentsIdSuspense,
+  useGetApiPlannedPaymentsId,
   useDeleteApiPlannedPaymentsId,
   usePutApiPlannedPaymentsId,
   usePostApiPlannedPayments,
 } from "@@@/endpoints/planned-payment/planned-payment";
 import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
 import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
-import { useUserStore } from "@/share/storage";
+import { useSession } from "@/share/components/SessionProvider";
+import { GetApiPlannedPaymentsId200 } from "@@@/domain/models";
 
 export default function usePaymentsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
 
-  const { user } = useUserStore();
+  const { session } = useSession();
+  const user = session?.user;
 
   const [title, setTitle] = useState("Creacion de Pagos");
   const [listAccounts, setListAccounts] = useState<any>([]);
   const [listCategories, setListCategories] = useState<any>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
       account: undefined,
@@ -46,8 +48,13 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationDelete = useDeleteApiPlannedPaymentsId();
 
-  const { data, refetch } = useGetApiPlannedPaymentsIdSuspense(
-    String(param.id)
+  const { data, refetch } = useGetApiPlannedPaymentsId(
+    String(param.id),
+    {
+      query: {
+        enabled: !!param.id,
+      }
+    }
   );
 
   const { data: dataListAccounts, isError: isErrorAccount } =
@@ -132,15 +139,22 @@ export default function usePaymentsCreateViewModel() {
   }, []);
 
   useEffect(() => {
-    if (data?.id) {
+    if (data) {
+      const paymentData = data as any as GetApiPlannedPaymentsId200;
       reset({
-        account: { value: data.account?.id, label: data.account?.name },
-        category: { value: data.category?.id, label: data.category?.name },
-        description: data.description ? data.description : "",
-        endDate: data.endDate ? data.endDate.split("T")[0] : "",
-        startDate: data.startDate.split("T")[0],
-        amount: data.amount,
-        specificDay: data.specificDay,
+        account: {
+          value: paymentData.account?.id,
+          label: `${paymentData.account?.name} - ${paymentData.account?.badge?.code}`,
+        },
+        category: {
+          value: paymentData.category?.id,
+          label: paymentData.category?.name,
+        },
+        description: paymentData.description ? paymentData.description : "",
+        endDate: paymentData.endDate ? paymentData.endDate.split("T")[0] : "",
+        startDate: paymentData.startDate.split("T")[0],
+        amount: paymentData.amount,
+        specificDay: paymentData.specificDay,
       });
     }
   }, [data]);
@@ -185,5 +199,6 @@ export default function usePaymentsCreateViewModel() {
     listAccounts,
     handleDelete,
     isSubmitting,
+    watch,
   };
 }
