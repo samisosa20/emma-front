@@ -18,7 +18,11 @@ export default function PaymentsCreate(props: any) {
     listAccounts,
     listCategories,
     isSubmitting,
+    watch,
   } = props;
+
+  const accountWatch = watch("account");
+  const currencyCode = accountWatch?.label?.split("-")?.[1]?.trim() || "USD";
 
   return (
     <div className="flex-1 flex items-center justify-center p-wf-container-margin">
@@ -47,6 +51,37 @@ export default function PaymentsCreate(props: any) {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-wf-lg">
+          {/* Amount Input (Movements Style) */}
+          <div className="flex flex-col items-center gap-wf-xs py-wf-md">
+            <span className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+              Monto
+            </span>
+            <div className="flex items-baseline gap-wf-xs">
+              <span className="font-wf-currency-display text-2xl text-wf-on-surface-variant">
+                {currencyCode === "USD" ? "$" : currencyCode === "EUR" ? "€" : "$"}
+              </span>
+              <Controller
+                name="amount"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="0.00"
+                    className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
+                    onChange={(e) => {
+                      const val = (e.target as HTMLInputElement).value.replace(/,/g, "");
+                      if (/^\d*\.?\d{0,2}$/.test(val)) {
+                        field.onChange(val);
+                      }
+                    }}
+                    iserror={!!fieldState.error}
+                  />
+                )}
+              />
+            </div>
+          </div>
+
           {/* Source & Category Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
             <Controller
@@ -83,28 +118,8 @@ export default function PaymentsCreate(props: any) {
             />
           </div>
 
-          {/* Amount & Day Row */}
+          {/* Day & Description Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
-            <Controller
-              name="amount"
-              control={control}
-              render={({ field, fieldState }) => (
-                <FormControl fieldState={fieldState} withLabel={false}>
-                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">Monto</label>
-                  <div className="relative group">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-wf-outline font-wf-body-regular group-focus-within:text-wf-primary transition-colors">$</span>
-                    <Input
-                      {...field}
-                      type="number"
-                      step="0.01"
-                      placeholder="0.00"
-                      className="pl-8 w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm"
-                      iserror={!!fieldState.error}
-                    />
-                  </div>
-                </FormControl>
-              )}
-            />
             <Controller
               name="specificDay"
               control={control}
@@ -117,33 +132,31 @@ export default function PaymentsCreate(props: any) {
                     min="1"
                     max="31"
                     placeholder="Día 1"
-                    className="w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm"
+                    className="w-full bg-white border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm"
+                    iserror={!!fieldState.error}
+                  />
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="description"
+              control={control}
+              render={({ field, fieldState }) => (
+                <FormControl fieldState={fieldState} withLabel={false}>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
+                  </label>
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="ej., Pago Mensual de Arriendo"
+                    className="w-full bg-white border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm"
                     iserror={!!fieldState.error}
                   />
                 </FormControl>
               )}
             />
           </div>
-
-          {/* Description */}
-          <Controller
-            name="description"
-            control={control}
-            render={({ field, fieldState }) => (
-              <FormControl fieldState={fieldState} withLabel={false}>
-                <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                  Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
-                </label>
-                <Input
-                  {...field}
-                  type="text"
-                  placeholder="ej., Pago Mensual de Arriendo"
-                  className="w-full bg-wf-surface-container-highest border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary focus:ring-1 focus:ring-wf-primary transition-all shadow-sm"
-                  iserror={!!fieldState.error}
-                />
-              </FormControl>
-            )}
-          />
 
           {/* Dates Group */}
           <div className="p-wf-md bg-wf-surface-container-low rounded-xl border border-wf-outline-variant/30 grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">

@@ -27,7 +27,7 @@ export default function usePaymentsCreateViewModel() {
   const [listCategories, setListCategories] = useState<any>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
       account: undefined,
@@ -185,5 +185,6 @@ export default function usePaymentsCreateViewModel() {
     listAccounts,
     handleDelete,
     isSubmitting,
+    watch,
   };
 }

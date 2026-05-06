@@ -27,19 +27,19 @@ export default function Payments(props: any) {
   const currencies = ["USD", "EUR", "COP"];
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-wf-xl">
         <div>
-          <h1 className="font-wf-headline-lg text-wf-headline-lg text-wf-on-surface">Pagos Recurrentes</h1>
+          <h1 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary">Pagos Recurrentes</h1>
           <p className="text-wf-on-surface-variant mt-2 font-wf-body-regular text-wf-body-regular">Gestiona tus ingresos y gastos programados.</p>
         </div>
         <Link
           href="/payments/create"
-          className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary/90 px-6 py-3 rounded-full font-wf-label-caps text-wf-label-caps uppercase flex items-center justify-center gap-2 transition-colors duration-200 w-full md:w-auto shadow-[0_4px_12px_rgba(4,12,33,0.2)]"
+          className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary/90 px-6 py-3 rounded-full font-wf-label-caps text-wf-label-caps uppercase flex items-center justify-center gap-2 transition-colors duration-200 w-full md:w-auto shadow-[0_4px_12px_rgba(4,12,33,0.2)] whitespace-nowrap"
         >
           <span className="material-symbols-outlined text-lg">add</span>
-          Crear Pago Recurrente
+          Crear Pago
         </Link>
       </div>
 
@@ -99,10 +99,10 @@ export default function Payments(props: any) {
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-wf-primary"
-                  style={{ backgroundColor: payment.category?.color ? `${payment.category.color}33` : "var(--color-wf-primary-fixed-dim)" }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-wf-on-secondary-fixed shadow-sm"
+                  style={{ backgroundColor: payment.category?.color || "var(--color-wf-primary-fixed-dim)" }}
                 >
-                  <span className="material-symbols-outlined">{payment.category?.icon || "receipt_long"}</span>
+                  <span className="material-symbols-outlined text-[20px] filled">{payment.category?.icon || "receipt_long"}</span>
                 </div>
                 <div>
                   <h3 className="font-wf-headline-md text-base text-wf-on-surface">{payment.category?.name}</h3>
@@ -113,11 +113,11 @@ export default function Payments(props: any) {
             </div>
             <div className="flex justify-between items-end mt-2">
               <div>
-                <p className="text-xs text-wf-outline mb-1">
+                <p className="text-xs text-wf-outline mb-1 font-wf-body-regular">
                   {!payment.endDate ? "Para siempre" : payment.endDate.split("T")[0]}
                 </p>
                 <div className="flex items-baseline gap-1">
-                  <span className={`font-bold text-lg ${payment.amount > 0 ? "text-wf-secondary-fixed-variant" : "text-wf-error"}`}>
+                  <span className={`font-wf-currency-display font-bold text-lg ${payment.amount > 0 ? "text-wf-secondary-fixed-variant" : "text-wf-error"}`}>
                     {payment.amount > 0 ? "+" : "-"} {getCurrencyFormatter(payment.account?.badge?.code, Math.abs(payment.amount))}
                   </span>
                   <span className="text-xs font-medium text-wf-outline">{payment.account?.badge?.code}</span>
