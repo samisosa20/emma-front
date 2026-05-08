@@ -12,12 +12,12 @@ import {
   usePutApiHeritagesId,
   useDeleteApiHeritagesId,
 } from "@@@/endpoints/heritage/heritage";
-import { useUserStore } from "@/share/storage";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useHeritagesCreateViewModel() {
   const router = useRouter();
   const param = useParams();
-  const { badges } = useUserStore();
+  const { data: session } = authClient.useSession();
 
   const [title, setTitle] = useState("Creacion de Patrimonio");
   const [currencyOptions, setCurrencyOptions] = useState<
@@ -85,7 +85,7 @@ export default function useHeritagesCreateViewModel() {
   useEffect(() => {
     refetch();
     setCurrencyOptions(
-      badges?.map((v) => {
+      session?.badges?.map((v) => {
         return {
           label: String(v.code),
           value: String(v.id),
