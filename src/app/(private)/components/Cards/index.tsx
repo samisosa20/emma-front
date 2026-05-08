@@ -13,11 +13,8 @@ const Cards = (props: CardsProps) => {
   const { Typography } = useComponents();
 
   return (
-    <div id={`fiona-card_${title}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-wf-gutter">
-      <div
-        className="bg-wf-on-primary backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-wf-lg border border-white/50 w-full"
-        key={title}
-      >
+    <div id={`fiona-card_${title}`} key={title}>
+      <div className="bg-wf-on-primary backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-wf-lg border border-white/50 w-full">
         <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-[11px]">
           {title}
         </Typography>
@@ -32,21 +29,25 @@ const Cards = (props: CardsProps) => {
               key={value.code + "-" + i}
             >
               {value.variation !== null && value.variation !== undefined && (
-                <div className={`flex items-center gap-1 ${value.variation < 0 ? "text-wf-error" : "text-wf-secondary"}`}>
+                <div
+                  className={`flex items-center gap-1 ${value.variation < 0 ? "text-wf-error" : "text-wf-secondary"}`}
+                >
                   <span className="material-symbols-outlined text-[14px]">
-                    {value.variation < 0 ? 'trending_down' : 'trending_up'}
+                    {value.variation < 0 ? "trending_down" : "trending_up"}
                   </span>
                   <Typography className="font-wf-body-regular text-[11px] font-bold">
                     {value.variation}%
                   </Typography>
                 </div>
               )}
-              
+
               <div className="flex items-center gap-wf-xs">
                 {!value.title &&
                   value.flag !== null &&
-                  value.flag !== undefined && <CurrencyBadgeFlag badge={value} />}
-                
+                  value.flag !== undefined && (
+                    <CurrencyBadgeFlag badge={value} />
+                  )}
+
                 {value.title !== null && value.title !== undefined && (
                   <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
                     {value.title}
@@ -60,7 +61,9 @@ const Cards = (props: CardsProps) => {
                     value.amount < 0 ? "text-wf-error" : "text-wf-secondary"
                   }`}
                 >
-                  <span className="opacity-70 text-[10px] mr-1">{value.symbol}</span>
+                  <span className="opacity-70 text-[10px] mr-1">
+                    {value.symbol}
+                  </span>
                   {getCurrencyFormatter(value.code, value.amount)}
                 </Typography>
               )}
@@ -76,6 +79,5 @@ const Cards = (props: CardsProps) => {
     </div>
   );
 };
-
 
 export default Cards;

@@ -1,5 +1,4 @@
 import { Controller } from "react-hook-form";
-import { MdArrowBack, MdDeleteOutline, MdCarCrash } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import {
   Line,
@@ -18,7 +17,6 @@ import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
-import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
 
 export default function InvestmentsCreate(props: any) {
   const router = useRouter();

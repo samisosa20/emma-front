@@ -8,10 +8,7 @@ import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
-import {
-  GetApiHeritages200ContentItem,
-  GetApiHeritages200InvestmentsItem,
-} from "@@@/domain/models";
+import { GetApiHeritages200ContentItem } from "@@@/domain/models";
 
 const HeritageYear = (props: any) => {
   const { data } = props;
@@ -28,17 +25,22 @@ const HeritageYear = (props: any) => {
             <div onClick={() => router.back()} className="cursor-pointer">
               <MdArrowBack />
             </div>
-            <Typography variant="h1">{`${param.id}`}</Typography>
+            <Typography
+              className="font-wf-headline-lg text-wf-headline-lg text-wf-on-surface cursor-pointer"
+              variant="h1"
+            >{`${param.id}`}</Typography>
           </div>
-          <Typography>Detalle patrimonio</Typography>
+          <Typography className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant mt-wf-unit">
+            Detalle patrimonio
+          </Typography>
         </div>
         <div>
           <Link
             href={"/heritages/create"}
-            className="flex items-center space-x-2 bg-white p-2 rounded shadow-sm"
+            className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm"
           >
-            <MdAddCircleOutline />
-            <Typography>Patrimonio</Typography>
+            <span className="material-symbols-outlined text-sm">add</span>
+            Crear Patrimonio
           </Link>
         </div>
       </div>
@@ -63,42 +65,53 @@ const HeritageYear = (props: any) => {
         {data &&
           data.content.map((heritage: GetApiHeritages200ContentItem) => (
             <Link href={`/heritages/${heritage.id}/edit`} key={heritage.id}>
-              <div className="bg-white rounded shadow-sm p-4">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h2">{heritage.name}</Typography>
+              <div className="bg-wf-on-primary backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-wf-lg border border-white/50 w-full">
+                <div className="flex items-center justify-between mb-wf-md">
+                  <Typography
+                    variant="h2"
+                    className="font-semibold text-wf-primary uppercase tracking-wider text-[11px]"
+                  >
+                    {heritage.name}
+                  </Typography>
                   <CurrencyBadgeFlag badge={heritage.badge} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Typography>Comercial</Typography>
+                  <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
+                    Comercial
+                  </Typography>
                   <Typography
-                    variant="h5"
-                    className={
-                      heritage.comercialAmount > 0
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }
+                    className={`font-wf-body-regular font-bold text-sm ${
+                      heritage.comercialAmount < 0
+                        ? "text-wf-error"
+                        : "text-wf-secondary"
+                    }`}
                   >
-                    {heritage.badge?.symbol}
+                    <span className="opacity-70 text-[10px] mr-1">
+                      {heritage.badge?.symbol}
+                    </span>
                     {getCurrencyFormatter(
                       heritage.badge?.code,
-                      heritage.comercialAmount
+                      heritage.comercialAmount,
                     )}
                   </Typography>
                 </div>
                 <div className="flex items-center justify-between">
-                  <Typography>Legal</Typography>
+                  <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
+                    Legal
+                  </Typography>
                   <Typography
-                    variant="h5"
-                    className={
-                      heritage.legalAmount > 0
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }
+                    className={`font-wf-body-regular font-bold text-sm ${
+                      heritage.legalAmount < 0
+                        ? "text-wf-error"
+                        : "text-wf-secondary"
+                    }`}
                   >
-                    {heritage.badge?.symbol}
+                    <span className="opacity-70 text-[10px] mr-1">
+                      {heritage.badge?.symbol}
+                    </span>
                     {getCurrencyFormatter(
                       heritage.badge?.code,
-                      heritage.legalAmount
+                      heritage.legalAmount,
                     )}
                   </Typography>
                 </div>
