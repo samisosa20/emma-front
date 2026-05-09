@@ -14,6 +14,7 @@ import {
 } from "@/share/helpers";
 
 import useComponentsLayout from "@/app/(private)/components";
+import CategoryIcon from "../CategoryIcon";
 
 const ListDefault = (props: ListItemsProps) => {
   const { data, title } = props;
@@ -56,10 +57,7 @@ const ListUtil = (props: ListItemsProps) => {
       </Typography>
       <div className="h-[243px] overflow-y-auto space-y-wf-md pr-1 custom-scrollbar">
         {data?.map((card, index) => (
-          <div
-            className="space-y-wf-xs"
-            key={"ListUtil" + index}
-          >
+          <div className="space-y-wf-xs" key={"ListUtil" + index}>
             <div className="flex justify-between items-center">
               <Typography className="font-wf-body-regular text-sm font-semibold text-wf-on-surface">
                 {card.title} {card.father ? ` (${card.father})` : ""}
@@ -72,7 +70,9 @@ const ListUtil = (props: ListItemsProps) => {
               <Typography className="font-wf-body-regular text-wf-on-surface-variant">
                 {getCurrencyFormatter("USD", card.value)}
               </Typography>
-              <Typography className={`font-bold ${Math.abs(card.percentage ?? 0) > 90 ? 'text-wf-error' : 'text-wf-secondary'}`}>
+              <Typography
+                className={`font-bold ${Math.abs(card.percentage ?? 0) > 90 ? "text-wf-error" : "text-wf-secondary"}`}
+              >
                 {Math.abs(card.percentage ?? 0)}%
               </Typography>
             </div>
@@ -82,8 +82,8 @@ const ListUtil = (props: ListItemsProps) => {
                   Math.abs(card.percentage ?? 0) > 100
                     ? "bg-wf-error"
                     : Math.abs(card.percentage ?? 0) > 80
-                    ? "bg-wf-warning"
-                    : "bg-wf-secondary"
+                      ? "bg-wf-warning"
+                      : "bg-wf-secondary"
                 }`}
                 style={{
                   width: `${
@@ -139,7 +139,7 @@ const ListModal = (props: ListItemsProps) => {
         className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs"
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
-      <div className="h-[243px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">
+      <div className="max-h-[500px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">
         {data?.map((card, index) => {
           const Icon = getIconComponent(card.icon ?? "PiAcorn");
           return (
@@ -150,14 +150,7 @@ const ListModal = (props: ListItemsProps) => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-x-3 w-1/2">
-                  <div
-                    className="rounded-full shadow-sm w-9 h-9 flex justify-center items-center ring-2 ring-white/50 group-hover:scale-110 transition-transform"
-                    style={{
-                      background: card.color,
-                    }}
-                  >
-                    <Icon size={18} className="text-white" />
-                  </div>
+                  <CategoryIcon icon={card.icon} color={card.color} size="sm" />
                   <Typography className="font-wf-body-regular text-sm text-wf-on-surface truncate">
                     {card.category}
                   </Typography>
@@ -192,7 +185,7 @@ const ListModal = (props: ListItemsProps) => {
             showFilters={false}
             title={`Movimientos por Categoría`}
           />
-          
+
           {showHistory && (
             <div className="text-center mt-wf-xl">
               <button
@@ -243,6 +236,5 @@ const ListItems = (props: ListItemsProps) => {
     );
   }
 };
-
 
 export default ListItems;

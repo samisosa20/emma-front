@@ -24,16 +24,6 @@ const Header = () => {
         </Link>
       </div>
       <div className="flex items-center gap-wf-md">
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline">
-            search
-          </span>
-          <input
-            className="bg-wf-surface-container-low border border-wf-outline-variant focus:border-wf-primary text-wf-on-surface rounded-full py-2 pl-10 pr-4 text-sm w-64 transition-colors outline-none"
-            placeholder="Search..."
-            type="text"
-          />
-        </div>
         <Link
           href="/profile"
           className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center"

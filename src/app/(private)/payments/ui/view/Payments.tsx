@@ -6,6 +6,7 @@ import useComponents from "@/share/components";
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
 import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
+import CategoryIcon from "@/app/(private)/components/CategoryIcon";
 
 export default function Payments(props: any) {
   const { data } = props;
@@ -123,18 +124,10 @@ export default function Payments(props: any) {
             >
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-wf-on-secondary-fixed shadow-sm"
-                    style={{
-                      backgroundColor:
-                        payment.category?.color ||
-                        "var(--color-wf-primary-fixed-dim)",
-                    }}
-                  >
-                    <span className="material-symbols-outlined text-[20px] filled">
-                      {payment.category?.icon || "receipt_long"}
-                    </span>
-                  </div>
+                  <CategoryIcon
+                    icon={payment.category?.icon}
+                    color={payment.category?.color}
+                  />
                   <div>
                     <h3 className="font-wf-headline-md text-base text-wf-on-surface">
                       {payment.category?.name}

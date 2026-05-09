@@ -28,15 +28,7 @@ export default function CategoryDetail(props: any) {
     handleDelete,
   } = props;
   const router = useRouter();
-  const {
-    Typography,
-    FormControl,
-    Button,
-    AutoComplete,
-    Input,
-    Select,
-    Textarea,
-  } = useComponents();
+  const { Button, Input, Textarea } = useComponents();
   const { Filters, MetricCard } = useComponentsLayout();
 
   const selectedColor = watch("color") || data.color || "#6bfe9c";

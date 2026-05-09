@@ -125,7 +125,7 @@ export default function Dashboard(props: any) {
 
       <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md border-b border-wf-surface-variant/30 pb-wf-md mb-wf-md">
-          <div className="flex items-center gap-wf-md">
+          <div className="flex flex-wrap items-center gap-wf-md justify-center lg:justify-start">
             {listOptionsTypeReport.map((type: any, index: number) => (
               <button
                 key={index}
@@ -141,7 +141,7 @@ export default function Dashboard(props: any) {
             ))}
           </div>
 
-          <div className="flex items-center gap-wf-sm">
+          <div className="flex flex-wrap items-center gap-wf-sm justify-center lg:justify-start">
             {listOptionsPeriodReport.map((type: any, index: number) => (
               <button
                 key={index}
@@ -201,7 +201,7 @@ export default function Dashboard(props: any) {
             </div>
           )}
 
-          <div className="ml-auto">
+          <div className="w-full flex justify-center md:justify-end md:w-auto md:ml-auto">
             <Filters>
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -359,6 +359,12 @@ export default function Dashboard(props: any) {
                   Anterior
                 </span>
               </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-[#ffc658]"></div>
+                <span className="text-[10px] text-wf-surface-tint">
+                  Año Pasado
+                </span>
+              </div>
             </div>
           </div>
 
@@ -372,10 +378,12 @@ export default function Dashboard(props: any) {
                     vertical={false}
                   />
                   <XAxis
-                    dataKey="date"
+                    dataKey="day"
                     axisLine={false}
                     tickLine={false}
                     tick={{ fontSize: 10, fill: "#888" }}
+                    type="number"
+                    domain={[1, 31]}
                   />
                   <YAxis
                     tickFormatter={formatYAxisTick}
@@ -397,9 +405,9 @@ export default function Dashboard(props: any) {
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Actual"
-                    data={dataHistory.current.map((v: any) => ({
+                    data={dataHistory.current.map((v: any, i: number) => ({
                       ...v,
-                      date: new Date(v.date).getDate(),
+                      day: i + 1,
                     }))}
                     stroke="#8884d8"
                     strokeWidth={3}
@@ -410,13 +418,29 @@ export default function Dashboard(props: any) {
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Anterior"
-                    data={dataHistory.previousPeriod.map((v: any) => ({
-                      ...v,
-                      date: new Date(v.date).getDate(),
-                    }))}
+                    data={dataHistory.previousPeriod.map(
+                      (v: any, i: number) => ({
+                        ...v,
+                        day: i + 1,
+                      }),
+                    )}
                     stroke="#82ca9d"
                     strokeWidth={2}
                     strokeDasharray="5 5"
+                    dot={{ r: 0 }}
+                    activeDot={{ r: 4, strokeWidth: 0 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="cumulativeBalance"
+                    name="Año Pasado"
+                    data={dataHistory.lastYear.map((v: any, i: number) => ({
+                      ...v,
+                      day: i + 1,
+                    }))}
+                    stroke="#ffc658"
+                    strokeWidth={2}
+                    strokeDasharray="3 3"
                     dot={{ r: 0 }}
                     activeDot={{ r: 4, strokeWidth: 0 }}
                   />

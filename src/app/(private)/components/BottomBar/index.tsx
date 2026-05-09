@@ -15,14 +15,14 @@ export const linksMobile = [
   },
   {
     id: "accounts",
-    name: "Accounts",
+    name: "Cuentas",
     link: "/accounts",
     show: true,
     icon: "account_balance_wallet",
   },
   {
     id: "moves",
-    name: "Transactions",
+    name: "Transacciones",
     link: "/moves",
     show: true,
     icon: "receipt_long",
@@ -36,7 +36,7 @@ export const linksMobile = [
   },
   {
     id: "budgets",
-    name: "Budgets",
+    name: "Presupuestos",
     link: "/budgets",
     show: true,
     icon: "savings",

@@ -48,7 +48,7 @@ export default async function RootLayout({
           </main>
         </div>
         <BottomBar />
-        <ModalVerify />
+        {/* <ModalVerify /> */}
       </div>
     </SessionProvider>
   );
