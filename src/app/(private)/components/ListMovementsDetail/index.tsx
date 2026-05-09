@@ -22,6 +22,8 @@ interface ListMovementsDetailProps {
   title?: string;
   showFilters?: boolean;
   showCategory?: boolean;
+  showAccount?: boolean;
+  showEvent?: boolean;
   children?: React.ReactNode;
 }
 
@@ -36,6 +38,8 @@ const ListMovementsDetail = ({
   title = "Historial de Transacciones",
   showFilters = true,
   showCategory = false,
+  showAccount = true,
+  showEvent = false,
   children,
 }: ListMovementsDetailProps) => {
   const { FormControl, AutoComplete, Button } = useComponents();
@@ -94,12 +98,19 @@ const ListMovementsDetail = ({
                   CATEGORÍA
                 </th>
               )}
-              <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold">
-                CUENTA
-              </th>
+              {showAccount && (
+                <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold">
+                  CUENTA
+                </th>
+              )}
               <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold">
                 DESCRIPCIÓN
               </th>
+              {showEvent && (
+                <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold">
+                  EVENTO / INVERSIÓN
+                </th>
+              )}
               <th className="p-wf-md font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint font-semibold text-right">
                 MONTO
               </th>
@@ -136,19 +147,47 @@ const ListMovementsDetail = ({
                       </Link>
                     </td>
                   )}
-                  <td className="p-wf-md text-sm">
-                    <div className="flex items-center gap-wf-xs">
-                      <Link
-                        href={`/accounts/${movement.account?.id}`}
-                        className="font-wf-body-regular text-wf-link hover:underline transition-colors"
-                      >
-                        {movement.account?.name}
-                      </Link>
-                    </div>
-                  </td>
+                  {showAccount && (
+                    <td className="p-wf-md text-sm">
+                      <div className="flex items-center gap-wf-xs">
+                        <Link
+                          href={`/accounts/${movement.account?.id}`}
+                          className="font-wf-body-regular text-wf-link hover:underline transition-colors"
+                        >
+                          {movement.account?.name}
+                        </Link>
+                      </div>
+                    </td>
+                  )}
                   <td className="p-wf-md font-wf-body-regular text-wf-on-surface text-sm">
                     {movement.description}
                   </td>
+                  {showEvent && (
+                    <td className="p-wf-md text-xs">
+                      {movement.event?.id && (
+                        <Link
+                          href={`/events/${movement.event.id}`}
+                          className="font-wf-body-regular text-wf-link hover:underline transition-colors flex items-center gap-1 mb-1"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">
+                            event
+                          </span>
+                          {movement.event.name}
+                        </Link>
+                      )}
+                      {movement.investment?.id && (
+                        <Link
+                          href={`/investments/${movement.investment.id}`}
+                          className="font-wf-body-regular text-wf-link hover:underline transition-colors flex items-center gap-1"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">
+                            account_balance_wallet
+                          </span>
+                          {movement.investment.name}
+                        </Link>
+                      )}
+                    </td>
+                  )}
                   <td
                     className={`p-wf-md text-right font-wf-body-regular font-semibold text-sm ${
                       Number(movement.amount) > 0
@@ -156,22 +195,24 @@ const ListMovementsDetail = ({
                         : "text-wf-error"
                     }`}
                   >
-                    <div className="flex items-center justify-end gap-2">
-                      <span>
-                        {movement.account?.badge?.symbol}
-                        {getCurrencyFormatter(
-                          movement.account?.badge?.code,
-                          Number(movement.amount),
-                        )}
-                      </span>
-                      <CurrencyBadgeFlag
-                        badge={{
-                          code: movement.account?.badge?.code,
-                          flag: movement.account?.badge?.flag,
-                          symbol: movement.account?.badge?.symbol,
-                        }}
-                      />
-                    </div>
+                    <Link href={`/moves/${movement.id}`}>
+                      <div className="flex items-center justify-end gap-2">
+                        <span>
+                          {movement.account?.badge?.symbol}
+                          {getCurrencyFormatter(
+                            movement.account?.badge?.code,
+                            Number(movement.amount),
+                          )}
+                        </span>
+                        <CurrencyBadgeFlag
+                          badge={{
+                            code: movement.account?.badge?.code,
+                            flag: movement.account?.badge?.flag,
+                            symbol: movement.account?.badge?.symbol,
+                          }}
+                        />
+                      </div>
+                    </Link>
                   </td>
                 </tr>
               ),
@@ -179,7 +220,7 @@ const ListMovementsDetail = ({
             {listMovements?.length === 0 && (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={7}
                   className="p-wf-md text-center text-wf-on-surface-variant text-sm italic"
                 >
                   Sin movimientos

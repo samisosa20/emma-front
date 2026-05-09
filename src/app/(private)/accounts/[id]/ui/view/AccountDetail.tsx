@@ -22,20 +22,10 @@ export default function AccountDetail(props: any) {
     dataBalance,
   } = props;
   const router = useRouter();
-  const {
-    Typography,
-    Select,
-    FormControl,
-    Input,
-    Button,
-    AutoComplete,
-  } = useComponents();
-  const {
-    Filters,
-    ListMovementsDetail,
-    MetricCard,
-    CurrencyBadgeFlag,
-  } = useComponentsLayout();
+  const { Typography, Select, FormControl, Input, Button, AutoComplete } =
+    useComponents();
+  const { Filters, ListMovementsDetail, MetricCard, CurrencyBadgeFlag } =
+    useComponentsLayout();
 
   return (
     <div className="flex flex-col gap-wf-gutter">
@@ -114,6 +104,8 @@ export default function AccountDetail(props: any) {
             meta={meta}
             setPage={setPage}
             showCategory={true}
+            showAccount={false}
+            showEvent={true}
           >
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -143,7 +135,11 @@ export default function AccountDetail(props: any) {
                 name={"category"}
                 control={control}
                 render={({ field: { onChange, value }, fieldState }) => (
-                  <FormControl fieldState={fieldState} withLabel={true} label="Categoría">
+                  <FormControl
+                    fieldState={fieldState}
+                    withLabel={true}
+                    label="Categoría"
+                  >
                     <Input
                       type="text"
                       placeholder="Ej. Comida"
@@ -159,7 +155,11 @@ export default function AccountDetail(props: any) {
                   name={"start_date"}
                   control={control}
                   render={({ field: { onChange, value }, fieldState }) => (
-                    <FormControl fieldState={fieldState} withLabel={true} label="Desde">
+                    <FormControl
+                      fieldState={fieldState}
+                      withLabel={true}
+                      label="Desde"
+                    >
                       <Input
                         type="date"
                         onChange={onChange}
@@ -173,7 +173,11 @@ export default function AccountDetail(props: any) {
                   name={"end_date"}
                   control={control}
                   render={({ field: { onChange, value }, fieldState }) => (
-                    <FormControl fieldState={fieldState} withLabel={true} label="Hasta">
+                    <FormControl
+                      fieldState={fieldState}
+                      withLabel={true}
+                      label="Hasta"
+                    >
                       <Input
                         type="date"
                         onChange={onChange}
@@ -202,15 +206,25 @@ export default function AccountDetail(props: any) {
                 <span className="text-[10px] uppercase tracking-widest text-wf-surface-tint font-bold">
                   NOMBRE
                 </span>
-                <span className="text-wf-on-surface font-semibold">{data?.name}</span>
+                <span className="text-wf-on-surface font-semibold">
+                  {data?.name}
+                </span>
               </div>
               <div className="flex flex-col gap-1 border-b border-wf-surface-variant/30 pb-3">
                 <span className="text-[10px] uppercase tracking-widest text-wf-surface-tint font-bold">
                   DIVISA PRINCIPAL
                 </span>
                 <div className="flex items-center gap-2">
-                   <CurrencyBadgeFlag badge={{ code: dataBalance?.code, flag: dataBalance?.flag, symbol: dataBalance?.symbol }} />
-                   <span className="text-wf-on-surface">{dataBalance?.code} ({dataBalance?.symbol})</span>
+                  <CurrencyBadgeFlag
+                    badge={{
+                      code: dataBalance?.code,
+                      flag: dataBalance?.flag,
+                      symbol: dataBalance?.symbol,
+                    }}
+                  />
+                  <span className="text-wf-on-surface">
+                    {dataBalance?.code} ({dataBalance?.symbol})
+                  </span>
                 </div>
               </div>
             </div>

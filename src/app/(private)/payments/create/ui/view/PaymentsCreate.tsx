@@ -69,24 +69,51 @@ export default function PaymentsCreate(props: any) {
               <Controller
                 name="amount"
                 control={control}
-                render={({ field, fieldState }) => (
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="0.00"
-                    className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
-                    onChange={(e) => {
-                      const val = (e.target as HTMLInputElement).value.replace(
-                        /,/g,
-                        "",
-                      );
-                      if (/^\d*\.?\d{0,2}$/.test(val)) {
-                        field.onChange(val);
-                      }
-                    }}
-                    iserror={!!fieldState.error}
-                  />
-                )}
+                render={({ field: { value, onChange, ...field }, fieldState }) => {
+                  // Format value for display with thousands separators
+                  const formatDisplay = (val: any) => {
+                    if (val === undefined || val === null || val === "")
+                      return "";
+                    const str = val.toString();
+                    if (str === "-" || str === "." || str === "-.") return str;
+
+                    const [integer, decimal] = str.split(".");
+                    const formattedInteger = integer.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ",",
+                    );
+                    return decimal !== undefined
+                      ? `${formattedInteger}.${decimal}`
+                      : formattedInteger;
+                  };
+
+                  return (
+                    <Input
+                      {...field}
+                      value={formatDisplay(value)}
+                      type="text"
+                      placeholder="0.00"
+                      className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
+                      onFocus={(e) => (e.target as HTMLInputElement).select()}
+                      onChange={(e) => {
+                        // Strip thousands separators (commas) and handle decimal (dot)
+                        const raw = (e.target as HTMLInputElement).value.replace(
+                          /,/g,
+                          "",
+                        );
+                        // Allow negative sign, empty string, and numbers with at most one dot and two decimals
+                        if (
+                          raw === "" ||
+                          raw === "-" ||
+                          /^-?\d*\.?\d{0,2}$/.test(raw)
+                        ) {
+                          onChange(raw);
+                        }
+                      }}
+                      iserror={!!fieldState.error}
+                    />
+                  );
+                }}
               />
             </div>
           </div>

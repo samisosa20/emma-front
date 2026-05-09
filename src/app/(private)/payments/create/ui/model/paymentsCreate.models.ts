@@ -37,7 +37,7 @@ export default function usePaymentsCreateViewModel() {
       description: "",
       endDate: "",
       startDate: undefined,
-      amount: 0,
+      amount: "" as any,
       specificDay: 1,
     },
   });
