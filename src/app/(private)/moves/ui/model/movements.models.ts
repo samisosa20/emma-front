@@ -171,6 +171,7 @@ export default function useMovementsViewModel() {
               label: account.name + " - " + account.badge?.code,
               value: account.id,
               badgeId: account.badge.id,
+              badgeCode: account.badge?.code,
             };
           })
       );
