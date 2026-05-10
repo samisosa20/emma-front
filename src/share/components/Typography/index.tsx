@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { twMerge } from "tailwind-merge";
 
 // Interface
@@ -5,7 +6,7 @@ import { TypographyProps } from "./Typography.interface";
 // Style
 import { useTheme } from "./Typography.styles";
 
-const Typography = (props: TypographyProps) => {
+const Typography = memo((props: TypographyProps) => {
   const { id, children, onClick, className = "", variant = "p" } = props;
 
   const { typography } = useTheme();
@@ -20,6 +21,6 @@ const Typography = (props: TypographyProps) => {
       {children}
     </Element>
   );
-};
+});
 
 export default Typography;

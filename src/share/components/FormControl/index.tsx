@@ -1,8 +1,9 @@
-import Typography from '../Typography';
+import { memo } from "react";
+import Typography from "../Typography";
 
-import { FormControlProps } from './FormControl.interface';
+import { FormControlProps } from "./FormControl.interface";
 
-const FormControl = (props: FormControlProps) => {
+const FormControl = memo((props: FormControlProps) => {
   const { fieldState, withLabel = false, withOutHeight = false } = props;
   return (
     <div className={withLabel ? 'min-h-[90px]' : withOutHeight ? 'h-auto' : 'min-h-[75px]'}>
@@ -14,6 +15,6 @@ const FormControl = (props: FormControlProps) => {
       )}
     </div>
   );
-};
+});
 
 export default FormControl;
