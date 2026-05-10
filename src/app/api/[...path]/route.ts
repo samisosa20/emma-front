@@ -82,7 +82,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
     return res;
   } catch (error: any) {
+    // Log the actual error on the server for debugging
     console.error("Proxy error:", error);
-    return NextResponse.json({ message: "Proxy error", error: error.message }, { status: 502 });
+    // Return a generic error message to the client to avoid information leakage (CWE-209)
+    return NextResponse.json(
+      { message: "Ocurrió un error al procesar la solicitud." },
+      { status: 502 }
+    );
   }
 }
