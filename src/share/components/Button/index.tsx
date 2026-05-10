@@ -1,12 +1,13 @@
+import { memo } from "react";
 import { twMerge } from "tailwind-merge";
 
 // Interface
-import { ButtonProps } from './Button.interface';
+import { ButtonProps } from "./Button.interface";
 
 // Style
-import { useTheme } from './Button.styles';
+import { useTheme } from "./Button.styles";
 
-const Button = (props: ButtonProps) => {
+const Button = memo((props: ButtonProps) => {
   const {
     children,
     onClick,
@@ -44,6 +45,6 @@ const Button = (props: ButtonProps) => {
       {children}
     </button>
   );
-};
+});
 
 export default Button;

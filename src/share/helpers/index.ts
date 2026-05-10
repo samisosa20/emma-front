@@ -242,13 +242,15 @@ export const colors = [
   "#CC6633",
 ];
 
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+});
+
 export const getCurrencyFormatter = (
   badgeCode: string = "USD",
   value: number
 ) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "decimal",
-  }).format(value);
+  return currencyFormatter.format(value);
 };
 
 export function getIconComponent(name: string): React.ElementType {
