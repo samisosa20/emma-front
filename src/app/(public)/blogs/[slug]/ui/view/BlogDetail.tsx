@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MdArrowBack } from "react-icons/md";
+import DOMPurify from "isomorphic-dompurify";
 
 //components
 import useComponents from "@/share/components";
@@ -25,7 +26,7 @@ export default function BlogDetail(props: any) {
             </Typography>
             <div
               className="text-white fiona-blog-content"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
             />
           </div>
         </section>
