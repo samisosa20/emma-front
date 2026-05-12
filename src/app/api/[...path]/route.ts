@@ -21,6 +21,11 @@ export async function PATCH(request: NextRequest, { params }: { params: { path: 
 }
 
 async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
+  // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
+  if (path.some(segment => segment === ".." || segment === ".")) {
+    return NextResponse.json({ message: "Invalid path" }, { status: 400 });
+  }
+
   const targetPath = path.join("/");
 
   // Note: Local session validation removed since backend now handles auth via Better Auth
