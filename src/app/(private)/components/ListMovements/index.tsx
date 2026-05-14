@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -23,12 +23,18 @@ type listMovements = {
   keyTitle: "category" | "event" | "account" | "investment";
 };
 
-export default function ListMovements({
+/**
+ * ⚡ Bolt Optimization: Memoization of ListMovements
+ * 🎯 Problem: Frequently used in multiple views to list transactions.
+ * 📊 Impact: Prevents expensive re-renders of the entire list when
+ *    unrelated parent state changes.
+ */
+const ListMovements = memo(({
   listMovements,
   meta,
   setPage,
   keyTitle,
-}: listMovements) {
+}: listMovements) => {
   let previousDate: string | null = null;
   const { Typography } = useComponents();
   return (
@@ -110,4 +116,6 @@ export default function ListMovements({
       )}
     </div>
   );
-}
+});
+
+export default ListMovements;

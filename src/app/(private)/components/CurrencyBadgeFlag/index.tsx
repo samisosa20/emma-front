@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Image from "next/image";
 
 import Typography from "@/share/components/Typography";
@@ -12,7 +13,13 @@ type CurrencyBadgeProps = {
   badge: BadgeDetail;
 };
 
-export default function CurrencyBadgeFlag({ badge }: CurrencyBadgeProps) {
+/**
+ * ⚡ Bolt Optimization: Memoization of CurrencyBadgeFlag
+ * 🎯 Problem: Rendered in every row of transaction lists.
+ * 📊 Impact: Skips re-rendering the flag and currency code for each transaction
+ *    when the parent list refreshes.
+ */
+const CurrencyBadgeFlag = memo(({ badge }: CurrencyBadgeProps) => {
   if (!badge?.code || !badge?.flag) {
     return null;
   }
@@ -31,4 +38,6 @@ export default function CurrencyBadgeFlag({ badge }: CurrencyBadgeProps) {
       </Typography>
     </div>
   );
-}
+});
+
+export default CurrencyBadgeFlag;
