@@ -86,7 +86,8 @@ export function handleAddToHomeScreen() {
 export function handleGoToWpp() {
   window.open(
     `https://chat.whatsapp.com/${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`,
-    "blank"
+    "_blank",
+    "noopener,noreferrer"
   );
 }
 
