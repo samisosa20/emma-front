@@ -18,8 +18,18 @@ const paymentsSchema = z.object({
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
   startDate: z.string(),
-  amount: z.union([z.string(), z.number()]),
-  specificDay: z.union([z.string(), z.number()]),
+  amount: z.union([z.string(), z.number()]).refine((value) => {
+    const num = Number(value);
+    return !isNaN(num) && num >= 0 && isFinite(num);
+  }, {
+    message: "Debe ser un número positivo válido",
+  }),
+  specificDay: z.union([z.string(), z.number()]).refine((value) => {
+    const num = Number(value);
+    return !isNaN(num) && num >= 1 && num <= 31 && isFinite(num);
+  }, {
+    message: "Debe ser un día válido entre 1 y 31",
+  }),
 });
 
 const paymentParamsSchema = z.object({
