@@ -2,25 +2,25 @@ import * as z from "zod";
 
 const loginSchema = z.object({
   email: z.string().email("Formato incorrecto"),
-  password: z.string().min(6, "Se requiere minimo 6 caracteres"),
+  password: z.string().min(6, "Se requiere minimo 6 caracteres").max(100, "Máximo 100 caracteres"),
   remind: z.boolean().optional().nullable(),
 });
 
 const registerSchema = z.object({
-  name: z.string().min(2, "Se requiere minimo 2 caracteres"),
+  name: z.string().min(2, "Se requiere minimo 2 caracteres").max(100, "Máximo 100 caracteres"),
   badge_id: z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),
   email: z.string().email("Formato incorrecto"),
-  password: z.string().min(6, "Se requiere minimo 6 caracteres"),
+  password: z.string().min(6, "Se requiere minimo 6 caracteres").max(100, "Máximo 100 caracteres"),
 });
 
 const registerParamsSchema = z.object({
-  name: z.string().min(2, "Se requiere minimo 2 caracteres"),
+  name: z.string().min(2, "Se requiere minimo 2 caracteres").max(100, "Máximo 100 caracteres"),
   badge_id: z.union([z.string(), z.number()]),
   email: z.string().email("Formato incorrecto"),
-  password: z.string().min(6, "Se requiere minimo 6 caracteres"),
+  password: z.string().min(6, "Se requiere minimo 6 caracteres").max(100, "Máximo 100 caracteres"),
 });
 
 const paramsProfileSchema = z.object({

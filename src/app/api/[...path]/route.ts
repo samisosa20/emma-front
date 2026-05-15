@@ -51,9 +51,11 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     });
 
     // Forward backend response headers (including Set-Cookie for Better Auth)
+    // Blacklist sensitive headers to avoid information leakage (CWE-209)
     const responseHeaders = new Headers();
+    const sensitiveHeaders = ["content-encoding", "transfer-encoding", "content-length", "server", "x-powered-by"];
     response.headers.forEach((value, key) => {
-        if (!["content-encoding", "transfer-encoding", "content-length"].includes(key.toLowerCase())) {
+        if (!sensitiveHeaders.includes(key.toLowerCase())) {
             responseHeaders.set(key, value);
         }
     });
@@ -72,9 +74,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     });
 
     // For traditional login compatibility, still handle the JWT token if present
-    const isLogin = targetPath.includes("auth/login");
-    if (isLogin && response.ok && contentType?.includes("application/json")) {
-      const data = JSON.parse(body as string);
+    // Ensure cookie is set for both login and register to maintain session consistency
+    const isAuthPath = targetPath.endsWith("auth/login") || targetPath.endsWith("auth/register");
+    if (isAuthPath && response.ok && contentType?.includes("application/json")) {
+      const data = typeof body === "string" ? JSON.parse(body) : {};
       if (data.token) {
         res.cookies.set("backend_token", data.token, {
             httpOnly: true,

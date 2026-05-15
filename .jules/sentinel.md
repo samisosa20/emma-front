@@ -7,3 +7,8 @@
 **Vulnerability:** Blog content was being rendered using `dangerouslySetInnerHTML` without sanitization, exposing the application to Cross-Site Scripting (XSS) attacks if the backend content is compromised or contains malicious scripts.
 **Learning:** Even internal or "trusted" content should be sanitized before being injected into the DOM to maintain defense-in-depth.
 **Prevention:** Use `isomorphic-dompurify` to sanitize HTML strings before using them in `dangerouslySetInnerHTML`, ensuring compatibility with both SSR and client-side rendering.
+
+## 2026-05-12 - [Hardening API Proxy and Response Security]
+**Vulnerability:** The API proxy was forwarding sensitive backend headers (e.g., `Server`, `X-Powered-By`) and the global middleware lacked standard security headers, exposing the app to information leakage and clickjacking.
+**Learning:** Security headers should be enforced at the entry point (middleware) and proxies must explicitly blacklist internal headers to prevent leaking backend environment details.
+**Prevention:** Implement a blacklist for sensitive headers in proxy handlers and inject `X-Frame-Options`, `X-Content-Type-Options`, and `Referrer-Policy` in global middleware.
