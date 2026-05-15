@@ -4,13 +4,19 @@ const movementSchema = z
   .object({
     type: z.string(),
     datePurchase: z.string(),
-    amount: z.string().refine((value) => !value.includes("-"), {
-      message: "Solo valores positivos",
+    amount: z.string().refine((value) => {
+      const num = Number(value);
+      return !isNaN(num) && num >= 0 && isFinite(num);
+    }, {
+      message: "Debe ser un número positivo válido",
     }),
     amountEnd: z
       .string()
-      .refine((value) => !value.includes("-"), {
-        message: "Solo valores positivos",
+      .refine((value) => {
+        const num = Number(value);
+        return !isNaN(num) && num >= 0 && isFinite(num);
+      }, {
+        message: "Debe ser un número positivo válido",
       })
       .optional(),
     account: z.object({
