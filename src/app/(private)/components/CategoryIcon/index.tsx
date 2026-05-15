@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { memo } from "react";
 
 interface CategoryIconProps {
   icon?: string;
@@ -8,7 +8,13 @@ interface CategoryIconProps {
   className?: string;
 }
 
-const CategoryIcon = ({
+/**
+ * ⚡ Bolt Optimization: Memoization of CategoryIcon
+ * 🎯 Problem: This component is rendered many times in transaction lists.
+ * 📊 Impact: Prevents re-renders of the icon container when the parent list updates
+ *    if the icon properties haven't changed.
+ */
+const CategoryIcon = memo(({
   icon,
   color = "#625b71", // Default color if none provided
   size = "md",
@@ -49,6 +55,6 @@ const CategoryIcon = ({
       </span>
     </div>
   );
-};
+});
 
 export default CategoryIcon;
