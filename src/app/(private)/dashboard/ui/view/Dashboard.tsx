@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { Controller } from "react-hook-form";
 import {
   XAxis,
@@ -71,7 +71,13 @@ const currencyFormatter = (value: number, name: string) => {
   return [getCurrencyFormatter("USD", value), name];
 };
 
-export default function Dashboard(props: any) {
+/**
+ * ⚡ Bolt Optimization: Memoization of Dashboard View
+ * 🎯 Problem: Main entry point for the dashboard, containing multiple complex charts and lists.
+ * 📊 Impact: Skips the expensive reconciliation of the entire dashboard layout when
+ *    the parent Page component re-renders without prop changes.
+ */
+const Dashboard = memo((props: any) => {
   const {
     data,
     currencyOptions = [],
@@ -454,4 +460,6 @@ export default function Dashboard(props: any) {
       )}
     </div>
   );
-}
+});
+
+export default Dashboard;

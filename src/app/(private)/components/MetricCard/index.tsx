@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { memo } from "react";
 import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
 import { getCurrencyFormatter } from "@/share/helpers";
 
@@ -8,7 +8,12 @@ interface MetricCardProps {
   metrics?: { amount: number; code: string; flag: string; symbol: string }[];
 }
 
-const MetricCard = ({ title, metrics = [] }: MetricCardProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of MetricCard
+ * 🎯 Problem: Displays key metrics in dashboards, often repeated for different currencies.
+ * 📊 Impact: Skips re-rendering when metrics haven't changed.
+ */
+const MetricCard = memo(({ title, metrics = [] }: MetricCardProps) => {
   return (
     <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-all border border-white/50">
       <h3 className="font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-wf-sm">
@@ -37,6 +42,6 @@ const MetricCard = ({ title, metrics = [] }: MetricCardProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default MetricCard;

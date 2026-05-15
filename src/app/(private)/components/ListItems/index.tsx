@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRouter } from "next/navigation";
 
 //components
@@ -16,7 +16,12 @@ import {
 import useComponentsLayout from "@/app/(private)/components";
 import CategoryIcon from "../CategoryIcon";
 
-const ListDefault = (props: ListItemsProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of ListDefault
+ * 🎯 Problem: Part of the ListItems suite used in dashboards.
+ * 📊 Impact: Prevents re-renders of simple category lists during parent updates.
+ */
+const ListDefault = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
@@ -45,9 +50,14 @@ const ListDefault = (props: ListItemsProps) => {
       </div>
     </div>
   );
-};
+});
 
-const ListUtil = (props: ListItemsProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of ListUtil
+ * 🎯 Problem: Displays utilization bars which can be expensive to recalculate/render.
+ * 📊 Impact: Skips re-rendering when metrics are unchanged.
+ */
+const ListUtil = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
@@ -99,9 +109,14 @@ const ListUtil = (props: ListItemsProps) => {
       </div>
     </div>
   );
-};
+});
 
-const ListModal = (props: ListItemsProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of ListModal
+ * 🎯 Problem: Contains complex interaction logic and modals.
+ * 📊 Impact: Prevents re-renders of the interactive list items when parent state changes.
+ */
+const ListModal = memo((props: ListItemsProps) => {
   const {
     data,
     title,
@@ -202,9 +217,14 @@ const ListModal = (props: ListItemsProps) => {
       </Modal>
     </div>
   );
-};
+});
 
-const ListItems = (props: ListItemsProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of ListItems
+ * 🎯 Problem: Main entry point for various list displays in dashboards.
+ * 📊 Impact: Ensures stable rendering across different list variants.
+ */
+const ListItems = memo((props: ListItemsProps) => {
   const {
     data,
     title,
@@ -235,6 +255,6 @@ const ListItems = (props: ListItemsProps) => {
       />
     );
   }
-};
+});
 
 export default ListItems;

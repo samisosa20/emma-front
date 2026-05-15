@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { getISOWeek, format, startOfMonth, endOfMonth } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -49,7 +49,14 @@ export default function useDashboardViewModel() {
     getISOWeek(new Date())
   );
 
-  const listOptionsTypeReport = [
+  /**
+   * ⚡ Bolt Optimization: Memoized configuration arrays
+   * 🎯 Problem: These arrays were being recreated on every render, causing
+   *    memoized children components to re-render due to new object references.
+   * 📊 Impact: Stabilizes references for listOptions, preventing unnecessary
+   *    re-renders in the Dashboard's navigation buttons.
+   */
+  const listOptionsTypeReport = useMemo(() => [
     {
       label: "Gastos",
       value: "expensive",
@@ -60,9 +67,9 @@ export default function useDashboardViewModel() {
       value: "income",
       onClick: () => setTypeReport("income"),
     },
-  ];
+  ], []);
 
-  const listOptionsPeriodReport = [
+  const listOptionsPeriodReport = useMemo(() => [
     {
       label: "Diario",
       value: "daily",
@@ -83,7 +90,7 @@ export default function useDashboardViewModel() {
       value: "yearly",
       onClick: () => setPeriodReport("yearly"),
     },
-  ];
+  ], []);
 
   const { handleSubmit, control, setValue, getValues } = useForm({
     defaultValues: {
