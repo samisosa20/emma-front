@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Image from "next/image";
 
 //components
@@ -8,7 +9,13 @@ import { CardsProps } from "./Cards.interface";
 import { getCurrencyFormatter } from "@/share/helpers";
 import CurrencyBadgeFlag from "../CurrencyBadgeFlag";
 
-const Cards = (props: CardsProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of Cards
+ * 🎯 Problem: Used extensively in dashboards to show financial summaries.
+ * 📊 Impact: Skips re-rendering when parent state changes but the card data
+ *    is unchanged.
+ */
+const Cards = memo((props: CardsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
 
@@ -78,6 +85,6 @@ const Cards = (props: CardsProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default Cards;
