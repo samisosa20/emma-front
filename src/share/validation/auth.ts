@@ -24,8 +24,15 @@ const registerParamsSchema = z.object({
 });
 
 const paramsProfileSchema = z.object({
-  password: z.union([z.string(), z.null(), z.undefined()]),
-  name: z.string(),
+  password: z.union([
+    z.string().max(100, "Máximo 100 caracteres"),
+    z.null(),
+    z.undefined(),
+  ]),
+  name: z
+    .string()
+    .min(2, "Se requiere minimo 2 caracteres")
+    .max(100, "Máximo 100 caracteres"),
   badgeId: z.string(),
 });
 

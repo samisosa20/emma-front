@@ -11,6 +11,7 @@ const paymentsSchema = z.object({
   }),
   description: z
     .string()
+    .max(255, "Máximo 255 caracteres")
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
   endDate: z
@@ -33,7 +34,7 @@ const paymentsSchema = z.object({
 });
 
 const paymentParamsSchema = z.object({
-  description: z.union([z.null(), z.string()]),
+  description: z.union([z.null(), z.string().max(255, "Máximo 255 caracteres")]),
   amount: z.union([z.string(), z.number()]),
   accountId: z.string(),
   categoryId: z.string(),
