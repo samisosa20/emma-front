@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { TextareaProps } from "./Textarea.interface";
 
-const Textarea: React.FC<TextareaProps> = (props) => {
+const Textarea: React.FC<TextareaProps> = memo((props) => {
   const { iserror, ...res } = props;
   return (
     <div>
@@ -17,6 +18,6 @@ const Textarea: React.FC<TextareaProps> = (props) => {
       />
     </div>
   );
-};
+});
 
 export default Textarea;
