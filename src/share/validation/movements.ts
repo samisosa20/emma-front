@@ -53,6 +53,7 @@ const movementSchema = z
     ]),
     description: z
       .string()
+      .max(255, "Máximo 255 caracteres")
       .optional()
       .transform((e) => (e === "" ? undefined : e)),
     addWithdrawal: z
@@ -81,7 +82,7 @@ const movementSchema = z
   });
 
 const movementParamsSchema = z.object({
-  description: z.string().nullable(),
+  description: z.string().max(255, "Máximo 255 caracteres").nullable(),
   amount: z.string(),
   type: z.string(),
   datePurchase: z.string(),
