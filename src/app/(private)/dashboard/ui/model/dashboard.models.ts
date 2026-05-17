@@ -122,12 +122,25 @@ export default function useDashboardViewModel() {
     }
   );
 
-  const data = Array.isArray(rawData) ? rawData : (rawData as any)?.data ?? [];
+  /**
+   * ⚡ Bolt Optimization: Memoize report data to ensure stable references
+   * for memoized child components like Dashboard and ListItems.
+   */
+  const data = useMemo(
+    () => (Array.isArray(rawData) ? rawData : (rawData as any)?.data ?? []),
+    [rawData],
+  );
 
   const { data: rawDataBalance, refetch: refetchBalance } =
     useGetApiReportsGeneralBalanceSuspense();
 
-  const dataBalance = Array.isArray(rawDataBalance) ? rawDataBalance : (rawDataBalance as any)?.data ?? [];
+  const dataBalance = useMemo(
+    () =>
+      Array.isArray(rawDataBalance)
+        ? rawDataBalance
+        : (rawDataBalance as any)?.data ?? [],
+    [rawDataBalance],
+  );
 
   const today = new Date();
 
@@ -144,7 +157,30 @@ export default function useDashboardViewModel() {
     endDate: format(lastDayOfMonth, "yyyy-MM-dd"),
   });
 
-  const dataHistory = (rawDataHistory as any)?.data ?? rawDataHistory;
+  /**
+   * ⚡ Bolt Optimization: Pre-transform and memoize history data.
+   * Moving the .map calls for adding 'day' property out of the render loop
+   * of the Dashboard view component.
+   */
+  const dataHistory = useMemo(() => {
+    const raw = (rawDataHistory as any)?.data ?? rawDataHistory;
+    if (!raw) return null;
+
+    return {
+      current: (raw.current || []).map((v: any, i: number) => ({
+        ...v,
+        day: i + 1,
+      })),
+      previousPeriod: (raw.previousPeriod || []).map((v: any, i: number) => ({
+        ...v,
+        day: i + 1,
+      })),
+      lastYear: (raw.lastYear || []).map((v: any, i: number) => ({
+        ...v,
+        day: i + 1,
+      })),
+    };
+  }, [rawDataHistory]);
 
   const onSubmit = async (data: any) => {
     setFilters((prev) => ({ ...prev, badgeId: data.badgeId?.value }));
