@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { SwitchProps } from './Switch.interface';
 
-const Switch = (props: SwitchProps) => {
+const Switch = memo((props: SwitchProps) => {
   const { handleCheckboxChange, isChecked, label, name = 'autoSaver' } = props;
 
   return (
@@ -30,6 +31,6 @@ const Switch = (props: SwitchProps) => {
       </label>
     </>
   );
-};
+});
 
 export default Switch;

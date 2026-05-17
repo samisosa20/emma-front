@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { InputProps } from "./Select.interface";
 
-const Select: React.FC<InputProps> = (props) => {
+const Select: React.FC<InputProps> = memo((props) => {
   const { iserror, ...res } = props;
   return (
     <div>
@@ -29,6 +30,6 @@ const Select: React.FC<InputProps> = (props) => {
       </select>
     </div>
   );
-};
+});
 
 export default Select;

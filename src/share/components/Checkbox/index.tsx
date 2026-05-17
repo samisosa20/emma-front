@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { ChecboxProps } from "./Checkbox.interface";
 
-const Checkbox = (props: ChecboxProps) => {
+const Checkbox = memo((props: ChecboxProps) => {
   const { handleCheckboxChange, isChecked, label } = props;
 
   return (
@@ -14,6 +15,6 @@ const Checkbox = (props: ChecboxProps) => {
       <span className="checkmark"></span>
     </label>
   );
-};
+});
 
 export default Checkbox;

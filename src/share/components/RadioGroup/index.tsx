@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { SwitchProps } from './RadioGroup.interface';
 
-const RadioGroup = (props: SwitchProps) => {
+const RadioGroup = memo((props: SwitchProps) => {
   const { handleRadioChange, name, label, options = [], value } = props;
 
   return (
@@ -26,6 +27,6 @@ const RadioGroup = (props: SwitchProps) => {
       </div>
     </>
   );
-};
+});
 
 export default RadioGroup;
