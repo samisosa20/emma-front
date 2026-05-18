@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import {
   XAxis,
@@ -21,7 +21,6 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
 import {
-  formatCurrency,
   driverDash,
   getCurrencyFormatter,
   getWeekDateRange,
@@ -114,7 +113,22 @@ const Dashboard = memo((props: any) => {
     setIsMounted(true);
   }, []);
 
-  const totalWeeks = getISOWeeksInYear(new Date(filters.year, 0, 1));
+  /**
+   * ⚡ Bolt Optimization: Memoize derived dashboard metrics.
+   * Prevents recalculating total weeks and total amounts on every re-render.
+   */
+  const totalWeeks = useMemo(
+    () => getISOWeeksInYear(new Date(filters.year, 0, 1)),
+    [filters.year],
+  );
+
+  const totalAmount = useMemo(
+    () =>
+      Array.isArray(data)
+        ? data.reduce((sum: number, item: any) => sum + item.amount, 0)
+        : 0,
+    [data],
+  );
 
   return (
     <div className="space-y-wf-gutter">
@@ -278,10 +292,7 @@ const Dashboard = memo((props: any) => {
             </Typography>
             <div className="px-wf-sm py-1 bg-wf-surface-container rounded-md text-[10px] font-wf-label-caps text-wf-surface-tint">
               TOTAL: {data[0]?.symbol}
-              {getCurrencyFormatter(
-                data[0]?.code,
-                data?.reduce((sum: number, item: any) => sum + item.amount, 0),
-              )}
+              {getCurrencyFormatter(data[0]?.code, totalAmount)}
             </div>
           </div>
 
@@ -411,10 +422,7 @@ const Dashboard = memo((props: any) => {
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Actual"
-                    data={dataHistory.current.map((v: any, i: number) => ({
-                      ...v,
-                      day: i + 1,
-                    }))}
+                    data={dataHistory.current}
                     stroke="#8884d8"
                     strokeWidth={3}
                     dot={{ r: 0 }}
@@ -424,12 +432,7 @@ const Dashboard = memo((props: any) => {
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Anterior"
-                    data={dataHistory.previousPeriod.map(
-                      (v: any, i: number) => ({
-                        ...v,
-                        day: i + 1,
-                      }),
-                    )}
+                    data={dataHistory.previousPeriod}
                     stroke="#82ca9d"
                     strokeWidth={2}
                     strokeDasharray="5 5"
@@ -440,10 +443,7 @@ const Dashboard = memo((props: any) => {
                     type="monotone"
                     dataKey="cumulativeBalance"
                     name="Año Pasado"
-                    data={dataHistory.lastYear.map((v: any, i: number) => ({
-                      ...v,
-                      day: i + 1,
-                    }))}
+                    data={dataHistory.lastYear}
                     stroke="#ffc658"
                     strokeWidth={2}
                     strokeDasharray="3 3"
