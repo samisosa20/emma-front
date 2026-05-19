@@ -327,6 +327,15 @@ export const listEventTypes = [
   },
 ];
 
+/**
+ * ⚡ Bolt Optimization: Constant time lookup for event types.
+ * 🎯 Problem: Components were using .find() on listEventTypes in render loops.
+ * 📊 Impact: O(1) lookup instead of O(n) during each event card render.
+ */
+export const eventTypesMap = Object.fromEntries(
+  listEventTypes.map((t) => [t.value, t])
+);
+
 export const listAccountTypes = [
   {
     value: "General",
