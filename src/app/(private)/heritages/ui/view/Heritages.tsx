@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { MdAddCircleOutline } from "react-icons/md";
-import Image from "next/image";
 
 //components
 import useComponents from "@/share/components";

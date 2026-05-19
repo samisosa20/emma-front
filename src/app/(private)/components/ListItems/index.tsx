@@ -14,7 +14,6 @@ import {
 } from "@/share/helpers";
 
 import useComponentsLayout from "@/app/(private)/components";
-import CategoryIcon from "../CategoryIcon";
 
 /**
  * ⚡ Bolt Optimization: Memoization of ListDefault
@@ -127,7 +126,7 @@ const ListModal = memo((props: ListItemsProps) => {
     tooltip,
     tooltipVariant,
   } = props;
-  const { Typography, Modal, TitleHelp } = useComponents();
+  const { Typography, Modal, TitleHelp, CategoryIcon } = useComponents();
   const { ListMovementsDetail } = useComponentsLayout();
   const router = useRouter();
 

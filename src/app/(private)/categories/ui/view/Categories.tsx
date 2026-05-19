@@ -3,7 +3,6 @@ import Link from "next/link";
 
 //components
 import useComponents from "@/share/components";
-import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
 import { driverCategory } from "@/share/helpers/driver";
@@ -20,8 +19,7 @@ type categoryList = {
 
 export default function Categories(props: any) {
   const { data, setSearch, handleToggle, search, isChecked } = props;
-  const { Typography, SegmentedControl } = useComponents();
-  const { CategoryIcon } = useComponentsLayout();
+  const { Typography, SegmentedControl, CategoryIcon } = useComponents();
 
   const filteredCategories = data?.content?.filter((category: categoryList) => {
     const matchesSearch = category.name

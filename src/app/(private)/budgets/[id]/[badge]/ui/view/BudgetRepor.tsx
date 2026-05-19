@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { MdAddCircleOutline, MdArrowBack, MdEdit } from "react-icons/md";
+import { MdAddCircleOutline, MdArrowBack } from "react-icons/md";
 import React from "react";
 import { useRouter } from "next/navigation";
 
@@ -54,8 +54,8 @@ export default function BudgetRepor(props: any) {
                 porcentage > 90
                   ? "bg-green-400"
                   : porcentage > 65
-                  ? "bg-yellow-400"
-                  : "bg-amber-400";
+                    ? "bg-yellow-400"
+                    : "bg-amber-400";
 
               return (
                 <React.Fragment key={budget.id}>
@@ -73,14 +73,14 @@ export default function BudgetRepor(props: any) {
                           {budget?.badge?.symbol}
                           {getCurrencyFormatter(
                             budget.badge?.code,
-                            budget.planned
+                            budget.planned,
                           )}
                         </Typography>
                         <Typography variant="p" className={`text-right`}>
                           {budget?.badge?.symbol}
                           {getCurrencyFormatter(
                             budget.badge?.code,
-                            budget.executed
+                            budget.executed,
                           )}
                         </Typography>
                       </div>

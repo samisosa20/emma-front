@@ -6,11 +6,10 @@ import useComponents from "@/share/components";
 // Helpers
 import { getCurrencyFormatter } from "@/share/helpers";
 import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
-import CategoryIcon from "@/app/(private)/components/CategoryIcon";
 
 export default function Payments(props: any) {
   const { data } = props;
-  const { Typography } = useComponents();
+  const { Typography, CategoryIcon } = useComponents();
 
   const { income, expenses, badges } = data?.content.reduce(
     (acc: any, payment: any) => {
