@@ -21,6 +21,7 @@ const Button = memo((props: ButtonProps) => {
     onMouseEnter,
     onMouseLeave,
     type='button',
+    'aria-label': ariaLabel,
   } = props;
 
   const { button } = useTheme();
@@ -41,6 +42,7 @@ const Button = memo((props: ButtonProps) => {
       onMouseLeave={onMouseLeave}
       type={type}
       disabled={disabled}
+      aria-label={ariaLabel}
     >
       {children}
     </button>

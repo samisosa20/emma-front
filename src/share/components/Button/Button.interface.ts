@@ -13,4 +13,5 @@ export interface ButtonProps {
   style?: React.CSSProperties;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  "aria-label"?: string;
 }

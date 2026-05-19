@@ -178,6 +178,7 @@ export default function CategoryCreate(props: any) {
                   key={color}
                   type="button"
                   onClick={() => setValue("color", color)}
+                  aria-label={`Seleccionar color ${color}`}
                   className={`w-8 h-8 rounded-full transition-all shrink-0 ${
                     selectedColor === color
                       ? "ring-2 ring-wf-primary ring-offset-2 scale-110"
@@ -200,6 +201,7 @@ export default function CategoryCreate(props: any) {
                   key={icon}
                   type="button"
                   onClick={() => setValue("icon", icon)}
+                  aria-label={`Seleccionar ícono ${icon.replace("_", " ")}`}
                   className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
                     selectedIcon === icon
                       ? "bg-white border-2 border-wf-primary text-wf-primary shadow-md scale-110 z-10"
