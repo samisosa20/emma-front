@@ -17,3 +17,8 @@
 **Vulnerability:** The application was missing the `Strict-Transport-Security` (HSTS) header, leaving it vulnerable to protocol downgrade attacks (SSL stripping) and cookie hijacking if a user is redirected from HTTP to HTTPS.
 **Learning:** Security headers should be treated as a bundle in the global middleware to ensure defense-in-depth is applied to every response.
 **Prevention:** Always include `Strict-Transport-Security` with a long `max-age`, `includeSubDomains`, and `preload` directives in the production middleware to force HTTPS usage.
+
+## 2026-05-20 - [Hardening Security Headers in API Proxy]
+**Vulnerability:** API routes were bypassed by global middleware security header injection due to the middleware matcher configuration, leaving them vulnerable to clickjacking and MIME-sniffing.
+**Learning:** Next.js middleware matchers that exclude `/api` require manual header injection in the API route handlers to ensure uniform security across the entire application surface.
+**Prevention:** Always mirror global security headers in catch-all API proxy handlers or ensure middleware covers all routes including API segments.
