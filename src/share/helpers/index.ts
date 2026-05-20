@@ -381,6 +381,14 @@ export const listAccountTypes = [
   },
 ];
 
+/**
+ * ⚡ Bolt Optimization: Constant time lookup for account types.
+ * 🎯 Problem: Components were using .find() on listAccountTypes in render loops.
+ * 📊 Impact: O(1) lookup instead of O(n) during each account card render.
+ */
+export const accountTypesMap = Object.fromEntries(
+  listAccountTypes.map((t) => [t.value, t])
+);
+
 export const getAccountType = (typeName: string) =>
-  listAccountTypes.find((t) => t.value === typeName) ??
-  listAccountTypes[listAccountTypes.length - 1];
+  accountTypesMap[typeName] ?? listAccountTypes[listAccountTypes.length - 1];

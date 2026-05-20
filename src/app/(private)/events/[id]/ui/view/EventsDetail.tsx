@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, memo, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -8,9 +8,17 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "../../../../components";
 
 // Helpers
-import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
+import {
+  getCurrencyFormatter,
+  eventTypesMap,
+} from "@/share/helpers";
 
-const EventsDetail = (props: any) => {
+/**
+ * ⚡ Bolt Optimization: Memoized Event Detail View
+ * 🎯 Problem: Complex dashboard layout re-rendering unnecessarily.
+ * 📊 Impact: Skips re-rendering if props haven't changed.
+ */
+const EventsDetail = memo((props: any) => {
   const router = useRouter();
   const { FormControl, Modal, Typography, Button } = useComponents();
   const { ListMovementsDetail, CurrencyBadgeFlag } = useComponentsLayout();
@@ -34,19 +42,26 @@ const EventsDetail = (props: any) => {
     setPage,
   } = props;
 
-  const eventType = listEventTypes.find(
-    (t) => t.value === (data?.type || "event"),
-  );
+  /**
+   * ⚡ Bolt Optimization: O(1) lookup for event type
+   * 🎯 Problem: O(n) .find() call on every render.
+   */
+  const eventType =
+    eventTypesMap[data?.type || "event"] || eventTypesMap.event;
 
-  // Calculate totals and breakdown
-  const expenses =
-    listCategories?.filter((cat: any) =>
-      cat.categories.some((sub: any) => sub.amount < 0),
-    ) || [];
-  const incomes =
-    listCategories?.filter((cat: any) =>
-      cat.categories.some((sub: any) => sub.amount >= 0),
-    ) || [];
+  // ⚡ Bolt Optimization: Memoized expenses and incomes breakdown
+  // 🎯 Problem: O(n*m) filtering and reduction on every render.
+  const { expenses, incomes } = useMemo(() => {
+    const list = listCategories || [];
+    return {
+      expenses: list.filter((cat: any) =>
+        cat.categories.some((sub: any) => sub.amount < 0),
+      ),
+      incomes: list.filter((cat: any) =>
+        cat.categories.some((sub: any) => sub.amount >= 0),
+      ),
+    };
+  }, [listCategories]);
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
@@ -417,6 +432,6 @@ const EventsDetail = (props: any) => {
       )}
     </div>
   );
-};
+});
 
 export default EventsDetail;
