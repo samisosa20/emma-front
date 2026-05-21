@@ -52,8 +52,20 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
     // Forward backend response headers (including Set-Cookie for Better Auth)
     // Blacklist sensitive headers to avoid information leakage (CWE-209)
-    const responseHeaders = new Headers();
-    const sensitiveHeaders = ["content-encoding", "transfer-encoding", "content-length", "server", "x-powered-by", "via", "x-runtime"];
+    const responseHeaders = new Headers({
+      "X-Frame-Options": "DENY",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    });
+    const sensitiveHeaders = [
+      "content-encoding",
+      "transfer-encoding",
+      "content-length",
+      "server",
+      "x-powered-by",
+    ];
     response.headers.forEach((value, key) => {
         if (!sensitiveHeaders.includes(key.toLowerCase())) {
             responseHeaders.set(key, value);
