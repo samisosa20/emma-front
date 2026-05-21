@@ -53,12 +53,19 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     // Forward backend response headers (including Set-Cookie for Better Auth)
     // Blacklist sensitive headers to avoid information leakage (CWE-209)
     const responseHeaders = new Headers();
-    const sensitiveHeaders = ["content-encoding", "transfer-encoding", "content-length", "server", "x-powered-by"];
+    const sensitiveHeaders = ["content-encoding", "transfer-encoding", "content-length", "server", "x-powered-by", "via", "x-runtime"];
     response.headers.forEach((value, key) => {
         if (!sensitiveHeaders.includes(key.toLowerCase())) {
             responseHeaders.set(key, value);
         }
     });
+
+    // Add global security headers (CWE-1027, CWE-693)
+    responseHeaders.set("X-Frame-Options", "DENY");
+    responseHeaders.set("X-Content-Type-Options", "nosniff");
+    responseHeaders.set("X-XSS-Protection", "1; mode=block");
+    responseHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    responseHeaders.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
     const contentType = response.headers.get("content-type");
     let body;
