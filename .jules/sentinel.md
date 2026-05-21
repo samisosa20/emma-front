@@ -22,3 +22,8 @@
 **Vulnerability:** API routes were bypassed by global middleware security header injection due to the middleware matcher configuration, leaving them vulnerable to clickjacking and MIME-sniffing.
 **Learning:** Next.js middleware matchers that exclude `/api` require manual header injection in the API route handlers to ensure uniform security across the entire application surface.
 **Prevention:** Always mirror global security headers in catch-all API proxy handlers or ensure middleware covers all routes including API segments.
+
+## 2026-05-20 - [Manual Security Headers in API Proxy]
+**Vulnerability:** API routes were bypassing the global middleware security headers due to the matcher configuration, leaving API responses without protection against clickjacking or sniffing.
+**Learning:** In Next.js, if middleware excludes API routes for performance or compatibility, security headers must be manually injected in the API route handlers or proxy to maintain a consistent security posture.
+**Prevention:** Ensure API proxy responses explicitly set `X-Frame-Options`, `X-Content-Type-Options`, and other critical security headers when the global middleware doesn't cover them.
