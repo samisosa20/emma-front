@@ -36,8 +36,16 @@ export default function Categories(props: any) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md">
         <div>
           <h1
-            className="font-wf-headline-lg text-wf-headline-lg text-wf-on-surface cursor-pointer"
+            className="font-wf-headline-lg text-wf-headline-lg text-wf-on-surface cursor-pointer focus-visible:outline-wf-primary rounded-lg transition-all"
             onClick={driverCategory}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                driverCategory();
+              }
+            }}
+            tabIndex={0}
+            role="button"
           >
             Categorías
           </h1>
@@ -54,6 +62,7 @@ export default function Categories(props: any) {
             <input
               className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
               placeholder="Buscar categorías..."
+              aria-label="Buscar categorías"
               type="text"
               value={search}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

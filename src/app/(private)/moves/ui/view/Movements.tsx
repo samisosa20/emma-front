@@ -362,7 +362,10 @@ export default function Movements({
 
               {/* Description */}
               <div className="flex flex-col gap-wf-xs md:col-span-2">
-                <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                <label
+                  htmlFor="description"
+                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                >
                   Descripción
                 </label>
                 <Controller
@@ -370,6 +373,7 @@ export default function Movements({
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <textarea
+                      id="description"
                       className="w-full bg-wf-surface-container-lowest text-wf-on-surface border border-wf-outline-variant rounded-lg py-wf-md px-wf-md focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-colors resize-none placeholder:text-wf-outline"
                       placeholder="Agrega una nota..."
                       rows={2}
