@@ -387,7 +387,7 @@ export const listAccountTypes = [
  * 📊 Impact: O(1) lookup instead of O(n) during each account card render.
  */
 export const accountTypesMap = Object.fromEntries(
-  listAccountTypes.map((t) => [t.value, t])
+  listAccountTypes.map((t) => [t.value, t]),
 );
 
 export const getAccountType = (typeName: string) =>

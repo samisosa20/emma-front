@@ -10,13 +10,15 @@ import useComponentsLayout from "../../../../components";
 // Helpers
 import {
   getCurrencyFormatter,
+  listEventTypes,
   eventTypesMap,
 } from "@/share/helpers";
 
 /**
- * ⚡ Bolt Optimization: Memoized Event Detail View
- * 🎯 Problem: Complex dashboard layout re-rendering unnecessarily.
- * 📊 Impact: Skips re-rendering if props haven't changed.
+ * ⚡ Bolt Optimization: Memoization of EventsDetail View
+ * 🎯 Problem: Complex view with multiple calculated breakdowns and filters.
+ * 📊 Impact: Skips the expensive reconciliation of the entire event detail layout when
+ *    the parent Page component re-renders without prop changes.
  */
 const EventsDetail = memo((props: any) => {
   const router = useRouter();
@@ -43,25 +45,32 @@ const EventsDetail = memo((props: any) => {
   } = props;
 
   /**
-   * ⚡ Bolt Optimization: O(1) lookup for event type
-   * 🎯 Problem: O(n) .find() call on every render.
+   * ⚡ Bolt Optimization: Constant time lookup for event type.
+   * 🎯 Problem: Components were using .find() on listEventTypes in render loops.
+   * 📊 Impact: O(1) lookup instead of O(n) during each render cycle.
    */
-  const eventType =
-    eventTypesMap[data?.type || "event"] || eventTypesMap.event;
+  const eventType = eventTypesMap[data?.type || "event"];
 
-  // ⚡ Bolt Optimization: Memoized expenses and incomes breakdown
-  // 🎯 Problem: O(n*m) filtering and reduction on every render.
-  const { expenses, incomes } = useMemo(() => {
-    const list = listCategories || [];
-    return {
-      expenses: list.filter((cat: any) =>
+  /**
+   * ⚡ Bolt Optimization: Memoize derived event metrics.
+   * 🎯 Problem: Calculations (filtering and sub-filtering) were running on every render.
+   * 📊 Impact: Prevents recalculating expenses and incomes on every re-render unless listCategories changes.
+   */
+  const expenses = useMemo(
+    () =>
+      listCategories?.filter((cat: any) =>
         cat.categories.some((sub: any) => sub.amount < 0),
-      ),
-      incomes: list.filter((cat: any) =>
+      ) || [],
+    [listCategories],
+  );
+
+  const incomes = useMemo(
+    () =>
+      listCategories?.filter((cat: any) =>
         cat.categories.some((sub: any) => sub.amount >= 0),
-      ),
-    };
-  }, [listCategories]);
+      ) || [],
+    [listCategories],
+  );
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
