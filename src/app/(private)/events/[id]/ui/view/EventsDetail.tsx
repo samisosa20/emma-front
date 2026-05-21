@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo, memo } from "react";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -8,9 +8,19 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "../../../../components";
 
 // Helpers
-import { getCurrencyFormatter, listEventTypes } from "@/share/helpers";
+import {
+  getCurrencyFormatter,
+  listEventTypes,
+  eventTypesMap,
+} from "@/share/helpers";
 
-const EventsDetail = (props: any) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of EventsDetail View
+ * 🎯 Problem: Complex view with multiple calculated breakdowns and filters.
+ * 📊 Impact: Skips the expensive reconciliation of the entire event detail layout when
+ *    the parent Page component re-renders without prop changes.
+ */
+const EventsDetail = memo((props: any) => {
   const router = useRouter();
   const { FormControl, Modal, Typography, Button } = useComponents();
   const { ListMovementsDetail, CurrencyBadgeFlag } = useComponentsLayout();
@@ -34,19 +44,33 @@ const EventsDetail = (props: any) => {
     setPage,
   } = props;
 
-  const eventType = listEventTypes.find(
-    (t) => t.value === (data?.type || "event"),
+  /**
+   * ⚡ Bolt Optimization: Constant time lookup for event type.
+   * 🎯 Problem: Components were using .find() on listEventTypes in render loops.
+   * 📊 Impact: O(1) lookup instead of O(n) during each render cycle.
+   */
+  const eventType = eventTypesMap[data?.type || "event"];
+
+  /**
+   * ⚡ Bolt Optimization: Memoize derived event metrics.
+   * 🎯 Problem: Calculations (filtering and sub-filtering) were running on every render.
+   * 📊 Impact: Prevents recalculating expenses and incomes on every re-render unless listCategories changes.
+   */
+  const expenses = useMemo(
+    () =>
+      listCategories?.filter((cat: any) =>
+        cat.categories.some((sub: any) => sub.amount < 0),
+      ) || [],
+    [listCategories],
   );
 
-  // Calculate totals and breakdown
-  const expenses =
-    listCategories?.filter((cat: any) =>
-      cat.categories.some((sub: any) => sub.amount < 0),
-    ) || [];
-  const incomes =
-    listCategories?.filter((cat: any) =>
-      cat.categories.some((sub: any) => sub.amount >= 0),
-    ) || [];
+  const incomes = useMemo(
+    () =>
+      listCategories?.filter((cat: any) =>
+        cat.categories.some((sub: any) => sub.amount >= 0),
+      ) || [],
+    [listCategories],
+  );
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-wf-background -m-wf-container-margin md:-m-wf-xl">
@@ -417,6 +441,6 @@ const EventsDetail = (props: any) => {
       )}
     </div>
   );
-};
+});
 
 export default EventsDetail;
