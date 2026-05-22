@@ -56,9 +56,25 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "X-Frame-Options": "DENY",
       "X-Content-Type-Options": "nosniff",
       "Referrer-Policy": "strict-origin-when-cross-origin",
-      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=()",
       "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
     });
+
+    // Implement Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
+    const cspHeader = `
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
+      font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
+      connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim();
+    responseHeaders.set("Content-Security-Policy", cspHeader);
+
     const sensitiveHeaders = [
       "content-encoding",
       "transfer-encoding",
@@ -75,7 +91,6 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     // Add global security headers (CWE-1027, CWE-693)
     responseHeaders.set("X-Frame-Options", "DENY");
     responseHeaders.set("X-Content-Type-Options", "nosniff");
-    responseHeaders.set("X-XSS-Protection", "1; mode=block");
     responseHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
     responseHeaders.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
