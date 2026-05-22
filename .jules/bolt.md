@@ -5,3 +5,7 @@
 ## 2025-05-15 - [Build Artifact Awareness: public/sw.js]
 **Learning:** In projects using `next-pwa` or similar Service Worker generators, `public/sw.js` and `public/workbox-*.js` files are often automatically updated during the build process with environment-specific asset hashes. Committing these manual changes leads to broken caching in other environments and pollutes PRs.
 **Action:** Never commit changes to `public/sw.js` or related Workbox artifacts. Always check `git status` after a build and restore these files before committing.
+
+## 2025-05-16 - [Component Memoization and Hook Stability]
+**Learning:** Shared UI components like `SegmentedControl` can cause significant re-render cascades if they are not memoized, especially when used alongside high-frequency state updates like search inputs. Combining `React.memo` for the component with `useCallback` (using functional updates) and `useMemo` for derived data in the parent hook ensures optimal performance.
+**Action:** Always memoize shared controls that are used in filtered list views. Use functional updates in `useCallback` to maintain stable function references with empty dependency arrays.

@@ -1,4 +1,5 @@
 "use client";
+import { memo } from "react";
 
 interface SegmentedControlProps {
   isChecked: boolean;
@@ -7,7 +8,12 @@ interface SegmentedControlProps {
   inactiveLabel?: string;
 }
 
-const SegmentedControl = ({
+/**
+ * ⚡ Bolt Optimization: Memoize SegmentedControl.
+ * 🎯 Problem: Re-renders on every parent state change even if its own props are stable.
+ * 📊 Impact: Prevents unnecessary DOM reconciliation.
+ */
+const SegmentedControl = memo(({
   isChecked,
   handleToggle,
   activeLabel = "Activos",
@@ -39,6 +45,6 @@ const SegmentedControl = ({
       </button>
     </div>
   );
-};
+});
 
 export default SegmentedControl;
