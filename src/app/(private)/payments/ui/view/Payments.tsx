@@ -1,3 +1,4 @@
+import React, { memo, useMemo } from "react";
 import Link from "next/link";
 
 //components
@@ -7,34 +8,51 @@ import useComponents from "@/share/components";
 import { getCurrencyFormatter } from "@/share/helpers";
 import CurrencyBadgeFlag from "@/app/(private)/components/CurrencyBadgeFlag";
 
-export default function Payments(props: any) {
+/**
+ * ⚡ Bolt Optimization: Memoization of Payments View
+ * 🎯 Problem: Complex view with calculations (income/expense aggregation) running on every render.
+ * 📊 Impact: Skips expensive reconciliation and O(n) calculations when parent state changes but data remains the same.
+ */
+const Payments = memo((props: any) => {
   const { data } = props;
   const { Typography, CategoryIcon } = useComponents();
 
-  const { income, expenses, badges } = data?.content.reduce(
-    (acc: any, payment: any) => {
-      const badge = payment.account?.badge;
-      if (!badge) return acc;
+  /**
+   * ⚡ Bolt Optimization: Memoize income/expense/badges reduction.
+   * 🎯 Problem: O(n) reduction was running on every render cycle.
+   * 📊 Impact: O(1) after first render unless data.content changes.
+   */
+  const { income, expenses, badges } = useMemo(() => {
+    return (
+      data?.content.reduce(
+        (acc: any, payment: any) => {
+          const badge = payment.account?.badge;
+          if (!badge) return acc;
 
-      const currency = badge.code;
-      const amount = payment.amount;
+          const currency = badge.code;
+          const amount = payment.amount;
 
-      if (!acc.badges[currency]) {
-        acc.badges[currency] = badge;
-      }
+          if (!acc.badges[currency]) {
+            acc.badges[currency] = badge;
+          }
 
-      if (amount > 0) {
-        acc.income[currency] = (acc.income[currency] || 0) + amount;
-      } else {
-        acc.expenses[currency] =
-          (acc.expenses[currency] || 0) + Math.abs(amount);
-      }
-      return acc;
-    },
-    { income: {}, expenses: {}, badges: {} },
-  ) || { income: {}, expenses: {}, badges: {} };
+          if (amount > 0) {
+            acc.income[currency] = (acc.income[currency] || 0) + amount;
+          } else {
+            acc.expenses[currency] =
+              (acc.expenses[currency] || 0) + Math.abs(amount);
+          }
+          return acc;
+        },
+        { income: {}, expenses: {}, badges: {} },
+      ) || { income: {}, expenses: {}, badges: {} }
+    );
+  }, [data?.content]);
 
-  const activeCurrencies = Object.keys(badges);
+  /**
+   * ⚡ Bolt Optimization: Memoize active currencies array.
+   */
+  const activeCurrencies = useMemo(() => Object.keys(badges), [badges]);
 
   return (
     <div>
@@ -177,4 +195,6 @@ export default function Payments(props: any) {
       )}
     </div>
   );
-}
+});
+
+export default Payments;
