@@ -188,6 +188,7 @@ const Events = (props: ModelProps) => {
             <input
               className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
               placeholder="Buscar eventos..."
+              aria-label="Buscar eventos"
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
