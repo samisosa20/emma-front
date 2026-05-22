@@ -71,7 +71,11 @@ export default function Categories(props: any) {
             />
           </div>
           {/* Toggle */}
-          <SegmentedControl isChecked={isChecked} handleToggle={handleToggle} />
+          <SegmentedControl
+            isChecked={isChecked}
+            handleToggle={handleToggle}
+            ariaLabel="Filtrar por estado de categoría"
+          />
           {/* Create Button */}
           <Link
             href={"/categories/create"}

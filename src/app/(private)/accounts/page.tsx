@@ -50,6 +50,7 @@ const Accounts = () => {
             <input
               className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
               placeholder="Buscar cuentas..."
+              aria-label="Buscar cuentas"
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -60,6 +61,7 @@ const Accounts = () => {
             handleToggle={handleToggle}
             activeLabel="Activas"
             inactiveLabel="Inactivas"
+            ariaLabel="Filtrar por estado de cuenta"
           />
           <Link href={"/accounts/create"}>
             <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">

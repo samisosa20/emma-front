@@ -58,6 +58,7 @@ export default function BottomBar() {
               id={`fiona-menuBottom_${link.id}`}
               href={link.link}
               key={index}
+              aria-current={isActive ? "page" : undefined}
               className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
                 isActive ? "text-wf-primary" : "text-wf-outline"
               }`}
