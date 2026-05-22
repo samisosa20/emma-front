@@ -83,7 +83,12 @@ const movementSchema = z
 
 const movementParamsSchema = z.object({
   description: z.string().max(255, "Máximo 255 caracteres").nullable(),
-  amount: z.string(),
+  amount: z.string().refine((value) => {
+    const num = Number(value);
+    return !isNaN(num) && num >= 0 && isFinite(num);
+  }, {
+    message: "Debe ser un número positivo válido",
+  }),
   type: z.string(),
   datePurchase: z.string(),
   account_id: z.union([z.string(), z.number()]),

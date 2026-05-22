@@ -35,7 +35,12 @@ const paymentsSchema = z.object({
 
 const paymentParamsSchema = z.object({
   description: z.union([z.null(), z.string().max(255, "Máximo 255 caracteres")]),
-  amount: z.union([z.string(), z.number()]),
+  amount: z.union([z.string(), z.number()]).refine((value) => {
+    const num = Number(value);
+    return !isNaN(num) && num >= 0 && isFinite(num);
+  }, {
+    message: "Debe ser un número positivo válido",
+  }),
   accountId: z.string(),
   categoryId: z.string(),
   startDate: z.string(),
