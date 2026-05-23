@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 import { driverAccount } from "@/share/helpers";
@@ -22,29 +22,40 @@ const useAccounts = () => {
     driverAccount();
   };
 
-  const handleToggle = () => {
+  /**
+   * ⚡ Bolt Optimization: Stabilize toggle function reference.
+   */
+  const handleToggle = useCallback(() => {
     setSearch("");
-    setIsChecked(!isChecked);
-  };
+    setIsChecked((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     refetch();
     refetchBalance();
     if (isError) router.push("/login");
-  }, [isError, router]);
+  }, [isError, router, refetch, refetchBalance]);
 
-  const filteredAccounts =
-    data?.content?.filter((account: any) => {
-      const matchesSearch =
-        search === "" ||
-        account?.name?.toUpperCase()?.includes(search?.toUpperCase());
+  /**
+   * ⚡ Bolt Optimization: Memoize filtered accounts.
+   * 🎯 Problem: O(n) filtering on every render (e.g. while typing).
+   * 📊 Impact: Skips filtering unless data, search, or status changes.
+   */
+  const filteredAccounts = useMemo(() => {
+    return (
+      data?.content?.filter((account: any) => {
+        const matchesSearch =
+          search === "" ||
+          account?.name?.toUpperCase()?.includes(search?.toUpperCase());
 
-      const matchesStatus = isChecked
-        ? account?.deletedAt === ''
-        : account?.deletedAt !== '';
+        const matchesStatus = isChecked
+          ? account?.deletedAt === ""
+          : account?.deletedAt !== "";
 
-      return matchesSearch && matchesStatus;
-    }) || [];
+        return matchesSearch && matchesStatus;
+      }) || []
+    );
+  }, [data?.content, search, isChecked]);
 
   return {
     data,
