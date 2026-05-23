@@ -5,3 +5,7 @@
 ## 2026-05-21 - [Search Input and Interactive Heading Accessibility]
 **Learning:** Standard search inputs and headings with click handlers are often missed by accessibility tools. Providing explicit `aria-label` for inputs and `role="button"` with keyboard listeners for interactive headings ensures a consistent experience for all users.
 **Action:** Always provide `aria-label` to inputs that rely solely on placeholders. For interactive non-semantic elements, ensure `tabIndex`, `role`, and keyboard event listeners are present.
+
+## 2025-05-22 - [Stateful Buttons and Accessible Steppers]
+**Learning:** ASCII-based controls (like ◀, ▶) and toggle buttons without state indicators are inaccessible. Using proper icons, aria-pressed for selection state, and aria-live for dynamic value updates ensures a delightful and accessible UX.
+**Action:** Replace text-based controls with semantic icons. Use aria-pressed for toggle/segmented buttons. Wrap dynamic values in aria-live regions.
