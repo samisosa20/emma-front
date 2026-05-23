@@ -20,6 +20,7 @@ export default function Navbar() {
                 <Link
                   href={link.link}
                   key={index}
+                  aria-current={isActive ? "page" : undefined}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ease-in-out ${
                     isActive
                       ? "bg-wf-surface-container text-wf-primary font-semibold border-r-4 border-wf-primary"
