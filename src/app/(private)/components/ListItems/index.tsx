@@ -10,7 +10,6 @@ import { ListItems as ListItemsProps } from "./ListItems.interface";
 import {
   driverListGroupExpensive,
   getCurrencyFormatter,
-  getIconComponent,
 } from "@/share/helpers";
 
 import useComponentsLayout from "@/app/(private)/components";
@@ -154,38 +153,40 @@ const ListModal = memo((props: ListItemsProps) => {
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
       <div className="max-h-[500px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">
-        {data?.map((card, index) => {
-          const Icon = getIconComponent(card.icon ?? "PiAcorn");
-          return (
-            <div
-              className="group p-wf-sm rounded-lg hover:bg-white/40 transition-all cursor-pointer border border-transparent hover:border-white/50"
-              key={"ListModal" + index}
-              onClick={() => handleSelectItem(card.amount)} // TODO: check if this is the correct ID
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-x-3 w-1/2">
-                  <CategoryIcon icon={card.icon} color={card.color} size="sm" />
-                  <Typography className="font-wf-body-regular text-sm text-wf-on-surface truncate">
-                    {card.category}
-                  </Typography>
-                </div>
-                <div className="flex items-center gap-x-4">
-                  <Typography className="font-wf-body-regular text-xs text-wf-surface-tint">
-                    {card.participation}%
-                  </Typography>
-                  <Typography
-                    className={`font-wf-body-regular font-bold text-sm text-right min-w-[80px] ${
-                      card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
-                    }`}
-                  >
-                    {card.symbol}
-                    {getCurrencyFormatter("USD", card.amount)}
-                  </Typography>
-                </div>
+        {data?.map((card, index) => (
+          /**
+           * ⚡ Bolt Optimization: Dead code removal in render loop.
+           * 🎯 Problem: getIconComponent was called on every iteration but the Icon was unused.
+           * 📊 Impact: Saves O(1) lookup and variable allocation for every list item.
+           */
+          <div
+            className="group p-wf-sm rounded-lg hover:bg-white/40 transition-all cursor-pointer border border-transparent hover:border-white/50"
+            key={"ListModal" + index}
+            onClick={() => handleSelectItem(card.amount)} // TODO: check if this is the correct ID
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-x-3 w-1/2">
+                <CategoryIcon icon={card.icon} color={card.color} size="sm" />
+                <Typography className="font-wf-body-regular text-sm text-wf-on-surface truncate">
+                  {card.category}
+                </Typography>
+              </div>
+              <div className="flex items-center gap-x-4">
+                <Typography className="font-wf-body-regular text-xs text-wf-surface-tint">
+                  {card.participation}%
+                </Typography>
+                <Typography
+                  className={`font-wf-body-regular font-bold text-sm text-right min-w-[80px] ${
+                    card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
+                  }`}
+                >
+                  {card.symbol}
+                  {getCurrencyFormatter("USD", card.amount)}
+                </Typography>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
       <Modal
         title="Listado de movimientos"
