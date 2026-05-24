@@ -149,6 +149,7 @@ const Dashboard = memo((props: any) => {
             {listOptionsTypeReport.map((type: any, index: number) => (
               <button
                 key={index}
+                aria-pressed={type.value === typeReport}
                 className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
                   type.value === typeReport
                     ? "bg-wf-primary text-wf-on-primary shadow-sm"
@@ -165,6 +166,7 @@ const Dashboard = memo((props: any) => {
             {listOptionsPeriodReport.map((type: any, index: number) => (
               <button
                 key={index}
+                aria-pressed={type.value === periodReport}
                 className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
                   type.value === periodReport
                     ? "bg-wf-primary text-wf-on-primary shadow-sm"
@@ -188,6 +190,8 @@ const Dashboard = memo((props: any) => {
               min={new Date().getFullYear() - 10}
               max={new Date().getFullYear()}
               onChange={(val) => handleChangeSlideStepper(val, "year")}
+              decreaseAriaLabel="Disminuir año"
+              increaseAriaLabel="Aumentar año"
             />
           </div>
 
@@ -202,6 +206,8 @@ const Dashboard = memo((props: any) => {
                 max={11}
                 onChange={(val) => handleChangeSlideStepper(val, "month")}
                 formatValue={(val) => monthNames[val]}
+                decreaseAriaLabel="Anterior mes"
+                increaseAriaLabel="Siguiente mes"
               />
             </div>
           )}
@@ -217,6 +223,8 @@ const Dashboard = memo((props: any) => {
                 max={totalWeeks}
                 onChange={(val) => handleChangeSlideStepper(val, "week")}
                 formatValue={(val) => getWeekDateRange(filters.year, val)}
+                decreaseAriaLabel="Anterior semana"
+                increaseAriaLabel="Siguiente semana"
               />
             </div>
           )}
