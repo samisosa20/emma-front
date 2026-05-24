@@ -27,3 +27,8 @@
 **Vulnerability:** API routes were bypassing the global middleware security headers due to the matcher configuration, leaving API responses without protection against clickjacking or sniffing.
 **Learning:** In Next.js, if middleware excludes API routes for performance or compatibility, security headers must be manually injected in the API route handlers or proxy to maintain a consistent security posture.
 **Prevention:** Ensure API proxy responses explicitly set `X-Frame-Options`, `X-Content-Type-Options`, and other critical security headers when the global middleware doesn't cover them.
+
+## 2026-05-21 - [Hardening Security Header Precedence and CSP]
+**Vulnerability:** Security headers and Content Security Policy (CSP) were vulnerable to being overridden by the backend in the API proxy. Additionally, the CSP lacked protection against plugin-based attacks and base-tag hijacking.
+**Learning:** In a proxy, security headers MUST be set after forwarding backend headers to ensure the proxy's security posture is enforced. A robust CSP should include 'object-src' and 'base-uri' directives.
+**Prevention:** Always set security headers last in proxy handlers and use a comprehensive CSP that restricts object/plugin loading and base URL manipulation.

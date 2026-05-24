@@ -48,7 +48,7 @@ export default async function middleware(request: NextRequest) {
   );
   response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
-  // Implement Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
+  // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
   const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-inline' 'unsafe-eval';
@@ -57,6 +57,8 @@ export default async function middleware(request: NextRequest) {
     font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
     connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
     frame-ancestors 'none';
+    object-src 'none';
+    base-uri 'self';
     upgrade-insecure-requests;
   `
     .replace(/\s{2,}/g, " ")
