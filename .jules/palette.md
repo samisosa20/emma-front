@@ -9,3 +9,7 @@
 ## 2025-05-22 - [Stateful Buttons and Accessible Steppers]
 **Learning:** ASCII-based controls (like ◀, ▶) and toggle buttons without state indicators are inaccessible. Using proper icons, aria-pressed for selection state, and aria-live for dynamic value updates ensures a delightful and accessible UX.
 **Action:** Replace text-based controls with semantic icons. Use aria-pressed for toggle/segmented buttons. Wrap dynamic values in aria-live regions.
+
+## 2025-05-24 - [Sidebar Transitions and Semantic Buttons]
+**Learning:** Using the `hidden` class (`display: none`) prevents CSS transitions from firing. To achieve smooth sidebar entries, use `opacity` and `translate` classes with `pointer-events-none` when closed. Additionally, wrapping raw icons in semantic `<button>` elements with `aria-label` is critical for both accessibility and consistent hover/focus styling.
+**Action:** Replace `hidden` with opacity/transform transitions for UI panels. Always use `<button>` wrappers for interactive icons.
