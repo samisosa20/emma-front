@@ -1,4 +1,5 @@
 "use client";
+import React, { memo } from "react";
 import Link from "next/link";
 
 //components
@@ -17,18 +18,16 @@ type categoryList = {
   deletedAt: string | null;
 };
 
-export default function Categories(props: any) {
-  const { data, setSearch, handleToggle, search, isChecked } = props;
+/**
+ * ⚡ Bolt Optimization: Memoization of Categories View
+ * 🎯 Problem: Rendering the entire grid of category cards on every keystroke in search.
+ * 📊 Impact: Skips the expensive reconciliation of the category layout when
+ *    the parent Page component re-renders without prop changes.
+ */
+const Categories = memo((props: any) => {
+  const { filteredCategories, setSearch, handleToggle, search, isChecked } =
+    props;
   const { Typography, SegmentedControl, CategoryIcon } = useComponents();
-
-  const filteredCategories = data?.content?.filter((category: categoryList) => {
-    const matchesSearch = category.name
-      ?.toLowerCase()
-      ?.includes(search.toLowerCase());
-    return isChecked
-      ? !category.deletedAt && matchesSearch
-      : !!category.deletedAt && matchesSearch;
-  });
 
   return (
     <div className="space-y-wf-xl">
@@ -137,4 +136,6 @@ export default function Categories(props: any) {
       )}
     </div>
   );
-}
+});
+
+export default Categories;
