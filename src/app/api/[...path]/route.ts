@@ -43,6 +43,14 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   requestHeaders.delete("host");
   requestHeaders.delete("connection");
 
+  // Inject Authorization header from HttpOnly cookie if not present (Defense-in-Depth)
+  if (!requestHeaders.has("Authorization")) {
+    const token = request.cookies.get("backend_token")?.value;
+    if (token) {
+      requestHeaders.set("Authorization", `Bearer ${token}`);
+    }
+  }
+
   try {
     const response = await fetch(url.toString(), {
       method: request.method,
@@ -61,6 +69,9 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-powered-by",
       "via",
       "x-runtime",
+      "x-aspnet-version",
+      "x-vercel-id",
+      "x-vercel-cache",
     ];
 
     response.headers.forEach((value, key) => {
@@ -110,17 +121,20 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         headers: responseHeaders
     });
 
-    // For traditional login compatibility, still handle the JWT token if present
-    // Ensure cookie is set for both login and register to maintain session consistency
-    const isAuthPath = targetPath.endsWith("auth/login") || targetPath.endsWith("auth/register");
+    // Capture JWT token from successful authentication responses to maintain HttpOnly session (CWE-522)
+    const isAuthPath = targetPath.endsWith("auth/login") ||
+                       targetPath.endsWith("auth/register") ||
+                       targetPath.endsWith("auth/verify") ||
+                       targetPath.endsWith("auth/recovery-password");
+
     if (isAuthPath && response.ok && contentType?.includes("application/json")) {
       const data = typeof body === "string" ? JSON.parse(body) : {};
       if (data.token) {
         res.cookies.set("backend_token", data.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            path: "/",
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          path: "/",
         });
       }
     }
