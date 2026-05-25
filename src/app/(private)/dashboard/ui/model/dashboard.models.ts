@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { getISOWeek, format, startOfMonth, endOfMonth } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -226,7 +226,13 @@ export default function useDashboardViewModel() {
     }
   };*/
 
-  const handleChangeSlideStepper = (
+  /**
+   * ⚡ Bolt Optimization: Stabilize SlideStepper callback.
+   * 🎯 Problem: Every time the Dashboard re-renders, a new function reference
+   *    was passed to SlideStepper, bypassing its memoization.
+   * 📊 Impact: Allows SlideStepper to skip re-renders when unrelated state changes.
+   */
+  const handleChangeSlideStepper = useCallback((
     val: number,
     type: "week" | "month" | "year"
   ) => {
@@ -241,7 +247,7 @@ export default function useDashboardViewModel() {
       setSelectedWeek(val);
       setFilters((prev) => ({ ...prev, weekNumber: val }));
     }
-  };
+  }, []);
 
   useEffect(() => {
     refetchBalance();
