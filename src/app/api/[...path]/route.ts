@@ -72,12 +72,20 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-aspnet-version",
       "x-vercel-id",
       "x-vercel-cache",
+      "x-request-id",
+      "x-version",
+      "x-managed-by",
     ];
 
     response.headers.forEach((value, key) => {
-        if (!sensitiveHeaders.includes(key.toLowerCase())) {
-            responseHeaders.set(key, value);
+      const lowerKey = key.toLowerCase();
+      if (!sensitiveHeaders.includes(lowerKey)) {
+        if (lowerKey === "set-cookie") {
+          responseHeaders.append(key, value);
+        } else {
+          responseHeaders.set(key, value);
         }
+      }
     });
 
     // Consolidate and enforce security headers at the proxy level (CWE-693)
@@ -126,6 +134,13 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
                        targetPath.endsWith("auth/register") ||
                        targetPath.endsWith("auth/verify") ||
                        targetPath.endsWith("auth/recovery-password");
+
+    const isLogoutPath = targetPath.endsWith("auth/sign-out") ||
+                         targetPath.endsWith("auth/logout");
+
+    if (isLogoutPath && response.ok) {
+      res.cookies.delete("backend_token");
+    }
 
     if (isAuthPath && response.ok && contentType?.includes("application/json")) {
       const data = typeof body === "string" ? JSON.parse(body) : {};
