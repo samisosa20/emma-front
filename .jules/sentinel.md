@@ -37,3 +37,8 @@
 **Vulnerability:** The application relied on frontend-side storage (localStorage) for JWT tokens, making them vulnerable to XSS-based exfiltration. While Better Auth was partially implemented, the legacy proxy lacked a robust way to bridge HttpOnly cookies with backend-required Authorization headers.
 **Learning:** An API proxy can act as a secure bridge by extracting sensitive tokens from HttpOnly cookies and injecting them as headers into outgoing requests, allowing the frontend to move away from insecure storage while maintaining backend compatibility.
 **Prevention:** Implement path-specific token capture in the proxy for successful auth responses and use automated header injection from HttpOnly cookies as a defense-in-depth measure.
+
+## 2026-05-25 - [Hardening API Proxy Cookie Handling and Session Termination]
+**Vulnerability:** The API proxy was overwriting the `Set-Cookie` header instead of appending multiple cookies from the backend, potentially dropping security cookies. Additionally, the `backend_token` HttpOnly cookie was not being cleared upon logout, leading to stale sessions on the client.
+**Learning:** Catch-all proxies must use `.append()` for headers that support multiple values (like `Set-Cookie`) to avoid data loss. Manual session termination (clearing cookies) in the proxy is necessary when the frontend doesn't have direct access to HttpOnly cookies.
+**Prevention:** Always use `responseHeaders.append("Set-Cookie", ...)` in proxy handlers and implement explicit cookie deletion for known logout paths.
