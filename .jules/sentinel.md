@@ -32,3 +32,8 @@
 **Vulnerability:** Security headers and Content Security Policy (CSP) were vulnerable to being overridden by the backend in the API proxy. Additionally, the CSP lacked protection against plugin-based attacks and base-tag hijacking.
 **Learning:** In a proxy, security headers MUST be set after forwarding backend headers to ensure the proxy's security posture is enforced. A robust CSP should include 'object-src' and 'base-uri' directives.
 **Prevention:** Always set security headers last in proxy handlers and use a comprehensive CSP that restricts object/plugin loading and base URL manipulation.
+
+## 2026-05-22 - [Harden API Proxy with Cookie-to-Header Injection]
+**Vulnerability:** The application relied on frontend-side storage (localStorage) for JWT tokens, making them vulnerable to XSS-based exfiltration. While Better Auth was partially implemented, the legacy proxy lacked a robust way to bridge HttpOnly cookies with backend-required Authorization headers.
+**Learning:** An API proxy can act as a secure bridge by extracting sensitive tokens from HttpOnly cookies and injecting them as headers into outgoing requests, allowing the frontend to move away from insecure storage while maintaining backend compatibility.
+**Prevention:** Implement path-specific token capture in the proxy for successful auth responses and use automated header injection from HttpOnly cookies as a defense-in-depth measure.
