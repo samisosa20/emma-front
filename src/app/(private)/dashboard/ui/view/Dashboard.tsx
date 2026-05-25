@@ -130,6 +130,16 @@ const Dashboard = memo((props: any) => {
     [data],
   );
 
+  /**
+   * ⚡ Bolt Optimization: Stabilize formatValue functions for SlideStepper.
+   * 🎯 Problem: Inline arrow functions in props bypass React.memo.
+   */
+  const formatMonth = useCallback((val: number) => monthNames[val], []);
+  const formatWeek = useCallback(
+    (val: number) => getWeekDateRange(filters.year, val),
+    [filters.year],
+  );
+
   return (
     <div className="space-y-wf-gutter">
       <div className="flex flex-col gap-wf-xs mb-wf-lg">
@@ -189,7 +199,8 @@ const Dashboard = memo((props: any) => {
               value={filters.year}
               min={new Date().getFullYear() - 10}
               max={new Date().getFullYear()}
-              onChange={(val) => handleChangeSlideStepper(val, "year")}
+              onChange={handleChangeSlideStepper}
+              type="year"
               decreaseAriaLabel="Disminuir año"
               increaseAriaLabel="Aumentar año"
             />
@@ -204,8 +215,9 @@ const Dashboard = memo((props: any) => {
                 value={monthIndex}
                 min={0}
                 max={11}
-                onChange={(val) => handleChangeSlideStepper(val, "month")}
-                formatValue={(val) => monthNames[val]}
+                onChange={handleChangeSlideStepper}
+                type="month"
+                formatValue={formatMonth}
                 decreaseAriaLabel="Anterior mes"
                 increaseAriaLabel="Siguiente mes"
               />
@@ -221,8 +233,9 @@ const Dashboard = memo((props: any) => {
                 value={selectedWeek}
                 min={1}
                 max={totalWeeks}
-                onChange={(val) => handleChangeSlideStepper(val, "week")}
-                formatValue={(val) => getWeekDateRange(filters.year, val)}
+                onChange={handleChangeSlideStepper}
+                type="week"
+                formatValue={formatWeek}
                 decreaseAriaLabel="Anterior semana"
                 increaseAriaLabel="Siguiente semana"
               />

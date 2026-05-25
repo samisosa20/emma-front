@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Typography from "../Typography";
 
 type SlideStepperProps = {
   value: number;
-  onChange: (newValue: number) => void;
+  onChange: (newValue: number, type: any) => void;
+  type?: any;
   min?: number;
   max?: number;
   step?: number;
@@ -13,24 +14,31 @@ type SlideStepperProps = {
   increaseAriaLabel?: string;
 };
 
-const SlideStepper: React.FC<SlideStepperProps> = ({
+/**
+ * ⚡ Bolt Optimization: Memoization of SlideStepper
+ * 🎯 Problem: Used in Dashboard and other views for year/month/week selection.
+ * 📊 Impact: Prevents re-renders of the stepper controls when unrelated parent state
+ *    (like chart data or filters) changes.
+ */
+const SlideStepper = memo(({
   value,
   onChange,
+  type,
   min = -Infinity,
   max = Infinity,
   step = 1,
   formatValue,
   decreaseAriaLabel = "Disminuir",
   increaseAriaLabel = "Aumentar",
-}) => {
+}: SlideStepperProps) => {
   const handleDecrease = () => {
     const newValue = value - step;
-    if (newValue >= min) onChange(newValue);
+    if (newValue >= min) onChange(newValue, type);
   };
 
   const handleIncrease = () => {
     const newValue = value + step;
-    if (newValue <= max) onChange(newValue);
+    if (newValue <= max) onChange(newValue, type);
   };
 
   return (
@@ -62,6 +70,6 @@ const SlideStepper: React.FC<SlideStepperProps> = ({
       </button>
     </div>
   );
-};
+});
 
 export default SlideStepper;
