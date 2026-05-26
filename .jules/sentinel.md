@@ -42,3 +42,8 @@
 **Vulnerability:** The API proxy was overwriting the `Set-Cookie` header instead of appending multiple cookies from the backend, potentially dropping security cookies. Additionally, the `backend_token` HttpOnly cookie was not being cleared upon logout, leading to stale sessions on the client.
 **Learning:** Catch-all proxies must use `.append()` for headers that support multiple values (like `Set-Cookie`) to avoid data loss. Manual session termination (clearing cookies) in the proxy is necessary when the frontend doesn't have direct access to HttpOnly cookies.
 **Prevention:** Always use `responseHeaders.append("Set-Cookie", ...)` in proxy handlers and implement explicit cookie deletion for known logout paths.
+
+## 2026-05-27 - [Universal Security Header Enforcement]
+**Vulnerability:** Security headers were missing on redirect responses from middleware and on error responses from API handlers, leaving these states vulnerable to clickjacking and other attacks (CWE-693).
+**Learning:** Next.js `NextResponse.redirect` and `NextResponse.json` (in catch blocks) create fresh response objects. Security headers must be explicitly applied to these specific objects before they are returned to ensure a consistent security posture across all execution paths.
+**Prevention:** Always capture the response object in a variable and apply security headers to it before returning, especially for redirects and error handlers.
