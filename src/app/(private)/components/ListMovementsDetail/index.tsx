@@ -2,14 +2,12 @@
 import React, { memo } from "react";
 import Link from "next/link";
 import { Controller } from "react-hook-form";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { GetApiMovements200ContentItem } from "@@@/domain/models";
 
 // components
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
-import { getCurrencyFormatter } from "@/share/helpers";
+import { getCurrencyFormatter, dateFormatter } from "@/share/helpers";
 
 /**
  * Performance Optimization: This component is frequently used in dashboards and category details
@@ -144,10 +142,8 @@ const ListMovementsDetail = memo(
                       index % 2 === 1 ? "bg-white/20" : ""
                     }`}
                   >
-                    <td className="p-wf-md font-wf-body-regular text-wf-on-surface whitespace-nowrap text-sm">
-                      {format(new Date(movement.datePurchase), "MMM dd, yyyy", {
-                        locale: es,
-                      })}
+                    <td className="p-wf-md font-wf-body-regular text-wf-on-surface whitespace-nowrap text-sm capitalize">
+                      {dateFormatter.format(new Date(movement.datePurchase))}
                     </td>
                     {showCategory && (
                       <td className="p-wf-md text-sm">

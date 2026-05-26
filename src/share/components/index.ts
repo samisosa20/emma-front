@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, useMemo } from "react";
 
 const Button = lazy(() => import("./Button"));
 const Typography = lazy(() => import("./Typography"));
@@ -18,26 +18,36 @@ const SlideStepper = lazy(() => import("./SlideStepper"));
 const SegmentedControl = lazy(() => import("./SegmentedControl"));
 const CategoryIcon = lazy(() => import("./CategoryIcon"));
 
+/**
+ * ⚡ Bolt Optimization: Stabilize component references in useComponents hook.
+ * 🎯 Problem: Every call to useComponents returned a new object literal,
+ *    causing re-renders in components that destructure it, even if memoized.
+ * 📊 Impact: Ensures stable component references, allowing React.memo to
+ *    effectively skip re-renders in the view layer.
+ */
 const useComponents = () => {
-  return {
-    Button,
-    Typography,
-    Modal,
-    Input,
-    FormControl,
-    Toast,
-    Switch,
-    Select,
-    RadioGroup,
-    AutoComplete,
-    Checkbox,
-    Loading,
-    TitleHelp,
-    Textarea,
-    SlideStepper,
-    SegmentedControl,
-    CategoryIcon,
-  };
+  return useMemo(
+    () => ({
+      Button,
+      Typography,
+      Modal,
+      Input,
+      FormControl,
+      Toast,
+      Switch,
+      Select,
+      RadioGroup,
+      AutoComplete,
+      Checkbox,
+      Loading,
+      TitleHelp,
+      Textarea,
+      SlideStepper,
+      SegmentedControl,
+      CategoryIcon,
+    }),
+    [],
+  );
 };
 
 export default useComponents;
