@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import { MdClose } from "react-icons/md";
 
 // Interface
 import { ModalProps } from './Modal.interface';
@@ -19,7 +20,16 @@ const Modal = (props: ModalProps) => {
         <div className={modal.content}>
           <div className={modal.header}>
             <Typography variant='h3'>{title}</Typography>
-            {onClose && <button onClick={onClose} className={modal.button}>X</button>}
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className={modal.button}
+                aria-label="Cerrar modal"
+              >
+                <MdClose size={24} />
+              </button>
+            )}
           </div>
           <div className='max-h-[75vh] overflow-y-auto'>{children}</div>
         </div>
