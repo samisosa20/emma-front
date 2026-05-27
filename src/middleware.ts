@@ -62,7 +62,7 @@ export default async function middleware(request: NextRequest) {
     form-action 'self';
     object-src 'none';
     base-uri 'self';
-    upgrade-insecure-requests;
+    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
   `
     .replace(/\s{2,}/g, " ")
     .trim();

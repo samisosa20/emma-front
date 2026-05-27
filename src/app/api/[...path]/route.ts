@@ -119,7 +119,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       form-action 'self';
       object-src 'none';
       base-uri 'self';
-      upgrade-insecure-requests;
+      ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
     `
       .replace(/\s{2,}/g, " ")
       .trim();
@@ -196,7 +196,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       form-action 'self';
       object-src 'none';
       base-uri 'self';
-      upgrade-insecure-requests;
+      ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
     `
       .replace(/\s{2,}/g, " ")
       .trim();
