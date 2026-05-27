@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, memo, useMemo } from "react";
+import { useEffect, useState, memo, useMemo, useCallback } from "react";
 import { Controller } from "react-hook-form";
 import {
   XAxis,
