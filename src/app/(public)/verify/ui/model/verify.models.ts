@@ -21,7 +21,7 @@ export default function useVerify() {
     mutationFn: async () => {
       const { getVerifyEmail } = new AuthUseCase(
         new AuthApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          baseUrl: "/api",
           customConfig: customConfigHeader(),
         })
       );

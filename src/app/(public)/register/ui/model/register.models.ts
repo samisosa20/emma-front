@@ -31,7 +31,7 @@ const useRegister = () => {
     queryFn: async () => {
       const { getCurrency } = new AuthUseCase(
         new AuthApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          baseUrl: "/api",
         })
       );
 
@@ -44,7 +44,7 @@ const useRegister = () => {
   const mutation = useMutation({
     mutationFn: async (data: RegisterSchema) => {
       const { postRegister } = new AuthUseCase(
-        new AuthApiAdapter({ baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "" })
+        new AuthApiAdapter({ baseUrl: "/api" })
       );
       const result = await postRegister(data);
       if (result.error) {

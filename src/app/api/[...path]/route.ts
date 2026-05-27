@@ -114,7 +114,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
       font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-      connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
+      connect-src 'self';
       frame-ancestors 'none';
       form-action 'self';
       object-src 'none';
@@ -191,7 +191,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
       font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-      connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
+      connect-src 'self';
       frame-ancestors 'none';
       form-action 'self';
       object-src 'none';

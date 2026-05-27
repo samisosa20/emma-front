@@ -25,7 +25,7 @@ export default function useForgot() {
 
   const mutation = useMutation({
     mutationFn: async (data: ParamsForgotSchema) => {
-      const { recoveryPassword } = new AuthUseCase(new AuthApiAdapter({baseUrl: process.env.NEXT_PUBLIC_API_URL ?? ''}));
+      const { recoveryPassword } = new AuthUseCase(new AuthApiAdapter({baseUrl: "/api"}));
       const result = await recoveryPassword(data)
 
       if(result.error) {

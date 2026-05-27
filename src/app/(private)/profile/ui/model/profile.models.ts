@@ -50,7 +50,7 @@ export default function useProfileViewModel() {
       if (user) {
         const { updateProfile } = new AuthUseCase(
           new AuthApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            baseUrl: "/api",
             customConfig: customConfigHeader(),
           })
         );
@@ -75,7 +75,7 @@ export default function useProfileViewModel() {
       if (user) {
         const { destroyProfile } = new AuthUseCase(
           new AuthApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            baseUrl: "/api",
             customConfig: customConfigHeader(),
           })
         );
@@ -96,7 +96,7 @@ export default function useProfileViewModel() {
     mutationFn: async () => {
       const { postResendVerify } = new AuthUseCase(
         new AuthApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          baseUrl: "/api",
           customConfig: customConfigHeader(),
         })
       );
