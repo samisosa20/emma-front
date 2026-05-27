@@ -28,15 +28,15 @@ export default async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/forgot") ||
     request.nextUrl.pathname.startsWith("/blogs");
 
+  let response: NextResponse;
+
   if (!session && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    response = NextResponse.redirect(new URL("/login", request.url));
+  } else if (session && isPublicRoute && request.nextUrl.pathname !== "/") {
+    response = NextResponse.redirect(new URL("/dashboard", request.url));
+  } else {
+    response = NextResponse.next();
   }
-
-  if (session && isPublicRoute && request.nextUrl.pathname !== "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
-  const response = NextResponse.next();
 
   // Add global security headers (CWE-1027, CWE-693)
   response.headers.set("X-Frame-Options", "DENY");
@@ -59,6 +59,7 @@ export default async function middleware(request: NextRequest) {
     font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
     connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
     frame-ancestors 'none';
+    form-action 'self';
     object-src 'none';
     base-uri 'self';
     upgrade-insecure-requests;

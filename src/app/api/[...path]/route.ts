@@ -75,6 +75,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-request-id",
       "x-version",
       "x-managed-by",
+      "authorization",
     ];
 
     response.headers.forEach((value, key) => {
@@ -93,10 +94,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     responseHeaders.set("X-Frame-Options", "DENY");
     responseHeaders.set("X-Content-Type-Options", "nosniff");
     responseHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    responseHeaders.set("X-Permitted-Cross-Domain-Policies", "none");
+    responseHeaders.set("X-Download-Options", "noopen");
     responseHeaders.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
     responseHeaders.set(
       "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=()"
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
     );
 
     // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
@@ -108,6 +111,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
       connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
       frame-ancestors 'none';
+      form-action 'self';
       object-src 'none';
       base-uri 'self';
       upgrade-insecure-requests;
@@ -159,9 +163,40 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     // Log the actual error on the server for debugging
     console.error("Proxy error:", error);
     // Return a generic error message to the client to avoid information leakage (CWE-209)
-    return NextResponse.json(
+    // We must ensure security headers are still applied here.
+    const errorResponse = NextResponse.json(
       { message: "Ocurrió un error al procesar la solicitud." },
       { status: 502 }
     );
+
+    errorResponse.headers.set("X-Frame-Options", "DENY");
+    errorResponse.headers.set("X-Content-Type-Options", "nosniff");
+    errorResponse.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    errorResponse.headers.set("X-Permitted-Cross-Domain-Policies", "none");
+    errorResponse.headers.set("X-Download-Options", "noopen");
+    errorResponse.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+    errorResponse.headers.set(
+      "Permissions-Policy",
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
+    );
+
+    const cspHeader = `
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
+      font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
+      connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || ""};
+      frame-ancestors 'none';
+      form-action 'self';
+      object-src 'none';
+      base-uri 'self';
+      upgrade-insecure-requests;
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim();
+    errorResponse.headers.set("Content-Security-Policy", cspHeader);
+
+    return errorResponse;
   }
 }
