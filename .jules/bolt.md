@@ -9,3 +9,7 @@
 ## 2025-05-16 - [Component Memoization and Hook Stability]
 **Learning:** Shared UI components like `SegmentedControl` can cause significant re-render cascades if they are not memoized, especially when used alongside high-frequency state updates like search inputs. Combining `React.memo` for the component with `useCallback` (using functional updates) and `useMemo` for derived data in the parent hook ensures optimal performance.
 **Action:** Always memoize shared controls that are used in filtered list views. Use functional updates in `useCallback` to maintain stable function references with empty dependency arrays.
+
+## 2025-05-17 - [Optimized Date Formatting and Icon Lookups]
+**Learning:** `Intl.DateTimeFormat` with specific locales like `en-CA` (for `YYYY-MM-DD`) or `en-US` with options (for `MMM d, y`) is significantly faster than `date-fns` `format()` when cached. Additionally, a module-level cache for icon lookups in large libraries (like `react-icons/pi`) eliminates repeated property access overhead during high-frequency list rendering.
+**Action:** Replace `date-fns` with cached `Intl` formatters in render loops. Use module-level caches for component references retrieved from large object maps.

@@ -1,6 +1,5 @@
 "use client";
-import { useId, useEffect, useState } from "react";
-import { getIconComponent } from "@/share/helpers";
+import { useId, useEffect, useState, memo } from "react";
 import SelectReact, { components } from "react-select";
 import CategoryIcon from "../CategoryIcon";
 
@@ -22,7 +21,13 @@ const IconOption = (props: any) => {
   );
 };
 
-const AutoComplete = (props: any) => {
+/**
+ * ⚡ Bolt Optimization: Memoization of AutoComplete
+ * 🎯 Problem: Re-rendering during form input in Movements view.
+ * 📊 Impact: Prevents expensive re-renders of the dropdown component
+ *    when other form fields (like amount or description) change.
+ */
+const AutoComplete = memo((props: any) => {
   const {
     options,
     handleOnChange,
@@ -64,6 +69,6 @@ const AutoComplete = (props: any) => {
       )}
     </div>
   );
-};
+});
 
 export default AutoComplete;

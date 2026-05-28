@@ -26,6 +26,18 @@ export const dateFormatter = new Intl.DateTimeFormat("es-ES", {
   year: "numeric",
 });
 
+/**
+ * ⚡ Bolt Optimization: Cached Intl.DateTimeFormat for specific formats.
+ * 🎯 Problem: date-fns format() is slow in render loops.
+ * 📊 Impact: O(1) formatting instead of re-parsing format strings.
+ */
+export const dateYMDFormatter = new Intl.DateTimeFormat("en-CA"); // YYYY-MM-DD
+export const dateMDYFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
 export function isLogin() {
   const user = localStorage.getItem("fiona-user");
   if (!user) {
@@ -265,8 +277,17 @@ export const getCurrencyFormatter = (
   return currencyFormatter.format(value);
 };
 
+/**
+ * ⚡ Bolt Optimization: Icon component cache.
+ * 🎯 Problem: PiIcons is a huge object, repeated property access is non-trivial.
+ * 📊 Impact: Faster icon lookups in high-frequency list rendering.
+ */
+const iconCache: Record<string, React.ElementType> = {};
 export function getIconComponent(name: string): React.ElementType {
-  return PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
+  if (iconCache[name]) return iconCache[name];
+  const Icon = PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
+  iconCache[name] = Icon;
+  return Icon;
 }
 
 export const isEmptyObject = (obj: any) => {

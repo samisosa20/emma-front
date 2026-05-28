@@ -9,8 +9,8 @@ import useComponents from "@/share/components";
 import {
   getCurrencyFormatter,
   eventTypesMap,
+  dateMDYFormatter,
 } from "@/share/helpers";
-import { format } from "date-fns";
 import {
   GetApiEvents200ContentItem,
   GetApiEvents200ContentItemBalancesItem,
@@ -85,7 +85,7 @@ const EventCard = memo(
             <span className="material-symbols-outlined text-[16px]">
               calendar_today
             </span>
-            <span>{format(event.endEvent, "MMM d, y")}</span>
+            <span>{dateMDYFormatter.format(new Date(event.endEvent))}</span>
           </div>
         </div>
 
