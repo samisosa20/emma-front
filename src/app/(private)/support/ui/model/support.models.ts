@@ -24,7 +24,7 @@ export default function useSupportViewModel() {
       if (user) {
         const { postSupport } = new SupportUseCase(
           new SupportApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            baseUrl: "/api",
             customConfig: customConfigHeader(),
           })
         );

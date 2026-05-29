@@ -204,7 +204,7 @@ export default function useDashboardViewModel() {
     if (id) {
       const { getReportGroup } = new ReportUseCase(
         new ReportApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          baseUrl: "/api",
           customConfig: customConfigHeader(),
         })
       );

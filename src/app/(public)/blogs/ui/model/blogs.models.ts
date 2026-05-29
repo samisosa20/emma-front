@@ -15,7 +15,7 @@ export default function useBlogs() {
     queryFn: async () => {
       const { listBlogs } = new BlogUseCase(
         new BlogApiAdapter({
-          baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+          baseUrl: "/api",
           customConfig: customConfigHeader(),
         })
       );

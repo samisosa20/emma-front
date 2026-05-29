@@ -39,7 +39,7 @@ export default function useToolsViewModel() {
       if (user) {
         const { getCanIDo } = new ToolUseCase(
           new ToolApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            baseUrl: "/api",
             customConfig: customConfigHeader(),
           })
         );
@@ -56,7 +56,7 @@ export default function useToolsViewModel() {
       if (user) {
         const { getTestProject } = new ToolUseCase(
           new ToolApiAdapter({
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+            baseUrl: "/api",
             customConfig: customConfigHeader(),
           })
         );
