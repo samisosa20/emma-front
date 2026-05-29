@@ -11,7 +11,6 @@ import {
   eventTypesMap,
   mdyFormatter,
 } from "@/share/helpers";
-import { format } from "date-fns";
 import {
   GetApiEvents200ContentItem,
   GetApiEvents200ContentItemBalancesItem,
