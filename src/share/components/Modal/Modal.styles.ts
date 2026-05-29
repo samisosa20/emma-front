@@ -1,11 +1,11 @@
 const theme = {
   modal: {
-    container: `fixed top-0 left-0 w-full h-full flex items-center justify-center`,
-    overlay: `absolute w-full h-full bg-gray-900 opacity-50`,
-    base: `bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50`,
-    content: `py-4 text-left px-6`,
-    header: `flex justify-between items-center`,
-    button: `p-2 rounded-md hover:bg-gray-300`,
+    container: `fixed inset-0 flex items-center justify-center z-50 transition-all duration-300 ease-in-out`,
+    overlay: `absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity duration-300`,
+    base: `bg-white w-11/12 md:max-w-md mx-auto rounded-xl shadow-2xl z-50 transition-all duration-300 ease-in-out transform`,
+    content: `py-6 text-left px-6`,
+    header: `flex justify-between items-center mb-4`,
+    button: `p-2 rounded-full hover:bg-gray-100 transition-colors focus-visible:ring-2 focus-visible:ring-wf-primary outline-none`,
   },
 };
 

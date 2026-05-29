@@ -14,12 +14,27 @@ const Modal = (props: ModalProps) => {
 
   const { modal } = useTheme();
   return (
-    <div className={twMerge(modal.container, isOpen ? 'flex' : 'hidden')}>
-      <div className={modal.overlay}></div>
-      <div className={modal.base}>
+    <div
+      className={twMerge(
+        modal.container,
+        isOpen ? "opacity-100 pointer-events-auto visible" : "opacity-0 pointer-events-none invisible"
+      )}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div className={modal.overlay} onClick={onClose}></div>
+      <div
+        className={twMerge(
+          modal.base,
+          isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
+        )}
+      >
         <div className={modal.content}>
           <div className={modal.header}>
-            <Typography variant='h3'>{title}</Typography>
+            <Typography variant="h3" id="modal-title">
+              {title}
+            </Typography>
             {onClose && (
               <button
                 type="button"
@@ -31,7 +46,7 @@ const Modal = (props: ModalProps) => {
               </button>
             )}
           </div>
-          <div className='max-h-[75vh] overflow-y-auto'>{children}</div>
+          <div className="max-h-[75vh] overflow-y-auto">{children}</div>
         </div>
       </div>
     </div>
