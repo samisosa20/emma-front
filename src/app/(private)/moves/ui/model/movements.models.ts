@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,16 +20,30 @@ import {
 } from "@@@/endpoints/movement/movement";
 import { useUserStore } from "@/share/storage";
 
+export interface MovementOption {
+  label: string;
+  value: string | number;
+  icon?: string;
+  color?: string;
+  badgeId?: number;
+  badgeCode?: string;
+}
+
 export default function useMovementsViewModel() {
   const router = useRouter();
   const param = useParams();
   const { user } = useUserStore();
 
-  const [title, setTitle] = useState("Creacion de Movimientos");
-  const [listAccounts, setListAccounts] = useState<any[]>([]);
-  const [listCategories, setListCategories] = useState<any[]>([]);
-  const [listEvents, setListEvents] = useState<any[]>([]);
-  const [listInvestments, setListInvestments] = useState<any[]>([]);
+  /**
+   * ⚡ Bolt Optimization: Memoized title calculation
+   * 🎯 Problem: Using state and effect for a value that can be derived from params.
+   * 📊 Impact: Reduces one state variable and prevents a redundant re-render on mount.
+   */
+  const title = useMemo(
+    () => (param.id ? "Edicion de Movimientos" : "Creacion de Movimientos"),
+    [param.id]
+  );
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -154,63 +168,51 @@ export default function useMovementsViewModel() {
     refetch();
     if (!user) {
       router.push("/login");
-    } else {
-      if (param.id) {
-        setTitle("Edicion de Movimientos");
-      }
     }
   }, []);
 
-  useEffect(() => {
-    if (dataListAccounts && dataListAccounts.content) {
-      setListAccounts(
-        dataListAccounts.content
-          .filter((v) => !v.deletedAt)
-          .map((account) => {
-            return {
-              label: account.name + " - " + account.badge?.code,
-              value: account.id,
-              badgeId: account.badge.id,
-              badgeCode: account.badge?.code,
-            };
-          })
-      );
-    }
+  /**
+   * ⚡ Bolt Optimization: Memoized data transformations
+   * 🎯 Problem: Using state and effects to transform API data on every update.
+   * 📊 Impact: Eliminates redundant state variables and prevents cascading re-renders
+   *    after data is fetched.
+   */
+  const listAccounts = useMemo(() => {
+    if (!dataListAccounts?.content) return [];
+    return dataListAccounts.content
+      .filter((v) => !v.deletedAt)
+      .map((account) => ({
+        label: account.name + " - " + account.badge?.code,
+        value: account.id,
+        badgeId: account.badge.id,
+        badgeCode: account.badge?.code,
+      }));
   }, [dataListAccounts]);
 
-  useEffect(() => {
-    if (dataListCategories && Array.isArray(dataListCategories.content)) {
-      setListCategories(
-        dataListCategories.content.map((category) => {
-          return {
-            label: category.name,
-            value: category.id,
-            icon: category.icon,
-            color: category.color,
-          };
-        })
-      );
-    }
+  const listCategories = useMemo(() => {
+    if (!dataListCategories?.content) return [];
+    return dataListCategories.content.map((category) => ({
+      label: category.name,
+      value: category.id,
+      icon: category.icon,
+      color: category.color,
+    }));
   }, [dataListCategories]);
 
-  useEffect(() => {
-    if (dataListEvents && Array.isArray(dataListEvents.content)) {
-      setListEvents(
-        dataListEvents.content.map((event) => {
-          return { label: event.name, value: event.id };
-        })
-      );
-    }
+  const listEvents = useMemo(() => {
+    if (!dataListEvents?.content) return [];
+    return dataListEvents.content.map((event) => ({
+      label: event.name,
+      value: event.id,
+    }));
   }, [dataListEvents]);
 
-  useEffect(() => {
-    if (dataListInvestments && Array.isArray(dataListInvestments.content)) {
-      setListInvestments(
-        dataListInvestments.content.map((investment) => {
-          return { label: investment.name, value: investment.id };
-        })
-      );
-    }
+  const listInvestments = useMemo(() => {
+    if (!dataListInvestments?.content) return [];
+    return dataListInvestments.content.map((investment) => ({
+      label: investment.name,
+      value: investment.id,
+    }));
   }, [dataListInvestments]);
 
   useEffect(() => {
