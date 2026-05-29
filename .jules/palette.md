@@ -13,3 +13,7 @@
 ## 2025-05-24 - [Sidebar Transitions and Semantic Buttons]
 **Learning:** Using the `hidden` class (`display: none`) prevents CSS transitions from firing. To achieve smooth sidebar entries, use `opacity` and `translate` classes with `pointer-events-none` when closed. Additionally, wrapping raw icons in semantic `<button>` elements with `aria-label` is critical for both accessibility and consistent hover/focus styling.
 **Action:** Replace `hidden` with opacity/transform transitions for UI panels. Always use `<button>` wrappers for interactive icons.
+
+## 2026-05-27 - [Smooth Modal Transitions and Enhanced Accessibility]
+**Learning:** Using the `hidden` class on modals prevents entry/exit transitions. Replacing it with `opacity-0 pointer-events-none` allows for delightful CSS transitions like scaling and fading. Additionally, adding `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` significantly improves the screen reader experience, while an overlay click-to-close handler fulfills a standard user expectation.
+**Action:** Use opacity and pointer-events for toggling visibility of overlay-based components to enable transitions. Always implement standard ARIA modal patterns and outside-click-to-close.
