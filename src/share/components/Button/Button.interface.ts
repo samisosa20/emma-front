@@ -14,4 +14,5 @@ export interface ButtonProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   "aria-label"?: string;
+  loading?: boolean;
 }
