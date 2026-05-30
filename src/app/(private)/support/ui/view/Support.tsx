@@ -63,7 +63,7 @@ export default function Support(props: any) {
             )}
           />
           <div className="text-right lg: text-left">
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" loading={isLoading}>
               Enviar
             </Button>
           </div>

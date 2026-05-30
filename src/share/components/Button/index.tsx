@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { MdSync } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
 
 // Interface
@@ -22,6 +23,7 @@ const Button = memo((props: ButtonProps) => {
     onMouseLeave,
     type='button',
     'aria-label': ariaLabel,
+    loading = false,
   } = props;
 
   const { button } = useTheme();
@@ -34,17 +36,21 @@ const Button = memo((props: ButtonProps) => {
         button.variant?.[variant],
         button[variant]?.[color],
         block && button.block,
-        disabled && button.disabled,
+        (disabled || loading) && button.disabled,
         className
       )}
       style={style}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
       aria-label={ariaLabel}
+      aria-busy={loading}
     >
-      {children}
+      <div className="flex items-center justify-center gap-x-2">
+        {loading && <MdSync className="animate-spin" />}
+        {children}
+      </div>
     </button>
   );
 });
