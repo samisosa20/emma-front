@@ -126,9 +126,28 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     responseHeaders.set("Content-Security-Policy", cspHeader);
 
     const contentType = response.headers.get("content-type");
+    const isAuthPath = targetPath.endsWith("auth/login") ||
+                       targetPath.endsWith("auth/register") ||
+                       targetPath.endsWith("auth/verify") ||
+                       targetPath.endsWith("auth/recovery-password");
+
+    const isLogoutPath = targetPath.endsWith("auth/sign-out") ||
+                         targetPath.endsWith("auth/logout");
+
     let body;
+    let tokenToSet: string | undefined;
+
     if (contentType?.includes("application/json")) {
-        body = JSON.stringify(await response.json());
+        const data = await response.json();
+
+        // Capture JWT token from successful authentication responses (CWE-522)
+        if (isAuthPath && response.ok && data.token) {
+            tokenToSet = data.token;
+            // Scrub token from body to prevent XSS exfiltration (CWE-200)
+            delete data.token;
+        }
+
+        body = JSON.stringify(data);
     } else {
         body = await response.blob();
     }
@@ -138,29 +157,17 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         headers: responseHeaders
     });
 
-    // Capture JWT token from successful authentication responses to maintain HttpOnly session (CWE-522)
-    const isAuthPath = targetPath.endsWith("auth/login") ||
-                       targetPath.endsWith("auth/register") ||
-                       targetPath.endsWith("auth/verify") ||
-                       targetPath.endsWith("auth/recovery-password");
-
-    const isLogoutPath = targetPath.endsWith("auth/sign-out") ||
-                         targetPath.endsWith("auth/logout");
-
     if (isLogoutPath && response.ok) {
       res.cookies.delete("backend_token");
     }
 
-    if (isAuthPath && response.ok && contentType?.includes("application/json")) {
-      const data = typeof body === "string" ? JSON.parse(body) : {};
-      if (data.token) {
-        res.cookies.set("backend_token", data.token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-          path: "/",
-        });
-      }
+    if (tokenToSet) {
+      res.cookies.set("backend_token", tokenToSet, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      });
     }
 
     return res;
