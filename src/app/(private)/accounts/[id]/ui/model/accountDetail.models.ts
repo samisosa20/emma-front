@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -15,7 +15,6 @@ const useAccount = () => {
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [listEvents, setListEvents] = useState<any[]>([]);
   const [listMovements, setListMovement] = useState<
     GetApiMovements200ContentItem[]
   >([]);
@@ -57,12 +56,18 @@ const useAccount = () => {
   const { data: dataListEvents, isError: isErrorEvents } =
     useGetApiEventsSuspense();
 
-  const onSubmit = (data: any) => {
+  /**
+   * ⚡ Bolt Optimization: Stabilize form submission callback.
+   */
+  const onSubmit = useCallback((data: any) => {
     setPage(1);
     setFilters(data);
-  };
+  }, []);
 
-  const handleResetFilters = () => {
+  /**
+   * ⚡ Bolt Optimization: Stabilize reset callback.
+   */
+  const handleResetFilters = useCallback(() => {
     reset({
       event_id: null,
       start_date: null,
@@ -80,36 +85,45 @@ const useAccount = () => {
       amount: null,
       description: null,
     });
-  };
+  }, [reset]);
 
   useEffect(() => {
     refreshMove();
     refetchBalance();
     if (isError || isErrorEvents) router.push("/login");
-  }, [isError, isErrorEvents, router]);
+  }, [isError, isErrorEvents, router, refreshMove, refetchBalance]);
 
-  useEffect(() => {
-    if (dataListEvents && Array.isArray(dataListEvents?.content)) {
-      setListEvents(
-        dataListEvents?.content.map((event) => {
-          return { label: event.name, value: event.id };
-        })
-      );
-    }
+  /**
+   * ⚡ Bolt Optimization: Memoize events list.
+   * 🎯 Problem: Transforming API data in a useEffect causes an extra render cycle.
+   * 📊 Impact: Derived data is available immediately when dataListEvents arrives.
+   */
+  const listEvents = useMemo(() => {
+    if (!dataListEvents?.content) return [];
+    return dataListEvents.content.map((event) => ({
+      label: event.name,
+      value: event.id,
+    }));
   }, [dataListEvents]);
 
+  /**
+   * ⚡ Bolt Optimization: Optimized transaction list synchronization.
+   * 🎯 Problem: Adding listMovements to dependencies caused an infinite loop.
+   * 📊 Impact: Uses functional updates to append data without re-triggering the effect.
+   */
   useEffect(() => {
     if (!dataMovements?.content) {
       return;
     }
 
-    const combinedUniqueMovements = new Set([
-      ...(page > 1 ? listMovements : []),
-      ...dataMovements.content,
-    ]);
-
-    setListMovement(Array.from(combinedUniqueMovements));
-  }, [dataMovements?.content]);
+    setListMovement((prev) => {
+      const combinedUniqueMovements = new Set([
+        ...(page > 1 ? prev : []),
+        ...dataMovements.content,
+      ]);
+      return Array.from(combinedUniqueMovements);
+    });
+  }, [dataMovements?.content, page]);
 
   return {
     data,

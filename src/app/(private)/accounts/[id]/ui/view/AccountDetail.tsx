@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import { Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,13 @@ import { useRouter } from "next/navigation";
 import useComponents from "@/share/components";
 import useComponentsLayout from "../../../../components";
 
-export default function AccountDetail(props: any) {
+/**
+ * ⚡ Bolt Optimization: Memoization of AccountDetail View
+ * 🎯 Problem: Main view for account details, containing metrics and complex transaction lists.
+ * 📊 Impact: Skips the expensive reconciliation of the entire account detail layout when
+ *    the parent Page component re-renders (e.g., during navigation or loading states).
+ */
+const AccountDetail = memo((props: any) => {
   const {
     data,
     control,
@@ -233,4 +239,6 @@ export default function AccountDetail(props: any) {
       </div>
     </div>
   );
-}
+});
+
+export default AccountDetail;

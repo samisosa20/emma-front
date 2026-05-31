@@ -13,3 +13,7 @@
 ## 2025-05-17 - [Optimized Date Formatting and Icon Lookups]
 **Learning:** `Intl.DateTimeFormat` with specific locales like `en-CA` (for `YYYY-MM-DD`) or `en-US` with options (for `MMM d, y`) is significantly faster than `date-fns` `format()` when cached. Additionally, a module-level cache for icon lookups in large libraries (like `react-icons/pi`) eliminates repeated property access overhead during high-frequency list rendering.
 **Action:** Replace `date-fns` with cached `Intl` formatters in render loops. Use module-level caches for component references retrieved from large object maps.
+
+## 2025-05-18 - [State Dependency Infinite Loops in useEffect]
+**Learning:** Including a state variable in a `useEffect` dependency array while updating that same state variable within the effect (even when attempting to handle uniqueness via `Set`) causes an infinite loop because conversion methods like `Array.from()` or spreads create new object references every time. This triggers referential inequality on every render.
+**Action:** Always use functional state updates (e.g., `setList(prev => ...)`) when updating state based on its previous value inside an effect, and remove the state variable itself from the dependency array to prevent infinite loops.
