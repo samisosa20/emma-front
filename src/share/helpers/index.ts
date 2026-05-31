@@ -48,13 +48,17 @@ export function isLogin() {
 }
 
 export function customConfigHeader() {
-  const user = localStorage.getItem("fiona-user");
-  if (user)
-    return {
-      headers: {
-        Authorization: `Bearer ${JSON.parse(user).token}`,
-      },
-    };
+  const userStr = localStorage.getItem("fiona-user");
+  if (userStr) {
+    const user = JSON.parse(userStr);
+    if (user.token) {
+      return {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+    }
+  }
 }
 
 export function getDateString(date?: string) {

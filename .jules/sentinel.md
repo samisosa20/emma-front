@@ -47,3 +47,8 @@
 **Vulnerability:** Security headers were missing on redirect responses from middleware and on error responses from API handlers, leaving these states vulnerable to clickjacking and other attacks (CWE-693).
 **Learning:** Next.js `NextResponse.redirect` and `NextResponse.json` (in catch blocks) create fresh response objects. Security headers must be explicitly applied to these specific objects before they are returned to ensure a consistent security posture across all execution paths.
 **Prevention:** Always capture the response object in a variable and apply security headers to it before returning, especially for redirects and error handlers.
+
+## 2026-05-30 - [Secure Token Handling with Proxy Scrubbing and Injection]
+**Vulnerability:** JWT tokens were being returned in JSON response bodies and stored in client-side localStorage, making them vulnerable to XSS exfiltration (CWE-200).
+**Learning:** Moving to HttpOnly cookies is only the first step; the proxy must also scrub the token from the response body to ensure it's truly inaccessible to JavaScript. Furthermore, the proxy must handle the bridge between cookies and the backend's expected Authorization headers.
+**Prevention:** Implement response body scrubbing in the API proxy for all auth-related paths and ensure the proxy injects the secure cookie-based token into outgoing backend requests.

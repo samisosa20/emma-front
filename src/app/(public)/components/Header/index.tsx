@@ -15,11 +15,12 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("fiona-user"))
-      setIsLogin(
-        JSON.parse(localStorage.getItem("fiona-user") ?? "{}")?.token?.length >
-          0
-      );
+    const userStr = localStorage.getItem("fiona-user");
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      // Check for user identity (id or email) instead of token, as token is now secured in HttpOnly cookie
+      setIsLogin(!!user?.id || !!user?.email || !!user?.token);
+    }
   }, []);
 
   return (
