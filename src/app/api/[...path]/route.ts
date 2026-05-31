@@ -126,13 +126,27 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     responseHeaders.set("Content-Security-Policy", cspHeader);
 
     const contentType = response.headers.get("content-type");
-    const isAuthPath = targetPath.endsWith("auth/login") ||
-                       targetPath.endsWith("auth/register") ||
-                       targetPath.endsWith("auth/verify") ||
-                       targetPath.endsWith("auth/recovery-password");
 
-    const isLogoutPath = targetPath.endsWith("auth/sign-out") ||
-                         targetPath.endsWith("auth/logout");
+    // Whitelist specific paths for auth and logout to prevent spoofing (CWE-20)
+    const authPaths = [
+      "auth/login",
+      "auth/register",
+      "auth/verify",
+      "auth/recovery-password",
+      "v2/auth/login",
+      "v2/auth/register",
+      "v2/auth/verify",
+      "v2/auth/recovery-password",
+    ];
+    const logoutPaths = [
+      "auth/sign-out",
+      "auth/logout",
+      "v2/auth/sign-out",
+      "v2/auth/logout",
+    ];
+
+    const isAuthPath = authPaths.includes(targetPath);
+    const isLogoutPath = logoutPaths.includes(targetPath);
 
     let body;
     let tokenToSet: string | undefined;
