@@ -81,8 +81,9 @@ const EventsDetail = memo((props: any) => {
           <button
             onClick={() => router.push("/events")}
             className="text-wf-on-surface-variant hover:text-wf-on-surface transition-colors flex items-center gap-2 group"
+            aria-label="Volver a la lista de eventos"
           >
-            <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1">
+            <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1" aria-hidden="true">
               arrow_back
             </span>
             <span className="font-wf-body-regular text-base">
@@ -116,9 +117,11 @@ const EventsDetail = memo((props: any) => {
           </div>
           <button
             onClick={() => setIsEditPanelOpen(!isEditPanelOpen)}
+            aria-expanded={isEditPanelOpen}
+            aria-controls="edit-event-panel"
             className="bg-white border border-wf-outline px-wf-lg py-wf-sm rounded-lg font-semibold text-wf-primary flex items-center gap-2 hover:bg-wf-surface-container-low transition-all shadow-sm"
           >
-            <span className="material-symbols-outlined text-[20px]">edit</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">edit</span>
             Editar Evento
           </button>
         </div>
@@ -268,9 +271,14 @@ const EventsDetail = memo((props: any) => {
 
       {/* Integrated Edit Panel (Right Sidebar) */}
       <aside
+        id="edit-event-panel"
         className={`${
-          isEditPanelOpen ? "translate-x-0" : "translate-x-full"
-        } fixed lg:relative right-0 top-0 h-screen w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-transform duration-300 z-50 flex flex-col shadow-xl lg:shadow-none ${!isEditPanelOpen && "hidden lg:hidden"}`}
+          isEditPanelOpen
+            ? "translate-x-0 opacity-100 visible"
+            : "translate-x-full opacity-0 invisible pointer-events-none"
+        } fixed lg:relative right-0 top-0 h-screen w-80 bg-wf-surface-container border-l border-wf-outline-variant p-wf-lg space-y-wf-lg transition-all duration-300 z-50 flex flex-col shadow-xl lg:shadow-none ${
+          !isEditPanelOpen ? "lg:hidden" : ""
+        }`}
       >
         <div className="flex justify-between items-center lg:block">
           <div>
@@ -284,8 +292,9 @@ const EventsDetail = memo((props: any) => {
           <button
             onClick={() => setIsEditPanelOpen(false)}
             className="lg:hidden p-2 text-wf-on-surface-variant"
+            aria-label="Cerrar panel de edición"
           >
-            <span className="material-symbols-outlined">close</span>
+            <span className="material-symbols-outlined" aria-hidden="true">close</span>
           </button>
         </div>
 
@@ -364,7 +373,7 @@ const EventsDetail = memo((props: any) => {
                           </option>
                         ))}
                       </select>
-                      <span className="material-symbols-outlined absolute right-3 top-2.5 text-wf-outline pointer-events-none">
+                      <span className="material-symbols-outlined absolute right-3 top-2.5 text-wf-outline pointer-events-none" aria-hidden="true">
                         expand_more
                       </span>
                     </div>
@@ -394,8 +403,9 @@ const EventsDetail = memo((props: any) => {
               type="button"
               onClick={() => setIsDeleteModalOpen(true)}
               className="w-full bg-transparent border border-wf-error/30 text-wf-error py-3 rounded-lg font-semibold hover:bg-wf-error/5 transition-all flex items-center justify-center gap-2"
+              aria-label="Eliminar este evento"
             >
-              <span className="material-symbols-outlined text-[20px]">
+              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
                 delete
               </span>
               Eliminar Evento
@@ -433,12 +443,13 @@ const EventsDetail = memo((props: any) => {
       </Modal>
 
       {/* Overlay for mobile sidebar */}
-      {isEditPanelOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
-          onClick={() => setIsEditPanelOpen(false)}
-        />
-      )}
+      <div
+        className={`${
+          isEditPanelOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        } fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300`}
+        onClick={() => setIsEditPanelOpen(false)}
+        aria-hidden="true"
+      />
     </div>
   );
 });
