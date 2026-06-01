@@ -9,14 +9,13 @@ import {
   ResponsiveContainer,
   LineChart,
 } from "recharts";
-import { format } from "date-fns";
 
 //components
 import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
-import { getCurrencyFormatter } from "@/share/helpers";
+import { getCurrencyFormatter, longDateFormatter } from "@/share/helpers";
 
 export default function InvestmentsCreate(props: any) {
   const router = useRouter();
@@ -366,7 +365,9 @@ export default function InvestmentsCreate(props: any) {
                             {movement.category?.name}
                           </p>
                           <p className="text-[10px] text-wf-surface-tint font-wf-label-caps">
-                            {format(new Date(movement.datePurchase), "PPP")}
+                            {longDateFormatter.format(
+                              new Date(movement.datePurchase),
+                            )}
                           </p>
                         </div>
                       </div>
