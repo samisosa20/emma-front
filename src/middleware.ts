@@ -26,7 +26,7 @@ export default async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register") ||
     request.nextUrl.pathname.startsWith("/forgot") ||
-    request.nextUrl.pathname.startsWith("/blogs");
+    request.nextUrl.pathname.startsWith("/blogs") || request.nextUrl.pathname.startsWith("/verify-ux");
 
   let response: NextResponse;
 

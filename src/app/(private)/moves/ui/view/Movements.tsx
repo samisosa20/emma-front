@@ -77,7 +77,11 @@ export default function Movements({
           {/* Content Area */}
           <div className="p-wf-lg flex flex-col gap-wf-xl">
             {/* Type Toggle */}
-            <div className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs">
+            <div
+              role="group"
+              aria-label="Tipo de transacción"
+              className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs"
+            >
               <Controller
                 name="type"
                 control={control}
@@ -85,6 +89,7 @@ export default function Movements({
                   <>
                     <button
                       type="button"
+                      aria-pressed={value === "-1"}
                       disabled={isEdit && value === "0"}
                       onClick={() => onChange("-1")}
                       className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
@@ -97,6 +102,7 @@ export default function Movements({
                     </button>
                     <button
                       type="button"
+                      aria-pressed={value === "1"}
                       disabled={isEdit && value === "0"}
                       onClick={() => onChange("1")}
                       className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
@@ -109,6 +115,7 @@ export default function Movements({
                     </button>
                     <button
                       type="button"
+                      aria-pressed={value === "0"}
                       disabled={isEdit && value !== "0"}
                       onClick={() => onChange("0")}
                       className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
@@ -126,11 +133,17 @@ export default function Movements({
 
             {/* Amount Input */}
             <div className="flex flex-col items-center gap-wf-xs py-wf-md">
-              <span className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+              <label
+                htmlFor="amount"
+                className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase cursor-pointer"
+              >
                 Monto
-              </span>
+              </label>
               <div className="flex items-baseline gap-wf-xs">
-                <span className="font-wf-currency-display text-2xl text-wf-on-surface-variant">
+                <span
+                  aria-hidden="true"
+                  className="font-wf-currency-display text-2xl text-wf-on-surface-variant"
+                >
                   $
                 </span>
                 <Controller
@@ -138,6 +151,7 @@ export default function Movements({
                   control={control}
                   render={({ field: { onChange, value }, fieldState }) => (
                     <Input
+                      id="amount"
                       type="text"
                       placeholder="0.00"
                       className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
