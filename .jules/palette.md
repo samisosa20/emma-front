@@ -17,3 +17,7 @@
 ## 2026-05-27 - [Smooth Modal Transitions and Enhanced Accessibility]
 **Learning:** Using the `hidden` class on modals prevents entry/exit transitions. Replacing it with `opacity-0 pointer-events-none` allows for delightful CSS transitions like scaling and fading. Additionally, adding `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` significantly improves the screen reader experience, while an overlay click-to-close handler fulfills a standard user expectation.
 **Action:** Use opacity and pointer-events for toggling visibility of overlay-based components to enable transitions. Always implement standard ARIA modal patterns and outside-click-to-close.
+
+## 2026-06-01 - [Transaction Form Accessibility and Semantics]
+**Learning:** Custom toggle buttons and high-impact inputs (like transaction amounts) often lack the necessary ARIA attributes and semantic labels for a robust screen reader experience. Using `role="group"` for logical button sets and explicit `<label>` elements for inputs ensures clarity and focus control.
+**Action:** Group related action toggles with `role="group"`. Use `aria-pressed` to communicate active selection state on buttons. Always link labels to inputs using `htmlFor` and `id` to provide a larger tap target and clear accessible names.
