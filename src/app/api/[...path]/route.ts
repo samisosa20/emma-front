@@ -31,7 +31,9 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     return NextResponse.json({ message: "Invalid path" }, { status: 400 });
   }
 
-  const targetPath = path.join("/");
+  // Strip legacy 'v2' prefix to maintain compatibility with removed rewrites
+  const normalizedPath = path[0] === "v2" ? path.slice(1) : path;
+  const targetPath = normalizedPath.join("/");
 
   // Note: Local session validation removed since backend now handles auth via Better Auth
   // We just forward everything to the backend. The backend will validate its own session cookies.
@@ -126,13 +128,13 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     responseHeaders.set("Content-Security-Policy", cspHeader);
 
     const contentType = response.headers.get("content-type");
-    const isAuthPath = targetPath.endsWith("auth/login") ||
-                       targetPath.endsWith("auth/register") ||
-                       targetPath.endsWith("auth/verify") ||
-                       targetPath.endsWith("auth/recovery-password");
+    const isAuthPath = targetPath === "auth/login" ||
+                       targetPath === "auth/register" ||
+                       targetPath === "auth/verify" ||
+                       targetPath === "auth/recovery-password";
 
-    const isLogoutPath = targetPath.endsWith("auth/sign-out") ||
-                         targetPath.endsWith("auth/logout");
+    const isLogoutPath = targetPath === "auth/sign-out" ||
+                         targetPath === "auth/logout";
 
     let body;
     let tokenToSet: string | undefined;

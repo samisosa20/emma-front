@@ -52,3 +52,8 @@
 **Vulnerability:** JWT tokens were being returned in JSON response bodies and stored in client-side localStorage, making them vulnerable to XSS exfiltration (CWE-200).
 **Learning:** Moving to HttpOnly cookies is only the first step; the proxy must also scrub the token from the response body to ensure it's truly inaccessible to JavaScript. Furthermore, the proxy must handle the bridge between cookies and the backend's expected Authorization headers.
 **Prevention:** Implement response body scrubbing in the API proxy for all auth-related paths and ensure the proxy injects the secure cookie-based token into outgoing backend requests.
+
+## 2026-06-05 - [Centralizing API Security and Preventing Path Confusion]
+**Vulnerability:** Configuration-level rewrites in `next.config.js` were bypassing the secure API proxy route handler, and loose `endsWith` path matching in the proxy was vulnerable to path confusion attacks (CWE-20).
+**Learning:** Forcing all API traffic through a single code-based proxy handler ensures uniform application of security headers and token scrubbing. Strict equality checks for sensitive paths prevent attackers from spoofing authentication logic on unrelated routes.
+**Prevention:** Remove Next.js rewrites that overlap with secure proxy routes and use strict equality (`===`) for identifying sensitive API paths within the proxy logic.
