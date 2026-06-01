@@ -45,12 +45,19 @@ const AutoComplete = memo((props: any) => {
     setIsMounted(true);
   }, []);
 
+  const finalId = instanceId || internalId;
+
   return (
     <div>
-      {label && <label className="text-sm mb-1">{label}</label>}
+      {label && (
+        <label htmlFor={finalId} className="text-sm mb-1">
+          {label}
+        </label>
+      )}
       {isMounted ? (
         <SelectReact
-          instanceId={instanceId || internalId}
+          instanceId={finalId}
+          inputId={finalId}
           closeMenuOnSelect={true}
           options={options}
           onChange={(e) => handleOnChange(e)}

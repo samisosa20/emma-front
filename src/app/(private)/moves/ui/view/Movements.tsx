@@ -179,7 +179,10 @@ export default function Movements({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
               {/* Account Selection */}
               <div className="flex flex-col gap-wf-xs">
-                <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                <label
+                  htmlFor="account-select"
+                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                >
                   {typeWatch !== "0" ? "Cuenta" : "Cuenta Saliente"}
                 </label>
                 <div className="relative">
@@ -203,7 +206,10 @@ export default function Movements({
               {/* Destination Account Selection (Transfer only) */}
               {typeWatch === "0" && (
                 <div className="flex flex-col gap-wf-xs">
-                  <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                  <label
+                    htmlFor="destination-account-select"
+                    className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                  >
                     Cuenta Destino
                   </label>
                   <div className="relative">
@@ -228,7 +234,10 @@ export default function Movements({
               {/* Category Selection (Non-transfer only) */}
               {typeWatch !== "0" && (
                 <div className="flex flex-col gap-wf-xs">
-                  <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                  <label
+                    htmlFor="category-select"
+                    className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                  >
                     Categoría
                   </label>
                   <Controller
@@ -254,7 +263,10 @@ export default function Movements({
                 accountWatch &&
                 accountEndWatch.badgeId !== accountWatch.badgeId && (
                   <div className="flex flex-col gap-wf-xs">
-                    <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase flex items-center gap-1">
+                    <label
+                      htmlFor="amount-received"
+                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase flex items-center gap-1"
+                    >
                       Monto Recibido{" "}
                       <span className="text-wf-outline font-wf-body-regular text-[11px] normal-case tracking-normal">
                         (Opcional)
@@ -272,6 +284,7 @@ export default function Movements({
                           fieldState,
                         }) => (
                           <Input
+                            id="amount-received"
                             type="text"
                             className="w-full bg-wf-surface-container-lowest pl-wf-xl pr-wf-md py-wf-md rounded-lg border border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary font-wf-body-regular text-wf-on-surface outline-none transition-colors placeholder:text-wf-outline"
                             placeholder="Monto equivalente"
@@ -294,7 +307,10 @@ export default function Movements({
 
               {/* Date & Time */}
               <div className="flex flex-col gap-wf-xs">
-                <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                <label
+                  htmlFor="date-purchase"
+                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                >
                   Fecha
                 </label>
                 <Controller
@@ -302,6 +318,7 @@ export default function Movements({
                   control={control}
                   render={({ field: { onChange, value }, fieldState }) => (
                     <Input
+                      id="date-purchase"
                       type="datetime-local"
                       className="w-full bg-wf-surface-container-lowest text-wf-on-surface border border-wf-outline-variant rounded-lg py-wf-sm px-wf-md focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-colors"
                       onChange={onChange}
@@ -316,7 +333,10 @@ export default function Movements({
               {typeWatch !== "0" && (
                 <>
                   <div className="flex flex-col gap-wf-xs">
-                    <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                    <label
+                      htmlFor="event-select"
+                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                    >
                       Evento
                     </label>
                     <Controller
@@ -335,7 +355,10 @@ export default function Movements({
                     />
                   </div>
                   <div className="flex flex-col gap-wf-xs">
-                    <label className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
+                    <label
+                      htmlFor="investment-select"
+                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                    >
                       Inversión
                     </label>
                     <Controller

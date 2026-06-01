@@ -21,3 +21,7 @@
 ## 2026-06-01 - [Transaction Form Accessibility and Semantics]
 **Learning:** Custom toggle buttons and high-impact inputs (like transaction amounts) often lack the necessary ARIA attributes and semantic labels for a robust screen reader experience. Using `role="group"` for logical button sets and explicit `<label>` elements for inputs ensures clarity and focus control.
 **Action:** Group related action toggles with `role="group"`. Use `aria-pressed` to communicate active selection state on buttons. Always link labels to inputs using `htmlFor` and `id` to provide a larger tap target and clear accessible names.
+
+## 2026-06-05 - [React-Select External Label Association]
+**Learning:** Linking an external <label htmlFor="id"> to a react-select component requires passing that same ID to the inputId prop, not just instanceId. instanceId is used for internal ARIA attribute generation, while inputId is applied directly to the hidden HTML input, enabling the semantic link.
+**Action:** In shared AutoComplete components wrapping react-select, always pass the provided or generated ID to both instanceId and inputId.

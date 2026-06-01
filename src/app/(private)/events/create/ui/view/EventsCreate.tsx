@@ -39,6 +39,7 @@ const EventsCreate = (props: any) => {
             type="button"
             onClick={() => router.back()}
             className="text-wf-outline hover:text-wf-primary transition-colors"
+            aria-label="Cerrar"
           >
             <span className="material-symbols-outlined text-2xl">close</span>
           </button>
@@ -53,11 +54,15 @@ const EventsCreate = (props: any) => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
-                    <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    <label
+                      htmlFor="event-name-create"
+                      className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1"
+                    >
                       Nombre del Evento
                     </label>
                     <Input
                       {...field}
+                      id="event-name-create"
                       type="text"
                       placeholder="ej. Vacaciones de Verano 2024"
                       className="w-full bg-white border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm"
@@ -75,7 +80,10 @@ const EventsCreate = (props: any) => {
                 control={control}
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
-                    <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    <label
+                      htmlFor="event-type-create"
+                      className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1"
+                    >
                       Tipo de Evento
                     </label>
                     <div className="relative">
@@ -83,7 +91,7 @@ const EventsCreate = (props: any) => {
                         className={`w-full bg-white border ${
                           fieldState.error ? "border-wf-error" : "border-wf-outline-variant"
                         } text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm appearance-none`}
-                        id="type"
+                        id="event-type-create"
                         onChange={onChange}
                         value={value}
                       >
@@ -111,11 +119,15 @@ const EventsCreate = (props: any) => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
-                    <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    <label
+                      htmlFor="target-date-create"
+                      className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1"
+                    >
                       Fecha Objetivo
                     </label>
                     <Input
                       {...field}
+                      id="target-date-create"
                       type="date"
                       className="w-full bg-white border border-wf-outline-variant text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm"
                       iserror={!!fieldState.error}

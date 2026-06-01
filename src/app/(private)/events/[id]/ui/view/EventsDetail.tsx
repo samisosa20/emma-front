@@ -309,10 +309,14 @@ const EventsDetail = memo((props: any) => {
               render={({ field: { onChange, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={true}>
                   <div className="flex flex-col gap-1">
-                    <label className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider">
+                    <label
+                      htmlFor="event-name"
+                      className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider"
+                    >
                       Nombre del Evento
                     </label>
                     <input
+                      id="event-name"
                       className="w-full bg-wf-surface-container-lowest border border-wf-outline-variant rounded-lg p-3 text-sm focus:ring-1 focus:ring-wf-primary focus:border-wf-primary transition-all outline-none"
                       type="text"
                       onChange={onChange}
@@ -331,11 +335,15 @@ const EventsDetail = memo((props: any) => {
               render={({ field: { onChange, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={true}>
                   <div className="flex flex-col gap-1">
-                    <label className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider">
+                    <label
+                      htmlFor="target-date"
+                      className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider"
+                    >
                       Fecha Objetivo
                     </label>
                     <div className="relative">
                       <input
+                        id="target-date"
                         className="w-full bg-wf-surface-container-lowest border border-wf-outline-variant rounded-lg p-3 text-sm focus:ring-1 focus:ring-wf-primary focus:border-wf-primary transition-all outline-none"
                         type="date"
                         onChange={onChange}
@@ -355,11 +363,15 @@ const EventsDetail = memo((props: any) => {
               render={({ field: { onChange, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={true}>
                   <div className="flex flex-col gap-1">
-                    <label className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider">
+                    <label
+                      htmlFor="event-type"
+                      className="block text-wf-label-caps text-[12px] font-semibold text-wf-on-surface-variant uppercase tracking-wider"
+                    >
                       Tipo de Evento
                     </label>
                     <div className="relative">
                       <select
+                        id="event-type"
                         className="w-full bg-wf-surface-container-lowest border border-wf-outline-variant rounded-lg p-3 text-sm focus:ring-1 focus:ring-wf-primary focus:border-wf-primary transition-all outline-none appearance-none"
                         onChange={onChange}
                         value={value}
