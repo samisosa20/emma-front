@@ -17,3 +17,7 @@
 ## 2025-05-18 - [State Dependency Infinite Loops in useEffect]
 **Learning:** Including a state variable in a `useEffect` dependency array while updating that same state variable within the effect (even when attempting to handle uniqueness via `Set`) causes an infinite loop because conversion methods like `Array.from()` or spreads create new object references every time. This triggers referential inequality on every render.
 **Action:** Always use functional state updates (e.g., `setList(prev => ...)`) when updating state based on its previous value inside an effect, and remove the state variable itself from the dependency array to prevent infinite loops.
+
+## 2025-05-19 - [Loop Optimization in Render Functions]
+**Learning:** Calling lookup functions (like `getAccountType`) multiple times per iteration within a `map` loop in a React component's render body causes unnecessary computation. While often O(1), the overhead adds up in large lists and can trigger repeated object allocations if the lookup returns new objects.
+**Action:** Always store the result of lookup functions in a local variable at the start of a loop iteration and reuse that variable for subsequent property accesses.
