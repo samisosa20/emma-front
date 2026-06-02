@@ -98,47 +98,57 @@ const Accounts = () => {
 
       {/* Bento Grid Layout for Accounts */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
-        {filteredAccounts.map((account) => (
-          <Link
-            href={`/accounts/${account?.id}`}
-            key={account?.id}
-            className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 hover:border-wf-primary/50 transition-all hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] group relative overflow-hidden flex flex-col h-full"
-          >
-            <div className="flex justify-between items-start mb-wf-md">
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{
-                    backgroundColor: getAccountType(account?.type?.name || "")
-                      .bgColor,
-                    color: getAccountType(account?.type?.name || "").textColor,
-                  }}
-                >
-                  <span className="material-symbols-outlined text-[22px]">
-                    {getAccountType(account?.type?.name || "").icon}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-wf-headline-md text-base text-wf-on-surface font-semibold">
-                    {account?.name}
-                  </h3>
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <p className="font-wf-label-caps text-[10px] text-wf-on-surface-variant uppercase tracking-tighter">
-                      {account?.type?.name}
-                    </p>
+        {filteredAccounts.map((account) => {
+          /**
+           * ⚡ Bolt Optimization: Loop Optimization
+           * 🎯 Problem: Calling getAccountType multiple times per iteration
+           *    in a loop causes redundant processing and object lookups.
+           * 📊 Impact: O(1) lookup once per account, improving rendering performance
+           *    for large account lists.
+           */
+          const accountType = getAccountType(account?.type?.name || "");
+
+          return (
+            <Link
+              href={`/accounts/${account?.id}`}
+              key={account?.id}
+              className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 hover:border-wf-primary/50 transition-all hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] group relative overflow-hidden flex flex-col h-full"
+            >
+              <div className="flex justify-between items-start mb-wf-md">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: accountType.bgColor,
+                      color: accountType.textColor,
+                    }}
+                  >
+                    <span className="material-symbols-outlined text-[22px]">
+                      {accountType.icon}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-wf-headline-md text-base text-wf-on-surface font-semibold">
+                      {account?.name}
+                    </h3>
+                    <div className="flex items-center gap-1 mt-0.5">
+                      <p className="font-wf-label-caps text-[10px] text-wf-on-surface-variant uppercase tracking-tighter">
+                        {account?.type?.name}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                <CurrencyBadgeFlag badge={account?.badge} />
               </div>
-              <CurrencyBadgeFlag badge={account?.badge} />
-            </div>
-            <span
-              className={`font-wf-currency-display text-[24px] font-bold ${account?.balance < 0 ? "text-wf-error" : "text-wf-on-surface"}`}
-            >
-              {account?.badge?.symbol}
-              {getCurrencyFormatter(account?.badge?.code, account.balance)}
-            </span>
-          </Link>
-        ))}
+              <span
+                className={`font-wf-currency-display text-[24px] font-bold ${account?.balance < 0 ? "text-wf-error" : "text-wf-on-surface"}`}
+              >
+                {account?.badge?.symbol}
+                {getCurrencyFormatter(account?.badge?.code, account.balance)}
+              </span>
+            </Link>
+          );
+        })}
       </div>
 
       {filteredAccounts.length === 0 && (
