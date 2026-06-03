@@ -28,7 +28,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
   // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
   if (path.some(segment => segment === ".." || segment === ".")) {
-    return NextResponse.json({ message: "Invalid path" }, { status: 400 });
+    return applySecurityHeaders(NextResponse.json({ message: "Invalid path" }, { status: 400 }));
   }
 
   const targetPath = path.join("/");
@@ -38,7 +38,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
   const backendUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!backendUrl) {
-      return NextResponse.json({ message: "Backend URL not configured" }, { status: 500 });
+      return applySecurityHeaders(NextResponse.json({ message: "Backend URL not configured" }, { status: 500 }));
   }
 
   const url = new URL(`${backendUrl}/${targetPath}${request.nextUrl.search}`);
@@ -94,37 +94,6 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       }
     });
 
-    // Consolidate and enforce security headers at the proxy level (CWE-693)
-    // These are set LAST to ensure backend values don't override the proxy's security policy
-    responseHeaders.set("X-Frame-Options", "DENY");
-    responseHeaders.set("X-Content-Type-Options", "nosniff");
-    responseHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
-    responseHeaders.set("X-Permitted-Cross-Domain-Policies", "none");
-    responseHeaders.set("X-Download-Options", "noopen");
-    responseHeaders.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-    responseHeaders.set(
-      "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
-    );
-
-    // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
-    const cspHeader = `
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval';
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
-      font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-      connect-src 'self';
-      frame-ancestors 'none';
-      form-action 'self';
-      object-src 'none';
-      base-uri 'self';
-      ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
-    `
-      .replace(/\s{2,}/g, " ")
-      .trim();
-    responseHeaders.set("Content-Security-Policy", cspHeader);
-
     const contentType = response.headers.get("content-type");
     const isAuthPath = targetPath.endsWith("auth/login") ||
                        targetPath.endsWith("auth/register") ||
@@ -152,10 +121,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         body = await response.blob();
     }
 
-    const res = new NextResponse(body, {
+    const res = applySecurityHeaders(new NextResponse(body, {
         status: response.status,
         headers: responseHeaders
-    });
+    }));
 
     if (isLogoutPath && response.ok) {
       res.cookies.delete("backend_token");
@@ -176,39 +145,50 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     console.error("Proxy error:", error);
     // Return a generic error message to the client to avoid information leakage (CWE-209)
     // We must ensure security headers are still applied here.
-    const errorResponse = NextResponse.json(
+    return applySecurityHeaders(NextResponse.json(
       { message: "Ocurrió un error al procesar la solicitud." },
       { status: 502 }
-    );
-
-    errorResponse.headers.set("X-Frame-Options", "DENY");
-    errorResponse.headers.set("X-Content-Type-Options", "nosniff");
-    errorResponse.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-    errorResponse.headers.set("X-Permitted-Cross-Domain-Policies", "none");
-    errorResponse.headers.set("X-Download-Options", "noopen");
-    errorResponse.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-    errorResponse.headers.set(
-      "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
-    );
-
-    const cspHeader = `
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval';
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
-      font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-      connect-src 'self';
-      frame-ancestors 'none';
-      form-action 'self';
-      object-src 'none';
-      base-uri 'self';
-      ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
-    `
-      .replace(/\s{2,}/g, " ")
-      .trim();
-    errorResponse.headers.set("Content-Security-Policy", cspHeader);
-
-    return errorResponse;
+    ));
   }
+}
+
+/**
+ * Applies a consistent set of security headers to a NextResponse object (CWE-693).
+ * This includes headers for clickjacking protection, MIME-type sniffing prevention,
+ * strict transport security, and a robust Content Security Policy (CSP).
+ *
+ * @param response The NextResponse object to harden.
+ * @returns The same NextResponse object with security headers applied.
+ */
+function applySecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
+  response.headers.set("X-Download-Options", "noopen");
+  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
+  );
+
+  // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
+    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
+    connect-src 'self';
+    frame-ancestors 'none';
+    form-action 'self';
+    object-src 'none';
+    base-uri 'self';
+    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
+  `
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  response.headers.set("Content-Security-Policy", cspHeader);
+
+  return response;
 }

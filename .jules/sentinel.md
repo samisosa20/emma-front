@@ -52,3 +52,8 @@
 **Vulnerability:** JWT tokens were being returned in JSON response bodies and stored in client-side localStorage, making them vulnerable to XSS exfiltration (CWE-200).
 **Learning:** Moving to HttpOnly cookies is only the first step; the proxy must also scrub the token from the response body to ensure it's truly inaccessible to JavaScript. Furthermore, the proxy must handle the bridge between cookies and the backend's expected Authorization headers.
 **Prevention:** Implement response body scrubbing in the API proxy for all auth-related paths and ensure the proxy injects the secure cookie-based token into outgoing backend requests.
+
+## 2026-05-31 - [Centralized Security Header Enforcement in API Proxy]
+**Vulnerability:** Early returns (validation failures, config errors) in the API proxy were bypassing security header injection, leaving some response paths unprotected against clickjacking and other client-side attacks (CWE-693).
+**Learning:** Manually applying security headers to every response path is error-prone. A centralized helper function ensures consistent enforcement across all exit points, including success, error, and early return states.
+**Prevention:** Use a dedicated `applySecurityHeaders` utility in proxy route handlers to wrap all `NextResponse` objects before they are returned.
