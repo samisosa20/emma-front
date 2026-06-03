@@ -48,12 +48,17 @@ export const longDateFormatter = new Intl.DateTimeFormat("es-ES", {
 });
 
 export function isLogin() {
-  const user = localStorage.getItem("fiona-user");
-  if (!user) {
+  const userStr = localStorage.getItem("fiona-user");
+  if (!userStr) return false;
+
+  try {
+    const user = JSON.parse(userStr);
+    // Verify identity via user data presence instead of just the key (CWE-287)
+    return !!(user && (user.id || user.email));
+  } catch {
     localStorage.removeItem("fiona-user");
     return false;
   }
-  return true;
 }
 
 export function customConfigHeader() {
