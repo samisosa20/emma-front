@@ -53,22 +53,50 @@ const EventsDetail = memo((props: any) => {
 
   /**
    * ⚡ Bolt Optimization: Memoize derived event metrics.
-   * 🎯 Problem: Calculations (filtering and sub-filtering) were running on every render.
-   * 📊 Impact: Prevents recalculating expenses and incomes on every re-render unless listCategories changes.
+   * 🎯 Problem: Filtering, sorting, and total calculations were running in the render loop.
+   * 📊 Impact: Reduces O(n*m) work during render to O(1) after first pass, ensuring
+   *    smooth UI even with many categories and sub-categories.
    */
   const expenses = useMemo(
     () =>
-      listCategories?.filter((cat: any) =>
-        cat.categories.some((sub: any) => sub.amount < 0),
-      ) || [],
+      listCategories
+        ?.map((cat: any) => {
+          const subs = cat.categories
+            .filter((s: any) => s.amount < 0)
+            .sort((a: any, b: any) => a.amount - b.amount);
+
+          if (subs.length === 0) return null;
+
+          return {
+            ...cat,
+            filteredSubs: subs,
+            totalAmount: subs.reduce(
+              (acc: number, curr: any) => acc + Math.abs(curr.amount),
+              0,
+            ),
+          };
+        })
+        .filter(Boolean) || [],
     [listCategories],
   );
 
   const incomes = useMemo(
     () =>
-      listCategories?.filter((cat: any) =>
-        cat.categories.some((sub: any) => sub.amount >= 0),
-      ) || [],
+      listCategories
+        ?.map((cat: any) => {
+          const subs = cat.categories
+            .filter((s: any) => s.amount >= 0)
+            .sort((a: any, b: any) => b.amount - a.amount);
+
+          if (subs.length === 0) return null;
+
+          return {
+            ...cat,
+            filteredSubs: subs,
+            totalAmount: subs.reduce((acc: number, curr: any) => acc + curr.amount, 0),
+          };
+        })
+        .filter(Boolean) || [],
     [listCategories],
   );
 
@@ -144,42 +172,33 @@ const EventsDetail = memo((props: any) => {
                       $
                       {getCurrencyFormatter(
                         category.code,
-                        category.categories
-                          .filter((s: any) => s.amount < 0)
-                          .reduce(
-                            (acc: number, curr: any) =>
-                              acc + Math.abs(curr.amount),
-                            0,
-                          ),
+                        category.totalAmount,
                       )}
                     </span>
                   </div>
                   <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
-                    {category.categories
-                      .filter((s: any) => s.amount < 0)
-                      .sort((a: any, b: any) => a.amount - b.amount)
-                      .map((subCategory: any, idx: number) => (
-                        <div key={`${category.code}-${idx}`}>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="font-medium text-wf-on-surface-variant">
-                              {subCategory.name}
-                            </span>
-                            <span className="font-bold text-wf-primary">
-                              $
-                              {getCurrencyFormatter(
-                                category.code,
-                                Math.abs(subCategory.amount),
-                              )}
-                            </span>
-                          </div>
-                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                            <div
-                              className="bg-wf-on-tertiary-container h-full"
-                              style={{ width: `${subCategory.percentage}%` }}
-                            ></div>
-                          </div>
+                    {category.filteredSubs.map((subCategory: any, idx: number) => (
+                      <div key={`${category.code}-${idx}`}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="font-medium text-wf-on-surface-variant">
+                            {subCategory.name}
+                          </span>
+                          <span className="font-bold text-wf-primary">
+                            $
+                            {getCurrencyFormatter(
+                              category.code,
+                              Math.abs(subCategory.amount),
+                            )}
+                          </span>
                         </div>
-                      ))}
+                        <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                          <div
+                            className="bg-wf-on-tertiary-container h-full"
+                            style={{ width: `${subCategory.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -207,41 +226,33 @@ const EventsDetail = memo((props: any) => {
                       $
                       {getCurrencyFormatter(
                         category.code,
-                        category.categories
-                          .filter((s: any) => s.amount >= 0)
-                          .reduce(
-                            (acc: number, curr: any) => acc + curr.amount,
-                            0,
-                          ),
+                        category.totalAmount,
                       )}
                     </span>
                   </div>
                   <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
-                    {category.categories
-                      .filter((s: any) => s.amount >= 0)
-                      .sort((a: any, b: any) => b.amount - a.amount)
-                      .map((subCategory: any, idx: number) => (
-                        <div key={`${category.code}-${idx}`}>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="font-medium text-wf-on-surface-variant">
-                              {subCategory.name}
-                            </span>
-                            <span className="font-bold text-wf-primary">
-                              $
-                              {getCurrencyFormatter(
-                                category.code,
-                                subCategory.amount,
-                              )}
-                            </span>
-                          </div>
-                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                            <div
-                              className="bg-wf-secondary h-full"
-                              style={{ width: `${subCategory.percentage}%` }}
-                            ></div>
-                          </div>
+                    {category.filteredSubs.map((subCategory: any, idx: number) => (
+                      <div key={`${category.code}-${idx}`}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="font-medium text-wf-on-surface-variant">
+                            {subCategory.name}
+                          </span>
+                          <span className="font-bold text-wf-primary">
+                            $
+                            {getCurrencyFormatter(
+                              category.code,
+                              subCategory.amount,
+                            )}
+                          </span>
                         </div>
-                      ))}
+                        <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                          <div
+                            className="bg-wf-secondary h-full"
+                            style={{ width: `${subCategory.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
