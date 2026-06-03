@@ -30,7 +30,7 @@ const AccountCreate = (props: any) => {
         <div className="mb-wf-lg flex justify-between items-start">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span className="material-symbols-outlined text-3xl">
+              <span aria-hidden="true" className="material-symbols-outlined text-3xl">
                 account_balance_wallet
               </span>
             </div>
@@ -46,9 +46,10 @@ const AccountCreate = (props: any) => {
           <button
             type="button"
             onClick={() => router.back()}
+            aria-label="Cerrar"
             className="text-wf-outline hover:text-wf-primary transition-colors"
           >
-            <span className="material-symbols-outlined text-2xl">close</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-2xl">close</span>
           </button>
         </div>
 

@@ -26,6 +26,7 @@ const Header = () => {
       <div className="flex items-center gap-wf-md">
         <Link
           href="/profile"
+          aria-label="Perfil"
           className="hover:bg-wf-surface-container transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center"
         >
           {user?.image ? (
@@ -35,7 +36,7 @@ const Header = () => {
               className="w-8 h-8 rounded-full"
             />
           ) : (
-            <span className="material-symbols-outlined text-wf-on-surface-variant">
+            <span aria-hidden="true" className="material-symbols-outlined text-wf-on-surface-variant">
               account_circle
             </span>
           )}
