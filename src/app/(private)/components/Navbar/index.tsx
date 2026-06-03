@@ -28,6 +28,7 @@ export default function Navbar() {
                   }`}
                 >
                   <span
+                    aria-hidden="true"
                     className={`material-symbols-outlined ${
                       isActive ? "filled" : ""
                     }`}
@@ -43,7 +44,7 @@ export default function Navbar() {
       <div className="p-4 border-t border-wf-outline-variant/30">
         <Link href="/moves">
           <button className="w-full bg-wf-primary text-wf-on-primary font-wf-body-regular py-3 rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-[20px]">add</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-[20px]">add</span>
             Nueva transacción
           </button>
         </Link>

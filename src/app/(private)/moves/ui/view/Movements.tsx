@@ -153,6 +153,7 @@ export default function Movements({
                     <Input
                       id="amount"
                       type="text"
+                      inputMode="decimal"
                       placeholder="0.00"
                       className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
                       onChange={(e) => {
@@ -286,6 +287,7 @@ export default function Movements({
                           <Input
                             id="amount-received"
                             type="text"
+                            inputMode="decimal"
                             className="w-full bg-wf-surface-container-lowest pl-wf-xl pr-wf-md py-wf-md rounded-lg border border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary font-wf-body-regular text-wf-on-surface outline-none transition-colors placeholder:text-wf-outline"
                             placeholder="Monto equivalente"
                             onChange={(e) => {

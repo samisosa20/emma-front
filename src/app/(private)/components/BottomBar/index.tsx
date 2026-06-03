@@ -64,6 +64,7 @@ export default function BottomBar() {
               }`}
             >
               <span
+                aria-hidden="true"
                 className={`material-symbols-outlined mb-1 ${
                   isActive ? "filled" : ""
                 }`}
