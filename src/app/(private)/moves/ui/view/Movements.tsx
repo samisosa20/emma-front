@@ -387,6 +387,7 @@ export default function Movements({
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Switch
+                        id="addWithdrawal"
                         label="¿Es un retiro o una adición/reinversión?"
                         name="addWithdrawal"
                         handleCheckboxChange={onChange}
