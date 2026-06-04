@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Link from "next/link";
 
 //components
@@ -8,7 +9,13 @@ import useComponentsLayout from "@/app/(private)/components";
 import { getCurrencyFormatter, driverInvestment } from "@/share/helpers";
 import { GetApiInvestments200ContentItem } from "@@@/domain/models";
 
-export default function Investments(props: any) {
+/**
+ * ⚡ Bolt Optimization: Memoization of Investments View
+ * 🎯 Problem: Rendering the entire grid of investment cards on every re-render of the parent Page.
+ * 📊 Impact: Skips the expensive reconciliation of the investment layout when
+ *    the parent component re-renders without prop changes.
+ */
+const Investments = memo((props: any) => {
   const { data } = props;
   const { Typography, TitleHelp } = useComponents();
   const { CurrencyBadgeFlag } = useComponentsLayout();
@@ -123,4 +130,6 @@ export default function Investments(props: any) {
       )}
     </div>
   );
-}
+});
+
+export default Investments;

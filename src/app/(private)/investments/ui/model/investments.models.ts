@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -15,8 +15,17 @@ export default function useInvestmentsViewModel() {
     if (isError) router.push("/login");
   }, [isError]);
 
-  return {
-    data,
-    isLoading,
-  };
+  /**
+   * ⚡ Bolt Optimization: Stabilize return object reference.
+   * 🎯 Problem: Every call to useInvestmentsViewModel returned a new object literal,
+   *    causing re-renders in the view component even if data didn't change.
+   * 📊 Impact: Ensures stable references for use in memoized view components.
+   */
+  return useMemo(
+    () => ({
+      data,
+      isLoading,
+    }),
+    [data, isLoading],
+  );
 }
