@@ -119,9 +119,20 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         // Capture JWT token from successful authentication responses (CWE-522)
         if (isAuthPath && response.ok && data.token) {
             tokenToSet = data.token;
-            // Scrub token from body to prevent XSS exfiltration (CWE-200)
-            delete data.token;
         }
+
+        // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
+        // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
+        const scrubSensitiveData = (obj: any) => {
+            if (obj && typeof obj === 'object') {
+                const sensitiveKeys = ['token', 'access_token', 'refresh_token'];
+                for (const key of sensitiveKeys) {
+                    if (key in obj) delete obj[key];
+                }
+                Object.values(obj).forEach(scrubSensitiveData);
+            }
+        };
+        scrubSensitiveData(data);
 
         body = JSON.stringify(data);
     } else {
@@ -170,6 +181,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-XSS-Protection", "0");
+  response.headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
