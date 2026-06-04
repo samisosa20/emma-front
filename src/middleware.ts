@@ -42,6 +42,7 @@ export default async function middleware(request: NextRequest) {
   // Add global security headers (CWE-1027, CWE-693)
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-XSS-Protection", "0");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
