@@ -22,7 +22,7 @@ const EventsCreate = (props: any) => {
         <div className="mb-wf-lg flex justify-between items-start">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span className="material-symbols-outlined text-3xl">
+              <span className="material-symbols-outlined text-3xl" aria-hidden="true">
                 event
               </span>
             </div>
@@ -41,7 +41,7 @@ const EventsCreate = (props: any) => {
             className="text-wf-outline hover:text-wf-primary transition-colors"
             aria-label="Cerrar"
           >
-            <span className="material-symbols-outlined text-2xl">close</span>
+            <span className="material-symbols-outlined text-2xl" aria-hidden="true">close</span>
           </button>
         </div>
 
@@ -104,7 +104,10 @@ const EventsCreate = (props: any) => {
                           </option>
                         ))}
                       </select>
-                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-wf-outline pointer-events-none text-xl">
+                      <span
+                        className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-wf-outline pointer-events-none text-xl"
+                        aria-hidden="true"
+                      >
                         expand_more
                       </span>
                     </div>
@@ -152,7 +155,7 @@ const EventsCreate = (props: any) => {
               disabled={isSubmitting}
               className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className="material-symbols-outlined text-xl" aria-hidden="true">
                 check_circle
               </span>
               Guardar Evento
