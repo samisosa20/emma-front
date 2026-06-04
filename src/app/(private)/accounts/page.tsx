@@ -44,7 +44,10 @@ const Accounts = () => {
         </div>
         <div className="flex flex-wrap items-center gap-wf-sm">
           <div className="relative flex-1 min-w-[200px] md:w-64">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline text-[20px]">
+            <span
+              className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline text-[20px]"
+              aria-hidden="true"
+            >
               search
             </span>
             <input

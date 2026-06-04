@@ -55,7 +55,10 @@ const Categories = memo((props: any) => {
         <div className="flex flex-wrap items-center gap-wf-md">
           {/* Search Input */}
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline">
+            <span
+              className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline"
+              aria-hidden="true"
+            >
               search
             </span>
             <input
