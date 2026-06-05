@@ -26,6 +26,14 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 }
 
 async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
+  // CSRF Protection: Verify Origin matches for state-changing requests (CWE-352)
+  if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
+    const origin = request.headers.get("origin");
+    if (origin && new URL(origin).origin !== request.nextUrl.origin) {
+      return applySecurityHeaders(NextResponse.json({ message: "Invalid origin" }, { status: 403 }));
+    }
+  }
+
   // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
   if (path.some(segment => segment === ".." || segment === ".")) {
     return applySecurityHeaders(NextResponse.json({ message: "Invalid path" }, { status: 400 }));
@@ -54,12 +62,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   requestHeaders.delete("host");
   requestHeaders.delete("connection");
 
-  // Inject Authorization header from HttpOnly cookie if not present (Defense-in-Depth)
-  if (!requestHeaders.has("Authorization")) {
-    const token = request.cookies.get("backend_token")?.value;
-    if (token) {
-      requestHeaders.set("Authorization", `Bearer ${token}`);
-    }
+  // Prioritize Authorization header from HttpOnly cookie to prevent token injection (CWE-522, CWE-613)
+  const token = request.cookies.get("backend_token")?.value;
+  if (token) {
+    requestHeaders.set("Authorization", `Bearer ${token}`);
   }
 
   try {
@@ -125,7 +131,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
         const scrubSensitiveData = (obj: any) => {
             if (obj && typeof obj === 'object') {
-                const sensitiveKeys = ['token', 'access_token', 'refresh_token'];
+                const sensitiveKeys = ['token', 'access_token', 'refresh_token', 'password', 'client_secret'];
                 for (const key of sensitiveKeys) {
                     if (key in obj) delete obj[key];
                 }
@@ -186,6 +192,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
+  response.headers.set("X-Robots-Tag", "noindex, nofollow");
   response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
   response.headers.set(
     "Permissions-Policy",
@@ -195,7 +202,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
     font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
