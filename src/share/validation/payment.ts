@@ -2,13 +2,16 @@ import * as z from "zod";
 
 const paymentsSchema = z.object({
   account: z.object({
-    value: z.string(),
+    value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),
-  category: z.object({
-    value: z.string(),
-    label: z.string(),
-  }),
+  category: z
+    .object({
+      value: z.union([z.string(), z.number()]),
+      label: z.string(),
+    })
+    .optional()
+    .nullable(),
   description: z
     .string()
     .max(255, "Máximo 255 caracteres")
@@ -18,12 +21,13 @@ const paymentsSchema = z.object({
     .string()
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
-  startDate: z.string(),
+  startDate: z.string().min(1, "La fecha de inicio es requerida"),
   amount: z.union([z.string(), z.number()]).refine((value) => {
+    if (value === "") return false;
     const num = Number(value);
-    return !isNaN(num) && num >= 0 && isFinite(num);
+    return !isNaN(num) && isFinite(num);
   }, {
-    message: "Debe ser un número positivo válido",
+    message: "Debe ser un número válido",
   }),
   specificDay: z.union([z.string(), z.number()]).refine((value) => {
     const num = Number(value);
@@ -36,10 +40,11 @@ const paymentsSchema = z.object({
 const paymentParamsSchema = z.object({
   description: z.union([z.null(), z.string().max(255, "Máximo 255 caracteres")]),
   amount: z.union([z.string(), z.number()]).refine((value) => {
+    if (value === "") return false;
     const num = Number(value);
-    return !isNaN(num) && num >= 0 && isFinite(num);
+    return !isNaN(num) && isFinite(num);
   }, {
-    message: "Debe ser un número positivo válido",
+    message: "Debe ser un número válido",
   }),
   accountId: z.string(),
   categoryId: z.string(),

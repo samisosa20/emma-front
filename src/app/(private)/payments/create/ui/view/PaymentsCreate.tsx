@@ -19,6 +19,7 @@ export default function PaymentsCreate(props: any) {
     listCategories,
     isSubmitting,
     watch,
+    errors,
   } = props;
 
   const accountWatch = watch("account");
@@ -52,7 +53,12 @@ export default function PaymentsCreate(props: any) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-wf-lg">
+        <form
+          onSubmit={handleSubmit(onSubmit, (err) => {
+            console.log("Form Validation Errors:", err);
+          })}
+          className="space-y-wf-lg"
+        >
           {/* Amount Input (Movements Style) */}
           <div className="flex flex-col items-center gap-wf-xs py-wf-md">
             <span className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase">
@@ -88,30 +94,37 @@ export default function PaymentsCreate(props: any) {
                   };
 
                   return (
-                    <Input
-                      {...field}
-                      value={formatDisplay(value)}
-                      type="text"
-                      placeholder="0.00"
-                      className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
-                      onFocus={(e) => (e.target as HTMLInputElement).select()}
-                      onChange={(e) => {
-                        // Strip thousands separators (commas) and handle decimal (dot)
-                        const raw = (e.target as HTMLInputElement).value.replace(
-                          /,/g,
-                          "",
-                        );
-                        // Allow negative sign, empty string, and numbers with at most one dot and two decimals
-                        if (
-                          raw === "" ||
-                          raw === "-" ||
-                          /^-?\d*\.?\d{0,2}$/.test(raw)
-                        ) {
-                          onChange(raw);
-                        }
-                      }}
-                      iserror={!!fieldState.error}
-                    />
+                    <div className="flex flex-col items-center">
+                      <Input
+                        {...field}
+                        value={formatDisplay(value)}
+                        type="text"
+                        placeholder="0.00"
+                        className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
+                        onFocus={(e) => (e.target as HTMLInputElement).select()}
+                        onChange={(e) => {
+                          // Strip thousands separators (commas) and handle decimal (dot)
+                          const raw = (e.target as HTMLInputElement).value.replace(
+                            /,/g,
+                            "",
+                          );
+                          // Allow negative sign, empty string, and numbers with at most one dot and two decimals
+                          if (
+                            raw === "" ||
+                            raw === "-" ||
+                            /^-?\d*\.?\d{0,2}$/.test(raw)
+                          ) {
+                            onChange(raw);
+                          }
+                        }}
+                        iserror={!!fieldState.error}
+                      />
+                      {fieldState.error && (
+                        <span className="text-red-500 text-sm mt-2 font-wf-body-regular block text-center">
+                          {fieldState.error.message}
+                        </span>
+                      )}
+                    </div>
                   );
                 }}
               />

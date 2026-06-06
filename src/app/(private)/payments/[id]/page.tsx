@@ -14,6 +14,7 @@ const Page = () => {
     handleDelete,
     isSubmitting,
     watch,
+    errors,
   } = usePaymentsCreateViewModel();
 
   return (
@@ -27,6 +28,7 @@ const Page = () => {
       handleDelete={handleDelete}
       isSubmitting={isSubmitting}
       watch={watch}
+      errors={errors}
     />
   );
 };

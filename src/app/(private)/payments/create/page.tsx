@@ -13,6 +13,7 @@ const Page = () => {
     listCategories,
     isSubmitting,
     watch,
+    errors,
   } = usePaymentsCreateViewModel();
   return (
     <PaymentsCreate
@@ -24,6 +25,7 @@ const Page = () => {
       listCategories={listCategories}
       isSubmitting={isSubmitting}
       watch={watch}
+      errors={errors}
     />
   );
 };

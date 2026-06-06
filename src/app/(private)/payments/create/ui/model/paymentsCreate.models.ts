@@ -29,7 +29,7 @@ export default function usePaymentsCreateViewModel() {
   const [listCategories, setListCategories] = useState<any>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, reset, watch } = useForm({
+  const { handleSubmit, control, reset, watch, formState: { errors } } = useForm({
     resolver: zodResolver(paymentsSchema),
     defaultValues: {
       account: undefined,
@@ -64,49 +64,55 @@ export default function usePaymentsCreateViewModel() {
     useGetApiCategoriesSuspense();
 
   const onSubmit = (data: any) => {
-    setIsSubmitting(true);
-    const formData = {
-      amount: Number(data.amount),
-      specificDay: Number(data.specificDay),
-      description: data.description ? data.description : null,
-      categoryId: data.category ? data.category.value : 0,
-      accountId: data.account.value,
-      startDate: new Date(data.startDate).toISOString(),
-      endDate: data.endDate ? new Date(data.endDate).toISOString() : null,
-    };
-    if (param.id) {
-      mutationEdit.mutate(
-        {
-          data: formData,
-          id: String(param.id),
-        },
-        {
-          onSuccess: (data) => {
-            toast.success("Pago editado correctamente");
-            router.back();
+    try {
+      setIsSubmitting(true);
+      const formData = {
+        amount: Number(data.amount),
+        specificDay: Number(data.specificDay),
+        description: data.description ? data.description : null,
+        categoryId: data.category ? data.category.value : 0,
+        accountId: data.account.value,
+        startDate: new Date(data.startDate).toISOString(),
+        endDate: data.endDate ? new Date(data.endDate).toISOString() : null,
+      };
+      if (param.id) {
+        mutationEdit.mutate(
+          {
+            data: formData,
+            id: String(param.id),
           },
-          onError: (error) => {
-            toast.error(error.message);
-            setIsSubmitting(false);
+          {
+            onSuccess: (data) => {
+              toast.success("Pago editado correctamente");
+              router.back();
+            },
+            onError: (error) => {
+              toast.error(error.message);
+              setIsSubmitting(false);
+            },
+          }
+        );
+      } else {
+        mutation.mutate(
+          {
+            data: formData,
           },
-        }
-      );
-    } else {
-      mutation.mutate(
-        {
-          data: formData,
-        },
-        {
-          onSuccess: (data) => {
-            toast.success("Pago creado correctamente");
-            router.back();
-          },
-          onError: (error) => {
-            toast.error(error.message);
-            setIsSubmitting(false);
-          },
-        }
-      );
+          {
+            onSuccess: (data) => {
+              toast.success("Pago creado correctamente");
+              router.back();
+            },
+            onError: (error) => {
+              toast.error(error.message);
+              setIsSubmitting(false);
+            },
+          }
+        );
+      }
+    } catch (e: any) {
+      console.error("Error formatting form data:", e);
+      toast.error("Error al procesar las fechas del formulario");
+      setIsSubmitting(false);
     }
   };
 
@@ -200,5 +206,6 @@ export default function usePaymentsCreateViewModel() {
     handleDelete,
     isSubmitting,
     watch,
+    errors,
   };
 }
