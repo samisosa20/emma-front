@@ -55,7 +55,7 @@ export default async function middleware(request: NextRequest) {
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
     font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
