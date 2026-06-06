@@ -1,4 +1,5 @@
 "use client";
+import { memo } from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -26,42 +27,53 @@ interface MovementsProps {
   errors: FieldErrors<MovementSchema>;
 }
 
-export default function Movements({
-  handleSubmit,
-  onSubmit,
-  control,
-  listAccounts,
-  listCategories,
-  listEvents,
-  listInvestments,
-  handleDelete,
-  typeWatch,
-  accountEndWatch,
-  accountWatch,
-  investmentWatch,
-  isSubmitting,
-  errors,
-}: MovementsProps) {
-  const router = useRouter();
+/**
+ * ⚡ Bolt Optimization: Static helper functions moved outside component.
+ * 🎯 Problem: Re-allocated on every render cycle.
+ * 📊 Impact: Saves allocation overhead and ensures stable behavior.
+ */
+const formatValue = (val: string) => {
+  if (!val) return "";
+  const parts = val.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+};
 
-  const { Button, AutoComplete, Switch, Input } = useComponents();
+const cleanValue = (val: string) => {
+  return val.replace(/,/g, "");
+};
 
-  const isEdit = !!handleDelete;
+/**
+ * ⚡ Bolt Optimization: Memoization of Movements View
+ * 🎯 Problem: Complex form with many controlled inputs re-renders on every keystroke
+ *    due to parent view model's watch() calls.
+ * 📊 Impact: Prevents full reconciliation of the form unless props change.
+ */
+const Movements = memo(
+  ({
+    handleSubmit,
+    onSubmit,
+    control,
+    listAccounts,
+    listCategories,
+    listEvents,
+    listInvestments,
+    handleDelete,
+    typeWatch,
+    accountEndWatch,
+    accountWatch,
+    investmentWatch,
+    isSubmitting,
+    errors,
+  }: MovementsProps) => {
+    const router = useRouter();
 
-  // Helper to format currency display (simple version)
-  const formatValue = (val: string) => {
-    if (!val) return "";
-    const parts = val.split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  };
+    const { Button, AutoComplete, Switch, Input } = useComponents();
 
-  const cleanValue = (val: string) => {
-    return val.replace(/,/g, "");
-  };
+    const isEdit = !!handleDelete;
 
-  return (
-    <main className="flex-1 flex flex-col items-center relative min-h-screen">
+    return (
+      <main className="flex-1 flex flex-col items-center relative min-h-screen">
       <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] border border-wf-outline-variant flex flex-col">
         {/* Header */}
         <div className="px-wf-lg py-wf-md border-b border-wf-surface-variant flex items-center justify-center bg-wf-surface-container-low">
@@ -454,6 +466,9 @@ export default function Movements({
           </div>
         </form>
       </div>
-    </main>
-  );
-}
+      </main>
+    );
+  },
+);
+
+export default Movements;

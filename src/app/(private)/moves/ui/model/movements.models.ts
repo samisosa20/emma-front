@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -94,65 +94,78 @@ export default function useMovementsViewModel() {
   const mutationEdit = usePutApiMovementsId();
   const mutationDelete = useDeleteApiMovementsId();
 
-  const onSubmit = (data: any) => {
-    setIsSubmitting(true);
-    const formData = {
-      categoryId: data.category ? data.category.value : "",
-      type: data.type == 0 ? "transfer" : "move",
-      amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
-      datePurchase: new Date(data.datePurchase).toISOString(),
-      ...(data.event !== undefined && {
-        eventId: data.event ? data.event.value : null,
-      }),
-      ...(data.investment !== undefined && {
-        investmentId: data.investment ? data.investment.value : null,
-      }),
-      accountId: data.account.value,
-      ...(data.type == 0 && {
-        amountEnd:
-          data.type == 0 ? Math.abs(data.amountEnd ?? data.amount) : null,
-        accountEndId: data.type == 0 ? data.accountEnd.value : null,
-      }),
-      description: data.description !== undefined ? data.description : null,
-      addWithdrawal: data.addWithdrawal ?? false,
-    };
-    if (param.id) {
-      mutationEdit.mutate(
-        { id: String(param.id), data: formData },
-        {
-          onSuccess: (result) => {
-            toast.success("Datos guardados correctamente");
-            router.back();
+  /**
+   * ⚡ Bolt Optimization: Stabilize form submission callback.
+   * 🎯 Problem: Every re-render of useMovementsViewModel created a new function,
+   *    causing memoized view components to re-render.
+   * 📊 Impact: Ensures stable reference for onSubmit, allowing React.memo to work.
+   */
+  const onSubmit = useCallback(
+    (data: any) => {
+      setIsSubmitting(true);
+      const formData = {
+        categoryId: data.category ? data.category.value : "",
+        type: data.type == 0 ? "transfer" : "move",
+        amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
+        datePurchase: new Date(data.datePurchase).toISOString(),
+        ...(data.event !== undefined && {
+          eventId: data.event ? data.event.value : null,
+        }),
+        ...(data.investment !== undefined && {
+          investmentId: data.investment ? data.investment.value : null,
+        }),
+        accountId: data.account.value,
+        ...(data.type == 0 && {
+          amountEnd:
+            data.type == 0 ? Math.abs(data.amountEnd ?? data.amount) : null,
+          accountEndId: data.type == 0 ? data.accountEnd.value : null,
+        }),
+        description: data.description !== undefined ? data.description : null,
+        addWithdrawal: data.addWithdrawal ?? false,
+      };
+      if (param.id) {
+        mutationEdit.mutate(
+          { id: String(param.id), data: formData },
+          {
+            onSuccess: () => {
+              toast.success("Datos guardados correctamente");
+              router.back();
+            },
+            onError: (error) => {
+              toast.error(error.message);
+              setIsSubmitting(false);
+            },
           },
-          onError: (error) => {
-            toast.error(error.message);
-            setIsSubmitting(false);
+        );
+      } else {
+        mutation.mutate(
+          { data: formData },
+          {
+            onSuccess: () => {
+              toast.success("Datos guardados correctamente");
+              router.back();
+            },
+            onError: (error) => {
+              toast.error(error.response?.data.message ?? error.message);
+              setIsSubmitting(false);
+            },
           },
-        }
-      );
-    } else {
-      mutation.mutate(
-        { data: formData },
-        {
-          onSuccess: (result) => {
-            toast.success("Datos guardados correctamente");
-            router.back();
-          },
-          onError: (error) => {
-            toast.error(error.response?.data.message ?? error.message);
-            setIsSubmitting(false);
-          },
-        }
-      );
-    }
-  };
+        );
+      }
+    },
+    [mutation, mutationEdit, param.id, router, setIsSubmitting],
+  );
 
-  const handleDelete = () => {
+  /**
+   * ⚡ Bolt Optimization: Stabilize deletion callback.
+   * 📊 Impact: Ensures stable reference for handleDelete.
+   */
+  const handleDelete = useCallback(() => {
     setIsSubmitting(true);
     mutationDelete.mutate(
       { id: String(param.id) },
       {
-        onSuccess: (result) => {
+        onSuccess: () => {
           toast.success("Datos guardados correctamente");
           router.back();
         },
@@ -160,9 +173,9 @@ export default function useMovementsViewModel() {
           toast.error(error.message);
           setIsSubmitting(false);
         },
-      }
+      },
     );
-  };
+  }, [mutationDelete, param.id, router, setIsSubmitting]);
 
   useEffect(() => {
     refetch();
