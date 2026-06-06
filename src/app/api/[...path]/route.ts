@@ -131,7 +131,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
         const scrubSensitiveData = (obj: any) => {
             if (obj && typeof obj === 'object') {
-                const sensitiveKeys = ['token', 'access_token', 'refresh_token', 'password', 'client_secret'];
+                const sensitiveKeys = [
+                    'token', 'access_token', 'refresh_token', 'id_token', 'session_token',
+                    'password', 'client_secret', 'secret', 'session', 'sid'
+                ];
                 for (const key of sensitiveKeys) {
                     if (key in obj) delete obj[key];
                 }
@@ -194,6 +197,8 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Download-Options", "noopen");
   response.headers.set("X-Robots-Tag", "noindex, nofollow");
   response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
