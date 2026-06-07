@@ -1,5 +1,5 @@
 "use client";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -68,13 +68,16 @@ const Movements = memo(
   }: MovementsProps) => {
     const router = useRouter();
 
-    const { Button, AutoComplete, Switch, Input } = useComponents();
+    const { Button, AutoComplete, Switch, Input, Modal, Typography } =
+      useComponents();
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     const isEdit = !!handleDelete;
 
     return (
       <main className="flex-1 flex flex-col items-center relative min-h-screen">
-      <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] border border-wf-outline-variant flex flex-col">
+        <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] border border-wf-outline-variant flex flex-col">
         {/* Header */}
         <div className="px-wf-lg py-wf-md border-b border-wf-surface-variant flex items-center justify-center bg-wf-surface-container-low">
           <h1 className="font-wf-headline-md text-wf-on-surface text-xl md:text-2xl text-center">
@@ -442,7 +445,7 @@ const Movements = memo(
           <div className="p-wf-lg border-t border-wf-surface-variant bg-wf-surface-container-low flex justify-end gap-wf-md">
             {isEdit && (
               <Button
-                onClick={handleDelete}
+                onClick={() => setIsDeleteModalOpen(true)}
                 className="bg-wf-error hover:bg-wf-error/80 text-white"
                 disabled={isSubmitting}
               >
@@ -466,6 +469,35 @@ const Movements = memo(
           </div>
         </form>
       </div>
+
+      <Modal
+        title="Confirmar Eliminación"
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      >
+        <div className="flex flex-col gap-4 p-4">
+          <Typography className="text-wf-on-surface-variant">
+            ¿Estás seguro de que deseas eliminar esta transacción? Esta acción
+            no se puede deshacer.
+          </Typography>
+          <div className="flex gap-3 justify-end mt-4">
+            <Button
+              variant="outlined"
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="border-wf-outline text-wf-on-surface-variant hover:bg-wf-surface-container"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleDelete}
+              className="bg-wf-error text-white hover:bg-wf-error/90 shadow-sm"
+              loading={isSubmitting}
+            >
+              Eliminar
+            </Button>
+          </div>
+        </div>
+      </Modal>
       </main>
     );
   },
