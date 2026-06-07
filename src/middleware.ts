@@ -39,6 +39,11 @@ export default async function middleware(request: NextRequest) {
     response = NextResponse.next();
   }
 
+  // Enforce no-cache policy for private routes containing sensitive financial data (CWE-524)
+  if (!isPublicRoute) {
+    response.headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
+  }
+
   // Add global security headers (CWE-1027, CWE-693)
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
@@ -46,6 +51,8 @@ export default async function middleware(request: NextRequest) {
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"

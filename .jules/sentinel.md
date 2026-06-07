@@ -57,3 +57,8 @@
 **Vulnerability:** Early returns (validation failures, config errors) in the API proxy were bypassing security header injection, leaving some response paths unprotected against clickjacking and other client-side attacks (CWE-693).
 **Learning:** Manually applying security headers to every response path is error-prone. A centralized helper function ensures consistent enforcement across all exit points, including success, error, and early return states.
 **Prevention:** Use a dedicated `applySecurityHeaders` utility in proxy route handlers to wrap all `NextResponse` objects before they are returned.
+
+## 2026-06-05 - [Harden Token Scrubbing and Route-Specific Caching]
+**Vulnerability:** The API proxy's recursive JSON scrubbing was missing several modern session keys (e.g., `id_token`, `sid`, `session_token`), potentially leaking sensitive data. Additionally, missing strict cache control on private routes could expose financial data via browser history/cache.
+**Learning:** Security posture must be comprehensive and context-aware. Proxies should scrub all variations of session identifiers, and middleware should enforce `no-store` policies specifically on private routes to protect sensitive data without sacrificing public asset performance.
+**Prevention:** Expand sensitive key blacklists for response scrubbing and use conditional middleware logic to apply strict cache-control only to authenticated routes.
