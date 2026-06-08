@@ -44,16 +44,18 @@ const ListMovements = memo(({
       {listMovements?.map(
         (movement: GetApiMovements200ContentItem, index: number) => {
           const Icon = getIconComponent(movement.category.icon ?? "PiAcorn");
+
           /**
-           * ⚡ Bolt Optimization: Use cached Intl.DateTimeFormat for date grouping.
-           * 🎯 Problem: date-fns format() is slower in large loops.
-           * 📊 Impact: ~5-10x faster grouping for long transaction lists.
+           * ⚡ Bolt Optimization: Reuse Date object and cached formatters.
+           * 🎯 Problem: new Date() was called twice per iteration in the render loop.
+           * 📊 Impact: Saves redundant allocations and CPU cycles during list rendering.
            */
-          const currentDate = ymdFormatter.format(new Date(movement.datePurchase));
+          const purchaseDate = new Date(movement.datePurchase);
+          const currentDate = ymdFormatter.format(purchaseDate);
           const isNewDay = currentDate !== previousDate;
           previousDate = currentDate;
 
-          const humanDate = dateFormatter.format(new Date(movement.datePurchase));
+          const humanDate = dateFormatter.format(purchaseDate);
 
           return (
             <React.Fragment key={`${movement.id}-${index}`}>

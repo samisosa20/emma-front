@@ -21,3 +21,7 @@
 ## 2025-05-19 - [Loop Optimization in Render Functions]
 **Learning:** Calling lookup functions (like `getAccountType`) multiple times per iteration within a `map` loop in a React component's render body causes unnecessary computation. While often O(1), the overhead adds up in large lists and can trigger repeated object allocations if the lookup returns new objects.
 **Action:** Always store the result of lookup functions in a local variable at the start of a loop iteration and reuse that variable for subsequent property accesses.
+
+## 2025-05-20 - [Redundant Object Allocations in Render Loops]
+**Learning:** Instantiating objects (like `new Date()`) multiple times within a `map` loop in a React component's render body causes unnecessary GC pressure and memory churn. Even if the allocations are fast, the cumulative overhead in long lists (like transaction histories) can lead to jank during scrolling or updates.
+**Action:** Always extract object instantiations to a local variable at the beginning of a loop iteration if the result is used more than once.
