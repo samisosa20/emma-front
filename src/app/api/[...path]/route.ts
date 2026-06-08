@@ -26,11 +26,24 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 }
 
 async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
-  // CSRF Protection: Verify Origin matches for state-changing requests (CWE-352)
+  // CSRF Protection: Verify Origin/Referer matches for state-changing requests (CWE-352)
   if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
     const origin = request.headers.get("origin");
-    if (origin && new URL(origin).origin !== request.nextUrl.origin) {
-      return applySecurityHeaders(NextResponse.json({ message: "Invalid origin" }, { status: 403 }));
+    const referer = request.headers.get("referer");
+
+    let isRequestValid = false;
+    if (origin) {
+      isRequestValid = new URL(origin).origin === request.nextUrl.origin;
+    } else if (referer) {
+      try {
+        isRequestValid = new URL(referer).origin === request.nextUrl.origin;
+      } catch {
+        isRequestValid = false;
+      }
+    }
+
+    if (!isRequestValid) {
+      return applySecurityHeaders(NextResponse.json({ message: "Invalid request source" }, { status: 403 }));
     }
   }
 
@@ -93,6 +106,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-version",
       "x-managed-by",
       "authorization",
+      "api-key",
+      "x-api-key",
+      "proxy-authorization",
+      "cookie",
     ];
 
     response.headers.forEach((value, key) => {
@@ -129,17 +146,21 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
         // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
         // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
-        const scrubSensitiveData = (obj: any) => {
-            if (obj && typeof obj === 'object') {
-                const sensitiveKeys = [
-                    'token', 'access_token', 'refresh_token', 'id_token', 'session_token',
-                    'password', 'client_secret', 'secret', 'session', 'sid'
-                ];
-                for (const key of sensitiveKeys) {
-                    if (key in obj) delete obj[key];
-                }
-                Object.values(obj).forEach(scrubSensitiveData);
+        // Depth limit added to prevent stack overflow (CWE-674)
+        const scrubSensitiveData = (obj: any, depth = 0) => {
+            if (depth > 10 || !obj || typeof obj !== 'object') return;
+
+            const sensitiveKeys = [
+                'token', 'access_token', 'refresh_token', 'id_token', 'session_token',
+                'password', 'client_secret', 'secret', 'session', 'sid',
+                'api_key', 'apikey', 'auth_token', 'private_key', 'cookie'
+            ];
+
+            for (const key of sensitiveKeys) {
+                if (key in obj) delete obj[key];
             }
+
+            Object.values(obj).forEach(val => scrubSensitiveData(val, depth + 1));
         };
         scrubSensitiveData(data);
 
