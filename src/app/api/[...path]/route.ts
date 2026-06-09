@@ -33,7 +33,11 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
     let isRequestValid = false;
     if (origin) {
-      isRequestValid = new URL(origin).origin === request.nextUrl.origin;
+      try {
+        isRequestValid = new URL(origin).origin === request.nextUrl.origin;
+      } catch {
+        isRequestValid = false;
+      }
     } else if (referer) {
       try {
         isRequestValid = new URL(referer).origin === request.nextUrl.origin;
@@ -74,6 +78,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   // Remove headers that might interfere with the proxy
   requestHeaders.delete("host");
   requestHeaders.delete("connection");
+  // Strip client-provided Authorization header to prevent token injection/override (CWE-522)
+  requestHeaders.delete("Authorization");
 
   // Prioritize Authorization header from HttpOnly cookie to prevent token injection (CWE-522, CWE-613)
   const token = request.cookies.get("backend_token")?.value;
@@ -150,14 +156,21 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         const scrubSensitiveData = (obj: any, depth = 0) => {
             if (depth > 10 || !obj || typeof obj !== 'object') return;
 
+            if (Array.isArray(obj)) {
+                obj.forEach(item => scrubSensitiveData(item, depth + 1));
+                return;
+            }
+
             const sensitiveKeys = [
-                'token', 'access_token', 'refresh_token', 'id_token', 'session_token',
+                'token', 'access_token', 'accessToken', 'refresh_token', 'id_token', 'session_token',
                 'password', 'client_secret', 'secret', 'session', 'sid',
                 'api_key', 'apikey', 'auth_token', 'private_key', 'cookie'
             ];
 
             for (const key of sensitiveKeys) {
-                if (key in obj) delete obj[key];
+                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                    delete obj[key];
+                }
             }
 
             Object.values(obj).forEach(val => scrubSensitiveData(val, depth + 1));
