@@ -73,7 +73,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   // Note: Local session validation removed since backend now handles auth via Better Auth
   // We just forward everything to the backend. The backend will validate its own session cookies.
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+  const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
   if (!backendUrl) {
       return applySecurityHeaders(NextResponse.json({ message: "Backend URL not configured" }, { status: 500 }));
   }
@@ -151,7 +151,9 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     let body;
     let tokenToSet: string | undefined;
 
-    if (contentType?.includes("application/json")) {
+    if (response.status === 204) {
+        body = null;
+    } else if (contentType?.includes("application/json")) {
         const data = await response.json();
 
         // Capture JWT token from successful authentication responses (CWE-522)
@@ -177,11 +179,15 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
                 'otp', 'code', 'verification_code', 'secret_key', 'api_token'
             ];
 
-            for (const key of sensitiveKeys) {
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const lowerSensitiveKeys = sensitiveKeys.map(k => k.toLowerCase());
+
+            Object.keys(obj).forEach(key => {
+                const lowerKey = key.toLowerCase();
+                // Use case-insensitive exact match to prevent accidental deletion of fields like 'author' or 'postalCode'
+                if (lowerSensitiveKeys.includes(lowerKey)) {
                     delete obj[key];
                 }
-            }
+            });
 
             Object.values(obj).forEach(val => scrubSensitiveData(val, depth + 1));
         };
@@ -197,7 +203,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         headers: responseHeaders
     }));
 
-    if (isLogoutPath && response.ok) {
+    // Clear session cookie on explicit logout or session expiration (CWE-613)
+    if ((isLogoutPath && response.ok) || response.status === 401) {
       res.cookies.delete("backend_token");
     }
 

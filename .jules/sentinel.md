@@ -62,3 +62,8 @@
 **Vulnerability:** The API proxy's recursive JSON scrubbing was missing several modern session keys (e.g., `id_token`, `sid`, `session_token`), potentially leaking sensitive data. Additionally, missing strict cache control on private routes could expose financial data via browser history/cache.
 **Learning:** Security posture must be comprehensive and context-aware. Proxies should scrub all variations of session identifiers, and middleware should enforce `no-store` policies specifically on private routes to protect sensitive data without sacrificing public asset performance.
 **Prevention:** Expand sensitive key blacklists for response scrubbing and use conditional middleware logic to apply strict cache-control only to authenticated routes.
+
+## 2026-06-10 - [Universal Secure Proxy Enforcement and Session Invalidation]
+**Vulnerability:** Insecure rewrites in `next.config.js` were allowing API traffic to bypass the secure proxy, missing critical CSRF and XSS protections. Furthermore, the proxy failed to invalidate client sessions on 401 errors, and over-aggressive scrubbing caused functional regressions.
+**Learning:** All API traffic must be forced through a single secure entry point. Session invalidation should be bidirectional (on logout and on auth failure). Sensitive data scrubbing must use case-insensitive exact matching to balance security with functional integrity.
+**Prevention:** Remove direct rewrites to backend URLs. Implement 401-triggered cookie clearing in the proxy. Use `lowerCaseSensitiveKeys.includes(key.toLowerCase())` for precise response scrubbing.
