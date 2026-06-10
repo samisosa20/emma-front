@@ -38,7 +38,7 @@ const ListMovements = memo(({
   keyTitle,
 }: listMovements) => {
   let previousDate: string | null = null;
-  const { Typography } = useComponents();
+  const { Typography, Button } = useComponents();
   return (
     <div className="mt-6 max-h-[65vh] overflow-y-auto">
       {listMovements?.map(
@@ -124,12 +124,15 @@ const ListMovements = memo(({
         }
       )}
       {meta && !meta?.isLastPage && (
-        <Typography
-          className="text-center py-6 underline cursor-pointer hover:text-black"
-          onClick={() => setPage(meta.nextPage)}
-        >
-          Haz clic para cargar mas.
-        </Typography>
+        <div className="flex justify-center py-6">
+          <Button
+            variant="outlined"
+            onClick={() => setPage(meta.nextPage)}
+            className="border-wf-primary text-wf-primary hover:bg-wf-surface-container px-8"
+          >
+            Cargar más
+          </Button>
+        </div>
       )}
       {(!listMovements || listMovements?.length === 0) && (
         <Typography className="text-center py-6">Sin resultados</Typography>
