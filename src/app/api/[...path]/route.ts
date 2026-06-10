@@ -30,6 +30,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
     const origin = request.headers.get("origin");
     const referer = request.headers.get("referer");
+    const secFetchSite = request.headers.get("sec-fetch-site");
+
+    // Modern browser defense: Sec-Fetch-Site (CWE-352)
+    if (secFetchSite && !["same-origin", "same-site"].includes(secFetchSite)) {
+      return applySecurityHeaders(NextResponse.json({ message: "Invalid request origin" }, { status: 403 }));
+    }
 
     let isRequestValid = false;
     if (origin) {
@@ -116,6 +122,9 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-api-key",
       "proxy-authorization",
       "cookie",
+      "x-auth-token",
+      "x-session-id",
+      "x-correlation-id",
     ];
 
     response.headers.forEach((value, key) => {
@@ -164,7 +173,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
             const sensitiveKeys = [
                 'token', 'access_token', 'accessToken', 'refresh_token', 'id_token', 'session_token',
                 'password', 'client_secret', 'secret', 'session', 'sid',
-                'api_key', 'apikey', 'auth_token', 'private_key', 'cookie'
+                'api_key', 'apikey', 'auth_token', 'private_key', 'cookie',
+                'otp', 'code', 'verification_code', 'secret_key', 'api_token'
             ];
 
             for (const key of sensitiveKeys) {
