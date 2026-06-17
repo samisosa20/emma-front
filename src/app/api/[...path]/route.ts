@@ -62,10 +62,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     return applySecurityHeaders(NextResponse.json({ message: "Invalid path" }, { status: 400 }));
   }
 
-  let targetPath = path.join("/");
+  let targetPath = path.join("/").replace(/\/+$/, "");
   // Strip legacy v2 prefix to prevent path confusion and maintain consistency (CWE-20)
   if (targetPath.startsWith("v2/")) {
-    targetPath = targetPath.substring(3);
+    targetPath = targetPath.substring(3).replace(/\/+$/, "");
   } else if (targetPath === "v2") {
     targetPath = "";
   }
@@ -125,6 +125,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
       "x-auth-token",
       "x-session-id",
       "x-correlation-id",
+      "proxy-authenticate",
+      "x-forwarded-for",
+      "x-real-ip",
+      "x-client-ip",
+      "x-host",
+      "forwarded",
     ];
 
     response.headers.forEach((value, key) => {
@@ -176,7 +182,8 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
                 'token', 'access_token', 'accessToken', 'refresh_token', 'id_token', 'session_token',
                 'password', 'client_secret', 'secret', 'session', 'sid',
                 'api_key', 'apikey', 'auth_token', 'private_key', 'cookie',
-                'otp', 'code', 'verification_code', 'secret_key', 'api_token'
+                'otp', 'code', 'verification_code', 'secret_key', 'api_token',
+                'jwt', 'passphrase', 'xsrfToken', 'csrfToken', 'recovery_code', 'authorization_code'
             ];
 
             const lowerSensitiveKeys = sensitiveKeys.map(k => k.toLowerCase());
@@ -239,6 +246,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
  * @returns The same NextResponse object with security headers applied.
  */
 function applySecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set("X-DNS-Prefetch-Control", "off");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-XSS-Protection", "0");
