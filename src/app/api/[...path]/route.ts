@@ -1,5 +1,98 @@
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * ⚡ Bolt Optimization: Module-level static configuration.
+ * 🎯 Problem: Lists and strings were being re-allocated on every request.
+ * 📊 Impact: O(1) lookups for headers and keys, zero allocation for static strings.
+ */
+const SENSITIVE_HEADERS = new Set([
+  "content-encoding",
+  "transfer-encoding",
+  "content-length",
+  "server",
+  "x-powered-by",
+  "via",
+  "x-runtime",
+  "x-aspnet-version",
+  "x-vercel-id",
+  "x-vercel-cache",
+  "x-request-id",
+  "x-version",
+  "x-managed-by",
+  "authorization",
+  "api-key",
+  "x-api-key",
+  "proxy-authorization",
+  "cookie",
+  "x-auth-token",
+  "x-session-id",
+  "x-correlation-id",
+]);
+
+const SENSITIVE_BODY_KEYS = new Set([
+  "token",
+  "access_token",
+  "accesstoken",
+  "refresh_token",
+  "id_token",
+  "session_token",
+  "password",
+  "client_secret",
+  "secret",
+  "session",
+  "sid",
+  "api_key",
+  "apikey",
+  "auth_token",
+  "private_key",
+  "cookie",
+  "otp",
+  "code",
+  "verification_code",
+  "secret_key",
+  "api_token",
+]);
+
+const CSP_HEADER = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
+    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
+    connect-src 'self';
+    frame-ancestors 'none';
+    form-action 'self';
+    object-src 'none';
+    base-uri 'self';
+    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
+  `
+  .replace(/\s{2,}/g, " ")
+  .trim();
+
+/**
+ * ⚡ Bolt Optimization: Performant recursive scrubbing.
+ * 🎯 Problem: Combination of Object.keys and Object.values caused redundant allocations.
+ * 📊 Impact: Uses single for...in loop for both deletion and recursion, reducing GC pressure.
+ */
+const scrubSensitiveData = (obj: any, depth = 0) => {
+  if (depth > 10 || !obj || typeof obj !== "object") return;
+
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      scrubSensitiveData(obj[i], depth + 1);
+    }
+    return;
+  }
+
+  for (const key in obj) {
+    if (SENSITIVE_BODY_KEYS.has(key.toLowerCase())) {
+      delete obj[key];
+    } else {
+      scrubSensitiveData(obj[key], depth + 1);
+    }
+  }
+};
+
 export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
     const { path } = await params;
     return handleRequest(request, { path });
@@ -135,7 +228,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
     response.headers.forEach((value, key) => {
       const lowerKey = key.toLowerCase();
-      if (!sensitiveHeaders.includes(lowerKey)) {
+      if (!SENSITIVE_HEADERS.has(lowerKey)) {
         if (lowerKey === "set-cookie") {
           responseHeaders.append(key, value);
         } else {
@@ -264,22 +357,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   );
 
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
-  const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
-    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-    connect-src 'self';
-    frame-ancestors 'none';
-    form-action 'self';
-    object-src 'none';
-    base-uri 'self';
-    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
-  `
-    .replace(/\s{2,}/g, " ")
-    .trim();
-  response.headers.set("Content-Security-Policy", cspHeader);
+  response.headers.set("Content-Security-Policy", CSP_HEADER);
 
   return response;
 }

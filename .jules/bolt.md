@@ -25,3 +25,7 @@
 ## 2025-05-20 - [Redundant Object Allocations in Render Loops]
 **Learning:** Instantiating objects (like `new Date()`) multiple times within a `map` loop in a React component's render body causes unnecessary GC pressure and memory churn. Even if the allocations are fast, the cumulative overhead in long lists (like transaction histories) can lead to jank during scrolling or updates.
 **Action:** Always extract object instantiations to a local variable at the beginning of a loop iteration if the result is used more than once.
+
+## 2026-06-17 - [API Proxy Optimization with Module-Level Hoisting]
+**Learning:** Static configurations (sensitive headers, body keys, CSP strings) in a high-traffic API proxy cause significant garbage collection pressure and CPU overhead when re-allocated or re-calculated on every request. Hoisting these to module-level constants and using `Set` for O(1) lookups reduces latency and memory churn. Refactoring recursion to use `for...in` instead of `Object.keys().forEach()` further minimizes temporary object allocations.
+**Action:** Always hoist static configuration to the module level in global middleware or proxy handlers. Use `Set` for membership checks in hot paths.
