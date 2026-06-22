@@ -210,9 +210,8 @@ export default function useDashboardViewModel() {
     if (id) {
       setCategoryId(id);
       setIsOpen(true);
-      console.log(getValues('badgeId')?.value)
       const result = await getApiMovements({
-        category: id,
+        categoryId: id,
         ...(periodReport === "monthly" && {
         month: filters.month,
         year: filters.year,
@@ -277,7 +276,6 @@ export default function useDashboardViewModel() {
         label: badgePreselect?.code,
         value: badgePreselect?.id,
       });
-      console.log(badgePreselect)
       if (!localStorage.getItem("fiona-doesntShow_help")) {
         driverWelcome();
       }
