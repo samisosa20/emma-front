@@ -5,4 +5,5 @@ export interface ModalProps {
   isOpen: boolean;
   children?: ReactNode;
   onClose?: () => any;
+  variant?: "small" | "medium" | "large";
 }

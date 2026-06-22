@@ -59,7 +59,7 @@ const CSP_HEADER = `
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com;
     font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-    connect-src 'self';
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
     frame-ancestors 'none';
     form-action 'self';
     object-src 'none';

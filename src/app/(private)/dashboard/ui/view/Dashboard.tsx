@@ -15,6 +15,7 @@ import {
   LineChart,
 } from "recharts";
 import { getISOWeeksInYear } from "date-fns";
+import { useRouter } from "next/navigation";
 
 //components
 import useComponents from "@/share/components";
@@ -95,6 +96,9 @@ const Dashboard = memo((props: any) => {
     selectedWeek,
     dataBalance,
     dataHistory,
+    setIsOpen,
+    isOpen,
+    categoryId,
   } = props;
   const {
     Typography,
@@ -104,8 +108,11 @@ const Dashboard = memo((props: any) => {
     TitleHelp,
     AutoComplete,
     SlideStepper,
+    Modal,
   } = useComponents();
-  const { ListItems, Filters, Cards } = useComponentsLayout();
+  const { ListItems, Filters, Cards, ListMovementsDetail } =
+    useComponentsLayout();
+  const router = useRouter();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -479,6 +486,31 @@ const Dashboard = memo((props: any) => {
           </div>
         </div>
       )}
+
+      <Modal
+        title="Listado de movimientos"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <div className="p-wf-lg">
+          <ListMovementsDetail
+            listMovements={listMovements}
+            showFilters={false}
+            title={`Movimientos por Categoría`}
+          />
+
+          <div className="text-center mt-wf-xl">
+            <button
+              className="px-wf-xl py-wf-sm rounded-full bg-wf-primary text-wf-on-primary font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary/90 transition-all shadow-md"
+              onClick={() =>
+                router.push(`categories/${categoryId}?c=${filters?.badgeId}`)
+              }
+            >
+              Ver Historial Completo
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 });

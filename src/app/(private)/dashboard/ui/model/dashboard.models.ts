@@ -4,7 +4,6 @@ import { getISOWeek, format, startOfMonth, endOfMonth } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import { driverWelcome } from "@/share/helpers";
-import { useUserStore } from "@/share/storage";
 
 import {
   useGetApiReportsTypePeriodSuspense,
@@ -13,9 +12,14 @@ import {
   getApiReportsHistory,
 } from "@@@/endpoints/report/report";
 
+import {
+  getApiMovements
+} from "@@@/endpoints/movement/movement";
+import { authClient } from "@/share/lib/auth-client";
+
 export default function useDashboardViewModel() {
   const router = useRouter();
-  const { badges, user } = useUserStore();
+  const { data: session } = authClient.useSession();
   const [currencyOptions, setCurrencyOptions] = useState<
     { label: string; value: string }[]
   >([]);
@@ -48,6 +52,8 @@ export default function useDashboardViewModel() {
   const [selectedWeek, setSelectedWeek] = useState<number | null>(
     getISOWeek(new Date())
   );
+  const [isOpen, setIsOpen] = useState(false);
+  const [categoryId, setCategoryId] = useState('');
 
   /**
    * ⚡ Bolt Optimization: Memoized configuration arrays
@@ -192,39 +198,40 @@ export default function useDashboardViewModel() {
     setHistoryBalance(result);
   };
 
-  const getMovements = async (id: number) => {
+  const getMovements = async (id: string) => {
     if (id) {
-      setListMovements([]);
+      getMovementsGroup(id);
     } else {
       setListMovements([]);
     }
   };
 
-  /* const getMovementsGroup = async (id: number) => {
+  const getMovementsGroup = async (id: string) => {
     if (id) {
-      const { getReportGroup } = new ReportUseCase(
-        new ReportApiAdapter({
-          baseUrl: "/api",
-          customConfig: customConfigHeader(),
-        })
-      );
-
-     const result = await getReportGroup({
-        ...filters,
-        group_id: id.toString(),
+      setCategoryId(id);
+      setIsOpen(true);
+      console.log(getValues('badgeId')?.value)
+      const result = await getApiMovements({
+        category: id,
+        ...(periodReport === "monthly" && {
+        month: filters.month,
+        year: filters.year,
+      }),
+      ...(periodReport === "yearly" && { year: filters.year }),
+      ...(periodReport === "weekly" && {
+        weekNumber: filters.weekNumber,
+        year: filters.year,
+      }),
+        ...(getValues('badgeId')?.value && { badgeId: String(getValues('badgeId')?.value) }),
+        size: '50',
       });
 
-      if (result.status === 401) {
-        localStorage.removeItem("fiona-user");
-        router.push("/login");
-      }
-
       // @ts-ignore
-      setListMovements(result); 
+      setListMovements(result?.content || []); 
     } else {
       setListMovements([]);
     }
-  };*/
+  };
 
   /**
    * ⚡ Bolt Optimization: Stabilize SlideStepper callback.
@@ -255,7 +262,8 @@ export default function useDashboardViewModel() {
   }, [isError]);
 
   useEffect(() => {
-    if (user) {
+    if (session?.user) {
+      const badges = session?.badges;
       setCurrencyOptions(
         badges?.map((v) => {
           return {
@@ -264,11 +272,12 @@ export default function useDashboardViewModel() {
           };
         })
       );
-      const badgePreselect = badges.find((v: any) => v.id == user.badgeId);
+      const badgePreselect = badges.find((v: any) => v.id == session.user.badgeId);
       setValue("badgeId", {
         label: badgePreselect?.code,
         value: badgePreselect?.id,
       });
+      console.log(badgePreselect)
       if (!localStorage.getItem("fiona-doesntShow_help")) {
         driverWelcome();
       }
@@ -294,5 +303,8 @@ export default function useDashboardViewModel() {
     selectedWeek,
     dataBalance,
     dataHistory,
+    setIsOpen,
+    isOpen,
+    categoryId
   };
 }

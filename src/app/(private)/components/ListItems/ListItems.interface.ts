@@ -1,6 +1,7 @@
 export interface ListItems {
   data: {
     amount: number;
+    categoryId: string;
     category: string;
     icon: string;
     color: string;
@@ -17,7 +18,7 @@ export interface ListItems {
   tooltip?: boolean;
   tooltipVariant?: "group";
   variant?: "default" | "modal" | "utilization" | "movements";
-  onClickModal?: (id: number) => void;
+  onClickModal?: (id: string) => void;
   dataModal?: any[];
   showHistory?: boolean;
   currency?: {

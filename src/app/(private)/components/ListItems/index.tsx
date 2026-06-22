@@ -1,6 +1,5 @@
 "use client";
-import { useState, memo } from "react";
-import { useRouter } from "next/navigation";
+import { memo } from "react";
 
 //components
 import useComponents from "@/share/components";
@@ -119,23 +118,13 @@ const ListModal = memo((props: ListItemsProps) => {
     data,
     title,
     onClickModal,
-    dataModal,
-    showHistory,
-    currency,
     tooltip,
     tooltipVariant,
   } = props;
-  const { Typography, Modal, TitleHelp, CategoryIcon } = useComponents();
-  const { ListMovementsDetail } = useComponentsLayout();
-  const router = useRouter();
+  const { Typography, TitleHelp, CategoryIcon } = useComponents();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [categoryId, setCategoryId] = useState(0);
-
-  const handleSelectItem = async (id: number) => {
+  const handleSelectItem = async (id: string) => {
     onClickModal && (await onClickModal(id));
-    setIsOpen(true);
-    setCategoryId(id);
   };
 
   const handleOnDrive = (type?: string) => {
@@ -162,7 +151,7 @@ const ListModal = memo((props: ListItemsProps) => {
           <div
             className="group p-wf-sm rounded-lg hover:bg-white/40 transition-all cursor-pointer border border-transparent hover:border-white/50"
             key={"ListModal" + index}
-            onClick={() => handleSelectItem(card.amount)} // TODO: check if this is the correct ID
+            onClick={() => handleSelectItem(card.categoryId)} // TODO: check if this is the correct ID
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-3 w-1/2">
@@ -188,33 +177,6 @@ const ListModal = memo((props: ListItemsProps) => {
           </div>
         ))}
       </div>
-      <Modal
-        title="Listado de movimientos"
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        variant="full"
-      >
-        <div className="p-wf-lg">
-          <ListMovementsDetail
-            listMovements={dataModal}
-            showFilters={false}
-            title={`Movimientos por Categoría`}
-          />
-
-          {showHistory && (
-            <div className="text-center mt-wf-xl">
-              <button
-                className="px-wf-xl py-wf-sm rounded-full bg-wf-primary text-wf-on-primary font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary/90 transition-all shadow-md"
-                onClick={() =>
-                  router.push(`categories/${categoryId}?c=${currency?.id}`)
-                }
-              >
-                Ver Historial Completo
-              </button>
-            </div>
-          )}
-        </div>
-      </Modal>
     </div>
   );
 });
