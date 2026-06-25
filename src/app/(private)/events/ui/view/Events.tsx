@@ -51,7 +51,8 @@ const EventCard = memo(
     return (
       <Link
         href={`/events/${event.id}`}
-        className={`bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 p-wf-md flex flex-col gap-wf-sm hover:border-wf-primary/50 transition-colors duration-300 ${
+        aria-label={`Ver detalles del evento ${event.name}, finaliza el ${mdyFormatter.format(new Date(event.endEvent))}`}
+        className={`bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 p-wf-md flex flex-col gap-wf-sm hover:border-wf-primary/50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ${
           isLarge ? "md:col-span-2 lg:col-span-2" : ""
         }`}
       >
@@ -63,7 +64,10 @@ const EventCard = memo(
               color: eventType.textColor,
             }}
           >
-            <span className="material-symbols-outlined text-[24px]">
+            <span
+              className="material-symbols-outlined text-[24px]"
+              aria-hidden="true"
+            >
               {event.type}
             </span>
           </div>
@@ -82,7 +86,10 @@ const EventCard = memo(
             {event.name}
           </h3>
           <div className="flex items-center gap-2 text-wf-on-surface-variant text-sm mt-1">
-            <span className="material-symbols-outlined text-[16px]">
+            <span
+              className="material-symbols-outlined text-[16px]"
+              aria-hidden="true"
+            >
               calendar_today
             </span>
             {/**
@@ -203,8 +210,13 @@ const Events = (props: ModelProps) => {
             />
           </div>
           <Link href={"/events/create"}>
-            <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">
-              <span className="material-symbols-outlined text-[18px]">add</span>
+            <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-wf-primary focus-visible:ring-offset-2 outline-none transition-all duration-200 shadow-sm">
+              <span
+                className="material-symbols-outlined text-[18px]"
+                aria-hidden="true"
+              >
+                add
+              </span>
               Crear Nuevo Evento
             </button>
           </Link>
