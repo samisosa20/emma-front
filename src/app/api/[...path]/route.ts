@@ -27,6 +27,12 @@ const SENSITIVE_HEADERS = new Set([
   "x-auth-token",
   "x-session-id",
   "x-correlation-id",
+  "proxy-authenticate",
+  "x-forwarded-for",
+  "x-real-ip",
+  "x-client-ip",
+  "x-host",
+  "forwarded",
 ]);
 
 const SENSITIVE_BODY_KEYS = new Set([
@@ -51,6 +57,12 @@ const SENSITIVE_BODY_KEYS = new Set([
   "verification_code",
   "secret_key",
   "api_token",
+  "jwt",
+  "passphrase",
+  "xsrfToken",
+  "csrfToken",
+  "recovery_code",
+  "authorization_code",
 ]);
 
 const CSP_HEADER = `
@@ -196,35 +208,6 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     // Forward backend response headers (including Set-Cookie for Better Auth)
     // Blacklist sensitive headers to avoid information leakage (CWE-209, CWE-1027)
     const responseHeaders = new Headers();
-    const sensitiveHeaders = [
-      "content-encoding",
-      "transfer-encoding",
-      "content-length",
-      "server",
-      "x-powered-by",
-      "via",
-      "x-runtime",
-      "x-aspnet-version",
-      "x-vercel-id",
-      "x-vercel-cache",
-      "x-request-id",
-      "x-version",
-      "x-managed-by",
-      "authorization",
-      "api-key",
-      "x-api-key",
-      "proxy-authorization",
-      "cookie",
-      "x-auth-token",
-      "x-session-id",
-      "x-correlation-id",
-      "proxy-authenticate",
-      "x-forwarded-for",
-      "x-real-ip",
-      "x-client-ip",
-      "x-host",
-      "forwarded",
-    ];
 
     response.headers.forEach((value, key) => {
       const lowerKey = key.toLowerCase();
@@ -263,34 +246,6 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
         // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
         // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
         // Depth limit added to prevent stack overflow (CWE-674)
-        const scrubSensitiveData = (obj: any, depth = 0) => {
-            if (depth > 10 || !obj || typeof obj !== 'object') return;
-
-            if (Array.isArray(obj)) {
-                obj.forEach(item => scrubSensitiveData(item, depth + 1));
-                return;
-            }
-
-            const sensitiveKeys = [
-                'token', 'access_token', 'accessToken', 'refresh_token', 'id_token', 'session_token',
-                'password', 'client_secret', 'secret', 'session', 'sid',
-                'api_key', 'apikey', 'auth_token', 'private_key', 'cookie',
-                'otp', 'code', 'verification_code', 'secret_key', 'api_token',
-                'jwt', 'passphrase', 'xsrfToken', 'csrfToken', 'recovery_code', 'authorization_code'
-            ];
-
-            const lowerSensitiveKeys = sensitiveKeys.map(k => k.toLowerCase());
-
-            Object.keys(obj).forEach(key => {
-                const lowerKey = key.toLowerCase();
-                // Use case-insensitive exact match to prevent accidental deletion of fields like 'author' or 'postalCode'
-                if (lowerSensitiveKeys.includes(lowerKey)) {
-                    delete obj[key];
-                }
-            });
-
-            Object.values(obj).forEach(val => scrubSensitiveData(val, depth + 1));
-        };
         scrubSensitiveData(data);
 
         body = JSON.stringify(data);
