@@ -67,3 +67,8 @@
 **Vulnerability:** Insecure rewrites in `next.config.js` were allowing API traffic to bypass the secure proxy, missing critical CSRF and XSS protections. Furthermore, the proxy failed to invalidate client sessions on 401 errors, and over-aggressive scrubbing caused functional regressions.
 **Learning:** All API traffic must be forced through a single secure entry point. Session invalidation should be bidirectional (on logout and on auth failure). Sensitive data scrubbing must use case-insensitive exact matching to balance security with functional integrity.
 **Prevention:** Remove direct rewrites to backend URLs. Implement 401-triggered cookie clearing in the proxy. Use `lowerCaseSensitiveKeys.includes(key.toLowerCase())` for precise response scrubbing.
+
+## 2026-06-12 - [Hardening API Proxy against Header Spoofing and Path Confusion]
+**Vulnerability:** The API proxy was susceptible to header spoofing (CWE-290) by forwarding client-provided `X-Forwarded-For` and `X-Real-IP` headers. Additionally, it was vulnerable to path confusion (CWE-20) from multiple consecutive slashes, potentially bypassing security filters.
+**Learning:** Proxies must explicitly strip all spoofable headers from incoming client requests to ensure the backend only trusts headers set by the proxy. Path normalization (collapsing slashes) is essential for consistent security checks.
+**Prevention:** Use `requestHeaders.delete()` for all `X-Forwarded-*`, `X-Real-IP`, and `Forwarded` headers. Apply `path.join("/").replace(/\/+/g, "/")` to normalize target paths.

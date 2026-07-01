@@ -57,7 +57,7 @@ export default async function middleware(request: NextRequest) {
   response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()"
   );
   response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 

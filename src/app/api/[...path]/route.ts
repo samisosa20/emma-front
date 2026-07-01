@@ -33,6 +33,8 @@ const SENSITIVE_HEADERS = new Set([
   "x-client-ip",
   "x-host",
   "forwarded",
+  "x-forwarded-host",
+  "x-forwarded-proto",
 ]);
 
 const SENSITIVE_BODY_KEYS = new Set([
@@ -167,7 +169,7 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     return applySecurityHeaders(NextResponse.json({ message: "Invalid path" }, { status: 400 }));
   }
 
-  let targetPath = path.join("/").replace(/\/+$/, "");
+  let targetPath = path.join("/").replace(/\/+/g, "/").replace(/\/+$/, "");
   // Strip legacy v2 prefix to prevent path confusion and maintain consistency (CWE-20)
   if (targetPath.startsWith("v2/")) {
     targetPath = targetPath.substring(3).replace(/\/+$/, "");
@@ -191,6 +193,14 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   requestHeaders.delete("connection");
   // Strip client-provided Authorization header to prevent token injection/override (CWE-522)
   requestHeaders.delete("Authorization");
+  // Strip spoofable headers to prevent IP spoofing and header injection (CWE-290, CWE-450)
+  requestHeaders.delete("x-forwarded-for");
+  requestHeaders.delete("x-real-ip");
+  requestHeaders.delete("x-forwarded-host");
+  requestHeaders.delete("x-forwarded-proto");
+  requestHeaders.delete("forwarded");
+  requestHeaders.delete("x-client-ip");
+  requestHeaders.delete("x-api-key");
 
   // Prioritize Authorization header from HttpOnly cookie to prevent token injection (CWE-522, CWE-613)
   const token = request.cookies.get("backend_token")?.value;
@@ -308,7 +318,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(), interest-cohort=()"
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()"
   );
 
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
