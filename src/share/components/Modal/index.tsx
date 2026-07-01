@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { memo } from "react";
 import { MdClose } from "react-icons/md";
 
 // Interface
@@ -9,26 +9,29 @@ import { useTheme } from './Modal.styles';
 
 import Typography from '../Typography';
 
-const Modal = (props: ModalProps) => {
+/**
+ * ⚡ Bolt Optimization: Memoization and class merging optimization.
+ * 🎯 Problem: Modal was missing memoization and using expensive twMerge for non-conflicting classes.
+ * 📊 Impact: Prevents unnecessary re-renders and reduces CPU overhead by skipping twMerge parsing.
+ */
+const Modal = memo((props: ModalProps) => {
   const { title, children, onClose, isOpen } = props;
 
   const { modal } = useTheme();
   return (
     <div
-      className={twMerge(
-        modal.container,
+      className={`${modal.container} ${
         isOpen ? "opacity-100 pointer-events-auto visible" : "opacity-0 pointer-events-none invisible"
-      )}
+      }`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
       <div className={modal.overlay} onClick={onClose}></div>
       <div
-        className={twMerge(
-          modal.base,
+        className={`${modal.base} ${
           isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
-        )}
+        }`}
       >
         <div className={modal.content}>
           <div className={modal.header}>
@@ -51,6 +54,6 @@ const Modal = (props: ModalProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default Modal;
