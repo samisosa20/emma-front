@@ -5,3 +5,7 @@
 ## 2025-05-15 - Semantic Buttons for Interactions
 **Learning:** Core interactions like "Load more" should be implemented with semantic `Button` components rather than text elements with `onClick` handlers. This ensures keyboard accessibility (Tab focus and Enter/Space triggers) and provides better visual affordance of interactivity.
 **Action:** Avoid using `Typography` or generic text elements for primary actions; use the shared `Button` component or semantic `<button>` elements.
+
+## 2025-07-01 - Input Accessibility Enhancement
+**Learning:** Generic input components often lack clear association between labels and fields when IDs are not explicitly provided. Using React's `useId` ensures robust accessibility. Additionally, providing visual and programmatic cues (like `aria-invalid` and `*` for required fields) significantly improves UX for all users, especially those using assistive technologies.
+**Action:** Always use `useId` for form controls and implement `aria-invalid` and required indicators as standard features of the design system components.
