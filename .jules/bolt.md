@@ -29,3 +29,7 @@
 ## 2026-06-17 - [API Proxy Optimization with Module-Level Hoisting]
 **Learning:** Static configurations (sensitive headers, body keys, CSP strings) in a high-traffic API proxy cause significant garbage collection pressure and CPU overhead when re-allocated or re-calculated on every request. Hoisting these to module-level constants and using `Set` for O(1) lookups reduces latency and memory churn. Refactoring recursion to use `for...in` instead of `Object.keys().forEach()` further minimizes temporary object allocations.
 **Action:** Always hoist static configuration to the module level in global middleware or proxy handlers. Use `Set` for membership checks in hot paths.
+
+## 2025-05-21 - [Optimizing Frequent Shared Components: Modal]
+**Learning:** Shared UI components like `Modal` are frequently part of complex views (e.g., Dashboards) and can trigger expensive reconciliation if not memoized. Furthermore, using `twMerge` for non-conflicting utility classes (like visibility or scale transitions) adds unnecessary CPU overhead for string parsing.
+**Action:** Always wrap shared components in `React.memo`. Replace `twMerge` with template literals for known non-conflicting utility classes to save CPU cycles.
