@@ -39,7 +39,7 @@ const Investments = memo((props: any) => {
             href={"/investments/create"}
             className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm"
           >
-            <span className="material-symbols-outlined text-[20px]">add</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">add</span>
             Crear Inversión
           </Link>
         </div>
@@ -51,6 +51,7 @@ const Investments = memo((props: any) => {
             <Link
               href={`/investments/${investment.id}`}
               key={investment.id}
+              aria-label={`Ver detalles de la inversión ${investment.name}, valor actual: ${investment.badge?.symbol}${getCurrencyFormatter(investment.badge?.code, investment.endAmount)}, valorización: ${investment.valorization}, rendimiento: ${investment.badge?.symbol}${getCurrencyFormatter(investment.badge?.code, investment.totalReturns)}, total: ${investment.totalRate}`}
               className="group relative bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 transition-all hover:shadow-lg hover:border-wf-primary/30 hover:-translate-y-1 flex flex-col gap-wf-md"
             >
               <div className="flex items-center justify-between">
@@ -120,7 +121,7 @@ const Investments = memo((props: any) => {
 
       {data && data.meta.totalCount === 0 && (
         <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 text-center flex flex-col items-center justify-center">
-          <span className="material-symbols-outlined text-wf-surface-tint text-6xl mb-4">
+          <span className="material-symbols-outlined text-wf-surface-tint text-6xl mb-4" aria-hidden="true">
             trending_up
           </span>
           <Typography className="text-wf-on-surface-variant font-wf-body-regular italic">

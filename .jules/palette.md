@@ -9,3 +9,7 @@
 ## 2025-07-01 - Input Accessibility Enhancement
 **Learning:** Generic input components often lack clear association between labels and fields when IDs are not explicitly provided. Using React's `useId` ensures robust accessibility. Additionally, providing visual and programmatic cues (like `aria-invalid` and `*` for required fields) significantly improves UX for all users, especially those using assistive technologies.
 **Action:** Always use `useId` for form controls and implement `aria-invalid` and required indicators as standard features of the design system components.
+
+## 2026-07-08 - Non-Lossy Accessibility Labels
+**Learning:** Adding an `aria-label` to a wrapper link (like an Account or Investment card) replaces the default announcement of all child text nodes. If the label is incomplete, it effectively hides visual information from screen reader users.
+**Action:** When overriding the accessible name of a complex component, ensure the `aria-label` is comprehensive, including names, types, and all key displayed metrics.
