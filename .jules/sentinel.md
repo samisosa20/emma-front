@@ -72,3 +72,8 @@
 **Vulnerability:** The API proxy was susceptible to header spoofing (CWE-290) by forwarding client-provided `X-Forwarded-For` and `X-Real-IP` headers. Additionally, it was vulnerable to path confusion (CWE-20) from multiple consecutive slashes, potentially bypassing security filters.
 **Learning:** Proxies must explicitly strip all spoofable headers from incoming client requests to ensure the backend only trusts headers set by the proxy. Path normalization (collapsing slashes) is essential for consistent security checks.
 **Prevention:** Use `requestHeaders.delete()` for all `X-Forwarded-*`, `X-Real-IP`, and `Forwarded` headers. Apply `path.join("/").replace(/\/+/g, "/")` to normalize target paths.
+
+## 2026-06-15 - [Enforcing Secure Proxy by Removing Direct Rewrites]
+**Vulnerability:** Insecure rewrites in `next.config.js` allowed API traffic to bypass the secure proxy at `src/app/api/[...path]/route.ts`, skipping critical security controls like CSRF protection, header sanitization, and sensitive data scrubbing (CWE-601).
+**Learning:** Transparent framework-level rewrites can inadvertently create bypasses for application-level security filters. All API traffic must be explicitly routed through the secure entry point to maintain a consistent security posture.
+**Prevention:** Avoid using `rewrites` in `next.config.js` for backend communication if a custom proxy handler is used for security. Consolidate all proxy logic into a single, hardened Route Handler and strip additional spoofable headers like `x-forwarded-port` and `x-original-url`.
