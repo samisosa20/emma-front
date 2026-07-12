@@ -68,7 +68,7 @@ const Accounts = () => {
           />
           <Link href={"/accounts/create"}>
             <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">add</span>
               Crear Cuenta
             </button>
           </Link>
@@ -115,6 +115,7 @@ const Accounts = () => {
             <Link
               href={`/accounts/${account?.id}`}
               key={account?.id}
+              aria-label={`Ver detalles de la cuenta ${account?.name}, tipo: ${account?.type?.name}, balance: ${account?.badge?.symbol}${getCurrencyFormatter(account?.badge?.code, account.balance)}`}
               className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 hover:border-wf-primary/50 transition-all hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] group relative overflow-hidden flex flex-col h-full"
             >
               <div className="flex justify-between items-start mb-wf-md">
@@ -126,7 +127,7 @@ const Accounts = () => {
                       color: accountType.textColor,
                     }}
                   >
-                    <span className="material-symbols-outlined text-[22px]">
+                    <span className="material-symbols-outlined text-[22px]" aria-hidden="true">
                       {accountType.icon}
                     </span>
                   </div>
@@ -157,7 +158,7 @@ const Accounts = () => {
       {filteredAccounts.length === 0 && (
         <div className="bg-wf-surface-container-lowest rounded-xl p-wf-md text-center border border-dashed border-wf-outline-variant flex flex-col items-center gap-wf-sm shadow-sm">
           <div className="w-16 h-16 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-outline-variant">
-            <span className="material-symbols-outlined text-[32px]">
+            <span className="material-symbols-outlined text-[32px]" aria-hidden="true">
               account_balance_wallet
             </span>
           </div>
@@ -174,7 +175,7 @@ const Accounts = () => {
           {!search && (
             <Link href={"/accounts/create"} className="mt-2">
               <button className="text-wf-primary font-semibold text-sm hover:underline flex items-center gap-1">
-                <span className="material-symbols-outlined text-[18px]">
+                <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
                   add
                 </span>
                 Crear mi primera cuenta
