@@ -55,7 +55,7 @@ export default function useHeritagesCreateViewModel() {
             toast.success("Patrimonio actualizado con exito");
             router.back();
           },
-        }
+        },
       );
     } else {
       mutation.mutate(
@@ -65,7 +65,7 @@ export default function useHeritagesCreateViewModel() {
             toast.success("Patrimonio creado con exito");
             router.back();
           },
-        }
+        },
       );
     }
   };
@@ -78,24 +78,26 @@ export default function useHeritagesCreateViewModel() {
           toast.success("Patrimonio eliminado con exito");
           router.back();
         },
-      }
+      },
     );
   };
 
   useEffect(() => {
     refetch();
-    setCurrencyOptions(
-      session?.badges?.map((v) => {
-        return {
-          label: String(v.code),
-          value: String(v.id),
-        };
-      })
-    );
+    if (session?.badges) {
+      setCurrencyOptions(
+        session.badges.map((v) => {
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
+        }),
+      );
+    }
     if (param.id) {
       setTitle("Edicion de Patrimonio");
     }
-  }, []);
+  }, [session, param.id]);
 
   useEffect(() => {
     if (data) {

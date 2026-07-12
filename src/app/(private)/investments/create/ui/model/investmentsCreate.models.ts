@@ -10,7 +10,7 @@ import {
 } from "@/share/validation";
 
 import {
-  useGetApiInvestmentsIdSuspense,
+  useGetApiInvestmentsId,
   usePostApiInvestments,
   usePutApiInvestmentsId,
   useDeleteApiInvestmentsId,
@@ -18,13 +18,13 @@ import {
   useDeleteApiInvestmentsIdAppreciationAppreciationId,
   usePostApiInvestmentsIdAppreciation,
 } from "@@@/endpoints/investment/investment";
-import { useUserStore } from "@/share/storage";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useInvestmentsCreateViewModel() {
   const param = useParams();
   const router = useRouter();
 
-  const { badges } = useUserStore();
+  const { data: session } = authClient.useSession();
 
   const [title, setTitle] = useState("Creacion de Inversiones");
   const [listMovements, setListMovements] = useState<any>([]);
@@ -40,9 +40,9 @@ export default function useInvestmentsCreateViewModel() {
     resolver: zodResolver(investmentSchema),
     defaultValues: {
       name: "",
-      initAmount: "",
+      initAmount: "0",
       endAmount: "0",
-      badgeId: {},
+      badgeId: undefined,
       dateInvestment: "",
     },
   });
@@ -65,12 +65,15 @@ export default function useInvestmentsCreateViewModel() {
 
   const mutationDelete = useDeleteApiInvestmentsId();
 
-  const { data, refetch } = useGetApiInvestmentsIdSuspense(String(param.id));
+  const { data, refetch } = useGetApiInvestmentsId(String(param.id), {
+    query: {
+      enabled: !!param.id,
+    },
+  });
 
   const mutationAppre = usePostApiInvestmentsIdAppreciation();
 
-  const mutationEditAppre =
-    usePutApiInvestmentsIdAppreciationAppreciationId();
+  const mutationEditAppre = usePutApiInvestmentsIdAppreciationAppreciationId();
 
   const mutationDeleteAppre =
     useDeleteApiInvestmentsIdAppreciationAppreciationId();
@@ -95,7 +98,7 @@ export default function useInvestmentsCreateViewModel() {
           onError: () => {
             toast.error("Error al actualizar la inversion");
           },
-        }
+        },
       );
     } else {
       mutation.mutate(
@@ -110,7 +113,7 @@ export default function useInvestmentsCreateViewModel() {
           onError: () => {
             toast.error("Error al crear la inversion");
           },
-        }
+        },
       );
     }
   };
@@ -135,7 +138,7 @@ export default function useInvestmentsCreateViewModel() {
           onError: () => {
             toast.error("Error al actualizar la apreciacion");
           },
-        }
+        },
       );
     } else {
       mutationAppre.mutate(
@@ -155,7 +158,7 @@ export default function useInvestmentsCreateViewModel() {
           onError: () => {
             toast.error("Error al crear la apreciacion");
           },
-        }
+        },
       );
     }
   };
@@ -173,7 +176,7 @@ export default function useInvestmentsCreateViewModel() {
         onError: () => {
           toast.error("Error al eliminar la inversion");
         },
-      }
+      },
     );
   };
 
@@ -192,7 +195,7 @@ export default function useInvestmentsCreateViewModel() {
         onError: () => {
           toast.error("Error al eliminar la apreciacion");
         },
-      }
+      },
     );
   };
 
@@ -218,18 +221,20 @@ export default function useInvestmentsCreateViewModel() {
 
   useEffect(() => {
     refetch();
-    setCurrencyOptions(
-      badges?.map((v) => {
-        return {
-          label: String(v.code),
-          value: String(v.id),
-        };
-      })
-    );
+    if (session?.badges) {
+      setCurrencyOptions(
+        session.badges.map((v) => {
+          return {
+            label: String(v.code),
+            value: String(v.id),
+          };
+        }),
+      );
+    }
     if (param.id) {
       setTitle("Edicion de Inversiones");
     }
-  }, []);
+  }, [session, param.id]);
 
   useEffect(() => {
     if (!!data && Object.keys(data).length > 0) {
@@ -238,8 +243,8 @@ export default function useInvestmentsCreateViewModel() {
         initAmount: data.initAmount.toString(),
         endAmount: data.endAmount.toString(),
         badgeId: {
-          label: data.badge?.code,
-          value: data.badge.id,
+          label: data?.badge?.code,
+          value: data?.badge?.id,
         },
         dateInvestment: data.dateInvestment.split("T")[0],
       });
@@ -275,6 +280,8 @@ export default function useInvestmentsCreateViewModel() {
     }
   }, [data]);
 
+  const isSubmitting = mutation.isPending || mutationEdit.isPending;
+
   return {
     handleSubmit,
     onSubmit,
@@ -282,8 +289,8 @@ export default function useInvestmentsCreateViewModel() {
     title,
     listMovements,
     currencyOptions,
-    handleDelete,
-    handleAppretiation,
+    handleDelete: param.id ? handleDelete : undefined,
+    handleAppretiation: param.id ? handleAppretiation : undefined,
     isOpen,
     onSubmitAppre,
     handleSubmitAppre,
@@ -294,5 +301,6 @@ export default function useInvestmentsCreateViewModel() {
     handleDeleteAppre,
     metrics,
     data,
+    isSubmitting,
   };
 }

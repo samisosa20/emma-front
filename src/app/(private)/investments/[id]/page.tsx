@@ -23,6 +23,7 @@ const Page = () => {
     handleDeleteAppre,
     metrics,
     data,
+    isSubmitting,
   } = useInvestmentsCreateViewModel();
 
   return (
@@ -46,6 +47,7 @@ const Page = () => {
       handleDeleteAppre={handleDeleteAppre}
       metrics={metrics}
       data={data}
+      isSubmitting={isSubmitting}
     />
   );
 };

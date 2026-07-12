@@ -21,7 +21,12 @@ import { authClient } from "@/share/lib/auth-client";
 export default function useProfileViewModel() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
-  const user = session?.user || { email: "", name: "", image: "", isConfirmed: false };
+  const user = session?.user || {
+    email: "",
+    name: "",
+    image: "",
+    isConfirmed: true,
+  };
 
   const [currencyOptions, setCurrencyOptions] = useState<
     { label: string; value: string }[]
@@ -52,7 +57,7 @@ export default function useProfileViewModel() {
           new AuthApiAdapter({
             baseUrl: "/api",
             customConfig: customConfigHeader(),
-          })
+          }),
         );
         const result = await updateProfile(0, data);
         if (result.error) {
@@ -77,7 +82,7 @@ export default function useProfileViewModel() {
           new AuthApiAdapter({
             baseUrl: "/api",
             customConfig: customConfigHeader(),
-          })
+          }),
         );
         const result = await destroyProfile();
         if (result.error) {
@@ -98,7 +103,7 @@ export default function useProfileViewModel() {
         new AuthApiAdapter({
           baseUrl: "/api",
           customConfig: customConfigHeader(),
-        })
+        }),
       );
       const result = await postResendVerify();
 
@@ -160,7 +165,7 @@ export default function useProfileViewModel() {
             label: String(v.code),
             value: String(v.id),
           };
-        }) || []
+        }) || [],
       );
     }
   }, []);

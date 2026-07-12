@@ -103,8 +103,13 @@ export default function useMovementsViewModel() {
   const onSubmit = useCallback(
     (data: any) => {
       setIsSubmitting(true);
+      const transferCategory = dataListCategories?.content?.find(
+        (c: any) => c.name === "Transferencia"
+      );
+      const transferCategoryId = transferCategory?.id || "00000000-0000-0000-0000-000000000000";
+
       const formData = {
-        categoryId: data.category ? data.category.value : "",
+        categoryId: data.type == 0 ? transferCategoryId : (data.category ? data.category.value : ""),
         type: data.type == 0 ? "transfer" : "move",
         amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
         datePurchase: new Date(data.datePurchase).toISOString(),

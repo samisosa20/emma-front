@@ -44,6 +44,7 @@ export default function InvestmentsCreate(props: any) {
     handleDeleteAppre = () => {},
     metrics = [],
     data,
+    isSubmitting = false,
   } = props;
 
   return (
@@ -120,7 +121,7 @@ export default function InvestmentsCreate(props: any) {
                         Nombre
                       </label>
                       <input
-                        className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
+                        className={`w-full bg-wf-surface-container-low/50 border ${fieldState.error ? "border-red-500" : "border-wf-surface-variant/30"} rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all`}
                         type="text"
                         placeholder="Eje: Fondo Mutuo Global"
                         onChange={onChange}
@@ -142,7 +143,7 @@ export default function InvestmentsCreate(props: any) {
                           Monto Inicial
                         </label>
                         <input
-                          className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
+                          className={`w-full bg-wf-surface-container-low/50 border ${fieldState.error ? "border-red-500" : "border-wf-surface-variant/30"} rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all`}
                           type="number"
                           step="0.01"
                           onChange={onChange}
@@ -166,6 +167,7 @@ export default function InvestmentsCreate(props: any) {
                           placeholder="Seleccionar..."
                           handleOnChange={onChange}
                           options={currencyOptions}
+                          iserror={!!fieldState.error}
                           value={value}
                         />
                       </div>
@@ -184,7 +186,7 @@ export default function InvestmentsCreate(props: any) {
                         Fecha de Apertura
                       </label>
                       <input
-                        className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
+                        className={`w-full bg-wf-surface-container-low/50 border ${fieldState.error ? "border-red-500" : "border-wf-surface-variant/30"} rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all`}
                         type="date"
                         onChange={onChange}
                         value={value}
@@ -197,9 +199,13 @@ export default function InvestmentsCreate(props: any) {
               <div className="pt-wf-md">
                 <button
                   type="submit"
-                  className="w-full bg-wf-primary text-wf-on-primary py-3.5 rounded-xl font-bold shadow-lg hover:opacity-90 transition-all active:scale-[0.98]"
+                  disabled={isSubmitting}
+                  className="w-full bg-wf-primary text-wf-on-primary py-3.5 rounded-xl font-bold shadow-lg hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Guardar Inversión
+                  {isSubmitting && (
+                    <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                  )}
+                  {isSubmitting ? "Guardando..." : "Guardar Inversión"}
                 </button>
               </div>
             </form>
@@ -350,12 +356,12 @@ export default function InvestmentsCreate(props: any) {
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-9 h-9 rounded-xl flex items-center justify-center ${movement.amount > 0 ? "bg-wf-secondary/10 text-wf-secondary" : "bg-wf-error/10 text-wf-error"}`}
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center ${movement.amount < 0 ? "bg-wf-secondary/10 text-wf-secondary" : "bg-wf-error/10 text-wf-error"}`}
                         >
                           <span className="material-symbols-outlined text-[20px]">
                             {movement.addWithdrawal
                               ? "sync_alt"
-                              : movement.amount > 0
+                              : movement.amount < 0
                                 ? "add_circle"
                                 : "remove_circle"}
                           </span>
@@ -373,12 +379,12 @@ export default function InvestmentsCreate(props: any) {
                       </div>
                       <div className="text-right">
                         <p
-                          className={`font-wf-currency-display font-bold text-lg ${movement.amount > 0 ? "text-wf-secondary" : "text-wf-error"}`}
+                          className={`font-wf-currency-display font-bold text-lg ${movement.amount < 0 ? "text-wf-secondary" : "text-wf-error"}`}
                         >
                           {movement?.account?.badge?.symbol}
                           {getCurrencyFormatter(
                             movement?.account?.badge?.code,
-                            movement.amount,
+                            movement.amount * -1,
                           )}
                         </p>
                         <p className="text-[10px] text-wf-surface-tint font-medium">

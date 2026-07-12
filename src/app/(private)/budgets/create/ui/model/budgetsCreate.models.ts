@@ -16,12 +16,12 @@ import {
   usePutApiBudgetsId,
   useDeleteApiBudgetsId,
 } from "@@@/endpoints/budget/budget";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useBudgetsCreateViewModel() {
   const router = useRouter();
   const param = useParams();
-
-  const { badges, user, periods } = useUserStore();
+  const { data: session } = authClient.useSession();
 
   const [title, setTitle] = useState("Creacion de Presupuesto");
   const [currencyOptions, setCurrencyOptions] = useState<
@@ -76,7 +76,7 @@ export default function useBudgetsCreateViewModel() {
           onError: () => {
             setIsLoading(false);
           },
-        }
+        },
       );
     } else {
       mutation.mutate(
@@ -92,7 +92,7 @@ export default function useBudgetsCreateViewModel() {
           onError: () => {
             setIsLoading(false);
           },
-        }
+        },
       );
     }
   };
@@ -112,33 +112,33 @@ export default function useBudgetsCreateViewModel() {
         onError: () => {
           setIsLoading(false);
         },
-      }
+      },
     );
   };
 
   useEffect(() => {
-    if (user) {
-      setPeriodsOptions(
-        periods?.map((v) => {
-          return {
-            label: String(v.name),
-            value: String(v.id),
-          };
-        })
-      );
+    if (session?.badges) {
       setCurrencyOptions(
-        badges?.map((v) => {
+        session.badges.map((v) => {
           return {
             label: String(v.code),
             value: String(v.id),
           };
-        })
+        }),
+      );
+      setPeriodsOptions(
+        session?.periods?.map((v) => {
+          return {
+            label: String(v.name),
+            value: String(v.id),
+          };
+        }),
       );
     }
     if (param.id) {
       setTitle("Edicion de Presupuesto");
     }
-  }, [param.id]);
+  }, [session, param.id]);
 
   useEffect(() => {
     if (data?.id) {
@@ -162,7 +162,7 @@ export default function useBudgetsCreateViewModel() {
             icon: category.icon,
             color: category.color,
           };
-        })
+        }),
       );
     }
   }, [dataListCategories]);
