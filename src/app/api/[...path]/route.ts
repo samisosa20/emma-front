@@ -201,10 +201,6 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   requestHeaders.delete("forwarded");
   requestHeaders.delete("x-client-ip");
   requestHeaders.delete("x-api-key");
-  requestHeaders.delete("x-forwarded-port");
-  requestHeaders.delete("x-forwarded-server");
-  requestHeaders.delete("x-original-url");
-  requestHeaders.delete("x-rewrite-url");
 
   // Prioritize Authorization header from HttpOnly cookie to prevent token injection (CWE-522, CWE-613)
   const token = request.cookies.get("backend_token")?.value;
