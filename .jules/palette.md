@@ -13,3 +13,7 @@
 ## 2026-07-08 - Non-Lossy Accessibility Labels
 **Learning:** Adding an `aria-label` to a wrapper link (like an Account or Investment card) replaces the default announcement of all child text nodes. If the label is incomplete, it effectively hides visual information from screen reader users.
 **Action:** When overriding the accessible name of a complex component, ensure the `aria-label` is comprehensive, including names, types, and all key displayed metrics.
+
+## 2026-07-15 - Standardized Form Component Accessibility
+**Learning:** Raw HTML form elements often lack consistent focus states, accessibility attributes (like `aria-invalid`), and robust label-to-field linkage. Standardizing these into shared components using `useId` and `twMerge` ensures a consistent and accessible experience across the application.
+**Action:** Replace raw HTML form elements with shared components that implement `useId`, focus visible rings, and semantic labeling.

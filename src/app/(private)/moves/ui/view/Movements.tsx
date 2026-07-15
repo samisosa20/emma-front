@@ -68,8 +68,15 @@ const Movements = memo(
   }: MovementsProps) => {
     const router = useRouter();
 
-    const { Button, AutoComplete, Switch, Input, Modal, Typography } =
-      useComponents();
+    const {
+      Button,
+      AutoComplete,
+      Switch,
+      Input,
+      Textarea,
+      Modal,
+      Typography,
+    } = useComponents();
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -416,24 +423,20 @@ const Movements = memo(
               )}
 
               {/* Description */}
-              <div className="flex flex-col gap-wf-xs md:col-span-2">
-                <label
-                  htmlFor="description"
-                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
-                >
-                  Descripción
-                </label>
+              <div className="md:col-span-2">
                 <Controller
                   name="description"
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <textarea
+                  render={({ field: { onChange, value }, fieldState }) => (
+                    <Textarea
                       id="description"
-                      className="w-full bg-wf-surface-container-lowest text-wf-on-surface border border-wf-outline-variant rounded-lg py-wf-md px-wf-md focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-colors resize-none placeholder:text-wf-outline"
+                      label="Descripción"
+                      className="font-wf-body-regular placeholder:text-wf-outline resize-none"
                       placeholder="Agrega una nota..."
                       rows={2}
                       onChange={onChange}
                       value={value ?? ""}
+                      iserror={!!fieldState.error}
                     />
                   )}
                 />
