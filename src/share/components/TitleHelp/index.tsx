@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { MdHelp } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
 
@@ -5,14 +6,23 @@ import Typography from "../Typography";
 
 import { TitleProps } from "./TitleHelp.interface";
 
-export default function TitleHelp(props: TitleProps) {
+/**
+ * ⚡ Bolt Optimization: TitleHelp component memoization and conditional merging.
+ * 🎯 Problem: TitleHelp is used across many views and can trigger re-renders.
+ *    twMerge is expensive to call on every render cycle.
+ * 📊 Impact: Skips re-renders when props are stable and reduces CPU overhead
+ *    by avoiding twMerge when no custom className is provided.
+ */
+const TitleHelp = memo((props: TitleProps) => {
   const { title, onClick, variant = "h1", className } = props;
+
+  const finalClassName = className
+    ? twMerge("flex items-center gap-x-2", className)
+    : "flex items-center gap-x-2";
+
   return (
     <div id={`fiona-title_${title.replace(/ /g, "_")}`} className="w-max">
-      <Typography
-        variant={variant}
-        className={twMerge("flex items-center gap-x-2", className)}
-      >
+      <Typography variant={variant} className={finalClassName}>
         {title}
         {onClick && (
           <button
@@ -28,4 +38,6 @@ export default function TitleHelp(props: TitleProps) {
       </Typography>
     </div>
   );
-}
+});
+
+export default TitleHelp;
