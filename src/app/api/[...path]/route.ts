@@ -189,22 +189,35 @@ async function handleRequest(
       );
     }
 
+    const host =
+      request.headers.get("x-forwarded-host") || request.headers.get("host");
+    const proto =
+      request.headers.get("x-forwarded-proto") ||
+      request.nextUrl.protocol.replace(":", "");
+    const expectedOrigin = host ? `${proto}://${host}` : request.nextUrl.origin;
+    const internalOrigin = request.nextUrl.origin; // Mantener como fallback local
+
     let isRequestValid = false;
     if (origin) {
       try {
-        isRequestValid = new URL(origin).origin === request.nextUrl.origin;
+        const requestOrigin = new URL(origin).origin;
+        isRequestValid =
+          requestOrigin === expectedOrigin || requestOrigin === internalOrigin;
       } catch {
         isRequestValid = false;
       }
     } else if (referer) {
       try {
-        isRequestValid = new URL(referer).origin === request.nextUrl.origin;
+        const requestReferer = new URL(referer).origin;
+        isRequestValid =
+          requestReferer === expectedOrigin ||
+          requestReferer === internalOrigin;
       } catch {
         isRequestValid = false;
       }
     }
 
-    // Bypass de CSRF de origen estricto para las rutas de autenticación (ej. redirección POST de Google)
+    // Bypass de CSRF de origen estricto para las rutas de autenticación
     if (!isRequestValid && !isBetterAuthRoute) {
       return applySecurityHeaders(
         NextResponse.json(
