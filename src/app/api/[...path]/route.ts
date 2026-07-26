@@ -107,32 +107,50 @@ const scrubSensitiveData = (obj: any, depth = 0) => {
   }
 };
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-    const { path } = await params;
-    return handleRequest(request, { path });
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params;
+  return handleRequest(request, { path });
 }
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-    const { path } = await params;
-    return handleRequest(request, { path });
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params;
+  return handleRequest(request, { path });
 }
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-    const { path } = await params;
-    return handleRequest(request, { path });
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params;
+  return handleRequest(request, { path });
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-    const { path } = await params;
-    return handleRequest(request, { path });
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params;
+  return handleRequest(request, { path });
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-    const { path } = await params;
-    return handleRequest(request, { path });
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params;
+  return handleRequest(request, { path });
 }
 
-async function handleRequest(request: NextRequest, { path }: { path: string[] }) {
+async function handleRequest(
+  request: NextRequest,
+  { path }: { path: string[] },
+) {
   // CSRF Protection: Verify Origin/Referer matches for state-changing requests (CWE-352)
   if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
     const origin = request.headers.get("origin");
@@ -141,7 +159,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
     // Modern browser defense: Sec-Fetch-Site (CWE-352)
     if (secFetchSite && !["same-origin", "same-site"].includes(secFetchSite)) {
-      return applySecurityHeaders(NextResponse.json({ message: "Invalid request origin" }, { status: 403 }));
+      return applySecurityHeaders(
+        NextResponse.json(
+          { message: "Invalid request origin" },
+          { status: 403 },
+        ),
+      );
     }
 
     let isRequestValid = false;
@@ -160,13 +183,20 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     }
 
     if (!isRequestValid) {
-      return applySecurityHeaders(NextResponse.json({ message: "Invalid request source" }, { status: 403 }));
+      return applySecurityHeaders(
+        NextResponse.json(
+          { message: "Invalid request source" },
+          { status: 403 },
+        ),
+      );
     }
   }
 
   // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
-  if (path.some(segment => segment === ".." || segment === ".")) {
-    return applySecurityHeaders(NextResponse.json({ message: "Invalid path" }, { status: 400 }));
+  if (path.some((segment) => segment === ".." || segment === ".")) {
+    return applySecurityHeaders(
+      NextResponse.json({ message: "Invalid path" }, { status: 400 }),
+    );
   }
 
   let targetPath = path.join("/").replace(/\/+/g, "/").replace(/\/+$/, "");
@@ -182,7 +212,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
 
   const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
   if (!backendUrl) {
-      return applySecurityHeaders(NextResponse.json({ message: "Backend URL not configured" }, { status: 500 }));
+    return applySecurityHeaders(
+      NextResponse.json(
+        { message: "Backend URL not configured" },
+        { status: 500 },
+      ),
+    );
   }
 
   const url = new URL(`${backendUrl}/${targetPath}${request.nextUrl.search}`);
@@ -201,6 +236,10 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
   requestHeaders.delete("forwarded");
   requestHeaders.delete("x-client-ip");
   requestHeaders.delete("x-api-key");
+  requestHeaders.delete("x-forwarded-port");
+  requestHeaders.delete("x-forwarded-server");
+  requestHeaders.delete("x-original-url");
+  requestHeaders.delete("x-rewrite-url");
 
   // Prioritize Authorization header from HttpOnly cookie to prevent token injection (CWE-522, CWE-613)
   const token = request.cookies.get("backend_token")?.value;
@@ -212,61 +251,70 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     const response = await fetch(url.toString(), {
       method: request.method,
       headers: requestHeaders,
-      body: request.method !== "GET" && request.method !== "HEAD" ? await request.blob() : undefined,
+      body:
+        request.method !== "GET" && request.method !== "HEAD"
+          ? await request.blob()
+          : undefined,
     });
 
     // Forward backend response headers (including Set-Cookie for Better Auth)
     // Blacklist sensitive headers to avoid information leakage (CWE-209, CWE-1027)
     const responseHeaders = new Headers();
 
+    const setCookies = (response.headers as any).getSetCookie?.() || [];
+    if (setCookies.length > 0) {
+      setCookies.forEach((cookie: string) => {
+        responseHeaders.append("set-cookie", cookie);
+      });
+    }
+
     response.headers.forEach((value, key) => {
       const lowerKey = key.toLowerCase();
-      if (!SENSITIVE_HEADERS.has(lowerKey)) {
-        if (lowerKey === "set-cookie") {
-          responseHeaders.append(key, value);
-        } else {
-          responseHeaders.set(key, value);
-        }
+      if (!SENSITIVE_HEADERS.has(lowerKey) && lowerKey !== "set-cookie") {
+        responseHeaders.set(key, value);
       }
     });
 
     const contentType = response.headers.get("content-type");
     // Use strict equality for path matching to prevent path confusion vulnerabilities (CWE-20)
-    const isAuthPath = targetPath === "auth/login" ||
-                       targetPath === "auth/register" ||
-                       targetPath === "auth/verify" ||
-                       targetPath === "auth/recovery-password";
+    const isAuthPath =
+      targetPath === "auth/login" ||
+      targetPath === "auth/register" ||
+      targetPath === "auth/verify" ||
+      targetPath === "auth/recovery-password";
 
-    const isLogoutPath = targetPath === "auth/sign-out" ||
-                         targetPath === "auth/logout";
+    const isLogoutPath =
+      targetPath === "auth/sign-out" || targetPath === "auth/logout";
 
     let body;
     let tokenToSet: string | undefined;
 
     if (response.status === 204) {
-        body = null;
+      body = null;
     } else if (contentType?.includes("application/json")) {
-        const data = await response.json();
+      const data = await response.json();
 
-        // Capture JWT token from successful authentication responses (CWE-522)
-        if (isAuthPath && response.ok && data.token) {
-            tokenToSet = data.token;
-        }
+      // Capture JWT token from successful authentication responses (CWE-522)
+      if (isAuthPath && response.ok && data.token) {
+        tokenToSet = data.token;
+      }
 
-        // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
-        // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
-        // Depth limit added to prevent stack overflow (CWE-674)
-        scrubSensitiveData(data);
+      // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
+      // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
+      // Depth limit added to prevent stack overflow (CWE-674)
+      scrubSensitiveData(data);
 
-        body = JSON.stringify(data);
+      body = JSON.stringify(data);
     } else {
-        body = await response.blob();
+      body = await response.blob();
     }
 
-    const res = applySecurityHeaders(new NextResponse(body, {
+    const res = applySecurityHeaders(
+      new NextResponse(body, {
         status: response.status,
-        headers: responseHeaders
-    }));
+        headers: responseHeaders,
+      }),
+    );
 
     // Clear session cookie on explicit logout or session expiration (CWE-613)
     if ((isLogoutPath && response.ok) || response.status === 401) {
@@ -288,10 +336,12 @@ async function handleRequest(request: NextRequest, { path }: { path: string[] })
     console.error("Proxy error:", error);
     // Return a generic error message to the client to avoid information leakage (CWE-209)
     // We must ensure security headers are still applied here.
-    return applySecurityHeaders(NextResponse.json(
-      { message: "Ocurrió un error al procesar la solicitud." },
-      { status: 502 }
-    ));
+    return applySecurityHeaders(
+      NextResponse.json(
+        { message: "Ocurrió un error al procesar la solicitud." },
+        { status: 502 },
+      ),
+    );
   }
 }
 
@@ -313,12 +363,15 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Permitted-Cross-Domain-Policies", "none");
   response.headers.set("X-Download-Options", "noopen");
   response.headers.set("X-Robots-Tag", "noindex, nofollow");
-  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  response.headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload",
+  );
   response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
   response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
-    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()"
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()",
   );
 
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
