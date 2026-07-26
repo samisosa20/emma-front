@@ -55,7 +55,6 @@ const SENSITIVE_BODY_KEYS = new Set([
   "private_key",
   "cookie",
   "otp",
-  "code",
   "verification_code",
   "secret_key",
   "api_token",
@@ -151,6 +150,24 @@ async function handleRequest(
   request: NextRequest,
   { path }: { path: string[] },
 ) {
+  // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
+  if (path.some((segment) => segment === ".." || segment === ".")) {
+    return applySecurityHeaders(
+      NextResponse.json({ message: "Invalid path" }, { status: 400 }),
+    );
+  }
+
+  let targetPath = path.join("/").replace(/\/+/g, "/").replace(/\/+$/, "");
+  // Strip legacy v2 prefix to prevent path confusion and maintain consistency (CWE-20)
+  if (targetPath.startsWith("v2/")) {
+    targetPath = targetPath.substring(3).replace(/\/+$/, "");
+  } else if (targetPath === "v2") {
+    targetPath = "";
+  }
+
+  // Identificador global para rutas de Better Auth
+  const isBetterAuthRoute = targetPath.startsWith("auth/");
+
   // CSRF Protection: Verify Origin/Referer matches for state-changing requests (CWE-352)
   if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
     const origin = request.headers.get("origin");
@@ -158,7 +175,12 @@ async function handleRequest(
     const secFetchSite = request.headers.get("sec-fetch-site");
 
     // Modern browser defense: Sec-Fetch-Site (CWE-352)
-    if (secFetchSite && !["same-origin", "same-site"].includes(secFetchSite)) {
+    // Permisividad añadida para cross-site en callbacks de OAuth
+    if (
+      secFetchSite &&
+      !["same-origin", "same-site"].includes(secFetchSite) &&
+      !isBetterAuthRoute
+    ) {
       return applySecurityHeaders(
         NextResponse.json(
           { message: "Invalid request origin" },
@@ -182,7 +204,8 @@ async function handleRequest(
       }
     }
 
-    if (!isRequestValid) {
+    // Bypass de CSRF de origen estricto para las rutas de autenticación (ej. redirección POST de Google)
+    if (!isRequestValid && !isBetterAuthRoute) {
       return applySecurityHeaders(
         NextResponse.json(
           { message: "Invalid request source" },
@@ -191,24 +214,6 @@ async function handleRequest(
       );
     }
   }
-
-  // Check for path traversal segments to prevent unauthorized access to backend endpoints (CWE-22)
-  if (path.some((segment) => segment === ".." || segment === ".")) {
-    return applySecurityHeaders(
-      NextResponse.json({ message: "Invalid path" }, { status: 400 }),
-    );
-  }
-
-  let targetPath = path.join("/").replace(/\/+/g, "/").replace(/\/+$/, "");
-  // Strip legacy v2 prefix to prevent path confusion and maintain consistency (CWE-20)
-  if (targetPath.startsWith("v2/")) {
-    targetPath = targetPath.substring(3).replace(/\/+$/, "");
-  } else if (targetPath === "v2") {
-    targetPath = "";
-  }
-
-  // Note: Local session validation removed since backend now handles auth via Better Auth
-  // We just forward everything to the backend. The backend will validate its own session cookies.
 
   const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
   if (!backendUrl) {
@@ -224,17 +229,33 @@ async function handleRequest(
 
   const requestHeaders = new Headers(request.headers);
   // Remove headers that might interfere with the proxy
-  requestHeaders.delete("host");
+  requestHeaders.set("host", request.nextUrl.host);
   requestHeaders.delete("connection");
   // Strip client-provided Authorization header to prevent token injection/override (CWE-522)
   requestHeaders.delete("Authorization");
+
   // Strip spoofable headers to prevent IP spoofing and header injection (CWE-290, CWE-450)
-  requestHeaders.delete("x-forwarded-for");
-  requestHeaders.delete("x-real-ip");
-  requestHeaders.delete("x-forwarded-host");
-  requestHeaders.delete("x-forwarded-proto");
-  requestHeaders.delete("forwarded");
-  requestHeaders.delete("x-client-ip");
+  // MODIFICACIÓN: Preservamos las cabeceras de reenvío si es una ruta de Better Auth
+  if (!isBetterAuthRoute) {
+    requestHeaders.delete("x-forwarded-for");
+    requestHeaders.delete("x-real-ip");
+    requestHeaders.delete("x-forwarded-host");
+    requestHeaders.delete("x-forwarded-proto");
+    requestHeaders.delete("forwarded");
+    requestHeaders.delete("x-client-ip");
+  } else {
+    // Aseguramos que Better Auth sepa desde dónde se llamó originalmente al proxy
+    if (!requestHeaders.has("x-forwarded-host")) {
+      requestHeaders.set("x-forwarded-host", request.nextUrl.host);
+    }
+    if (!requestHeaders.has("x-forwarded-proto")) {
+      requestHeaders.set(
+        "x-forwarded-proto",
+        request.nextUrl.protocol.replace(":", ""),
+      );
+    }
+  }
+
   requestHeaders.delete("x-api-key");
   requestHeaders.delete("x-forwarded-port");
   requestHeaders.delete("x-forwarded-server");
@@ -251,25 +272,20 @@ async function handleRequest(
     const response = await fetch(url.toString(), {
       method: request.method,
       headers: requestHeaders,
+      redirect: "manual",
       body:
         request.method !== "GET" && request.method !== "HEAD"
           ? await request.blob()
           : undefined,
     });
 
-    // Forward backend response headers (including Set-Cookie for Better Auth)
+    // Forward backend response headers (excluding Set-Cookie to handle it manually)
     // Blacklist sensitive headers to avoid information leakage (CWE-209, CWE-1027)
     const responseHeaders = new Headers();
 
-    const setCookies = (response.headers as any).getSetCookie?.() || [];
-    if (setCookies.length > 0) {
-      setCookies.forEach((cookie: string) => {
-        responseHeaders.append("set-cookie", cookie);
-      });
-    }
-
     response.headers.forEach((value, key) => {
       const lowerKey = key.toLowerCase();
+      // Excluimos set-cookie del copiado masivo
       if (!SENSITIVE_HEADERS.has(lowerKey) && lowerKey !== "set-cookie") {
         responseHeaders.set(key, value);
       }
@@ -300,21 +316,32 @@ async function handleRequest(
       }
 
       // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
-      // This ensures that even if a new endpoint returns a token, it won't reach the client-side JS
-      // Depth limit added to prevent stack overflow (CWE-674)
-      scrubSensitiveData(data);
+      // MODIFICACIÓN: Excluimos las respuestas de Better Auth para no borrar códigos de estado vitales
+      if (!isBetterAuthRoute) {
+        scrubSensitiveData(data);
+      }
 
       body = JSON.stringify(data);
     } else {
       body = await response.blob();
     }
 
+    // Instanciamos la respuesta con las cabeceras estándar
     const res = applySecurityHeaders(
       new NextResponse(body, {
         status: response.status,
         headers: responseHeaders,
       }),
     );
+
+    // CLAVE: Inyectamos las cookies individualmente a la instancia ya creada
+    // para evitar que Next.js las agrupe y rompa el formato
+    const setCookies = (response.headers as any).getSetCookie?.() || [];
+    if (setCookies.length > 0) {
+      setCookies.forEach((cookie: string) => {
+        res.headers.append("Set-Cookie", cookie);
+      });
+    }
 
     // Clear session cookie on explicit logout or session expiration (CWE-613)
     if ((isLogoutPath && response.ok) || response.status === 401) {

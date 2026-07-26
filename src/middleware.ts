@@ -2,23 +2,23 @@ import { betterFetch } from "@better-fetch/fetch";
 import { NextResponse, type NextRequest } from "next/server";
 
 interface Session {
-    user: any;
-    session: any;
+  user: any;
+  session: any;
 }
-
 
 export default async function middleware(request: NextRequest) {
   // Check session against the backend auth endpoint via the proxy or directly
-  const apiUrl = (process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin).replace("localhost", "127.0.0.1");
+  const apiUrl =
+    process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin;
 
   const { data: session } = await betterFetch<Session>(
-    "/api/auth/get-session",
+    "/api/v2/auth/get-session",
     {
       baseURL: apiUrl,
       headers: {
         cookie: request.headers.get("cookie") || "",
       },
-    }
+    },
   );
 
   const isPublicRoute =
@@ -42,7 +42,10 @@ export default async function middleware(request: NextRequest) {
 
   // Enforce no-cache policy for private routes containing sensitive financial data (CWE-524)
   if (!isPublicRoute) {
-    response.headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
+    response.headers.set(
+      "Cache-Control",
+      "no-store, max-age=0, must-revalidate",
+    );
   }
 
   // Add global security headers (CWE-1027, CWE-693)
@@ -57,9 +60,12 @@ export default async function middleware(request: NextRequest) {
   response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
-    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()"
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=(), fullscreen=(), interest-cohort=()",
   );
-  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  response.headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload",
+  );
 
   // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
   const cspHeader = `
@@ -83,7 +89,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)"],
 };
