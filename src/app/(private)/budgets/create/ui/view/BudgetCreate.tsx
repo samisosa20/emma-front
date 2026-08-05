@@ -28,9 +28,13 @@ export default function BudgetCreate(props: any) {
       <div>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
-            <div onClick={() => router.back()} className="cursor-pointer">
-              <MdArrowBack />
-            </div>
+            <button
+              onClick={() => router.back()}
+              aria-label="Volver atrás"
+              className="p-1.5 rounded-full hover:bg-wf-surface-container-low focus-visible:ring-2 focus-visible:ring-wf-primary outline-none transition-colors cursor-pointer flex items-center justify-center"
+            >
+              <MdArrowBack className="text-xl" />
+            </button>
             <Typography variant="h1">{title}</Typography>
           </div>
           <div>

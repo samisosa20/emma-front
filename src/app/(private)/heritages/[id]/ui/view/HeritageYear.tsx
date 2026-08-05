@@ -22,9 +22,13 @@ const HeritageYear = (props: any) => {
       <div className="flex items-center justify-between w-full">
         <div>
           <div className="flex items-center space-x-2">
-            <div onClick={() => router.back()} className="cursor-pointer">
-              <MdArrowBack />
-            </div>
+            <button
+              onClick={() => router.back()}
+              aria-label="Volver atrás"
+              className="p-1.5 rounded-full hover:bg-wf-surface-container-low focus-visible:ring-2 focus-visible:ring-wf-primary outline-none transition-colors cursor-pointer flex items-center justify-center"
+            >
+              <MdArrowBack className="text-xl" />
+            </button>
             <Typography
               className="font-wf-headline-lg text-wf-headline-lg text-wf-on-surface cursor-pointer"
               variant="h1"
