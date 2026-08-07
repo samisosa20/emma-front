@@ -10,6 +10,8 @@ const Page = () => {
     control,
     title,
     currencyOptions,
+    handleDelete,
+    isSubmitting,
   } = useHeritagesCreateViewModel();
   return (
     <HeritagesCreate
@@ -18,6 +20,8 @@ const Page = () => {
       control={control}
       title={title}
       currencyOptions={currencyOptions}
+      handleDelete={handleDelete}
+      isSubmitting={isSubmitting}
     />
   );
 };

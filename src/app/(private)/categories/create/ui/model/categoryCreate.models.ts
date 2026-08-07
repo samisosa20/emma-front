@@ -45,12 +45,16 @@ export default function useCategoryCreateViewModel() {
   });
 
   const onSubmit = (data: CategorySchema) => {
+    const payload = {
+      ...data,
+      groupId: typeof data.groupId === "object" && data.groupId ? (data.groupId as any).value : data.groupId,
+    };
     if (param.id) {
       const id = Array.isArray(param.id) ? param.id[0] : param.id;
       mutationEdit.mutate(
         {
           id,
-          data,
+          data: payload as any,
         },
         {
           onSuccess: (result) => {
@@ -62,7 +66,7 @@ export default function useCategoryCreateViewModel() {
     } else {
       mutation.mutate(
         {
-          data,
+          data: payload as any,
         },
         {
           onSuccess: (result) => {
@@ -93,13 +97,20 @@ export default function useCategoryCreateViewModel() {
     if (param.id) {
       setTitle("Edicion de Categoría");
     }
-  }, []);
+  }, [session, param.id]);
 
   useEffect(() => {
     if (data) {
-      reset(data as any);
+      const resetData = { ...data } as any;
+      if (data.groupId && groupsOptions.length > 0) {
+        const matched = groupsOptions.find((g: any) => g.value === data.groupId);
+        if (matched) {
+          resetData.groupId = matched;
+        }
+      }
+      reset(resetData);
     }
-  }, [data]);
+  }, [data, groupsOptions, reset]);
 
   return {
     handleSubmit,

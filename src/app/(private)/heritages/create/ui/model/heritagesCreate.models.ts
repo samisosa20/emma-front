@@ -27,6 +27,9 @@ export default function useHeritagesCreateViewModel() {
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(heritageSchema),
     defaultValues: {
+      name: "",
+      comercialAmount: "0",
+      legalAmount: "0",
       badgeId: undefined,
       year: new Date().getFullYear(),
     },
@@ -55,6 +58,9 @@ export default function useHeritagesCreateViewModel() {
             toast.success("Patrimonio actualizado con exito");
             router.back();
           },
+          onError: () => {
+            toast.error("Error al actualizar el patrimonio");
+          },
         },
       );
     } else {
@@ -64,6 +70,9 @@ export default function useHeritagesCreateViewModel() {
           onSuccess: () => {
             toast.success("Patrimonio creado con exito");
             router.back();
+          },
+          onError: () => {
+            toast.error("Error al crear el patrimonio");
           },
         },
       );
@@ -77,6 +86,9 @@ export default function useHeritagesCreateViewModel() {
         onSuccess: () => {
           toast.success("Patrimonio eliminado con exito");
           router.back();
+        },
+        onError: () => {
+          toast.error("Error al eliminar el patrimonio");
         },
       },
     );
@@ -100,13 +112,20 @@ export default function useHeritagesCreateViewModel() {
   }, [session, param.id]);
 
   useEffect(() => {
-    if (data) {
+    if (data && Object.keys(data).length > 0) {
       reset({
-        ...data,
-        badgeId: { label: data.badge?.code, value: data.badge?.id },
+        name: data.name,
+        comercialAmount: data.comercialAmount?.toString() ?? "0",
+        legalAmount: data.legalAmount?.toString() ?? "0",
+        badgeId: data.badge
+          ? { label: data.badge.code, value: data.badge.id }
+          : undefined,
+        year: data.year ?? new Date().getFullYear(),
       });
     }
   }, [data]);
+
+  const isSubmitting = mutation.isPending || mutationEdit.isPending;
 
   return {
     handleSubmit,
@@ -114,6 +133,8 @@ export default function useHeritagesCreateViewModel() {
     control,
     title,
     currencyOptions,
-    handleDelete,
+    handleDelete: param.id ? handleDelete : undefined,
+    isSubmitting,
+    data,
   };
 }

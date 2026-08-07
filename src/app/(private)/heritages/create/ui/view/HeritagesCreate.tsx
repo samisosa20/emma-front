@@ -19,6 +19,7 @@ export default function HeritagesCreate(props: any) {
     listMovements,
     currencyOptions = [],
     handleDelete,
+    isSubmitting = false,
   } = props;
 
   return (
@@ -196,11 +197,16 @@ export default function HeritagesCreate(props: any) {
               </button>
               <Button
                 type="submit"
-                className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
+                disabled={isSubmitting}
+                className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto disabled:opacity-50"
               >
-                <span className="material-symbols-outlined text-xl">
-                  check_circle
-                </span>
+                {isSubmitting ? (
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <span className="material-symbols-outlined text-xl">
+                    check_circle
+                  </span>
+                )}
                 Guardar
               </Button>
             </div>

@@ -12,6 +12,7 @@ import { useGetApiMovements } from "@@@/endpoints/movement/movement";
 import { useGetApiReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
 import { GetApiMovements200ContentItem } from "@@@/domain/models";
 import { toast } from "react-toastify";
+import { authClient } from "@/share/lib/auth-client";
 
 export default function useCategoryDetailViewModel() {
   const param = useParams();
@@ -19,9 +20,12 @@ export default function useCategoryDetailViewModel() {
   const searchParams = useSearchParams();
   const currencyParams = searchParams.get("c");
 
+  const { data: session } = authClient.useSession();
+
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [groupsOptions, setGroupsOptions] = useState<{ value: string; label: string }[]>([]);
   const [filters, setFilters] = useState({
     badge_id: currencyParams,
   });
@@ -57,16 +61,27 @@ export default function useCategoryDetailViewModel() {
 
   useEffect(() => {
     if (data) {
-      reset(data as any);
+      const resetData = { ...data } as any;
+      if (data.groupId && groupsOptions.length > 0) {
+        const matched = groupsOptions.find((g: any) => g.value === data.groupId);
+        if (matched) {
+          resetData.groupId = matched;
+        }
+      }
+      reset(resetData);
     }
-  }, [data]);
+  }, [data, groupsOptions, reset]);
 
-  const onEditSubmit = (data: any) => {
+  const onEditSubmit = (formData: any) => {
     const id = Array.isArray(param.id) ? param.id[0] : param.id;
+    const payload = {
+      ...formData,
+      groupId: typeof formData.groupId === "object" && formData.groupId ? formData.groupId.value : formData.groupId,
+    };
     mutationEdit.mutate(
       {
         id: String(id),
-        data: data,
+        data: payload,
       },
       {
         onSuccess: (result) => {
@@ -133,6 +148,17 @@ export default function useCategoryDetailViewModel() {
   }, [dataMovements?.content]);
 
   useEffect(() => {
+    if (session?.user) {
+      setGroupsOptions(
+        session?.groupCategories?.map((g: any) => ({
+          value: g.id,
+          label: g.name,
+        })) || []
+      );
+    }
+  }, [session]);
+
+  useEffect(() => {
     const user = localStorage.getItem("fiona-user");
     if (user) {
       const userjson = JSON.parse(user);
@@ -177,5 +203,6 @@ export default function useCategoryDetailViewModel() {
     handleSubmitEdit,
     onEditSubmit,
     handleDelete,
+    groupsOptions,
   };
 }

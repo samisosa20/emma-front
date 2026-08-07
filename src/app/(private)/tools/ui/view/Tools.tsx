@@ -1,4 +1,5 @@
 import { Controller } from "react-hook-form";
+import Link from "next/link";
 
 //components
 import useComponents from "@/share/components";
@@ -39,6 +40,31 @@ export default function Tools(props: any) {
       </div>
 
       <div className="grid grid-cols-1 gap-wf-gutter">
+        {/* Income Distribution (50/30/20) Link Card */}
+        <Link
+          href="/tools/income-distribution"
+          className="bg-gradient-to-r from-wf-primary/10 to-wf-secondary/10 hover:from-wf-primary/15 hover:to-wf-secondary/15 backdrop-blur-md p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 block group transition-all"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-wf-primary/20 flex items-center justify-center text-wf-primary">
+                <span className="material-symbols-outlined text-[28px]">donut_large</span>
+              </div>
+              <div>
+                <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold group-hover:text-wf-primary transition-colors">
+                  Distribución de Ingresos 50/30/20
+                </h3>
+                <p className="text-xs text-wf-on-surface-variant">
+                  Monitorea tus gastos fijos (50%), personales (30%) e inversiones (20%) y el desglose por categorías.
+                </p>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-surface-tint group-hover:bg-wf-primary group-hover:text-wf-on-primary transition-colors">
+              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </div>
+          </div>
+        </Link>
+
         {/* Can I spend it? Tool */}
         <div
           id="fiona-canido"

@@ -8,7 +8,7 @@ import useComponents from "@/share/components";
 
 export default function CategoryCreate(props: any) {
   const router = useRouter();
-  const { Button, Input, FormControl, Select, Textarea } = useComponents();
+  const { Button, Input, FormControl, AutoComplete, Textarea } = useComponents();
 
   const {
     handleSubmit,
@@ -133,12 +133,14 @@ export default function CategoryCreate(props: any) {
                     <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
                       Grupo de Categoría
                     </label>
-                    <Select
-                      {...field}
+                    <AutoComplete
                       placeholder="Selecciona un grupo"
+                      handleOnChange={(selected: any) => {
+                        field.onChange(selected);
+                      }}
                       options={groupsOptions}
-                      className="w-full"
                       iserror={!!fieldState.error}
+                      value={field.value}
                     />
                   </FormControl>
                 )}

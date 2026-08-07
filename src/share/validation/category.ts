@@ -6,7 +6,13 @@ const categorySchema = z.object({
     z.null(),
     z.string().max(255, "Máximo 255 caracteres"),
   ]),
-  groupId: z.union([z.string()]),
+  groupId: z.union([
+    z.string(),
+    z.object({
+      value: z.string(),
+      label: z.string(),
+    }),
+  ]),
   color: z.string(),
   icon: z.string(),
 });

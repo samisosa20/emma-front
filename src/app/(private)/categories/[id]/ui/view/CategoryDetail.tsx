@@ -26,9 +26,10 @@ export default function CategoryDetail(props: any) {
     onEditSubmit,
     handleEditSubmit,
     handleDelete,
+    groupsOptions = [],
   } = props;
   const router = useRouter();
-  const { Button, Input, Textarea } = useComponents();
+  const { Button, Input, Textarea, AutoComplete } = useComponents();
   const { Filters, MetricCard } = useComponentsLayout();
 
   const selectedColor = watch("color") || data.color || "#6bfe9c";
@@ -150,6 +151,29 @@ export default function CategoryDetail(props: any) {
                       className="w-full bg-wf-surface-container-low border border-wf-outline-variant rounded-lg p-wf-sm font-wf-body-regular text-wf-on-surface focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all"
                       id="cat-name"
                       iserror={!!fieldState.error}
+                    />
+                  </div>
+                )}
+              />
+
+              <Controller
+                name="groupId"
+                control={controlEdit}
+                render={({ field, fieldState }) => (
+                  <div className="space-y-wf-xs">
+                    <label
+                      className="block font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint"
+                    >
+                      GRUPO DE CATEGORÍA
+                    </label>
+                    <AutoComplete
+                      placeholder="Selecciona un grupo"
+                      handleOnChange={(selected: any) => {
+                        field.onChange(selected);
+                      }}
+                      options={groupsOptions}
+                      iserror={!!fieldState.error}
+                      value={field.value}
                     />
                   </div>
                 )}
