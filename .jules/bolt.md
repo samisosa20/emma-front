@@ -33,3 +33,7 @@
 ## 2025-05-21 - [Optimizing Frequent Shared Components: Modal]
 **Learning:** Shared UI components like `Modal` are frequently part of complex views (e.g., Dashboards) and can trigger expensive reconciliation if not memoized. Furthermore, using `twMerge` for non-conflicting utility classes (like visibility or scale transitions) adds unnecessary CPU overhead for string parsing.
 **Action:** Always wrap shared components in `React.memo`. Replace `twMerge` with template literals for known non-conflicting utility classes to save CPU cycles.
+
+## 2026-06-18 - [Layout Component Memoization and Static Hoisting]
+**Learning:** High-level layout components (like Header, Navbar, and BottomBar) are rendered once at the application level but are susceptible to re-rendering cascading whenever sub-page state changes (e.g. typing, sliding, toggling). In addition, executing array operations like `.filter()` on static arrays on every render introduces unnecessary memory allocations and GC pressure.
+**Action:** Hoist any static array computations (like filtering navigation links) to module-level constants, and wrap layout-level components in `React.memo` to guard against cascading re-render overhead.

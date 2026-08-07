@@ -1,18 +1,24 @@
 "use client";
+import { memo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { links } from "@/share/helpers";
 
-export default function Navbar() {
+/**
+ * ⚡ Bolt Optimization: Hoist static array computations to the module level
+ * and use React.memo to prevent layout-level component re-renders during state updates.
+ * 📊 Impact: Skips the expensive filter calculation and layout reconciliation on every page-level state update.
+ */
+const shownLinks = links.filter((v) => v.show);
+
+const Navbar = memo(function Navbar() {
   const pathname = usePathname();
 
   return (
     <nav className="hidden lg:flex flex-col bg-white text-wf-primary font-wf-headline-md text-sm font-medium w-64 border-r border-wf-outline-variant/30 shrink-0 h-full">
       <div className="flex-1 py-4 flex flex-col gap-2 px-4 overflow-y-auto">
-        {links
-          .filter((v) => v.show)
-          .map((link, index) => {
+        {shownLinks.map((link, index) => {
             const isActive = pathname === link.link;
 
             if (typeof link.link === "string") {
@@ -51,4 +57,6 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
+});
+
+export default Navbar;

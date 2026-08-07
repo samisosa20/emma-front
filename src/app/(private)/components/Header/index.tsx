@@ -1,4 +1,5 @@
 "use client";
+import { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -6,7 +7,11 @@ import Image from "next/image";
 import imgLogo from "../../../../../public/img/logo.png";
 import { useSession } from "@/share/components/SessionProvider";
 
-const Header = () => {
+/**
+ * ⚡ Bolt Optimization: Use React.memo to prevent layout-level component re-renders during state updates.
+ * 📊 Impact: Skips the header layout reconciliation on every page-level state update.
+ */
+const Header = memo(function Header() {
   const { session } = useSession();
   const user = session?.user;
 
@@ -44,6 +49,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;
