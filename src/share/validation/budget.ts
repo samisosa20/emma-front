@@ -10,18 +10,21 @@ const budgetSchema = z.object({
     value: z.union([z.string(), z.number()]),
     label: z.string(),
   }),
-  amount: z.union([z.string(), z.number()]).refine((value) => {
-    const num = Number(value);
-    return !isNaN(num) && num >= 0 && isFinite(num);
-  }, {
-    message: "Debe ser un número positivo válido",
-  }),
+  amount: z.union([z.string(), z.number()]).refine(
+    (value) => {
+      const num = Number(value);
+      return !isNaN(num) && num != 0 && isFinite(num);
+    },
+    {
+      message: "Debe ser un número válido",
+    },
+  ),
   periodId: z.union([z.string(), z.number()]),
 });
 
 const validateNumeric = (value: string | number) => {
   const num = Number(value);
-  return !isNaN(num) && num >= 0 && isFinite(num);
+  return !isNaN(num) && num != 0 && isFinite(num);
 };
 
 const budgetParamsSchema = z.object({
@@ -29,7 +32,7 @@ const budgetParamsSchema = z.object({
   categoryId: z.union([z.string(), z.number()]),
   badge_id: z.union([z.string(), z.number()]),
   amount: z.number().refine(validateNumeric, {
-    message: "Debe ser un número positivo válido",
+    message: "Debe ser un número válido",
   }),
   periodId: z.union([z.string(), z.number()]),
 });
