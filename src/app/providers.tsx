@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/share/components/ThemeProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     } */
   }, [pathname]);
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ThemeProvider>
   );
 }

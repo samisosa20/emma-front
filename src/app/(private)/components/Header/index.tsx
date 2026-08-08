@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 // Assets
 import imgLogo from "../../../../../public/img/logo.png";
 import { useSession } from "@/share/components/SessionProvider";
+import { useTheme } from "@/share/components/ThemeProvider";
 
 const navigationSections = [
   {
@@ -49,6 +50,7 @@ const navigationSections = [
  */
 const Header = memo(function Header() {
   const { session } = useSession();
+  const { theme, toggleTheme } = useTheme();
   const user = session?.user;
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -99,13 +101,21 @@ const Header = memo(function Header() {
 
         {/* Right: Quick Action & Profile */}
         <div className="flex items-center gap-2 md:gap-3">
-          <Link
-            href="/moves"
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-wf-primary/10 text-wf-primary hover:bg-wf-primary hover:text-white font-wf-body-regular text-xs font-semibold transition-all duration-200 shadow-xs active:scale-95"
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Cambiar tema oscuro/claro"
+            title={
+              theme === "dark"
+                ? "Cambiar a modo claro"
+                : "Cambiar a modo oscuro"
+            }
+            className="p-2 rounded-full text-wf-on-surface-variant hover:text-wf-primary hover:bg-wf-surface-container active:scale-95 transition-all duration-150 flex items-center justify-center border border-wf-outline-variant/30"
           >
-            <span className="material-symbols-outlined text-base">add</span>
-            <span>Nueva Transacción</span>
-          </Link>
+            <span className="material-symbols-outlined text-xl">
+              {theme === "dark" ? "light_mode" : "dark_mode"}
+            </span>
+          </button>
 
           <Link
             href="/profile"

@@ -66,6 +66,10 @@ const AutoComplete = memo((props: any) => {
           className={`auto-complete ${iserror ? "iserror" : ""}`}
           isClearable
           value={value}
+          menuPortalTarget={isMounted && typeof window !== "undefined" ? document.body : null}
+          styles={{
+            menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+          }}
           components={{ Option: IconOption }}
           {...rest}
         />
