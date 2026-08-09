@@ -29,21 +29,21 @@ const Navbar = memo(function Navbar() {
                 href={link.link}
                 key={index}
                 aria-current={isActive ? "page" : undefined}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ease-in-out ${
+                className={`flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${
                   isActive
-                    ? "bg-wf-surface-container text-wf-primary font-semibold border-r-4 border-wf-primary"
-                    : "text-wf-on-surface-variant hover:bg-wf-surface-container-low"
+                    ? "bg-wf-surface-container text-wf-primary font-bold border-r-4 border-wf-primary shadow-xs"
+                    : "text-wf-on-surface-variant hover:bg-wf-surface-container-low hover:text-wf-on-surface"
                 }`}
               >
                 <span
                   aria-hidden="true"
-                  className={`material-symbols-outlined ${
-                    isActive ? "filled" : ""
+                  className={`material-symbols-outlined text-2xl transition-transform ${
+                    isActive ? "filled scale-105" : ""
                   }`}
                 >
                   {link.icon}
                 </span>
-                <span className="font-wf-body-regular">{link.name}</span>
+                <span className="font-wf-body-regular text-base">{link.name}</span>
               </Link>
             );
           }
@@ -51,10 +51,10 @@ const Navbar = memo(function Navbar() {
       </div>
       <div className="p-4 border-t border-wf-outline-variant/30 flex flex-col gap-3">
         <Link href="/moves">
-          <button className="w-full bg-wf-primary text-wf-on-primary font-wf-body-regular py-3 rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+          <button className="w-full bg-wf-primary text-wf-on-primary font-wf-body-regular py-3 rounded-xl shadow-sm hover:opacity-90 transition-all active:scale-98 flex items-center justify-center gap-2 text-base font-semibold">
             <span
               aria-hidden="true"
-              className="material-symbols-outlined text-[20px]"
+              className="material-symbols-outlined text-2xl"
             >
               add
             </span>

@@ -34,7 +34,8 @@ export default function Tools(props: any) {
             className="text-wf-primary font-wf-headline-lg"
           />
           <Typography className="text-wf-on-surface-variant font-wf-body-regular mt-wf-unit">
-            Simuladores y calculadoras inteligentes para tus decisiones financieras.
+            Simuladores y calculadoras inteligentes para tus decisiones
+            financieras.
           </Typography>
         </div>
       </div>
@@ -43,24 +44,29 @@ export default function Tools(props: any) {
         {/* Income Distribution (50/30/20) Link Card */}
         <Link
           href="/tools/income-distribution"
-          className="bg-gradient-to-r from-wf-primary/10 to-wf-secondary/10 hover:from-wf-primary/15 hover:to-wf-secondary/15 backdrop-blur-md p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 block group transition-all"
+          className="bg-gradient-to-r from-wf-primary/10 to-wf-secondary/10 hover:from-wf-primary/15 hover:to-wf-secondary/15 backdrop-blur-md p-4 xl:p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 block group transition-all"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-wf-primary/20 flex items-center justify-center text-wf-primary">
-                <span className="material-symbols-outlined text-[28px]">donut_large</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-wf-primary/20 flex items-center justify-center text-wf-primary">
+                <span className="material-symbols-outlined text-[28px]">
+                  donut_large
+                </span>
               </div>
               <div>
                 <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold group-hover:text-wf-primary transition-colors">
                   Distribución de Ingresos 50/30/20
                 </h3>
                 <p className="text-xs text-wf-on-surface-variant">
-                  Monitorea tus gastos fijos (50%), personales (30%) e inversiones (20%) y el desglose por categorías.
+                  Monitorea tus gastos fijos (50%), personales (30%) e
+                  inversiones (20%) y el desglose por categorías.
                 </p>
               </div>
             </div>
-            <div className="w-10 h-10 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-surface-tint group-hover:bg-wf-primary group-hover:text-wf-on-primary transition-colors">
-              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-surface-tint group-hover:bg-wf-primary group-hover:text-wf-on-primary transition-colors">
+              <span className="material-symbols-outlined text-[20px]">
+                arrow_forward
+              </span>
             </div>
           </div>
         </Link>
@@ -68,16 +74,23 @@ export default function Tools(props: any) {
         {/* Can I spend it? Tool */}
         <div
           id="fiona-canido"
-          className="bg-wf-on-primary backdrop-blur-md p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50"
+          className="bg-wf-on-primary backdrop-blur-md p-4 xl:p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50"
         >
           <div className="flex items-center gap-3 mb-wf-lg border-b border-wf-surface-variant/20 pb-4">
-             <div className="w-10 h-10 rounded-full bg-wf-primary/10 flex items-center justify-center text-wf-primary">
-                <span className="material-symbols-outlined text-[24px]">payments</span>
-             </div>
-             <div>
-                <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold">¿Podría gastarme esto?</h3>
-                <p className="text-xs text-wf-on-surface-variant">Consulta si un gasto impacta negativamente tu salud financiera actual.</p>
-             </div>
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-primary/10 flex items-center justify-center text-wf-primary">
+              <span className="material-symbols-outlined text-[24px]">
+                payments
+              </span>
+            </div>
+            <div>
+              <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold">
+                ¿Podría gastarme esto?
+              </h3>
+              <p className="text-xs text-wf-on-surface-variant">
+                Consulta si un gasto impacta negativamente tu salud financiera
+                actual.
+              </p>
+            </div>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -90,7 +103,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Monto del Gasto</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Monto del Gasto
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -112,22 +127,24 @@ export default function Tools(props: any) {
                 control={control}
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
-                     <div className="space-y-1">
-                        <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Moneda</label>
-                        <Select
-                          placeholder="Seleccionar..."
-                          onChange={onChange}
-                          options={currencyOptions}
-                          value={value}
-                        />
-                      </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Moneda
+                      </label>
+                      <Select
+                        placeholder="Seleccionar..."
+                        onChange={onChange}
+                        options={currencyOptions}
+                        value={value}
+                      />
+                    </div>
                   </FormControl>
                 )}
               />
             </div>
-            
+
             <div className="md:col-span-3">
-              <button 
+              <button
                 type="submit"
                 className="w-full bg-wf-primary text-wf-on-primary py-3.5 rounded-xl font-bold shadow-lg hover:opacity-90 transition-all active:scale-[0.98]"
               >
@@ -140,18 +157,28 @@ export default function Tools(props: any) {
         {/* Investment Evaluation Tool */}
         <div
           id="fiona-test_project"
-          className="bg-wf-on-primary backdrop-blur-md p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50"
+          className="bg-wf-on-primary backdrop-blur-md p-4 xl:p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50"
         >
           <div className="flex items-center gap-3 mb-wf-lg border-b border-wf-surface-variant/20 pb-4">
-             <div className="w-10 h-10 rounded-full bg-wf-secondary/10 flex items-center justify-center text-wf-secondary">
-                <span className="material-symbols-outlined text-[24px]">analytics</span>
-             </div>
-             <div>
-                <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold">Evaluación de Inversión</h3>
-                <p className="text-xs text-wf-on-surface-variant">Analiza la viabilidad de un proyecto basándote en flujos proyectados.</p>
-             </div>
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-secondary/10 flex items-center justify-center text-wf-secondary">
+              <span className="material-symbols-outlined text-[24px]">
+                analytics
+              </span>
+            </div>
+            <div>
+              <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold">
+                Evaluación de Inversión
+              </h3>
+              <p className="text-xs text-wf-on-surface-variant">
+                Analiza la viabilidad de un proyecto basándote en flujos
+                proyectados.
+              </p>
+            </div>
           </div>
-          <form onSubmit={handleSubmitTest(onSubmitTest)} className="space-y-wf-lg">
+          <form
+            onSubmit={handleSubmitTest(onSubmitTest)}
+            className="space-y-wf-lg"
+          >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-wf-md">
               <Controller
                 name={"rate"}
@@ -159,7 +186,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Tasa Ref. (E.A %)</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Tasa Ref. (E.A %)
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -178,7 +207,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Periodos (Años)</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Periodos (Años)
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -197,7 +228,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Inversión Inicial</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Inversión Inicial
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -218,7 +251,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Valor Final Proyectado</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Valor Final Proyectado
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -237,7 +272,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Ingresos Promedio</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Ingresos Promedio
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -256,7 +293,9 @@ export default function Tools(props: any) {
                 render={({ field: { onChange, value }, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={true}>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">Egresos Promedio</label>
+                      <label className="text-[11px] font-wf-label-caps text-wf-surface-tint uppercase font-bold ml-1">
+                        Egresos Promedio
+                      </label>
                       <input
                         className="w-full bg-wf-surface-container-low/50 border border-wf-surface-variant/30 rounded-xl p-3 text-sm focus:ring-2 focus:ring-wf-primary outline-none transition-all"
                         type="number"
@@ -270,7 +309,7 @@ export default function Tools(props: any) {
               />
             </div>
             <div className="flex justify-end pt-wf-md">
-              <button 
+              <button
                 type="submit"
                 className="w-full md:w-auto min-w-[200px] bg-wf-secondary text-wf-on-secondary py-3.5 px-wf-xl rounded-xl font-bold shadow-lg hover:opacity-90 transition-all active:scale-[0.98]"
               >
@@ -281,28 +320,35 @@ export default function Tools(props: any) {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={handleClose} title="Resultado del Análisis">
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+        title="Resultado del Análisis"
+      >
         <div className="p-wf-md space-y-wf-lg">
-           <div className="bg-wf-surface-container-low p-wf-lg rounded-2xl border border-wf-primary/10">
-              <div className="flex items-center gap-3 mb-3">
-                 <span className="material-symbols-outlined text-wf-primary text-[32px]">smart_toy</span>
-                 <Typography className="font-bold text-wf-primary text-lg">FIONA Dice:</Typography>
-              </div>
-              <Typography className="text-wf-on-surface font-wf-body-regular leading-relaxed text-justify">
-                {displayText.message}
+          <div className="bg-wf-surface-container-low p-wf-lg rounded-2xl border border-wf-primary/10">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="material-symbols-outlined text-wf-primary text-[32px]">
+                smart_toy
+              </span>
+              <Typography className="font-bold text-wf-primary text-lg">
+                FIONA Dice:
               </Typography>
-           </div>
-           <div className="flex justify-end">
-              <button
-                onClick={handleClose}
-                className="bg-wf-on-surface text-wf-surface py-2 px-wf-lg rounded-xl font-bold hover:bg-wf-on-surface-variant transition-all"
-              >
-                Cerrar
-              </button>
-           </div>
+            </div>
+            <Typography className="text-wf-on-surface font-wf-body-regular leading-relaxed text-justify">
+              {displayText.message}
+            </Typography>
+          </div>
+          <div className="flex justify-end">
+            <button
+              onClick={handleClose}
+              className="bg-wf-on-surface text-wf-surface py-2 px-wf-lg rounded-xl font-bold hover:bg-wf-on-surface-variant transition-all"
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
   );
 }
-

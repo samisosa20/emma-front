@@ -68,7 +68,12 @@ const Accounts = () => {
           />
           <Link href={"/accounts/create"}>
             <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">
-              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">add</span>
+              <span
+                className="material-symbols-outlined text-[20px]"
+                aria-hidden="true"
+              >
+                add
+              </span>
               Crear Cuenta
             </button>
           </Link>
@@ -121,13 +126,16 @@ const Accounts = () => {
               <div className="flex justify-between items-start mb-wf-md">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
                     style={{
                       backgroundColor: accountType.bgColor,
                       color: accountType.textColor,
                     }}
                   >
-                    <span className="material-symbols-outlined text-[22px]" aria-hidden="true">
+                    <span
+                      className="material-symbols-outlined text-[22px]"
+                      aria-hidden="true"
+                    >
                       {accountType.icon}
                     </span>
                   </div>
@@ -158,7 +166,10 @@ const Accounts = () => {
       {filteredAccounts.length === 0 && (
         <div className="bg-wf-surface-container-lowest rounded-xl p-wf-md text-center border border-dashed border-wf-outline-variant flex flex-col items-center gap-wf-sm shadow-sm">
           <div className="w-16 h-16 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-outline-variant">
-            <span className="material-symbols-outlined text-[32px]" aria-hidden="true">
+            <span
+              className="material-symbols-outlined text-[32px]"
+              aria-hidden="true"
+            >
               account_balance_wallet
             </span>
           </div>
@@ -175,7 +186,10 @@ const Accounts = () => {
           {!search && (
             <Link href={"/accounts/create"} className="mt-2">
               <button className="text-wf-primary font-semibold text-sm hover:underline flex items-center gap-1">
-                <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                <span
+                  className="material-symbols-outlined text-[18px]"
+                  aria-hidden="true"
+                >
                   add
                 </span>
                 Crear mi primera cuenta

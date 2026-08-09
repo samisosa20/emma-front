@@ -53,7 +53,7 @@ const BottomBar = memo(function BottomBar() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Navegación móvil" className="lg:hidden fixed bottom-3 left-1/2 -translate-x-1/2 w-[94%] max-w-md z-40 bg-white/95 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(4,12,33,0.12)] rounded-3xl px-2 h-[56px] flex justify-around items-center">
+    <nav aria-label="Navegación móvil" className="lg:hidden fixed bottom-3 left-1/2 -translate-x-1/2 w-[94%] max-w-md z-40 bg-white/95 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(4,12,33,0.12)] rounded-3xl px-2 h-[54px] flex justify-around items-center">
       {shownLinksMobile.map((link) => {
         const isActive = pathname === link.link;
 
@@ -65,10 +65,10 @@ const BottomBar = memo(function BottomBar() {
                 href={link.link}
                 aria-current={isActive ? "page" : undefined}
                 aria-label="Ir a Transacciones"
-                className="absolute -top-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center group"
+                className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center group"
               >
                 <div
-                  className={`p-3 rounded-full shadow-lg transition-all duration-200 border-4 border-white flex items-center justify-center active:scale-90 ${
+                  className={`p-2.5 rounded-full shadow-md transition-all duration-200 border-[3px] border-white flex items-center justify-center active:scale-90 ${
                     isActive
                       ? "bg-gradient-to-tr from-wf-primary via-indigo-600 to-emerald-500 text-white shadow-wf-primary/40 scale-105"
                       : "bg-wf-primary text-white shadow-wf-primary/30 hover:scale-105"
@@ -79,7 +79,7 @@ const BottomBar = memo(function BottomBar() {
                   </span>
                 </div>
                 <span
-                  className={`font-wf-body-regular text-[10px] font-bold tracking-tight mt-0.5 transition-colors whitespace-nowrap ${
+                  className={`font-wf-body-regular text-[11px] font-bold tracking-tight mt-0.5 transition-colors whitespace-nowrap ${
                     isActive ? "text-wf-primary" : "text-wf-on-surface-variant"
                   }`}
                 >

@@ -112,7 +112,7 @@ const IncomeDistribution = memo((props: any) => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="w-10 h-10 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all active:scale-[0.95]"
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all active:scale-[0.95]"
             title="Volver"
           >
             <MdArrowBack className="text-[20px]" />
@@ -130,7 +130,7 @@ const IncomeDistribution = memo((props: any) => {
       </div>
 
       {/* Filter panel */}
-      <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+      <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
         <div className="flex flex-wrap items-center justify-between gap-wf-md">
           {/* SlideSteppers for Date filtering */}
           <div className="flex flex-wrap items-center gap-wf-md">
@@ -197,7 +197,7 @@ const IncomeDistribution = memo((props: any) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-wf-gutter">
           {/* Main summary values */}
           <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-wf-md">
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex items-center gap-4">
+            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[28px]">
                   trending_up
@@ -213,7 +213,7 @@ const IncomeDistribution = memo((props: any) => {
               </div>
             </div>
 
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex items-center gap-4">
+            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[28px]">
                   trending_down
@@ -233,10 +233,10 @@ const IncomeDistribution = memo((props: any) => {
           {/* Detailed rule distribution KPI cards */}
           <div className="lg:col-span-7 space-y-wf-md">
             {/* Gastos Fijos (50%) */}
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
+            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-blue-500"></span>
+                  <span className="flex-shrink-0 w-3 h-3 rounded-full bg-blue-500"></span>
                   <Typography className="font-bold text-wf-primary text-base">
                     Gastos Fijos (50%)
                   </Typography>
@@ -247,7 +247,7 @@ const IncomeDistribution = memo((props: any) => {
                   {report.fijos.actualPercentage}% del Ingreso
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-wf-md rounded-xl">
+              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-4 xl:p-wf-md rounded-xl">
                 <div>
                   <span className="text-xs text-wf-on-surface-variant block">
                     Ejecutado
@@ -284,10 +284,10 @@ const IncomeDistribution = memo((props: any) => {
             </div>
 
             {/* Gastos Personales (30%) */}
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
+            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                  <span className="flex-shrink-0 w-3 h-3 rounded-full bg-amber-500"></span>
                   <Typography className="font-bold text-wf-primary text-base">
                     Gastos Personales (30%)
                   </Typography>
@@ -298,7 +298,7 @@ const IncomeDistribution = memo((props: any) => {
                   {report.personales.actualPercentage}% del Ingreso
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-wf-md rounded-xl">
+              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-4 xl:p-wf-md rounded-xl">
                 <div>
                   <span className="text-xs text-wf-on-surface-variant block">
                     Ejecutado
@@ -335,10 +335,10 @@ const IncomeDistribution = memo((props: any) => {
             </div>
 
             {/* Inversión / Ahorros (20%) */}
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
+            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                  <span className="flex-shrink-0 w-3 h-3 rounded-full bg-emerald-500"></span>
                   <Typography className="font-bold text-wf-primary text-base">
                     Inversión / Ahorros (20%)
                   </Typography>
@@ -349,7 +349,7 @@ const IncomeDistribution = memo((props: any) => {
                   {report.ahorros.actualPercentage}% del Ingreso
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-wf-md rounded-xl">
+              <div className="grid grid-cols-2 gap-4 text-sm bg-wf-surface-container-lowest/30 p-4 xl:p-wf-md rounded-xl">
                 <div>
                   <span className="text-xs text-wf-on-surface-variant block">
                     Ejecutado
@@ -387,7 +387,7 @@ const IncomeDistribution = memo((props: any) => {
           </div>
 
           {/* Pie/Donut Chart container */}
-          <div className="lg:col-span-5 bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 flex flex-col justify-between">
             <div>
               <Typography className="font-bold text-wf-primary text-lg mb-2">
                 Distribución del Gasto Real
@@ -450,7 +450,7 @@ const IncomeDistribution = memo((props: any) => {
           </div>
 
           {/* Breakdown table of categories */}
-          <div className="lg:col-span-12 bg-wf-on-primary backdrop-blur-md rounded-2xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-4">
+          <div className="lg:col-span-12 bg-wf-on-primary backdrop-blur-md rounded-2xl p-4 xl:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 space-y-4">
             <div>
               <Typography className="font-bold text-wf-primary text-lg">
                 Desglose por Categoría de Gasto

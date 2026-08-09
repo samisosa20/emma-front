@@ -158,7 +158,7 @@ const Header = memo(function Header() {
                   <img
                     src={user.image}
                     alt={user.name || "Usuario"}
-                    className="w-10 h-10 rounded-full border border-wf-primary/20 shadow-xs"
+                    className="flex-shrink-0 w-10 h-10 rounded-full border border-wf-primary/20 shadow-xs"
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-wf-primary/10 text-wf-primary flex items-center justify-center font-bold text-lg">

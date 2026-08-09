@@ -36,7 +36,7 @@ const AccountDetail = memo((props: any) => {
   return (
     <div className="flex flex-col gap-wf-gutter">
       {/* Page Header */}
-      <div className="flex justify-between items-end pb-wf-md border-b border-wf-surface-variant">
+      <div className="flex justify-between items-end pb-wf-md border-b border-wf-surface-variant flex-wrap gap-2">
         <div>
           <h1 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary flex items-center gap-wf-sm">
             <span className="material-symbols-outlined text-[32px] text-wf-surface-tint filled">
@@ -45,7 +45,7 @@ const AccountDetail = memo((props: any) => {
             Cuenta: {data?.name}
           </h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 ml-auto lg:ml-0">
           <button
             onClick={() => router.back()}
             className="flex items-center gap-wf-xs px-wf-md py-wf-sm bg-wf-surface-container-highest text-wf-primary rounded-lg font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-surface-variant transition-colors"

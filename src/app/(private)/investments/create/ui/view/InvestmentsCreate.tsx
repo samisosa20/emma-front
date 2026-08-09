@@ -54,12 +54,12 @@ export default function InvestmentsCreate(props: any) {
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.back()}
-            className="w-10 h-10 rounded-full bg-wf-on-primary backdrop-blur-md shadow-sm border border-white/50 flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all"
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-on-primary backdrop-blur-md shadow-sm border border-white/50 flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all"
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div>
-            <h1 className="font-wf-headline-lg text-[32px] text-wf-primary">
+            <h1 className="font-wf-headline-lg text-xl lg:text-[32px] text-wf-primary">
               {title}
             </h1>
             <Typography className="text-wf-on-surface-variant font-wf-body-regular">
