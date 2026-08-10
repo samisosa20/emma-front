@@ -220,7 +220,9 @@ export default function useInvestmentsCreateViewModel() {
   };
 
   useEffect(() => {
-    refetch();
+    if (param.id) {
+      refetch();
+    }
     if (session?.badges) {
       setCurrencyOptions(
         session.badges.map((v) => {

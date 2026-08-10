@@ -41,6 +41,7 @@ export default defineConfig({
         query: {
           useSuspenseQuery: true,
           useQuery: true,
+          useMutation: true,
         },
       },
     },

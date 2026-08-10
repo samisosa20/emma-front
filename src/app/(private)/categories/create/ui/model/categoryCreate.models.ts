@@ -38,8 +38,9 @@ export default function useCategoryCreateViewModel() {
 
   const mutationDelete = useDeleteApiCategoriesId();
 
-  const { data } = useGetApiCategoriesIdSuspense(String(param.id), {
+  const { data } = useGetApiCategoriesIdSuspense(param.id ? String(param.id) : "", {
     query: {
+      enabled: !!param.id,
       queryKey: ["categoryDetail", param.id ?? 0],
     },
   });

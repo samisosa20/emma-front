@@ -7,7 +7,10 @@
  */
 import {
   useQuery,
-  useSuspenseQuery
+  useSuspenseQuery,
+  useMutation,
+  type UseMutationOptions,
+  type UseMutationResult
 } from '@tanstack/react-query';
 import type {
   DataTag,
@@ -334,41 +337,28 @@ export type PostApiAccountsQueryResult = NonNullable<Awaited<ReturnType<typeof p
 export type PostApiAccountsQueryError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>
 
 
-export function usePostApiAccounts<TData = Awaited<ReturnType<typeof postApiAccounts>>, TError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>>(
- postApiAccountsBody: BodyType<PostApiAccountsBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiAccounts>>,
-          TError,
-          Awaited<ReturnType<typeof postApiAccounts>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiAccounts<TData = Awaited<ReturnType<typeof postApiAccounts>>, TError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>>(
- postApiAccountsBody: BodyType<PostApiAccountsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiAccounts>>,
-          TError,
-          Awaited<ReturnType<typeof postApiAccounts>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiAccounts<TData = Awaited<ReturnType<typeof postApiAccounts>>, TError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>>(
- postApiAccountsBody: BodyType<PostApiAccountsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePostApiAccounts<
+  TData = Awaited<ReturnType<typeof postApiAccounts>>,
+  TError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>,
+  TVariables = { data: PostApiAccountsBody } | PostApiAccountsBody,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePostApiAccounts<TData = Awaited<ReturnType<typeof postApiAccounts>>, TError = ErrorType<PostApiAccounts400 | PostApiAccounts401 | PostApiAccounts500>>(
- postApiAccountsBody: BodyType<PostApiAccountsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPostApiAccountsQueryOptions(postApiAccountsBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const body = (variables && typeof variables === "object" && "data" in variables)
+        ? variables.data
+        : variables;
+      return postApiAccounts(body, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 

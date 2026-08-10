@@ -100,11 +100,11 @@ const useEventCreate = () => {
   };
 
   useEffect(() => {
-    refetch();
-    if (param.id) {
+    if (param?.id) {
+      refetch();
       setTitle("Edicion de eventos");
     }
-  }, []);
+  }, [param?.id]);
 
   useEffect(() => {
     if (data) {

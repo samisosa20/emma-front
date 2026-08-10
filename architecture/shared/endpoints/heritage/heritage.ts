@@ -7,7 +7,10 @@
  */
 import {
   useQuery,
-  useSuspenseQuery
+  useSuspenseQuery,
+  useMutation,
+  type UseMutationOptions,
+  type UseMutationResult
 } from '@tanstack/react-query';
 import type {
   DataTag,
@@ -331,41 +334,28 @@ export type PostApiHeritagesQueryResult = NonNullable<Awaited<ReturnType<typeof 
 export type PostApiHeritagesQueryError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>
 
 
-export function usePostApiHeritages<TData = Awaited<ReturnType<typeof postApiHeritages>>, TError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>>(
- postApiHeritagesBody: BodyType<PostApiHeritagesBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiHeritages>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiHeritages>>,
-          TError,
-          Awaited<ReturnType<typeof postApiHeritages>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiHeritages<TData = Awaited<ReturnType<typeof postApiHeritages>>, TError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>>(
- postApiHeritagesBody: BodyType<PostApiHeritagesBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiHeritages>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiHeritages>>,
-          TError,
-          Awaited<ReturnType<typeof postApiHeritages>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiHeritages<TData = Awaited<ReturnType<typeof postApiHeritages>>, TError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>>(
- postApiHeritagesBody: BodyType<PostApiHeritagesBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiHeritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePostApiHeritages<
+  TData = Awaited<ReturnType<typeof postApiHeritages>>,
+  TError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>,
+  TVariables = { data: PostApiHeritagesBody } | PostApiHeritagesBody,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePostApiHeritages<TData = Awaited<ReturnType<typeof postApiHeritages>>, TError = ErrorType<PostApiHeritages400 | PostApiHeritages401 | PostApiHeritages500>>(
- postApiHeritagesBody: BodyType<PostApiHeritagesBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiHeritages>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPostApiHeritagesQueryOptions(postApiHeritagesBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const body = (variables && typeof variables === "object" && "data" in variables)
+        ? variables.data
+        : variables;
+      return postApiHeritages(body, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -638,45 +628,25 @@ export type PutApiHeritagesIdQueryResult = NonNullable<Awaited<ReturnType<typeof
 export type PutApiHeritagesIdQueryError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>
 
 
-export function usePutApiHeritagesId<TData = Awaited<ReturnType<typeof putApiHeritagesId>>, TError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>>(
- id: string,
-    putApiHeritagesIdBody: BodyType<PutApiHeritagesIdBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiHeritagesId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiHeritagesId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiHeritagesId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiHeritagesId<TData = Awaited<ReturnType<typeof putApiHeritagesId>>, TError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>>(
- id: string,
-    putApiHeritagesIdBody: BodyType<PutApiHeritagesIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiHeritagesId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiHeritagesId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiHeritagesId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiHeritagesId<TData = Awaited<ReturnType<typeof putApiHeritagesId>>, TError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>>(
- id: string,
-    putApiHeritagesIdBody: BodyType<PutApiHeritagesIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiHeritagesId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePutApiHeritagesId<
+  TData = Awaited<ReturnType<typeof putApiHeritagesId>>,
+  TError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>,
+  TVariables = { id: string; data: PutApiHeritagesIdBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePutApiHeritagesId<TData = Awaited<ReturnType<typeof putApiHeritagesId>>, TError = ErrorType<PutApiHeritagesId400 | PutApiHeritagesId401 | PutApiHeritagesId500>>(
- id: string,
-    putApiHeritagesIdBody: BodyType<PutApiHeritagesIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiHeritagesId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPutApiHeritagesIdQueryOptions(id,putApiHeritagesIdBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return putApiHeritagesId(variables.id, variables.data, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -768,41 +738,25 @@ export type DeleteApiHeritagesIdQueryResult = NonNullable<Awaited<ReturnType<typ
 export type DeleteApiHeritagesIdQueryError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>
 
 
-export function useDeleteApiHeritagesId<TData = Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiHeritagesId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiHeritagesId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiHeritagesId<TData = Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiHeritagesId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiHeritagesId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiHeritagesId<TData = Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDeleteApiHeritagesId<
+  TData = Awaited<ReturnType<typeof deleteApiHeritagesId>>,
+  TError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function useDeleteApiHeritagesId<TData = Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError = ErrorType<DeleteApiHeritagesId400 | DeleteApiHeritagesId401 | DeleteApiHeritagesId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiHeritagesId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getDeleteApiHeritagesIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return deleteApiHeritagesId(variables.id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 

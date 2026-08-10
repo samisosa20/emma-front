@@ -7,7 +7,10 @@
  */
 import {
   useQuery,
-  useSuspenseQuery
+  useSuspenseQuery,
+  useMutation,
+  type UseMutationOptions,
+  type UseMutationResult
 } from '@tanstack/react-query';
 import type {
   DataTag,
@@ -326,41 +329,28 @@ export type PostApiPlannedPaymentsQueryResult = NonNullable<Awaited<ReturnType<t
 export type PostApiPlannedPaymentsQueryError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>
 
 
-export function usePostApiPlannedPayments<TData = Awaited<ReturnType<typeof postApiPlannedPayments>>, TError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>>(
- postApiPlannedPaymentsBody: BodyType<PostApiPlannedPaymentsBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiPlannedPayments>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiPlannedPayments>>,
-          TError,
-          Awaited<ReturnType<typeof postApiPlannedPayments>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiPlannedPayments<TData = Awaited<ReturnType<typeof postApiPlannedPayments>>, TError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>>(
- postApiPlannedPaymentsBody: BodyType<PostApiPlannedPaymentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiPlannedPayments>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiPlannedPayments>>,
-          TError,
-          Awaited<ReturnType<typeof postApiPlannedPayments>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiPlannedPayments<TData = Awaited<ReturnType<typeof postApiPlannedPayments>>, TError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>>(
- postApiPlannedPaymentsBody: BodyType<PostApiPlannedPaymentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiPlannedPayments>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePostApiPlannedPayments<
+  TData = Awaited<ReturnType<typeof postApiPlannedPayments>>,
+  TError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>,
+  TVariables = { data: PostApiPlannedPaymentsBody } | PostApiPlannedPaymentsBody,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePostApiPlannedPayments<TData = Awaited<ReturnType<typeof postApiPlannedPayments>>, TError = ErrorType<PostApiPlannedPayments400 | PostApiPlannedPayments401 | PostApiPlannedPayments500>>(
- postApiPlannedPaymentsBody: BodyType<PostApiPlannedPaymentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiPlannedPayments>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPostApiPlannedPaymentsQueryOptions(postApiPlannedPaymentsBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const body = (variables && typeof variables === "object" && "data" in variables)
+        ? variables.data
+        : variables;
+      return postApiPlannedPayments(body, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -633,45 +623,25 @@ export type PutApiPlannedPaymentsIdQueryResult = NonNullable<Awaited<ReturnType<
 export type PutApiPlannedPaymentsIdQueryError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>
 
 
-export function usePutApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>>(
- id: string,
-    putApiPlannedPaymentsIdBody: BodyType<PutApiPlannedPaymentsIdBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiPlannedPaymentsId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiPlannedPaymentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>>(
- id: string,
-    putApiPlannedPaymentsIdBody: BodyType<PutApiPlannedPaymentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiPlannedPaymentsId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiPlannedPaymentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>>(
- id: string,
-    putApiPlannedPaymentsIdBody: BodyType<PutApiPlannedPaymentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePutApiPlannedPaymentsId<
+  TData = Awaited<ReturnType<typeof putApiPlannedPaymentsId>>,
+  TError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>,
+  TVariables = { id: string; data: PutApiPlannedPaymentsIdBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePutApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError = ErrorType<PutApiPlannedPaymentsId400 | PutApiPlannedPaymentsId401 | PutApiPlannedPaymentsId500>>(
- id: string,
-    putApiPlannedPaymentsIdBody: BodyType<PutApiPlannedPaymentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiPlannedPaymentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPutApiPlannedPaymentsIdQueryOptions(id,putApiPlannedPaymentsIdBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return putApiPlannedPaymentsId(variables.id, variables.data, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -763,41 +733,25 @@ export type DeleteApiPlannedPaymentsIdQueryResult = NonNullable<Awaited<ReturnTy
 export type DeleteApiPlannedPaymentsIdQueryError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>
 
 
-export function useDeleteApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDeleteApiPlannedPaymentsId<
+  TData = Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>,
+  TError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function useDeleteApiPlannedPaymentsId<TData = Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError = ErrorType<DeleteApiPlannedPaymentsId400 | DeleteApiPlannedPaymentsId401 | DeleteApiPlannedPaymentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiPlannedPaymentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getDeleteApiPlannedPaymentsIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return deleteApiPlannedPaymentsId(variables.id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 

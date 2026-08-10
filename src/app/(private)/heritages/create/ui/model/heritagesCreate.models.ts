@@ -41,7 +41,13 @@ export default function useHeritagesCreateViewModel() {
 
   const mutationDelete = useDeleteApiHeritagesId();
 
-  const { data, refetch } = useGetApiHeritagesIdSuspense(String(param.id));
+  const { data, refetch } = useGetApiHeritagesIdSuspense(param.id ? String(param.id) : "");
+
+  useEffect(() => {
+    if (param.id) {
+      refetch();
+    }
+  }, [param.id]);
 
   const onSubmit = (data: any) => {
     const formData = {

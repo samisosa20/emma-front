@@ -7,7 +7,10 @@
  */
 import {
   useQuery,
-  useSuspenseQuery
+  useSuspenseQuery,
+  useMutation,
+  type UseMutationOptions,
+  type UseMutationResult
 } from '@tanstack/react-query';
 import type {
   DataTag,
@@ -340,41 +343,28 @@ export type PostApiInvestmentsQueryResult = NonNullable<Awaited<ReturnType<typeo
 export type PostApiInvestmentsQueryError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>
 
 
-export function usePostApiInvestments<TData = Awaited<ReturnType<typeof postApiInvestments>>, TError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>>(
- postApiInvestmentsBody: BodyType<PostApiInvestmentsBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestments>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiInvestments>>,
-          TError,
-          Awaited<ReturnType<typeof postApiInvestments>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiInvestments<TData = Awaited<ReturnType<typeof postApiInvestments>>, TError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>>(
- postApiInvestmentsBody: BodyType<PostApiInvestmentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestments>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiInvestments>>,
-          TError,
-          Awaited<ReturnType<typeof postApiInvestments>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiInvestments<TData = Awaited<ReturnType<typeof postApiInvestments>>, TError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>>(
- postApiInvestmentsBody: BodyType<PostApiInvestmentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestments>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePostApiInvestments<
+  TData = Awaited<ReturnType<typeof postApiInvestments>>,
+  TError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>,
+  TVariables = { data: PostApiInvestmentsBody } | PostApiInvestmentsBody,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePostApiInvestments<TData = Awaited<ReturnType<typeof postApiInvestments>>, TError = ErrorType<PostApiInvestments400 | PostApiInvestments401 | PostApiInvestments500>>(
- postApiInvestmentsBody: BodyType<PostApiInvestmentsBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestments>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPostApiInvestmentsQueryOptions(postApiInvestmentsBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const body = (variables && typeof variables === "object" && "data" in variables)
+        ? variables.data
+        : variables;
+      return postApiInvestments(body, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -647,45 +637,25 @@ export type PutApiInvestmentsIdQueryResult = NonNullable<Awaited<ReturnType<type
 export type PutApiInvestmentsIdQueryError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>
 
 
-export function usePutApiInvestmentsId<TData = Awaited<ReturnType<typeof putApiInvestmentsId>>, TError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>>(
- id: string,
-    putApiInvestmentsIdBody: BodyType<PutApiInvestmentsIdBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiInvestmentsId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiInvestmentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiInvestmentsId<TData = Awaited<ReturnType<typeof putApiInvestmentsId>>, TError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>>(
- id: string,
-    putApiInvestmentsIdBody: BodyType<PutApiInvestmentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiInvestmentsId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiInvestmentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiInvestmentsId<TData = Awaited<ReturnType<typeof putApiInvestmentsId>>, TError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>>(
- id: string,
-    putApiInvestmentsIdBody: BodyType<PutApiInvestmentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePutApiInvestmentsId<
+  TData = Awaited<ReturnType<typeof putApiInvestmentsId>>,
+  TError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>,
+  TVariables = { id: string; data: PutApiInvestmentsIdBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePutApiInvestmentsId<TData = Awaited<ReturnType<typeof putApiInvestmentsId>>, TError = ErrorType<PutApiInvestmentsId400 | PutApiInvestmentsId401 | PutApiInvestmentsId500>>(
- id: string,
-    putApiInvestmentsIdBody: BodyType<PutApiInvestmentsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPutApiInvestmentsIdQueryOptions(id,putApiInvestmentsIdBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return putApiInvestmentsId(variables.id, variables.data, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -777,41 +747,25 @@ export type DeleteApiInvestmentsIdQueryResult = NonNullable<Awaited<ReturnType<t
 export type DeleteApiInvestmentsIdQueryError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>
 
 
-export function useDeleteApiInvestmentsId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiInvestmentsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiInvestmentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiInvestmentsId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiInvestmentsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiInvestmentsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiInvestmentsId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDeleteApiInvestmentsId<
+  TData = Awaited<ReturnType<typeof deleteApiInvestmentsId>>,
+  TError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function useDeleteApiInvestmentsId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError = ErrorType<DeleteApiInvestmentsId400 | DeleteApiInvestmentsId401 | DeleteApiInvestmentsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getDeleteApiInvestmentsIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return deleteApiInvestmentsId(variables.id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -906,45 +860,25 @@ export type PostApiInvestmentsIdAppreciationQueryResult = NonNullable<Awaited<Re
 export type PostApiInvestmentsIdAppreciationQueryError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>
 
 
-export function usePostApiInvestmentsIdAppreciation<TData = Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>>(
- id: string,
-    postApiInvestmentsIdAppreciationBody: BodyType<PostApiInvestmentsIdAppreciationBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>,
-          TError,
-          Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiInvestmentsIdAppreciation<TData = Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>>(
- id: string,
-    postApiInvestmentsIdAppreciationBody: BodyType<PostApiInvestmentsIdAppreciationBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>,
-          TError,
-          Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePostApiInvestmentsIdAppreciation<TData = Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>>(
- id: string,
-    postApiInvestmentsIdAppreciationBody: BodyType<PostApiInvestmentsIdAppreciationBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePostApiInvestmentsIdAppreciation<
+  TData = Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>,
+  TError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>,
+  TVariables = { id: string; data: PostApiInvestmentsIdAppreciationBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePostApiInvestmentsIdAppreciation<TData = Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError = ErrorType<PostApiInvestmentsIdAppreciation400 | PostApiInvestmentsIdAppreciation401 | PostApiInvestmentsIdAppreciation500>>(
- id: string,
-    postApiInvestmentsIdAppreciationBody: BodyType<PostApiInvestmentsIdAppreciationBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof postApiInvestmentsIdAppreciation>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPostApiInvestmentsIdAppreciationQueryOptions(id,postApiInvestmentsIdAppreciationBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return postApiInvestmentsIdAppreciation(variables.id, variables.data, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -1043,49 +977,25 @@ export type PutApiInvestmentsIdAppreciationAppreciationIdQueryResult = NonNullab
 export type PutApiInvestmentsIdAppreciationAppreciationIdQueryError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>
 
 
-export function usePutApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string,
-    putApiInvestmentsIdAppreciationAppreciationIdBody: BodyType<PutApiInvestmentsIdAppreciationAppreciationIdBody>, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string,
-    putApiInvestmentsIdAppreciationAppreciationIdBody: BodyType<PutApiInvestmentsIdAppreciationAppreciationIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string,
-    putApiInvestmentsIdAppreciationAppreciationIdBody: BodyType<PutApiInvestmentsIdAppreciationAppreciationIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePutApiInvestmentsIdAppreciationAppreciationId<
+  TData = Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>,
+  TError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>,
+  TVariables = { id: string; appreciationId: string; data: PutApiInvestmentsIdAppreciationAppreciationIdBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePutApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<PutApiInvestmentsIdAppreciationAppreciationId400 | PutApiInvestmentsIdAppreciationAppreciationId401 | PutApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string,
-    putApiInvestmentsIdAppreciationAppreciationIdBody: BodyType<PutApiInvestmentsIdAppreciationAppreciationIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPutApiInvestmentsIdAppreciationAppreciationIdQueryOptions(id,appreciationId,putApiInvestmentsIdAppreciationAppreciationIdBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return putApiInvestmentsIdAppreciationAppreciationId(variables.id, variables.appreciationId, variables.data, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -1181,45 +1091,25 @@ export type DeleteApiInvestmentsIdAppreciationAppreciationIdQueryResult = NonNul
 export type DeleteApiInvestmentsIdAppreciationAppreciationIdQueryError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>
 
 
-export function useDeleteApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDeleteApiInvestmentsIdAppreciationAppreciationId<
+  TData = Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>,
+  TError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>,
+  TVariables = { id: string; appreciationId: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function useDeleteApiInvestmentsIdAppreciationAppreciationId<TData = Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError = ErrorType<DeleteApiInvestmentsIdAppreciationAppreciationId400 | DeleteApiInvestmentsIdAppreciationAppreciationId401 | DeleteApiInvestmentsIdAppreciationAppreciationId500>>(
- id: string,
-    appreciationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiInvestmentsIdAppreciationAppreciationId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getDeleteApiInvestmentsIdAppreciationAppreciationIdQueryOptions(id,appreciationId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      return deleteApiInvestmentsIdAppreciationAppreciationId(variables.id, variables.appreciationId, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
