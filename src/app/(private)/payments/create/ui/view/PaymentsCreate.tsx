@@ -108,10 +108,10 @@ export default function PaymentsCreate(props: any) {
                             /,/g,
                             "",
                           );
-                          // Allow empty string, and positive numbers with at most one dot and two decimals
+                          // Allow empty string, optional negative sign, and numbers with at most one dot and two decimals
                           if (
                             raw === "" ||
-                            /^\d*\.?\d{0,2}$/.test(raw)
+                            /^-?\d*\.?\d{0,2}$/.test(raw)
                           ) {
                             onChange(raw);
                           }

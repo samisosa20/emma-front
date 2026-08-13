@@ -29,7 +29,7 @@ const paymentsSchema = z.object({
       return !isNaN(num) && num != 0 && isFinite(num);
     },
     {
-      message: "Debe ser un número positivo válido",
+      message: "Debe ser un número válido",
     },
   ),
   specificDay: z.union([z.string(), z.number()]).refine(
@@ -55,7 +55,7 @@ const paymentParamsSchema = z.object({
       return !isNaN(num) && num != 0 && isFinite(num);
     },
     {
-      message: "Debe ser un número positivo válido",
+      message: "Debe ser un número válido",
     },
   ),
   accountId: z.string(),
