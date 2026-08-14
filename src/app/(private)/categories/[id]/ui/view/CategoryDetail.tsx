@@ -26,7 +26,7 @@ export default function CategoryDetail(props: any) {
     onEditSubmit,
     handleEditSubmit,
     handleDelete,
-    groupsOptions = [],
+    groupsOptions,
   } = props;
   const router = useRouter();
   const { Button, Input, Textarea, AutoComplete } = useComponents();
@@ -161,9 +161,7 @@ export default function CategoryDetail(props: any) {
                 control={controlEdit}
                 render={({ field, fieldState }) => (
                   <div className="space-y-wf-xs">
-                    <label
-                      className="block font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint"
-                    >
+                    <label className="block font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint">
                       GRUPO DE CATEGORÍA
                     </label>
                     <AutoComplete

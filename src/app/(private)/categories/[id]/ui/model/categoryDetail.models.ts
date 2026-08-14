@@ -166,7 +166,7 @@ export default function useCategoryDetailViewModel() {
         }) || [],
       );
     }
-  }, [session]);
+  }, [session?.user]);
 
   useEffect(() => {
     const user = localStorage.getItem("fiona-user");

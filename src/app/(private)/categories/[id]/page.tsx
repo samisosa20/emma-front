@@ -32,6 +32,7 @@ const Page = () => {
     handleSubmitEdit,
     onEditSubmit,
     handleDelete,
+    groupsOptions,
   } = useCategoryDetailViewModel();
 
   if (isLoading || data === undefined || loadingMovement) {
@@ -61,6 +62,7 @@ const Page = () => {
       handleEditSubmit={handleSubmitEdit}
       onEditSubmit={onEditSubmit}
       handleDelete={handleDelete}
+      groupsOptions={groupsOptions}
     />
   );
 };
