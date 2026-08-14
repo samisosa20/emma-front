@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import {
   useGetApiCategoriesIdSuspense,
   usePutApiCategoriesId,
-  useDeleteApiCategoriesId
+  useDeleteApiCategoriesId,
 } from "@@@/endpoints/category/category";
 import { useGetApiMovements } from "@@@/endpoints/movement/movement";
 import { useGetApiReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
@@ -25,7 +25,9 @@ export default function useCategoryDetailViewModel() {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [groupsOptions, setGroupsOptions] = useState<{ value: string; label: string }[]>([]);
+  const [groupsOptions, setGroupsOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [filters, setFilters] = useState({
     badge_id: currencyParams,
   });
@@ -35,7 +37,8 @@ export default function useCategoryDetailViewModel() {
     GetApiMovements200ContentItem[]
   >([]);
 
-  const { handleSubmit: handleFilterSubmit, control: controlFilters } = useForm();
+  const { handleSubmit: handleFilterSubmit, control: controlFilters } =
+    useForm();
 
   const {
     isLoading,
@@ -63,7 +66,9 @@ export default function useCategoryDetailViewModel() {
     if (data) {
       const resetData = { ...data } as any;
       if (data.groupId && groupsOptions.length > 0) {
-        const matched = groupsOptions.find((g: any) => g.value === data.groupId);
+        const matched = groupsOptions.find(
+          (g: any) => g.value === data.groupId,
+        );
         if (matched) {
           resetData.groupId = matched;
         }
@@ -76,7 +81,10 @@ export default function useCategoryDetailViewModel() {
     const id = Array.isArray(param.id) ? param.id[0] : param.id;
     const payload = {
       ...formData,
-      groupId: typeof formData.groupId === "object" && formData.groupId ? formData.groupId.value : formData.groupId,
+      groupId:
+        typeof formData.groupId === "object" && formData.groupId
+          ? formData.groupId.value
+          : formData.groupId,
     };
     mutationEdit.mutate(
       {
@@ -88,21 +96,24 @@ export default function useCategoryDetailViewModel() {
           toast.success("Categoría actualizada");
           refetchCategory();
         },
-      }
+      },
     );
   };
 
   const handleDelete = () => {
     const id = Array.isArray(param.id) ? param.id[0] : param.id;
     if (id) {
-        mutationDelete.mutate({
-            id: String(id),
-        }, {
-            onSuccess: () => {
-                toast.success("Categoría eliminada");
-                router.push("/categories");
-            }
-        });
+      mutationDelete.mutate(
+        {
+          id: String(id),
+        },
+        {
+          onSuccess: () => {
+            toast.success("Categoría eliminada");
+            router.push("/categories");
+          },
+        },
+      );
     }
   };
 
@@ -150,10 +161,9 @@ export default function useCategoryDetailViewModel() {
   useEffect(() => {
     if (session?.user) {
       setGroupsOptions(
-        session?.groupCategories?.map((g: any) => ({
-          value: g.id,
-          label: g.name,
-        })) || []
+        session?.groupCategories?.map((g: any) => {
+          return { value: g.id, label: g.name };
+        }) || [],
       );
     }
   }, [session]);
