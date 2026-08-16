@@ -24,16 +24,20 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="w-full h-[80px] py-2 px-8 bg-primary">
-      <nav className="max-w-[1280px] mx-auto  flex items-center justify-between">
-        <Link href="/">
+    <div className="w-full h-[80px] py-2 px-4 sm:px-8 bg-primary">
+      <nav className="max-w-[1280px] mx-auto flex items-center justify-between h-full">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <Image
             src={imgLogo}
             alt="Logo Fiona"
-            loading="lazy"
-            width={148}
-            height={40}
+            priority
+            width={32}
+            height={32}
+            className="w-8 h-8 object-contain group-hover:scale-105 transition-transform"
           />
+          <span className="font-wf-headline-md font-extrabold tracking-wider text-xl text-white uppercase">
+            Fiona
+          </span>
         </Link>
         <div className="gap-8 flex items-center justify-between">
           <Link

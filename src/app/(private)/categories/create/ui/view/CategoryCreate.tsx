@@ -8,7 +8,8 @@ import useComponents from "@/share/components";
 
 export default function CategoryCreate(props: any) {
   const router = useRouter();
-  const { Button, Input, FormControl, AutoComplete, Textarea } = useComponents();
+  const { Button, Input, FormControl, AutoComplete, Textarea } =
+    useComponents();
 
   const {
     handleSubmit,
@@ -80,19 +81,19 @@ export default function CategoryCreate(props: any) {
   ];
 
   return (
-    <div className="flex-1 flex items-center justify-center p-wf-container-margin">
-      <div className="bg-wf-background/70 backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
-        <div className="mb-wf-lg flex justify-between items-start">
+    <div className="flex-1 flex items-center justify-center w-full min-w-0">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md w-full max-w-2xl rounded-xl p-4 sm:p-6 md:p-8 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30">
+        <div className="mb-4 sm:mb-wf-lg flex justify-between items-start">
           <div>
-            <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
+            <h2 className="font-wf-headline-lg text-xl sm:text-2xl text-wf-primary mb-1">
               {title}
             </h2>
-            <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
+            <p className="font-wf-body-regular text-sm text-wf-on-surface-variant">
               Modifica los detalles de esta categoría de gastos.
             </p>
           </div>
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
+            className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
             style={{ backgroundColor: selectedColor }}
           >
             <span className="material-symbols-outlined filled text-wf-on-secondary-fixed">
@@ -156,7 +157,10 @@ export default function CategoryCreate(props: any) {
               render={({ field, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
+                    Descripción{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (Opcional)
+                    </span>
                   </label>
                   <Textarea
                     {...field}
@@ -210,37 +214,41 @@ export default function CategoryCreate(props: any) {
                       : "text-wf-outline hover:bg-white hover:shadow-sm"
                   }`}
                 >
-                  <span className="material-symbols-outlined text-[20px]">{icon}</span>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {icon}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Actions */}
-          <div className="pt-wf-md border-t border-wf-surface-variant flex justify-between items-center mt-wf-xl">
+          <div className="pt-4 sm:pt-wf-md border-t border-wf-surface-variant/30 flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-6 sm:mt-wf-xl">
             {handleDelete ? (
               <button
                 type="button"
                 onClick={handleDelete}
-                className="px-6 py-2.5 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container transition-colors flex items-center space-x-2"
+                className="px-6 py-2.5 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container/20 transition-colors flex items-center justify-center space-x-2 w-full sm:w-auto"
               >
-                <span className="material-symbols-outlined text-[18px]">delete</span>
+                <span className="material-symbols-outlined text-[18px]">
+                  delete
+                </span>
                 <span>Eliminar</span>
               </button>
             ) : (
               <div />
             )}
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
+                className="flex-1 sm:flex-initial px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
               >
                 Cancelar
               </button>
               <Button
                 type="submit"
-                className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md h-auto"
+                className="flex-1 sm:flex-initial px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md h-auto"
               >
                 Guardar
               </Button>

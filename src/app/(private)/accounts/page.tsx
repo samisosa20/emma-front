@@ -42,8 +42,8 @@ const Accounts = () => {
             Administra y monitorea la distribución de tu patrimonio.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-wf-sm">
-          <div className="relative flex-1 min-w-[200px] md:w-64">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-wf-sm w-full md:w-auto">
+          <div className="relative w-full sm:w-64 flex-1 sm:flex-initial min-w-[160px]">
             <span
               className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline text-[20px]"
               aria-hidden="true"
@@ -51,7 +51,7 @@ const Accounts = () => {
               search
             </span>
             <input
-              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
+              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-full shadow-sm"
               placeholder="Buscar cuentas..."
               aria-label="Buscar cuentas"
               type="text"
@@ -59,24 +59,26 @@ const Accounts = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <SegmentedControl
-            isChecked={isChecked}
-            handleToggle={handleToggle}
-            activeLabel="Activas"
-            inactiveLabel="Inactivas"
-            ariaLabel="Filtrar por estado de cuenta"
-          />
-          <Link href={"/accounts/create"}>
-            <button className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm">
-              <span
-                className="material-symbols-outlined text-[20px]"
-                aria-hidden="true"
-              >
-                add
-              </span>
-              Crear Cuenta
-            </button>
-          </Link>
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+            <SegmentedControl
+              isChecked={isChecked}
+              handleToggle={handleToggle}
+              activeLabel="Activas"
+              inactiveLabel="Inactivas"
+              ariaLabel="Filtrar por estado de cuenta"
+            />
+            <Link href={"/accounts/create"} className="sm:inline-flex">
+              <button className="flex items-center gap-1.5 sm:gap-2 bg-wf-primary text-wf-on-primary py-2 px-3 sm:px-5 rounded-full font-wf-label-caps text-[11px] sm:text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm whitespace-nowrap">
+                <span
+                  className="material-symbols-outlined text-[18px] sm:text-[20px]"
+                  aria-hidden="true"
+                >
+                  add
+                </span>
+                Crear Cuenta
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 

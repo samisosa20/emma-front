@@ -23,31 +23,49 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon.png"></link>
-        <meta name="theme-color" content="#fff" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        <meta name="theme-color" content="#040c21" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('fiona-theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (stored === 'dark' || (!stored && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <Suspense fallback={<Loading />}>
-          <Providers>
-            <ToastContainer
-              position={"top-center"}
-              autoClose={4000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              rtl={false}
-              draggable={false}
-              limit={3}
-              pauseOnHover
-              theme="colored"
-              style={{ width: "auto" }}
-            />
-            {children}
-          </Providers>
-        </Suspense>
+        <Providers>
+          <ToastContainer
+            position={"top-center"}
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            rtl={false}
+            draggable={false}
+            limit={3}
+            pauseOnHover
+            theme="colored"
+            style={{ width: "auto" }}
+          />
+          {children}
+        </Providers>
       </body>
     </html>
   );

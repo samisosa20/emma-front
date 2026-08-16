@@ -36,7 +36,13 @@ export default function Blogs(props: any) {
                 key={blog.slug}
               >
                 <div className="flex items-center justify-center w-full h-[180px] mb-4">
-                  <Image src={imgLogo} alt="Logo" width={180} height={180} />
+                  <Image
+                    src={imgLogo}
+                    alt="Logo"
+                    width={180}
+                    height={180}
+                    style={{ width: "auto", height: "auto" }}
+                  />
                 </div>
                 <Typography
                   variant="h2"

@@ -17,20 +17,23 @@ const EventsCreate = (props: any) => {
   const { handleSubmit, onSubmit, control, title, isSubmitting } = props;
 
   return (
-    <div className="flex-1 flex items-center justify-center p-wf-container-margin bg-wf-surface-bright">
-      <div className="bg-wf-on-primary backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
-        <div className="mb-wf-lg flex justify-between items-start">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span className="material-symbols-outlined text-3xl" aria-hidden="true">
+    <div className="flex-1 flex items-center justify-center w-full min-w-0">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md w-full max-w-2xl rounded-xl p-4 sm:p-6 md:p-8 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30">
+        <div className="mb-4 sm:mb-wf-lg flex justify-between items-start">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary flex-shrink-0">
+              <span
+                className="material-symbols-outlined text-2xl sm:text-3xl"
+                aria-hidden="true"
+              >
                 event
               </span>
             </div>
             <div>
-              <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
+              <h2 className="font-wf-headline-lg text-xl sm:text-2xl text-wf-primary mb-1">
                 {title}
               </h2>
-              <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
+              <p className="font-wf-body-regular text-xs sm:text-sm text-wf-on-surface-variant">
                 Planifica y realiza un seguimiento de tus hitos financieros.
               </p>
             </div>
@@ -38,10 +41,15 @@ const EventsCreate = (props: any) => {
           <button
             type="button"
             onClick={() => router.back()}
-            className="text-wf-outline hover:text-wf-primary transition-colors"
+            className="text-wf-outline hover:text-wf-primary transition-colors p-1"
             aria-label="Cerrar"
           >
-            <span className="material-symbols-outlined text-2xl" aria-hidden="true">close</span>
+            <span
+              className="material-symbols-outlined text-2xl"
+              aria-hidden="true"
+            >
+              close
+            </span>
           </button>
         </div>
 
@@ -89,7 +97,9 @@ const EventsCreate = (props: any) => {
                     <div className="relative">
                       <select
                         className={`w-full bg-white border ${
-                          fieldState.error ? "border-wf-error" : "border-wf-outline-variant"
+                          fieldState.error
+                            ? "border-wf-error"
+                            : "border-wf-outline-variant"
                         } text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm appearance-none`}
                         id="event-type-create"
                         onChange={onChange}
@@ -142,23 +152,26 @@ const EventsCreate = (props: any) => {
           </div>
 
           {/* Actions */}
-          <div className="pt-wf-md border-t border-wf-surface-variant flex justify-end items-center mt-wf-xl space-x-3">
+          <div className="pt-4 sm:pt-wf-md border-t border-wf-surface-variant/30 flex flex-col-reverse sm:flex-row justify-end items-stretch sm:items-center gap-3 mt-6 sm:mt-wf-xl">
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
+              className="flex-1 sm:flex-initial px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors text-center"
             >
               Cancelar
             </button>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
+              className="flex-1 sm:flex-initial px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center justify-center gap-2 h-auto"
             >
-              <span className="material-symbols-outlined text-xl" aria-hidden="true">
+              <span
+                className="material-symbols-outlined text-xl"
+                aria-hidden="true"
+              >
                 check_circle
               </span>
-              Guardar Evento
+              Guardar
             </Button>
           </div>
         </form>

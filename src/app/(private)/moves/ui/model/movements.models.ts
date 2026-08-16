@@ -104,14 +104,20 @@ export default function useMovementsViewModel() {
     (data: any) => {
       setIsSubmitting(true);
       const transferCategory = dataListCategories?.content?.find(
-        (c: any) => c.name === "Transferencia"
+        (c: any) =>
+          c.name?.toLowerCase() === "transferencia" ||
+          c.name?.toLowerCase() === "transferencias" ||
+          c.groupCategory?.name?.toLowerCase() === "transferencia"
       );
-      const transferCategoryId = transferCategory?.id || "00000000-0000-0000-0000-000000000000";
+      const isTransfer = String(data.type) === "0";
+      const resolvedCategoryId = isTransfer
+        ? (transferCategory?.id || (data.category?.value ? String(data.category.value) : undefined))
+        : (data.category?.value ? String(data.category.value) : undefined);
 
-      const formData = {
-        categoryId: data.type == 0 ? transferCategoryId : (data.category ? data.category.value : ""),
-        type: data.type == 0 ? "transfer" : "move",
-        amount: data.type == 1 ? Math.abs(data.amount) : data.amount * -1,
+      const formData: any = {
+        ...(resolvedCategoryId && { categoryId: resolvedCategoryId }),
+        type: isTransfer ? "transfer" : "move",
+        amount: String(data.type) === "1" ? Math.abs(Number(data.amount)) : Math.abs(Number(data.amount)) * -1,
         datePurchase: new Date(data.datePurchase).toISOString(),
         ...(data.event !== undefined && {
           eventId: data.event ? data.event.value : null,
@@ -119,13 +125,12 @@ export default function useMovementsViewModel() {
         ...(data.investment !== undefined && {
           investmentId: data.investment ? data.investment.value : null,
         }),
-        accountId: data.account.value,
-        ...(data.type == 0 && {
-          amountEnd:
-            data.type == 0 ? Math.abs(data.amountEnd ?? data.amount) : null,
-          accountEndId: data.type == 0 ? data.accountEnd.value : null,
+        accountId: data.account?.value ?? data.account,
+        ...(isTransfer && {
+          amountEnd: Math.abs(Number(data.amountEnd ?? data.amount)),
+          accountEndId: data.accountEnd?.value ?? data.accountEnd,
         }),
-        description: data.description !== undefined ? data.description : null,
+        description: data.description !== undefined && data.description !== null ? data.description : null,
         addWithdrawal: data.addWithdrawal ?? false,
       };
       if (param.id) {
@@ -136,8 +141,8 @@ export default function useMovementsViewModel() {
               toast.success("Datos guardados correctamente");
               router.back();
             },
-            onError: (error) => {
-              toast.error(error.message);
+            onError: (error: any) => {
+              toast.error(error?.response?.data?.message ?? error?.message ?? "Error al editar transferencia");
               setIsSubmitting(false);
             },
           },
@@ -150,15 +155,15 @@ export default function useMovementsViewModel() {
               toast.success("Datos guardados correctamente");
               router.back();
             },
-            onError: (error) => {
-              toast.error(error.response?.data.message ?? error.message);
+            onError: (error: any) => {
+              toast.error(error?.response?.data?.message ?? error?.message ?? "Error al crear transferencia");
               setIsSubmitting(false);
             },
           },
         );
       }
     },
-    [mutation, mutationEdit, param.id, router, setIsSubmitting],
+    [mutation, mutationEdit, param.id, router, setIsSubmitting, dataListCategories],
   );
 
   /**

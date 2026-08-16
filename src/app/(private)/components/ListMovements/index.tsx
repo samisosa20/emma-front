@@ -10,7 +10,6 @@ import {
   dateFormatter,
   formatCurrency,
   getCurrencyFormatter,
-  getIconComponent,
   ymdFormatter,
 } from "@/share/helpers";
 import {
@@ -38,13 +37,11 @@ const ListMovements = memo(({
   keyTitle,
 }: listMovements) => {
   let previousDate: string | null = null;
-  const { Typography, Button } = useComponents();
+  const { Typography, Button, CategoryIcon } = useComponents();
   return (
     <div className="mt-6 max-h-[65vh] overflow-y-auto">
       {listMovements?.map(
         (movement: GetApiMovements200ContentItem, index: number) => {
-          const Icon = getIconComponent(movement.category.icon ?? "PiAcorn");
-
           /**
            * ⚡ Bolt Optimization: Reuse Date object and cached formatters.
            * 🎯 Problem: new Date() was called twice per iteration in the render loop.
@@ -75,14 +72,11 @@ const ListMovements = memo(({
                 <div className="shadow-sm bg-white rounded py-2 px-2 mb-2">
                   <div className="flex justify-between items-center">
                     <div className={`flex items-center gap-x-2 w-1/2`}>
-                      <div
-                        className={`rounded-full shadow-sm w-8 h-8 hover:opacity-80 flex justify-center items-center`}
-                        style={{
-                          background: movement.category.color,
-                        }}
-                      >
-                        <Icon size={16} className="text-gray-200" />
-                      </div>
+                      <CategoryIcon
+                        icon={movement.category?.icon}
+                        color={movement.category?.color}
+                        size="sm"
+                      />
                       <Typography variant="h5" className="text-sm">
                         {movement[keyTitle].name}
                       </Typography>

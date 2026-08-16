@@ -49,7 +49,7 @@ export default function Filters(props: FiltersProps) {
 
             {/* Sidebar */}
             <div
-              className={`bg-white dark:bg-slate-900 text-wf-on-surface h-screen fixed top-0 right-0 px-4 py-6 z-[100] shadow-2xl transition-all duration-300 ease-in-out transform border-l border-wf-outline-variant/30 flex flex-col ${
+              className={`bg-wf-surface text-wf-on-surface h-screen fixed top-0 right-0 px-4 py-6 z-[100] shadow-2xl transition-all duration-300 ease-in-out transform border-l border-wf-outline-variant/30 flex flex-col ${
                 isOpen
                   ? "w-screen md:w-[360px] translate-x-0 opacity-100"
                   : "w-screen md:w-[360px] translate-x-full opacity-0 pointer-events-none"

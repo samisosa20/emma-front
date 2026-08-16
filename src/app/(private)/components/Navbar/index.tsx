@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { links } from "@/share/helpers";
-import { useTheme } from "@/share/components/ThemeProvider";
 
 /**
  * ⚡ Bolt Optimization: Hoist static array computations to the module level
@@ -15,10 +14,9 @@ const shownLinks = links.filter((v) => v.show);
 
 const Navbar = memo(function Navbar() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="hidden lg:flex flex-col bg-white text-wf-primary font-wf-headline-md text-sm font-medium w-64 border-r border-wf-outline-variant/30 shrink-0 h-full">
+    <nav className="hidden lg:flex flex-col bg-wf-surface text-wf-primary font-wf-headline-md text-sm font-medium w-64 border-r border-wf-outline-variant/30 shrink-0 h-full">
       <div className="flex-1 py-4 flex flex-col gap-2 px-4 overflow-y-auto">
         {shownLinks.map((link, index) => {
           const isActive = pathname === link.link;

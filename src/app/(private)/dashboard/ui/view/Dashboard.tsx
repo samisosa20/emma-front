@@ -117,7 +117,10 @@ const Dashboard = memo((props: any) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    const raf = requestAnimationFrame(() => {
+      setIsMounted(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   /**
@@ -160,14 +163,14 @@ const Dashboard = memo((props: any) => {
         </Typography>
       </div>
 
-      <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 w-full min-w-0">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md border-b border-wf-surface-variant/30 pb-wf-md mb-wf-md">
-          <div className="flex flex-wrap items-center gap-wf-md justify-center lg:justify-start">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-wf-md justify-center lg:justify-start">
             {listOptionsTypeReport.map((type: any, index: number) => (
               <button
                 key={index}
                 aria-pressed={type.value === typeReport}
-                className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                className={`px-3 sm:px-wf-md py-1 rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
                   type.value === typeReport
                     ? "bg-wf-primary text-wf-on-primary shadow-sm"
                     : "text-wf-surface-tint hover:bg-wf-surface-container-low"
@@ -179,12 +182,12 @@ const Dashboard = memo((props: any) => {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-wf-sm justify-center lg:justify-start">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-wf-sm justify-center lg:justify-start">
             {listOptionsPeriodReport.map((type: any, index: number) => (
               <button
                 key={index}
                 aria-pressed={type.value === periodReport}
-                className={`px-wf-md py-wf-xs rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                className={`px-3 sm:px-wf-md py-1 rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
                   type.value === periodReport
                     ? "bg-wf-primary text-wf-on-primary shadow-sm"
                     : "text-wf-surface-tint hover:bg-wf-surface-container-low"
@@ -197,8 +200,8 @@ const Dashboard = memo((props: any) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-wf-xl py-wf-sm">
-          <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-wf-xl py-wf-sm">
+          <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
             <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
               Año
             </span>
@@ -214,7 +217,7 @@ const Dashboard = memo((props: any) => {
           </div>
 
           {periodReport === "monthly" && (
-            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
               <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
                 Mes
               </span>
@@ -232,7 +235,7 @@ const Dashboard = memo((props: any) => {
           )}
 
           {periodReport === "weekly" && (
-            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-wf-md py-wf-xs rounded-full border border-white/30">
+            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
               <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
                 Semana
               </span>
@@ -312,10 +315,10 @@ const Dashboard = memo((props: any) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-wf-gutter">
-        <div className="lg:col-span-7 bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
-          <div className="flex justify-between items-center mb-wf-lg">
-            <Typography className="font-wf-headline-md text-wf-primary">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-wf-gutter">
+        <div className="lg:col-span-7 bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 w-full min-w-0">
+          <div className="flex justify-between items-center mb-4 sm:mb-wf-lg">
+            <Typography className="font-wf-headline-md text-wf-primary text-sm sm:text-base font-semibold">
               Distribución de Movimientos
             </Typography>
             <div className="px-wf-sm py-1 bg-wf-surface-container rounded-md text-[10px] font-wf-label-caps text-wf-surface-tint">
@@ -324,9 +327,9 @@ const Dashboard = memo((props: any) => {
             </div>
           </div>
 
-          <div className="h-[380px] w-full relative">
+          <div className="h-[300px] sm:h-[340px] md:h-[380px] w-full min-w-0 relative">
             {isMounted ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                 <PieChart>
                   <Pie
                     data={data}
@@ -369,7 +372,7 @@ const Dashboard = memo((props: any) => {
           </div>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 w-full min-w-0">
           <ListItems
             title="Consolidado por Categoría"
             data={data}
@@ -382,15 +385,15 @@ const Dashboard = memo((props: any) => {
       </div>
 
       {dataBalance?.length > 0 && (
-        <div className="mt-wf-xl">
+        <div className="mt-4 sm:mt-wf-xl w-full min-w-0">
           <Cards title="balance" data={dataBalance} />
         </div>
       )}
 
       {dataHistory && (
-        <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 mt-wf-xl">
-          <div className="flex justify-between items-center mb-wf-lg">
-            <Typography className="font-wf-headline-md text-wf-primary">
+        <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 mt-4 sm:mt-wf-xl w-full min-w-0">
+          <div className="flex justify-between items-center mb-4 sm:mb-wf-lg">
+            <Typography className="font-wf-headline-md text-wf-primary text-sm sm:text-base font-semibold">
               Historial de Balance
             </Typography>
             <div className="flex gap-wf-sm">
@@ -413,9 +416,9 @@ const Dashboard = memo((props: any) => {
             </div>
           </div>
 
-          <div className="h-[320px] w-full">
+          <div className="h-[320px] w-full min-w-0">
             {isMounted ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                 <LineChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                   <CartesianGrid
                     strokeDasharray="3 3"

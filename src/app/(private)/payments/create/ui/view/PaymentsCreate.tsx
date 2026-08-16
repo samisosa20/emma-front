@@ -26,20 +26,20 @@ export default function PaymentsCreate(props: any) {
   const currencyCode = accountWatch?.label?.split("-")?.[1]?.trim() || "USD";
 
   return (
-    <div className="flex-1 flex items-center justify-center p-wf-container-margin">
-      <div className="bg-wf-on-primary backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
-        <div className="mb-wf-lg flex justify-between items-start">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span className="material-symbols-outlined text-3xl">
+    <div className="flex-1 flex items-center justify-center w-full min-w-0">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md w-full max-w-2xl rounded-xl p-4 sm:p-6 md:p-8 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30">
+        <div className="mb-4 sm:mb-wf-lg flex justify-between items-start">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary flex-shrink-0">
+              <span className="material-symbols-outlined text-2xl sm:text-3xl">
                 published_with_changes
               </span>
             </div>
             <div>
-              <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
+              <h2 className="font-wf-headline-lg text-xl sm:text-2xl text-wf-primary mb-1">
                 {title}
               </h2>
-              <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
+              <p className="font-wf-body-regular text-xs sm:text-sm text-wf-on-surface-variant">
                 Configura una transacción automatizada.
               </p>
             </div>
@@ -47,14 +47,14 @@ export default function PaymentsCreate(props: any) {
           <button
             type="button"
             onClick={() => router.back()}
-            className="text-wf-outline hover:text-wf-primary transition-colors"
+            className="text-wf-outline hover:text-wf-primary transition-colors p-1"
           >
             <span className="material-symbols-outlined text-2xl">close</span>
           </button>
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit, (err) => {
+          onSubmit={handleSubmit(onSubmit, (err: any) => {
             console.log("Form Validation Errors:", err);
           })}
           className="space-y-wf-lg"
@@ -75,7 +75,10 @@ export default function PaymentsCreate(props: any) {
               <Controller
                 name="amount"
                 control={control}
-                render={({ field: { value, onChange, ...field }, fieldState }) => {
+                render={({
+                  field: { value, onChange, ...field },
+                  fieldState,
+                }) => {
                   // Format value for display with thousands separators
                   const formatDisplay = (val: any) => {
                     if (val === undefined || val === null || val === "")
@@ -104,15 +107,11 @@ export default function PaymentsCreate(props: any) {
                         onFocus={(e) => (e.target as HTMLInputElement).select()}
                         onChange={(e) => {
                           // Strip thousands separators (commas) and handle decimal (dot)
-                          const raw = (e.target as HTMLInputElement).value.replace(
-                            /,/g,
-                            "",
-                          );
+                          const raw = (
+                            e.target as HTMLInputElement
+                          ).value.replace(/,/g, "");
                           // Allow empty string, optional negative sign, and numbers with at most one dot and two decimals
-                          if (
-                            raw === "" ||
-                            /^-?\d*\.?\d{0,2}$/.test(raw)
-                          ) {
+                          if (raw === "" || /^-?\d*\.?\d{0,2}$/.test(raw)) {
                             onChange(raw);
                           }
                         }}
@@ -257,12 +256,12 @@ export default function PaymentsCreate(props: any) {
           </div>
 
           {/* Actions */}
-          <div className="pt-wf-md border-t border-wf-surface-variant flex justify-between items-center mt-wf-xl">
+          <div className="pt-4 sm:pt-wf-md border-t border-wf-surface-variant/30 flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-6 sm:mt-wf-xl">
             {handleDelete ? (
               <button
                 type="button"
                 onClick={handleDelete}
-                className="px-6 py-2.5 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container transition-colors flex items-center space-x-2"
+                className="px-6 py-2.5 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container/20 transition-colors flex items-center justify-center space-x-2 w-full sm:w-auto"
               >
                 <span className="material-symbols-outlined text-[18px]">
                   delete
@@ -272,23 +271,23 @@ export default function PaymentsCreate(props: any) {
             ) : (
               <div />
             )}
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
+                className="flex-1 sm:flex-initial px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
               >
                 Cancelar
               </button>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
+                className="flex-1 sm:flex-initial px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center justify-center gap-2 h-auto"
               >
                 <span className="material-symbols-outlined text-xl">
                   check_circle
                 </span>
-                Guardar Pago
+                Guardar
               </Button>
             </div>
           </div>

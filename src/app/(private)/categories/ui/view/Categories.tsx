@@ -52,9 +52,9 @@ const Categories = memo((props: any) => {
             Gestiona y organiza tus categorías de transacciones.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-wf-md">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-wf-md w-full md:w-auto">
           {/* Search Input */}
-          <div className="relative">
+          <div className="relative w-full sm:w-64 flex-1 sm:flex-initial min-w-[160px]">
             <span
               className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline"
               aria-hidden="true"
@@ -62,7 +62,7 @@ const Categories = memo((props: any) => {
               search
             </span>
             <input
-              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-64 shadow-sm"
+              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-full shadow-sm"
               placeholder="Buscar categorías..."
               aria-label="Buscar categorías"
               type="text"
@@ -72,20 +72,22 @@ const Categories = memo((props: any) => {
               }
             />
           </div>
-          {/* Toggle */}
-          <SegmentedControl
-            isChecked={isChecked}
-            handleToggle={handleToggle}
-            ariaLabel="Filtrar por estado de categoría"
-          />
-          {/* Create Button */}
-          <Link
-            href={"/categories/create"}
-            className="flex items-center gap-2 bg-wf-primary text-wf-on-primary py-2 px-5 rounded-full font-wf-label-caps text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm"
-          >
-            <span className="material-symbols-outlined text-sm">add</span>
-            Crear Categoría
-          </Link>
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+            {/* Toggle */}
+            <SegmentedControl
+              isChecked={isChecked}
+              handleToggle={handleToggle}
+              ariaLabel="Filtrar por estado de categoría"
+            />
+            {/* Create Button */}
+            <Link
+              href={"/categories/create"}
+              className="flex items-center gap-1.5 sm:gap-2 bg-wf-primary text-wf-on-primary py-2 px-4 sm:px-5 rounded-full font-wf-label-caps text-[11px] sm:text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm whitespace-nowrap"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+              Crear Categoría
+            </Link>
+          </div>
         </div>
       </div>
 

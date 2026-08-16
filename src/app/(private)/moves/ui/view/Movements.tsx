@@ -68,182 +68,148 @@ const Movements = memo(
   }: MovementsProps) => {
     const router = useRouter();
 
-    const {
-      Button,
-      AutoComplete,
-      Switch,
-      Input,
-      Textarea,
-      Modal,
-      Typography,
-    } = useComponents();
+    const { Button, AutoComplete, Switch, Input, Textarea, Modal, Typography } =
+      useComponents();
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     const isEdit = !!handleDelete;
 
     return (
-      <main className="flex-1 flex flex-col items-center relative min-h-screen">
-        <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.1)] border border-wf-outline-variant flex flex-col">
-        {/* Header */}
-        <div className="px-wf-lg py-wf-md border-b border-wf-surface-variant flex items-center justify-center bg-wf-surface-container-low">
-          <h1 className="font-wf-headline-md text-wf-on-surface text-xl md:text-2xl text-center">
-            {isEdit ? "Editar Transacción" : "Nueva Transacción"}
-          </h1>
-        </div>
+      <main className="flex-1 flex flex-col items-center relative w-full min-w-0">
+        <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-wf-surface-variant/30 flex items-center justify-center bg-wf-surface-container-low">
+            <h1 className="font-wf-headline-md text-wf-on-surface text-lg sm:text-xl md:text-2xl text-center font-bold">
+              {isEdit ? "Editar Transacción" : "Nueva Transacción"}
+            </h1>
+          </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col flex-1"
-        >
-          {/* Content Area */}
-          <div className="p-wf-lg flex flex-col gap-wf-xl">
-            {/* Type Toggle */}
-            <div
-              role="group"
-              aria-label="Tipo de transacción"
-              className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs"
-            >
-              <Controller
-                name="type"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <button
-                      type="button"
-                      aria-pressed={value === "-1"}
-                      disabled={isEdit && value === "0"}
-                      onClick={() => onChange("-1")}
-                      className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
-                        value === "-1"
-                          ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                          : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
-                      }`}
-                    >
-                      Egreso
-                    </button>
-                    <button
-                      type="button"
-                      aria-pressed={value === "1"}
-                      disabled={isEdit && value === "0"}
-                      onClick={() => onChange("1")}
-                      className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
-                        value === "1"
-                          ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                          : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
-                      }`}
-                    >
-                      Ingreso
-                    </button>
-                    <button
-                      type="button"
-                      aria-pressed={value === "0"}
-                      disabled={isEdit && value !== "0"}
-                      onClick={() => onChange("0")}
-                      className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
-                        value === "0"
-                          ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                          : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
-                      }`}
-                    >
-                      Transferencia
-                    </button>
-                  </>
-                )}
-              />
-            </div>
-
-            {/* Amount Input */}
-            <div className="flex flex-col items-center gap-wf-xs py-wf-md">
-              <label
-                htmlFor="amount"
-                className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase cursor-pointer"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col flex-1 w-full"
+          >
+            {/* Content Area */}
+            <div className="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6">
+              {/* Type Toggle */}
+              <div
+                role="group"
+                aria-label="Tipo de transacción"
+                className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs"
               >
-                Monto
-              </label>
-              <div className="flex items-baseline gap-wf-xs">
-                <span
-                  aria-hidden="true"
-                  className="font-wf-currency-display text-2xl text-wf-on-surface-variant"
-                >
-                  $
-                </span>
                 <Controller
-                  name="amount"
+                  name="type"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState }) => (
-                    <Input
-                      id="amount"
-                      type="text"
-                      inputMode="decimal"
-                      placeholder="0.00"
-                      className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
-                      onChange={(e) => {
-                        const val = cleanValue(
-                          (e.target as HTMLInputElement).value,
-                        );
-                        if (/^\d*\.?\d{0,2}$/.test(val)) {
-                          onChange(val);
-                        }
-                      }}
-                      value={formatValue(value ?? "")}
-                      iserror={!!fieldState.error}
-                    />
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <button
+                        type="button"
+                        aria-pressed={value === "-1"}
+                        disabled={isEdit && value === "0"}
+                        onClick={() => onChange("-1")}
+                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                          value === "-1"
+                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
+                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                        }`}
+                      >
+                        Egreso
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={value === "1"}
+                        disabled={isEdit && value === "0"}
+                        onClick={() => onChange("1")}
+                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                          value === "1"
+                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
+                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                        }`}
+                      >
+                        Ingreso
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={value === "0"}
+                        disabled={isEdit && value !== "0"}
+                        onClick={() => onChange("0")}
+                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                          value === "0"
+                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
+                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                        }`}
+                      >
+                        Transferencia
+                      </button>
+                    </>
                   )}
                 />
               </div>
-              <div className="mt-1">
-                <span className="text-wf-on-surface-variant font-wf-label-caps text-xs tracking-widest opacity-70">
-                  {accountWatch?.badgeCode ?? "USD"}
-                </span>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
-              {/* Account Selection */}
-              <div className="flex flex-col gap-wf-xs">
+              {/* Amount Input */}
+              <div className="flex flex-col items-center gap-wf-xs py-wf-md">
                 <label
-                  htmlFor="account-select"
-                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                  htmlFor="amount"
+                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase cursor-pointer"
                 >
-                  {typeWatch !== "0" ? "Cuenta" : "Cuenta Saliente"}
+                  Monto
                 </label>
-                <div className="relative">
+                <div className="flex items-baseline gap-wf-xs">
+                  <span
+                    aria-hidden="true"
+                    className="font-wf-currency-display text-2xl text-wf-on-surface-variant"
+                  >
+                    $
+                  </span>
                   <Controller
-                    name="account"
+                    name="amount"
                     control={control}
                     render={({ field: { onChange, value }, fieldState }) => (
-                      <AutoComplete
-                        placeholder="Selecciona cuenta"
-                        handleOnChange={onChange}
-                        instanceId="account-select"
-                        options={listAccounts}
+                      <Input
+                        id="amount"
+                        type="text"
+                        inputMode="decimal"
+                        placeholder="0.00"
+                        className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
+                        onChange={(e) => {
+                          const val = cleanValue(
+                            (e.target as HTMLInputElement).value,
+                          );
+                          if (/^\d*\.?\d{0,2}$/.test(val)) {
+                            onChange(val);
+                          }
+                        }}
+                        value={formatValue(value ?? "")}
                         iserror={!!fieldState.error}
-                        value={value}
                       />
                     )}
                   />
                 </div>
+                <div className="mt-1">
+                  <span className="text-wf-on-surface-variant font-wf-label-caps text-xs tracking-widest opacity-70">
+                    {accountWatch?.badgeCode ?? "USD"}
+                  </span>
+                </div>
               </div>
 
-              {/* Destination Account Selection (Transfer only) */}
-              {typeWatch === "0" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
+                {/* Account Selection */}
                 <div className="flex flex-col gap-wf-xs">
                   <label
-                    htmlFor="destination-account-select"
+                    htmlFor="account-select"
                     className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
                   >
-                    Cuenta Destino
+                    {typeWatch !== "0" ? "Cuenta" : "Cuenta Saliente"}
                   </label>
                   <div className="relative">
                     <Controller
-                      name="accountEnd"
+                      name="account"
                       control={control}
                       render={({ field: { onChange, value }, fieldState }) => (
                         <AutoComplete
-                          placeholder="Selecciona destino"
+                          placeholder="Selecciona cuenta"
                           handleOnChange={onChange}
-                          instanceId="destination-account-select"
+                          instanceId="account-select"
                           options={listAccounts}
                           iserror={!!fieldState.error}
                           value={value}
@@ -252,76 +218,31 @@ const Movements = memo(
                     />
                   </div>
                 </div>
-              )}
 
-              {/* Category Selection (Non-transfer only) */}
-              {typeWatch !== "0" && (
-                <div className="flex flex-col gap-wf-xs">
-                  <label
-                    htmlFor="category-select"
-                    className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
-                  >
-                    Categoría
-                  </label>
-                  <Controller
-                    name="category"
-                    control={control}
-                    render={({ field: { onChange, value }, fieldState }) => (
-                      <AutoComplete
-                        placeholder="Selecciona categoría"
-                        handleOnChange={onChange}
-                        instanceId="category-select"
-                        options={listCategories}
-                        iserror={!!fieldState.error}
-                        value={value}
-                      />
-                    )}
-                  />
-                </div>
-              )}
-
-              {/* Equivalent Amount (Transfer only, if cross-currency) */}
-              {typeWatch === "0" &&
-                accountEndWatch &&
-                accountWatch &&
-                accountEndWatch.badgeId !== accountWatch.badgeId && (
+                {/* Destination Account Selection (Transfer only) */}
+                {typeWatch === "0" && (
                   <div className="flex flex-col gap-wf-xs">
                     <label
-                      htmlFor="amount-received"
-                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase flex items-center gap-1"
+                      htmlFor="destination-account-select"
+                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
                     >
-                      Monto Recibido{" "}
-                      <span className="text-wf-outline font-wf-body-regular text-[11px] normal-case tracking-normal">
-                        (Opcional)
-                      </span>
+                      Cuenta Destino
                     </label>
                     <div className="relative">
-                      <span className="absolute left-wf-md top-1/2 -translate-y-1/2 text-wf-on-surface-variant">
-                        ~
-                      </span>
                       <Controller
-                        name="amountEnd"
+                        name="accountEnd"
                         control={control}
                         render={({
                           field: { onChange, value },
                           fieldState,
                         }) => (
-                          <Input
-                            id="amount-received"
-                            type="text"
-                            inputMode="decimal"
-                            className="w-full bg-wf-surface-container-lowest pl-wf-xl pr-wf-md py-wf-md rounded-lg border border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary font-wf-body-regular text-wf-on-surface outline-none transition-colors placeholder:text-wf-outline"
-                            placeholder="Monto equivalente"
-                            onChange={(e) => {
-                              const val = cleanValue(
-                                (e.target as HTMLInputElement).value,
-                              );
-                              if (/^\d*\.?\d{0,2}$/.test(val)) {
-                                onChange(val);
-                              }
-                            }}
-                            value={formatValue(value ?? "")}
+                          <AutoComplete
+                            placeholder="Selecciona destino"
+                            handleOnChange={onChange}
+                            instanceId="destination-account-select"
+                            options={listAccounts}
                             iserror={!!fieldState.error}
+                            value={value}
                           />
                         )}
                       />
@@ -329,178 +250,259 @@ const Movements = memo(
                   </div>
                 )}
 
-              {/* Date & Time */}
-              <div className="flex flex-col gap-wf-xs">
-                <label
-                  htmlFor="date-purchase"
-                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
-                >
-                  Fecha
-                </label>
-                <Controller
-                  name="datePurchase"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState }) => (
-                    <Input
-                      id="date-purchase"
-                      type="datetime-local"
-                      className="w-full bg-wf-surface-container-lowest text-wf-on-surface border border-wf-outline-variant rounded-lg py-wf-sm px-wf-md focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-colors"
-                      onChange={onChange}
-                      value={value ?? ""}
-                      iserror={!!fieldState.error}
+                {/* Category Selection (Non-transfer only) */}
+                {typeWatch !== "0" && (
+                  <div className="flex flex-col gap-wf-xs">
+                    <label
+                      htmlFor="category-select"
+                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                    >
+                      Categoría
+                    </label>
+                    <Controller
+                      name="category"
+                      control={control}
+                      render={({ field: { onChange, value }, fieldState }) => (
+                        <AutoComplete
+                          placeholder="Selecciona categoría"
+                          handleOnChange={onChange}
+                          instanceId="category-select"
+                          options={listCategories}
+                          iserror={!!fieldState.error}
+                          value={value}
+                        />
+                      )}
                     />
+                  </div>
+                )}
+
+                {/* Equivalent Amount (Transfer only, if cross-currency) */}
+                {typeWatch === "0" &&
+                  accountEndWatch &&
+                  accountWatch &&
+                  accountEndWatch.badgeId !== accountWatch.badgeId && (
+                    <div className="flex flex-col gap-wf-xs">
+                      <label
+                        htmlFor="amount-received"
+                        className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase flex items-center gap-1"
+                      >
+                        Monto Recibido{" "}
+                        <span className="text-wf-outline font-wf-body-regular text-[11px] normal-case tracking-normal">
+                          (Opcional)
+                        </span>
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-wf-md top-1/2 -translate-y-1/2 text-wf-on-surface-variant">
+                          ~
+                        </span>
+                        <Controller
+                          name="amountEnd"
+                          control={control}
+                          render={({
+                            field: { onChange, value },
+                            fieldState,
+                          }) => (
+                            <Input
+                              id="amount-received"
+                              type="text"
+                              inputMode="decimal"
+                              className="w-full bg-wf-surface-container-lowest pl-wf-xl pr-wf-md py-wf-md rounded-lg border border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary font-wf-body-regular text-wf-on-surface outline-none transition-colors placeholder:text-wf-outline"
+                              placeholder="Monto equivalente"
+                              onChange={(e) => {
+                                const val = cleanValue(
+                                  (e.target as HTMLInputElement).value,
+                                );
+                                if (/^\d*\.?\d{0,2}$/.test(val)) {
+                                  onChange(val);
+                                }
+                              }}
+                              value={formatValue(value ?? "")}
+                              iserror={!!fieldState.error}
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
                   )}
-                />
-              </div>
 
-              {/* Event & Investment (Non-transfer only) */}
-              {typeWatch !== "0" && (
-                <>
-                  <div className="flex flex-col gap-wf-xs">
-                    <label
-                      htmlFor="event-select"
-                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
-                    >
-                      Evento
-                    </label>
-                    <Controller
-                      name="event"
-                      control={control}
-                      render={({ field: { onChange, value }, fieldState }) => (
-                        <AutoComplete
-                          placeholder="Opcional"
-                          handleOnChange={onChange}
-                          instanceId="event-select"
-                          options={listEvents}
-                          iserror={!!fieldState.error}
-                          value={value}
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-wf-xs">
-                    <label
-                      htmlFor="investment-select"
-                      className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
-                    >
-                      Inversión
-                    </label>
-                    <Controller
-                      name="investment"
-                      control={control}
-                      render={({ field: { onChange, value }, fieldState }) => (
-                        <AutoComplete
-                          placeholder="Opcional"
-                          handleOnChange={onChange}
-                          instanceId="investment-select"
-                          options={listInvestments}
-                          iserror={!!fieldState.error}
-                          value={value}
-                        />
-                      )}
-                    />
-                  </div>
-                </>
-              )}
-
-              {/* Investment Switch */}
-              {typeWatch !== "0" && !!investmentWatch && (
-                <div className="md:col-span-2">
+                {/* Date & Time */}
+                <div className="flex flex-col gap-wf-xs">
+                  <label
+                    htmlFor="date-purchase"
+                    className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                  >
+                    Fecha
+                  </label>
                   <Controller
-                    name="addWithdrawal"
+                    name="datePurchase"
                     control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Switch
-                        id="addWithdrawal"
-                        label="¿Es un retiro o una adición/reinversión?"
-                        name="addWithdrawal"
-                        handleCheckboxChange={onChange}
-                        isChecked={value}
+                    render={({ field: { onChange, value }, fieldState }) => (
+                      <Input
+                        id="date-purchase"
+                        type="datetime-local"
+                        className="w-full bg-wf-surface-container-lowest text-wf-on-surface border border-wf-outline-variant rounded-lg py-wf-sm px-wf-md focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-colors"
+                        onChange={onChange}
+                        value={value ?? ""}
+                        iserror={!!fieldState.error}
                       />
                     )}
                   />
                 </div>
-              )}
 
-              {/* Description */}
-              <div className="md:col-span-2">
-                <Controller
-                  name="description"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState }) => (
-                    <Textarea
-                      id="description"
-                      label="Descripción"
-                      className="font-wf-body-regular placeholder:text-wf-outline resize-none"
-                      placeholder="Agrega una nota..."
-                      rows={2}
-                      onChange={onChange}
-                      value={value ?? ""}
-                      iserror={!!fieldState.error}
+                {/* Event & Investment (Non-transfer only) */}
+                {typeWatch !== "0" && (
+                  <>
+                    <div className="flex flex-col gap-wf-xs">
+                      <label
+                        htmlFor="event-select"
+                        className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                      >
+                        Evento
+                      </label>
+                      <Controller
+                        name="event"
+                        control={control}
+                        render={({
+                          field: { onChange, value },
+                          fieldState,
+                        }) => (
+                          <AutoComplete
+                            placeholder="Opcional"
+                            handleOnChange={onChange}
+                            instanceId="event-select"
+                            options={listEvents}
+                            iserror={!!fieldState.error}
+                            value={value}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-wf-xs">
+                      <label
+                        htmlFor="investment-select"
+                        className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase"
+                      >
+                        Inversión
+                      </label>
+                      <Controller
+                        name="investment"
+                        control={control}
+                        render={({
+                          field: { onChange, value },
+                          fieldState,
+                        }) => (
+                          <AutoComplete
+                            placeholder="Opcional"
+                            handleOnChange={onChange}
+                            instanceId="investment-select"
+                            options={listInvestments}
+                            iserror={!!fieldState.error}
+                            value={value}
+                          />
+                        )}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* Investment Switch */}
+                {typeWatch !== "0" && !!investmentWatch && (
+                  <div className="md:col-span-2">
+                    <Controller
+                      name="addWithdrawal"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Switch
+                          id="addWithdrawal"
+                          label="¿Es un retiro o una adición/reinversión?"
+                          name="addWithdrawal"
+                          handleCheckboxChange={onChange}
+                          isChecked={!!value}
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </div>
+                )}
+
+                {/* Description */}
+                <div className="md:col-span-2">
+                  <Controller
+                    name="description"
+                    control={control}
+                    render={({ field: { onChange, value }, fieldState }) => (
+                      <Textarea
+                        id="description"
+                        label="Descripción"
+                        className="font-wf-body-regular placeholder:text-wf-outline resize-none"
+                        placeholder="Agrega una nota..."
+                        rows={2}
+                        onChange={onChange}
+                        value={value ?? ""}
+                        iserror={!!fieldState.error}
+                      />
+                    )}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Footer Actions */}
-          <div className="p-wf-lg border-t border-wf-surface-variant bg-wf-surface-container-low flex justify-end gap-wf-md">
-            {isEdit && (
+            {/* Footer Actions */}
+            <div className="p-4 sm:p-6 border-t border-wf-surface-variant/30 bg-wf-surface-container-low flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-wf-md">
+              {isEdit && (
+                <Button
+                  variant="outlined"
+                  type="button"
+                  className="border-wf-error text-wf-error hover:bg-wf-error-container/20 w-full sm:w-auto"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  disabled={isSubmitting}
+                >
+                  Eliminar
+                </Button>
+              )}
               <Button
-                onClick={() => setIsDeleteModalOpen(true)}
-                className="bg-wf-error hover:bg-wf-error/80 text-white"
+                variant="contained"
+                type="submit"
+                className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary-container w-full sm:w-auto"
                 disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? "Guardando..."
+                  : isEdit
+                    ? "Guardar"
+                    : "Crear Transacción"}
+              </Button>
+            </div>
+          </form>
+        </div>
+
+        <Modal
+          title="Confirmar Eliminación"
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+        >
+          <div className="flex flex-col gap-4 p-4">
+            <Typography className="text-wf-on-surface-variant">
+              ¿Estás seguro de que deseas eliminar esta transacción? Esta acción
+              no se puede deshacer.
+            </Typography>
+            <div className="flex gap-3 justify-end mt-4">
+              <Button
+                variant="outlined"
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="border-wf-outline text-wf-on-surface-variant hover:bg-wf-surface-container"
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleDelete}
+                className="bg-wf-error text-white hover:bg-wf-error/90 shadow-sm"
+                loading={isSubmitting}
               >
                 Eliminar
               </Button>
-            )}
-            <Button
-              variant="outlined"
-              onClick={() => router.back()}
-              className="border-wf-primary text-wf-primary hover:bg-wf-surface-container"
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary/90 shadow-sm"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Guardando..." : "Guardar"}
-            </Button>
+            </div>
           </div>
-        </form>
-      </div>
-
-      <Modal
-        title="Confirmar Eliminación"
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-      >
-        <div className="flex flex-col gap-4 p-4">
-          <Typography className="text-wf-on-surface-variant">
-            ¿Estás seguro de que deseas eliminar esta transacción? Esta acción
-            no se puede deshacer.
-          </Typography>
-          <div className="flex gap-3 justify-end mt-4">
-            <Button
-              variant="outlined"
-              onClick={() => setIsDeleteModalOpen(false)}
-              className="border-wf-outline text-wf-on-surface-variant hover:bg-wf-surface-container"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleDelete}
-              className="bg-wf-error text-white hover:bg-wf-error/90 shadow-sm"
-              loading={isSubmitting}
-            >
-              Eliminar
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
       </main>
     );
   },

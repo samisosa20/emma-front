@@ -38,11 +38,11 @@ export default async function RootLayout({
           <Header />
           <div className="flex flex-1 overflow-hidden">
             <Navbar />
-            <main className="flex-1 overflow-y-auto p-wf-container-margin md:p-wf-xl relative">
-              <div className="max-w-7xl mx-auto flex flex-col gap-wf-xl pb-24 md:pb-0">
+            <main className="flex-1 overflow-y-auto px-3.5 py-4 sm:px-5 sm:py-6 md:px-6 md:py-8 relative w-full min-w-0">
+              <div className="max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6 md:gap-8 pb-24 md:pb-8 w-full min-w-0">
                 {children}
-                <footer className="h-[35px] text-center mt-auto pt-8">
-                  <p className="text-sm text-wf-on-surface-variant font-wf-body-regular">
+                <footer className="h-[35px] text-center mt-auto pt-6 pb-2">
+                  <p className="text-xs sm:text-sm text-wf-on-surface-variant font-wf-body-regular">
                     © Copyright 2023 - {new Date().getFullYear()} Fiona
                   </p>
                 </footer>

@@ -21,18 +21,21 @@ export default function Login(props: any) {
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-md">
         {/* Login Card */}
-        <div className="bg-wf-on-primary rounded-xl p-8 shadow-[0_4px_24px_rgba(4,12,33,0.08)] border border-wf-surface-variant flex flex-col gap-6">
+        <div className="bg-wf-surface rounded-2xl p-8 shadow-xl border border-wf-outline-variant/30 flex flex-col gap-6">
           {/* Branding Header */}
           <div className="flex flex-col items-center gap-2 text-center">
-            <div className="mb-2">
+            <div className="mb-2 flex items-center justify-center gap-3">
               <Image
                 src={imgLogo}
                 alt="Fiona Logo"
-                width={180}
-                height={48}
-                className="h-auto w-auto"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
                 priority
               />
+              <span className="font-wf-headline-md font-extrabold tracking-wider text-2xl text-wf-on-surface uppercase">
+                Fiona
+              </span>
             </div>
             <p className="font-inter text-base text-wf-on-surface-variant">
               Gestiona tus finanzas globales en un solo lugar

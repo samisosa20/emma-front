@@ -22,14 +22,14 @@ const ListDefault = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
-      <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs">
+    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
+      <Typography className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs">
         {title}
       </Typography>
       <div className="h-[243px] overflow-y-auto space-y-wf-sm pr-1 custom-scrollbar">
         {data?.map((card, index) => (
           <div
-            className="p-wf-sm rounded-lg bg-white/20 border border-white/30 flex justify-between items-center transition-all hover:bg-white/40"
+            className="p-wf-sm rounded-lg bg-wf-surface-container-low/50 border border-wf-outline-variant/20 flex justify-between items-center transition-all hover:bg-wf-surface-container"
             key={"ListDefault" + index}
           >
             <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
@@ -58,8 +58,8 @@ const ListUtil = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
-      <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs">
+    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
+      <Typography className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs">
         {title}
       </Typography>
       <div className="h-[243px] overflow-y-auto space-y-wf-md pr-1 custom-scrollbar">
@@ -83,7 +83,7 @@ const ListUtil = memo((props: ListItemsProps) => {
                 {Math.abs(card.percentage ?? 0)}%
               </Typography>
             </div>
-            <div className="w-full bg-wf-surface-container-high rounded-full h-2 overflow-hidden border border-white/20 shadow-inner">
+            <div className="w-full bg-wf-surface-container-high rounded-full h-2 overflow-hidden border border-wf-outline-variant/20 shadow-inner">
               <div
                 className={`h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.1)] ${
                   Math.abs(card.percentage ?? 0) > 100
@@ -134,11 +134,11 @@ const ListModal = memo((props: ListItemsProps) => {
   };
 
   return (
-    <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-white/50">
+    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
       <TitleHelp
         title={title}
         variant="p"
-        className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-xs"
+        className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs"
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
       <div className="max-h-[500px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">

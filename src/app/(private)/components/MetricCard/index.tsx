@@ -15,8 +15,8 @@ interface MetricCardProps {
  */
 const MetricCard = memo(({ title, metrics = [] }: MetricCardProps) => {
   return (
-    <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-all border border-white/50">
-      <h3 className="font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-wf-sm">
+    <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] transition-all border border-wf-outline-variant/30 w-full min-w-0">
+      <h3 className="font-wf-label-caps text-[12px] uppercase tracking-wider text-wf-surface-tint mb-2">
         {title}
       </h3>
       <div className="flex flex-col gap-wf-md">

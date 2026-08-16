@@ -5,7 +5,7 @@ export default function Loading() {
       <div role='status'>
         <svg
           aria-hidden='true'
-          className='inline w-24 h-24 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-secondary'
+          className='inline w-24 h-24 mr-2 text-wf-outline-variant animate-spin fill-wf-primary'
           viewBox='0 0 100 101'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'

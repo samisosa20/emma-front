@@ -45,17 +45,17 @@ const Investments = memo((props: any) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-wf-gutter">
         {data &&
           data.content?.map((investment: GetApiInvestments200ContentItem) => (
             <Link
               href={`/investments/${investment.id}`}
               key={investment.id}
               aria-label={`Ver detalles de la inversión ${investment.name}, valor actual: ${investment.badge?.symbol}${getCurrencyFormatter(investment.badge?.code, investment.endAmount)}, valorización: ${investment.valorization}, rendimiento: ${investment.badge?.symbol}${getCurrencyFormatter(investment.badge?.code, investment.totalReturns)}, total: ${investment.totalRate}`}
-              className="group relative bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 transition-all hover:shadow-lg hover:border-wf-primary/30 hover:-translate-y-1 flex flex-col gap-wf-md"
+              className="group relative bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 transition-all hover:shadow-lg hover:border-wf-primary/30 hover:-translate-y-1 flex flex-col gap-wf-md w-full min-w-0"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold group-hover:text-wf-primary transition-colors">
+                <h3 className="font-wf-headline-md text-base sm:text-lg text-wf-on-surface font-semibold group-hover:text-wf-primary transition-colors truncate">
                   {investment.name}
                 </h3>
                 <CurrencyBadgeFlag badge={investment.badge} />
@@ -67,7 +67,7 @@ const Investments = memo((props: any) => {
                     Valor Actual
                   </span>
                   <Typography
-                    className={`font-wf-currency-display text-2xl font-bold ${
+                    className={`font-wf-currency-display text-xl sm:text-2xl font-bold ${
                       investment.endAmount > 0
                         ? "text-wf-secondary"
                         : "text-wf-error"
@@ -120,7 +120,7 @@ const Investments = memo((props: any) => {
       </div>
 
       {data && data.meta.totalCount === 0 && (
-        <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 text-center flex flex-col items-center justify-center">
+        <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-6 sm:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 text-center flex flex-col items-center justify-center">
           <span className="material-symbols-outlined text-wf-surface-tint text-6xl mb-4" aria-hidden="true">
             trending_up
           </span>

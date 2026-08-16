@@ -93,7 +93,10 @@ const EventsDetail = memo((props: any) => {
           return {
             ...cat,
             filteredSubs: subs,
-            totalAmount: subs.reduce((acc: number, curr: any) => acc + curr.amount, 0),
+            totalAmount: subs.reduce(
+              (acc: number, curr: any) => acc + curr.amount,
+              0,
+            ),
           };
         })
         .filter(Boolean) || [],
@@ -111,7 +114,10 @@ const EventsDetail = memo((props: any) => {
             className="text-wf-on-surface-variant hover:text-wf-on-surface transition-colors flex items-center gap-2 group"
             aria-label="Volver a la lista de eventos"
           >
-            <span className="material-symbols-outlined transition-transform group-hover:-translate-x-1" aria-hidden="true">
+            <span
+              className="material-symbols-outlined transition-transform group-hover:-translate-x-1"
+              aria-hidden="true"
+            >
               arrow_back
             </span>
             <span className="font-wf-body-regular text-base">
@@ -149,7 +155,12 @@ const EventsDetail = memo((props: any) => {
             aria-controls="edit-event-panel"
             className="bg-white border border-wf-outline px-wf-lg py-wf-sm rounded-lg font-semibold text-wf-primary flex items-center gap-2 hover:bg-wf-surface-container-low transition-all shadow-sm"
           >
-            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">edit</span>
+            <span
+              className="material-symbols-outlined text-[20px]"
+              aria-hidden="true"
+            >
+              edit
+            </span>
             Editar Evento
           </button>
         </div>
@@ -177,28 +188,30 @@ const EventsDetail = memo((props: any) => {
                     </span>
                   </div>
                   <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
-                    {category.filteredSubs.map((subCategory: any, idx: number) => (
-                      <div key={`${category.code}-${idx}`}>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="font-medium text-wf-on-surface-variant">
-                            {subCategory.name}
-                          </span>
-                          <span className="font-bold text-wf-primary">
-                            $
-                            {getCurrencyFormatter(
-                              category.code,
-                              Math.abs(subCategory.amount),
-                            )}
-                          </span>
+                    {category.filteredSubs.map(
+                      (subCategory: any, idx: number) => (
+                        <div key={`${category.code}-${idx}`}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-wf-on-surface-variant">
+                              {subCategory.name}
+                            </span>
+                            <span className="font-bold text-wf-primary">
+                              $
+                              {getCurrencyFormatter(
+                                category.code,
+                                Math.abs(subCategory.amount),
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-wf-on-tertiary-container h-full"
+                              style={{ width: `${subCategory.percentage}%` }}
+                            ></div>
+                          </div>
                         </div>
-                        <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                          <div
-                            className="bg-wf-on-tertiary-container h-full"
-                            style={{ width: `${subCategory.percentage}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
               ))}
@@ -231,28 +244,30 @@ const EventsDetail = memo((props: any) => {
                     </span>
                   </div>
                   <div className="space-y-3 pl-2 border-l-2 border-wf-surface-variant/20">
-                    {category.filteredSubs.map((subCategory: any, idx: number) => (
-                      <div key={`${category.code}-${idx}`}>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="font-medium text-wf-on-surface-variant">
-                            {subCategory.name}
-                          </span>
-                          <span className="font-bold text-wf-primary">
-                            $
-                            {getCurrencyFormatter(
-                              category.code,
-                              subCategory.amount,
-                            )}
-                          </span>
+                    {category.filteredSubs.map(
+                      (subCategory: any, idx: number) => (
+                        <div key={`${category.code}-${idx}`}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-wf-on-surface-variant">
+                              {subCategory.name}
+                            </span>
+                            <span className="font-bold text-wf-primary">
+                              $
+                              {getCurrencyFormatter(
+                                category.code,
+                                subCategory.amount,
+                              )}
+                            </span>
+                          </div>
+                          <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-wf-secondary h-full"
+                              style={{ width: `${subCategory.percentage}%` }}
+                            ></div>
+                          </div>
                         </div>
-                        <div className="w-full bg-wf-surface-container-low h-1.5 rounded-full overflow-hidden">
-                          <div
-                            className="bg-wf-secondary h-full"
-                            style={{ width: `${subCategory.percentage}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
               ))}
@@ -305,7 +320,9 @@ const EventsDetail = memo((props: any) => {
             className="lg:hidden p-2 text-wf-on-surface-variant"
             aria-label="Cerrar panel de edición"
           >
-            <span className="material-symbols-outlined" aria-hidden="true">close</span>
+            <span className="material-symbols-outlined" aria-hidden="true">
+              close
+            </span>
           </button>
         </div>
 
@@ -396,7 +413,10 @@ const EventsDetail = memo((props: any) => {
                           </option>
                         ))}
                       </select>
-                      <span className="material-symbols-outlined absolute right-3 top-2.5 text-wf-outline pointer-events-none" aria-hidden="true">
+                      <span
+                        className="material-symbols-outlined absolute right-3 top-2.5 text-wf-outline pointer-events-none"
+                        aria-hidden="true"
+                      >
                         expand_more
                       </span>
                     </div>
@@ -411,7 +431,7 @@ const EventsDetail = memo((props: any) => {
               type="submit"
               className="w-full bg-wf-primary text-wf-on-primary py-3 rounded-lg font-bold shadow-md hover:opacity-90 transition-all active:scale-[0.98]"
             >
-              Guardar Cambios
+              Guardar
             </button>
             <button
               type="button"
@@ -428,7 +448,10 @@ const EventsDetail = memo((props: any) => {
               className="w-full bg-transparent border border-wf-error/30 text-wf-error py-3 rounded-lg font-semibold hover:bg-wf-error/5 transition-all flex items-center justify-center gap-2"
               aria-label="Eliminar este evento"
             >
-              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+              <span
+                className="material-symbols-outlined text-[20px]"
+                aria-hidden="true"
+              >
                 delete
               </span>
               Eliminar Evento

@@ -2,27 +2,46 @@ import { memo } from "react";
 import { InputProps } from "./Select.interface";
 
 const Select: React.FC<InputProps> = memo((props) => {
-  const { iserror, ...res } = props;
+  const {
+    iserror,
+    label,
+    id,
+    placeholder,
+    options = [],
+    value,
+    defaultValue,
+    className = "",
+    ...res
+  } = props;
+
+  const selectProps: any = {
+    id,
+    className: `border rounded-lg w-full h-12 px-4 bg-wf-surface-container-lowest text-wf-on-surface border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all ${
+      iserror ? "border-wf-error" : ""
+    } ${className}`,
+    ...res,
+  };
+
+  if (value !== undefined) {
+    selectProps.value = value ?? "";
+  } else {
+    selectProps.defaultValue = defaultValue ?? "";
+  }
+
   return (
-    <div>
-      {props.label && (
-        <label htmlFor={props.id} className="text-sm mb-1">
-          {props.label}
+    <div className="w-full">
+      {label && (
+        <label htmlFor={id} className="block text-sm font-wf-label-caps text-wf-on-surface-variant uppercase tracking-wider mb-1">
+          {label}
         </label>
       )}
-      <select
-        className={`border rounded-lg w-full h-12 px-4 ${
-          iserror ? "border-red-500" : "text-primary"
-        }`}
-        {...res}
-        defaultValue={""}
-      >
-        {props.placeholder && (
+      <select {...selectProps}>
+        {placeholder && (
           <option value="" disabled>
-            {props.placeholder}
+            {placeholder}
           </option>
         )}
-        {props.options.map((option) => (
+        {options.map((option) => (
           <option value={option.value} key={option.value}>
             {option.label}
           </option>

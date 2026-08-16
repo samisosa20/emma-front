@@ -3,7 +3,7 @@ const theme = {
     base: `rounded-md font-semibold`,
     block: `w-full`,
     contained: {
-      default: `bg-yellow-400 hover:bg-yellow-200 text-primary `, // TODO: Add styles
+      default: `bg-wf-primary text-wf-on-primary hover:bg-wf-primary-container`, // TODO: Add styles
       dark: ``, // TODO: Add styles
       light: ``, // TODO: Add styles
       inherit: ``, // TODO: Add styles

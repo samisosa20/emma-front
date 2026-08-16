@@ -45,16 +45,16 @@ export default function Budgets(props: any) {
                 <div className="h-px flex-1 bg-wf-surface-variant/20"></div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-wf-gutter">
                 {budget.years.map((year) => (
                   <Link
                     href={`/budgets/${year.year}/${year.badge?.id}`}
                     key={year.year + budget.badge}
-                    className="group"
+                    className="group w-full min-w-0"
                   >
-                    <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 transition-all hover:shadow-lg hover:border-wf-primary/30 group-hover:-translate-y-1">
-                      <div className="flex justify-between items-center mb-wf-md">
-                        <Typography className="text-2xl font-bold text-wf-primary">
+                    <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 transition-all hover:shadow-lg hover:border-wf-primary/30 group-hover:-translate-y-1 w-full min-w-0">
+                      <div className="flex justify-between items-center mb-3 sm:mb-wf-md">
+                        <Typography className="text-xl sm:text-2xl font-bold text-wf-primary">
                           {year.year}
                         </Typography>
                         <div className="w-8 h-8 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-surface-tint group-hover:bg-wf-primary group-hover:text-wf-on-primary transition-colors">
@@ -65,7 +65,7 @@ export default function Budgets(props: any) {
                       </div>
 
                       <div className="space-y-wf-sm">
-                        <div className="flex items-center justify-between p-wf-sm rounded-lg bg-wf-secondary-container/10">
+                        <div className="flex items-center justify-between p-2.5 sm:p-wf-sm rounded-lg bg-wf-secondary-container/10">
                           <Typography className="text-xs font-wf-label-caps text-wf-surface-tint uppercase">
                             Ingresos
                           </Typography>
@@ -78,7 +78,7 @@ export default function Budgets(props: any) {
                           </Typography>
                         </div>
 
-                        <div className="flex items-center justify-between p-wf-sm rounded-lg bg-wf-error-container/10">
+                        <div className="flex items-center justify-between p-2.5 sm:p-wf-sm rounded-lg bg-wf-error-container/10">
                           <Typography className="text-xs font-wf-label-caps text-wf-surface-tint uppercase">
                             Egresos
                           </Typography>
@@ -91,12 +91,12 @@ export default function Budgets(props: any) {
                           </Typography>
                         </div>
 
-                        <div className="flex items-center justify-between p-wf-sm rounded-lg bg-wf-primary-container/10 border-t border-wf-surface-variant/20 pt-wf-md mt-wf-sm">
+                        <div className="flex items-center justify-between p-2.5 sm:p-wf-sm rounded-lg bg-wf-primary-container/10 border-t border-wf-surface-variant/20 pt-3 sm:pt-wf-md mt-wf-sm">
                           <Typography className="text-xs font-wf-label-caps text-wf-primary font-bold uppercase">
                             Utilidad
                           </Typography>
                           <Typography
-                            className={`font-bold text-base ${Number(year.utility) >= 0 ? "text-wf-secondary" : "text-wf-error"}`}
+                            className={`font-bold text-sm sm:text-base ${Number(year.utility) >= 0 ? "text-wf-secondary" : "text-wf-error"}`}
                           >
                             {year.badge?.symbol}
                             {getCurrencyFormatter(
@@ -114,7 +114,7 @@ export default function Budgets(props: any) {
           ))}
 
         {data && data.length === 0 && (
-          <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 text-center">
+          <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-6 sm:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 text-center">
             <span className="material-symbols-outlined text-wf-surface-tint text-5xl mb-wf-md block">
               savings
             </span>

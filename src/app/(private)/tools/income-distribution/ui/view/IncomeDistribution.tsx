@@ -398,9 +398,9 @@ const IncomeDistribution = memo((props: any) => {
               </Typography>
             </div>
 
-            <div className="h-[260px] w-full flex items-center justify-center my-4">
+            <div className="h-[260px] w-full min-w-0 flex items-center justify-center my-4">
               {pieData.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <PieChart>
                     <Pie
                       data={pieData}

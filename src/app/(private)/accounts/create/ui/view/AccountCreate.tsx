@@ -8,7 +8,8 @@ import useComponents from "@/share/components";
 
 const AccountCreate = (props: any) => {
   const router = useRouter();
-  const { Typography, FormControl, Button, AutoComplete, Input } = useComponents();
+  const { Typography, FormControl, Button, AutoComplete, Input } =
+    useComponents();
 
   const {
     handleSubmit,
@@ -25,20 +26,23 @@ const AccountCreate = (props: any) => {
   } = props;
 
   return (
-    <div className="flex-1 flex items-center justify-center p-wf-container-margin bg-wf-surface-bright">
-      <div className="bg-wf-on-primary backdrop-blur-md w-full max-w-2xl rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
-        <div className="mb-wf-lg flex justify-between items-start">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary">
-              <span aria-hidden="true" className="material-symbols-outlined text-3xl">
+    <div className="flex-1 flex items-center justify-center w-full min-w-0">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md w-full max-w-2xl rounded-xl p-4 sm:p-6 md:p-8 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30">
+        <div className="mb-4 sm:mb-wf-lg flex justify-between items-start">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-wf-surface-container flex items-center justify-center shadow-sm text-wf-primary flex-shrink-0">
+              <span
+                aria-hidden="true"
+                className="material-symbols-outlined text-2xl sm:text-3xl"
+              >
                 account_balance_wallet
               </span>
             </div>
             <div>
-              <h2 className="font-wf-headline-lg text-wf-headline-lg text-wf-primary mb-wf-unit">
+              <h2 className="font-wf-headline-lg text-xl sm:text-2xl text-wf-primary mb-1">
                 {title}
               </h2>
-              <p className="font-wf-body-regular text-wf-body-regular text-wf-on-surface-variant">
+              <p className="font-wf-body-regular text-xs sm:text-sm text-wf-on-surface-variant">
                 Configura los detalles de tu cuenta financiera.
               </p>
             </div>
@@ -47,9 +51,14 @@ const AccountCreate = (props: any) => {
             type="button"
             onClick={() => router.back()}
             aria-label="Cerrar"
-            className="text-wf-outline hover:text-wf-primary transition-colors"
+            className="text-wf-outline hover:text-wf-primary transition-colors p-1"
           >
-            <span aria-hidden="true" className="material-symbols-outlined text-2xl">close</span>
+            <span
+              aria-hidden="true"
+              className="material-symbols-outlined text-2xl"
+            >
+              close
+            </span>
           </button>
         </div>
 
@@ -85,7 +94,10 @@ const AccountCreate = (props: any) => {
                 render={({ field, fieldState }) => (
                   <FormControl fieldState={fieldState} withLabel={false}>
                     <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                      Descripción <span className="text-wf-outline font-normal lowercase">(Opcional)</span>
+                      Descripción{" "}
+                      <span className="text-wf-outline font-normal lowercase">
+                        (Opcional)
+                      </span>
                     </label>
                     <Input
                       {...field}
@@ -112,7 +124,9 @@ const AccountCreate = (props: any) => {
                     <div className="relative">
                       <select
                         className={`w-full bg-white border ${
-                          fieldState.error ? "border-wf-error" : "border-wf-outline-variant"
+                          fieldState.error
+                            ? "border-wf-error"
+                            : "border-wf-outline-variant"
                         } text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm appearance-none`}
                         id="typeId"
                         onChange={onChange}
@@ -159,7 +173,11 @@ const AccountCreate = (props: any) => {
             </div>
 
             {/* Initial Amount */}
-            <div className={watchType === "3" || watchType === "6" ? "" : "md:col-span-2"}>
+            <div
+              className={
+                watchType === "3" || watchType === "6" ? "" : "md:col-span-2"
+              }
+            >
               <Controller
                 name={"initAmount"}
                 control={control}
@@ -234,15 +252,17 @@ const AccountCreate = (props: any) => {
           </div>
 
           {/* Actions */}
-          <div className="pt-wf-md border-t border-wf-surface-variant flex justify-between items-center mt-wf-xl">
-            <div className="flex gap-2">
+          <div className="pt-4 sm:pt-wf-md border-t border-wf-surface-variant/30 flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-6 sm:mt-wf-xl">
+            <div className="flex gap-2 w-full sm:w-auto">
               {isDesactivate && (
                 <button
                   type="button"
                   onClick={handleReActivate}
-                  className="px-4 py-2 rounded-lg border border-wf-success text-wf-success font-wf-body-regular hover:bg-wf-success-container transition-colors flex items-center gap-2"
+                  className="flex-1 sm:flex-initial px-4 py-2 rounded-lg border border-wf-success text-wf-success font-wf-body-regular hover:bg-wf-success-container/20 transition-colors flex items-center justify-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-[18px]">power</span>
+                  <span className="material-symbols-outlined text-[18px]">
+                    power
+                  </span>
                   Activar
                 </button>
               )}
@@ -250,7 +270,7 @@ const AccountCreate = (props: any) => {
                 <button
                   type="button"
                   onClick={handleDelete}
-                  className="px-4 py-2 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container transition-colors flex items-center gap-2"
+                  className="flex-1 sm:flex-initial px-4 py-2 rounded-lg border border-wf-error text-wf-error font-wf-body-regular hover:bg-wf-error-container/20 transition-colors flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     {isDesactivate ? "delete" : "power_off"}
@@ -260,23 +280,23 @@ const AccountCreate = (props: any) => {
               )}
             </div>
 
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
+                className="flex-1 sm:flex-initial px-6 py-2.5 rounded-lg border border-wf-outline text-wf-on-surface font-wf-body-regular hover:bg-wf-surface-container-highest transition-colors"
               >
                 Cancelar
               </button>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center gap-2 h-auto"
+                className="flex-1 sm:flex-initial px-8 py-2.5 rounded-lg bg-wf-primary text-wf-on-primary font-wf-body-regular hover:bg-wf-primary-container shadow-sm transition-all hover:shadow-md flex items-center justify-center gap-2 h-auto"
               >
                 <span className="material-symbols-outlined text-xl">
                   check_circle
                 </span>
-                Guardar Cuenta
+                Guardar
               </Button>
             </div>
           </div>

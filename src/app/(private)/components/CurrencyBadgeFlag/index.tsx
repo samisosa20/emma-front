@@ -31,6 +31,7 @@ const CurrencyBadgeFlag = memo(({ badge }: CurrencyBadgeProps) => {
         width={20}
         height={20}
         className="rounded-full w-5 h-5 object-cover"
+        style={{ width: "20px", height: "20px" }}
         alt={badge.code}
       />
       <Typography variant="h6" className="text-[10px]">

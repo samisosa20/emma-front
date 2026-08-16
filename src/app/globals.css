@@ -6,34 +6,34 @@
 @source inline("grid-cols-{0..9}");
 
 :root {
-  --wf-background: #fcf8fb;
-  --wf-on-background: #1b1b1d;
+  --wf-background: #ffffff;
+  --wf-on-background: #0f172a;
 
   --wf-surface: #ffffff;
-  --wf-on-surface: #1b1b1d;
-  --wf-on-surface-variant: #5f6368;
+  --wf-on-surface: #0f172a;
+  --wf-on-surface-variant: #475569;
 
   --wf-surface-container-lowest: #ffffff;
-  --wf-surface-container-low: #f8f9fa;
-  --wf-surface-container: #f1f3f4;
-  --wf-surface-container-high: #e8eaed;
-  --wf-surface-container-highest: #dadce0;
-  --wf-surface-variant: #e8eaed;
+  --wf-surface-container-low: #f8fafc;
+  --wf-surface-container: #f1f5f9;
+  --wf-surface-container-high: #e2e8f0;
+  --wf-surface-container-highest: #cbd5e1;
+  --wf-surface-variant: #f1f5f9;
 
-  --wf-outline: #76777e;
-  --wf-outline-variant: #c6c6cd;
+  --wf-outline: #64748b;
+  --wf-outline-variant: #e2e8f0;
 
   --wf-primary: #040c21;
   --wf-on-primary: #ffffff;
-  --wf-primary-container: #1a2238;
-  --wf-on-primary-container: #8189a4;
+  --wf-primary-container: #1e293b;
+  --wf-on-primary-container: #f8fafc;
 
-  --wf-secondary: #006d37;
+  --wf-secondary: #059669;
   --wf-on-secondary: #ffffff;
-  --wf-secondary-container: #6bfe9c;
+  --wf-secondary-container: #d1fae5;
 
-  --wf-error: #ba1a1a;
-  --wf-error-container: #ffdad6;
+  --wf-error: #dc2626;
+  --wf-error-container: #fee2e2;
 }
 
 html.dark,
@@ -170,10 +170,10 @@ html.dark .border-white\/60,
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-html.dark input,
+html.dark input:not(.react-select__input):not([class*="react-select"]),
 html.dark select,
 html.dark textarea,
-.dark input,
+.dark input:not(.react-select__input):not([class*="react-select"]),
 .dark select,
 .dark textarea {
   background-color: #1e293b !important;
@@ -186,6 +186,22 @@ html.dark .react-select__control,
   background-color: #1e293b !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
+}
+
+.react-select__input,
+.react-select__input-container input,
+input.react-select__input,
+.dark .react-select__input,
+.dark .react-select__input-container input,
+.dark input.react-select__input,
+html.dark .react-select__input,
+html.dark .react-select__input-container input,
+html.dark input.react-select__input {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: inherit !important;
 }
 
 html.dark .react-select__single-value,
@@ -208,15 +224,6 @@ html.dark .react-select__option,
 }
 
 html.dark .react-select__option--is-focused,
-.dark .react-select__option--is-focused {
-  background-color: #334155 !important;
-}
-
-.dark .react-select__menu {
-  background-color: #1e293b !important;
-  color: #f8fafc !important;
-}
-
 .dark .react-select__option--is-focused {
   background-color: #334155 !important;
 }

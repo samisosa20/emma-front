@@ -60,9 +60,9 @@ const ListMovementsDetail = memo(
     const { Filters, CurrencyBadgeFlag } = useComponentsLayout();
 
     return (
-      <div className="bg-wf-on-primary backdrop-blur-md rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] flex-1 border border-white/50 flex flex-col overflow-hidden">
-        <div className="p-wf-md border-b border-wf-surface-variant flex justify-between items-center bg-transparent sticky top-0 z-10">
-          <h3 className="font-wf-headline-md text-wf-headline-md text-wf-primary">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] flex-1 border border-wf-outline-variant/30 flex flex-col overflow-hidden w-full min-w-0">
+        <div className="p-4 sm:p-wf-md border-b border-wf-surface-variant/30 flex justify-between items-center bg-transparent sticky top-0 z-10">
+          <h3 className="font-wf-headline-md text-base sm:text-lg text-wf-primary font-bold">
             {title}
           </h3>
           {showFilters && (
@@ -103,7 +103,122 @@ const ListMovementsDetail = memo(
             </div>
           )}
         </div>
-        <div className="overflow-x-auto">
+
+        {/* Mobile View: Clean Card / List Items (< md) */}
+        <div className="block md:hidden divide-y divide-wf-outline-variant/20">
+          {listMovements?.map((movement: GetApiMovements200ContentItem) => {
+            const isPositive = Number(movement.amount) > 0;
+            return (
+              <div
+                key={movement.id}
+                className="p-3.5 sm:p-4 hover:bg-wf-surface-container-low/40 transition-colors flex flex-col gap-2"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  {/* Left: Category Icon + Title/Account info */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    {movement.category && (
+                      <CategoryIcon
+                        icon={movement.category.icon}
+                        color={movement.category.color}
+                        size="xs"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <Link
+                        href={`/moves/${movement.id}`}
+                        className="font-wf-body-regular font-bold text-sm text-wf-on-surface hover:text-wf-primary transition-colors block truncate"
+                      >
+                        {movement.category?.name || "Sin categoría"}
+                      </Link>
+                      <div className="flex items-center gap-2 text-xs text-wf-on-surface-variant font-wf-body-regular">
+                        {showAccount && movement.account?.name && (
+                          <Link
+                            href={`/accounts/${movement.account.id}`}
+                            className="hover:underline hover:text-wf-primary truncate max-w-[120px]"
+                          >
+                            {movement.account.name}
+                          </Link>
+                        )}
+                        {showAccount && movement.account?.name && (
+                          <span className="text-wf-outline">•</span>
+                        )}
+                        <span className="capitalize text-wf-surface-tint whitespace-nowrap">
+                          {dateFormatter.format(new Date(movement.datePurchase))}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right: Amount & Flag */}
+                  <Link
+                    href={`/moves/${movement.id}`}
+                    className="flex items-center gap-1.5 flex-shrink-0 text-right"
+                  >
+                    <span
+                      className={`font-wf-currency-display font-bold text-sm sm:text-base ${
+                        isPositive ? "text-wf-secondary" : "text-wf-error"
+                      }`}
+                    >
+                      {isPositive ? "+" : ""}{" "}
+                      {getCurrencyFormatter(
+                        movement.account?.badge?.code,
+                        Number(movement.amount),
+                      )}
+                    </span>
+                    <CurrencyBadgeFlag
+                      badge={{
+                        code: movement.account?.badge?.code,
+                        flag: movement.account?.badge?.flag,
+                        symbol: movement.account?.badge?.symbol,
+                      }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Description and tags (if available) */}
+                {(movement.description || movement.event || movement.investment) && (
+                  <div className="flex flex-wrap items-center gap-2 pl-11 text-xs">
+                    {movement.description && (
+                      <span className="text-wf-on-surface-variant font-wf-body-regular line-clamp-1">
+                        {movement.description}
+                      </span>
+                    )}
+                    {movement.event?.id && (
+                      <Link
+                        href={`/events/${movement.event.id}`}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-wf-primary/10 text-wf-primary font-medium hover:bg-wf-primary/20 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[12px]">
+                          event
+                        </span>
+                        {movement.event.name}
+                      </Link>
+                    )}
+                    {movement.investment?.id && (
+                      <Link
+                        href={`/investments/${movement.investment.id}`}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-wf-secondary/10 text-wf-secondary font-medium hover:bg-wf-secondary/20 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[12px]">
+                          account_balance_wallet
+                        </span>
+                        {movement.investment.name}
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {listMovements?.length === 0 && (
+            <div className="p-8 text-center text-wf-on-surface-variant text-sm italic">
+              Sin movimientos
+            </div>
+          )}
+        </div>
+
+        {/* Desktop View: Full Table (>= md) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-wf-surface-container-low/50 border-b border-wf-surface-variant/20">
@@ -138,8 +253,8 @@ const ListMovementsDetail = memo(
                 (movement: GetApiMovements200ContentItem, index: number) => (
                   <tr
                     key={movement.id}
-                    className={`border-b border-wf-surface-variant/10 hover:bg-white/50 transition-colors ${
-                      index % 2 === 1 ? "bg-white/20" : ""
+                    className={`border-b border-wf-outline-variant/15 hover:bg-wf-surface-container-low/50 transition-colors ${
+                      index % 2 === 1 ? "bg-wf-surface-container-low/20" : ""
                     }`}
                   >
                     <td className="p-wf-md font-wf-body-regular text-wf-on-surface whitespace-nowrap text-sm capitalize">
@@ -149,7 +264,7 @@ const ListMovementsDetail = memo(
                       <td className="p-wf-md text-sm">
                         <Link
                           href={`/categories/${movement.category?.id}`}
-                          className="font-wf-body-regular text-wf-link hover:underline transition-colors"
+                          className="font-wf-body-regular text-wf-primary hover:underline transition-colors"
                         >
                           <div className="flex items-center gap-2">
                             <CategoryIcon
@@ -167,7 +282,7 @@ const ListMovementsDetail = memo(
                         <div className="flex items-center gap-wf-xs">
                           <Link
                             href={`/accounts/${movement.account?.id}`}
-                            className="font-wf-body-regular text-wf-link hover:underline transition-colors"
+                            className="font-wf-body-regular text-wf-primary hover:underline transition-colors"
                           >
                             {movement.account?.name}
                           </Link>
@@ -182,7 +297,7 @@ const ListMovementsDetail = memo(
                         {movement.event?.id && (
                           <Link
                             href={`/events/${movement.event.id}`}
-                            className="font-wf-body-regular text-wf-link hover:underline transition-colors flex items-center gap-1 mb-1"
+                            className="font-wf-body-regular text-wf-primary hover:underline transition-colors flex items-center gap-1 mb-1"
                           >
                             <span className="material-symbols-outlined text-[12px]">
                               event
@@ -193,7 +308,7 @@ const ListMovementsDetail = memo(
                         {movement.investment?.id && (
                           <Link
                             href={`/investments/${movement.investment.id}`}
-                            className="font-wf-body-regular text-wf-link hover:underline transition-colors flex items-center gap-1"
+                            className="font-wf-body-regular text-wf-primary hover:underline transition-colors flex items-center gap-1"
                           >
                             <span className="material-symbols-outlined text-[12px]">
                               account_balance_wallet
@@ -213,7 +328,7 @@ const ListMovementsDetail = memo(
                       <Link href={`/moves/${movement.id}`}>
                         <div className="flex items-center justify-end gap-2">
                           <span>
-                            {movement.account?.badge?.symbol}
+                            {Number(movement.amount) > 0 ? "+" : ""}
                             {getCurrencyFormatter(
                               movement.account?.badge?.code,
                               Number(movement.amount),

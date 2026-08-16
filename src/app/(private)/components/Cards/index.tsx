@@ -1,5 +1,4 @@
 import { memo } from "react";
-import Image from "next/image";
 
 //components
 import useComponents from "@/share/components";
@@ -20,9 +19,9 @@ const Cards = memo((props: CardsProps) => {
   const { Typography } = useComponents();
 
   return (
-    <div id={`fiona-card_${title}`} key={title}>
-      <div className="bg-wf-on-primary backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-wf-lg border border-white/50 w-full">
-        <Typography className="mb-wf-md font-semibold text-wf-primary uppercase tracking-wider text-[11px]">
+    <div id={`fiona-card_${title}`} key={title} className="w-full min-w-0">
+      <div className="bg-wf-surface-container-lowest backdrop-blur-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl p-4 sm:p-5 border border-wf-outline-variant/30 w-full min-w-0">
+        <Typography className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-[11px]">
           {title}
         </Typography>
         <div className="space-y-wf-xs">

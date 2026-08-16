@@ -25,5 +25,21 @@ const nextConfig = withPWA({
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: [
+      "react-icons",
+      "react-icons/md",
+      "react-icons/bi",
+      "react-icons/go",
+      "@material-tailwind/react",
+      "date-fns",
+      "recharts",
+      "react-toastify",
+      "@tanstack/react-query",
+      "driver.js",
+      "zustand",
+      "axios",
+    ],
+  },
 });
 module.exports = nextConfig;

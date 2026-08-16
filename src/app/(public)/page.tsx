@@ -20,168 +20,195 @@ import useComponents from "@/share/components";
 export default function Home() {
   const { Typography, Button } = useComponents();
   return (
-    <div className="min-h-screen bg-primary space-y-4">
-      <article className="px-8 max-w-[1280px] mx-auto">
-        <section className="flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center">
-          <div className="max-w-[600px]">
+    <div className="min-h-screen bg-primary text-white space-y-12 sm:space-y-16 py-8 overflow-x-hidden">
+      <article className="px-4 sm:px-8 max-w-[1280px] mx-auto space-y-16 sm:space-y-24">
+        {/* Hero Section */}
+        <section className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 justify-between pt-4 sm:pt-8">
+          <div className="max-w-[600px] text-center lg:text-left">
             <Image
               src={imgLogoLetter}
               alt="Logo Fiona"
-              loading="lazy"
-              width={148}
-              height={40}
-              className="mx-auto mb-4 hidden lg:block"
+              width={160}
+              height={44}
+              className="mb-6 hidden lg:block w-[160px] h-auto object-contain"
+              priority
             />
-            <Typography variant="h2" className="text-white mb-8">
+            <h1 className="font-wf-headline-lg text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
               Manejo de finanzas personales
-            </Typography>
-            <Typography variant="p" className="text-white">
+            </h1>
+            <p className="text-white/80 font-wf-body-regular text-base sm:text-lg leading-relaxed mb-8">
               No se trata solo de cuánto ganas, sino de cómo manejas lo que
               tienes. Transforma tus hábitos financieros y verás cómo cada
               centavo cuenta en la creación de tu prosperidad.
-            </Typography>
+            </p>
+            <div className="flex justify-center lg:justify-start gap-4">
+              <Link href="/register">
+                <button className="bg-yellow-400 text-slate-950 font-bold px-6 py-3 rounded-full hover:bg-yellow-300 transition-all active:scale-95 shadow-lg">
+                  Comenzar gratis
+                </button>
+              </Link>
+              <Link href="/login">
+                <button className="border border-white/40 text-white font-semibold px-6 py-3 rounded-full hover:bg-white/10 transition-all active:scale-95">
+                  Iniciar sesión
+                </button>
+              </Link>
+            </div>
           </div>
-          <div className="flex-shink-0">
+          <div className="flex-shrink-0 flex justify-center">
             <Image
               src={imgMainIphone}
               alt="Dashboard Fiona"
-              loading="lazy"
-              width={200}
-              height={390}
+              width={240}
+              height={480}
+              className="w-[200px] sm:w-[240px] md:w-[280px] h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              priority
             />
           </div>
         </section>
-        <section className="relative py-12 mb-24 lg:mb-48">
-          <div className="bg-white absolute w-screen left-1/2 transform -translate-x-1/2">
-            <div className="px-8 max-w-[1280px] mx-auto py-4">
-              <Typography variant="h2" className="mb-8 text-center">
-                Todo lo que necesitan en un solo lugar
-              </Typography>
-              <Typography className="max-w-[1280px]">
-                Descubre <b>Fiona</b>, tu aliado financiero gratuito. Con esta
-                aplicación, gestionar tus finanzas personales se vuelve fácil y
-                accesible. Registra tus ingresos y gastos de manera sencilla,
-                crea presupuestos personalizados y recibe análisis detallados de
-                tu actividad financiera. Además, <b>Fiona</b> ofrece
-                herramientas intuitivas para ayudarte a ahorrar, planificar
-                metas y realizar un seguimiento de tus inversiones. Con una
-                interfaz amigable y sin costos ocultos, es la opción perfecta
-                para tener el control total de tus finanzas sin complicaciones.
-                ¡Regístrate ahora y da el primer paso hacia una gestión
-                financiera inteligente!
-              </Typography>
-              <div className="text-center mt-4">
-                <Link href="/register">
-                  <Button>Registrarse</Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="absolute top-8 -left-4 2xl:-left-48 transform -rotate-[25deg]">
+
+        {/* Feature Banner Section */}
+        <section className="relative my-8 sm:my-16 bg-white text-slate-900 rounded-3xl p-6 sm:p-10 md:p-14 shadow-2xl overflow-hidden border border-white/20">
+          {/* Subtle Decorative Floating Icons (Properly sized) */}
+          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 opacity-20 hover:opacity-80 transition-opacity pointer-events-none">
             <Image
               src={iconLineChart}
-              alt="Gráfico Linea Fiona"
-              loading="lazy"
-              width={50}
-              height={50}
+              alt="Gráfico"
+              width={40}
+              height={40}
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
           </div>
-          <div className="absolute top-20 lg:top-8 -right-6 lg:-right-4 2xl:-right-48 transform -rotate-[25deg]">
+          <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-20 hover:opacity-80 transition-opacity pointer-events-none">
             <Image
               src={iconPieChart}
-              alt="Gráfico Pie Fiona"
-              loading="lazy"
-              width={50}
-              height={50}
+              alt="Gráfico Pie"
+              width={40}
+              height={40}
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
           </div>
-          <div className="absolute -bottom-[400px] lg:-bottom-[200px] -right-4 2xl:-right-32 transform -rotate-[25deg]">
+          <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 opacity-20 hover:opacity-80 transition-opacity pointer-events-none">
             <Image
               src={iconPigBank}
-              alt="Pig Bank Fiona"
-              loading="lazy"
-              width={50}
-              height={50}
+              alt="Alcancía"
+              width={40}
+              height={40}
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
           </div>
-          <div className="absolute -bottom-[400px] lg:-bottom-[200px] -left-4 2xl:-left-32 transform -rotate-[25deg]">
+          <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 opacity-20 hover:opacity-80 transition-opacity pointer-events-none">
             <Image
               src={iconManagment}
-              alt="Manejo Fiona"
-              loading="lazy"
-              width={50}
-              height={50}
+              alt="Manejo"
+              width={40}
+              height={40}
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
           </div>
+
+          <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
+            <h2 className="font-wf-headline-lg text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
+              Todo lo que necesitas en un solo lugar
+            </h2>
+            <p className="text-slate-600 font-wf-body-regular text-sm sm:text-base leading-relaxed">
+              Descubre <strong className="text-slate-900">Fiona</strong>, tu aliado financiero gratuito. Con esta
+              aplicación, gestionar tus finanzas personales se vuelve fácil y
+              accesible. Registra tus ingresos y gastos de manera sencilla, crea
+              presupuestos personalizados y recibe análisis detallados de tu
+              actividad financiera. Además, <strong>Fiona</strong> ofrece
+              herramientas intuitivas para ayudarte a ahorrar, planificar metas y
+              realizar un seguimiento de tus inversiones.
+            </p>
+            <div className="pt-2">
+              <Link href="/register">
+                <button className="bg-primary text-white font-bold px-8 py-3.5 rounded-full hover:bg-primary/90 transition-all active:scale-95 shadow-md">
+                  Registrarse gratis
+                </button>
+              </Link>
+            </div>
+          </div>
         </section>
-        <section className="flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center py-4">
-          <div className="max-w-[600px]">
-            <Typography variant="h2" className="mb-2 text-green-400">
-              Presupuesto
-            </Typography>
-            <Typography variant="h3" className="mb-8 text-white text-justify">
+
+        {/* Feature 1: Presupuesto */}
+        <section className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 justify-between">
+          <div className="max-w-[600px] text-center lg:text-left">
+            <span className="text-xs font-bold font-wf-label-caps uppercase tracking-widest text-emerald-400 block mb-2">
+              Planificación
+            </span>
+            <h2 className="font-wf-headline-lg text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Presupuestos Inteligentes
+            </h2>
+            <p className="text-white/80 font-wf-body-regular text-sm sm:text-base leading-relaxed">
               Imagina que tu dinero es como un tesoro, y el presupuesto es como
               un plan para usar ese tesoro de la mejor manera posible. Te ayuda
               a decidir en qué gastar tu dinero, a ahorrar un poquito, y a
               asegurarte de que siempre tengas suficiente para las cosas
               importantes. Es como un mapa para que tu dinero trabaje contigo y
               te ayude a conseguir lo que quieres.
-            </Typography>
+            </p>
           </div>
-          <div className="flex-shink-0">
+          <div className="flex-shrink-0 flex justify-center">
             <Image
               src={imgBudget}
               alt="Presupuesto Fiona"
-              loading="lazy"
-              width={200}
-              height={390}
+              width={220}
+              height={440}
+              className="w-[180px] sm:w-[220px] md:w-[260px] h-auto object-contain drop-shadow-2xl rounded-2xl"
             />
           </div>
         </section>
-        <section className="flex flex-wrap flex-col-reverse lg:flex-row items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center py-4">
-          <div className="flex-shink-0">
+
+        {/* Feature 2: Patrimonio */}
+        <section className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 justify-between">
+          <div className="flex-shrink-0 flex justify-center">
             <Image
               src={imgHeritage}
               alt="Patrimonio Fiona"
-              loading="lazy"
-              width={200}
-              height={390}
+              width={220}
+              height={440}
+              className="w-[180px] sm:w-[220px] md:w-[260px] h-auto object-contain drop-shadow-2xl rounded-2xl"
             />
           </div>
-          <div className="max-w-[600px]">
-            <Typography variant="h2" className="mb-2 text-yellow-400">
-              Patrimonio
-            </Typography>
-            <Typography variant="h3" className="mb-8 text-white text-justify">
-              Tener una colección de cosas valiosas que posees, como tu casa,
-              tus ahorros y otras posesiones. Es como tu &quot;tesoro
-              total&quot;. Mantener y hacer crecer tu patrimonio significa
-              cuidar bien de esas cosas y, si es posible, agregar más al tesoro
-              con el tiempo. Piensa en ello como construir tu propia fortaleza
-              financiera para sentirte seguro y tener más opciones en la vida.
-            </Typography>
+          <div className="max-w-[600px] text-center lg:text-left">
+            <span className="text-xs font-bold font-wf-label-caps uppercase tracking-widest text-yellow-400 block mb-2">
+              Consolidación
+            </span>
+            <h2 className="font-wf-headline-lg text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Control de Patrimonio
+            </h2>
+            <p className="text-white/80 font-wf-body-regular text-sm sm:text-base leading-relaxed">
+              Mantener y hacer crecer tu patrimonio significa cuidar bien de
+              tus posesiones y, si es posible, agregar más al tesoro con el
+              tiempo. Construye tu propia fortaleza financiera para sentirte
+              seguro y tener más opciones en la vida.
+            </p>
           </div>
         </section>
-        <section className="flex flex-wrap items-center gap-y-8 lg:gap-y-0 lg:gap-x-24 justify-center py-4">
-          <div className="max-w-[600px]">
-            <Typography variant="h2" className="mb-2 text-blue-400">
-              Inversión
-            </Typography>
-            <Typography variant="h3" className="mb-8 text-white text-justify">
+
+        {/* Feature 3: Inversión */}
+        <section className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 justify-between">
+          <div className="max-w-[600px] text-center lg:text-left">
+            <span className="text-xs font-bold font-wf-label-caps uppercase tracking-widest text-sky-400 block mb-2">
+              Rendimiento
+            </span>
+            <h2 className="font-wf-headline-lg text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Seguimiento de Inversiones
+            </h2>
+            <p className="text-white/80 font-wf-body-regular text-sm sm:text-base leading-relaxed">
               Manejar una inversión es como dirigir un barco: necesitas un rumbo
               claro y ajustar las velas según el viento del mercado.
               Constantemente evalúas el rendimiento, haces ajustes según el
               panorama financiero y te aseguras de que estás en camino hacia tus
               metas.
-            </Typography>
+            </p>
           </div>
-          <div className="flex-shink-0">
+          <div className="flex-shrink-0 flex justify-center">
             <Image
               src={imgInvestment}
               alt="Inversión Fiona"
-              loading="lazy"
-              width={200}
-              height={390}
+              width={220}
+              height={440}
+              className="w-[180px] sm:w-[220px] md:w-[260px] h-auto object-contain drop-shadow-2xl rounded-2xl"
             />
           </div>
         </section>

@@ -37,17 +37,17 @@ export default function Heritages(props: {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-wf-gutter">
         {data &&
           data.map((heritage) => (
             <Link
               href={`/heritages/${heritage.year}`}
               key={heritage.year}
-              className="group"
+              className="group w-full min-w-0"
             >
-              <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-lg shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 transition-all hover:shadow-lg hover:border-wf-primary/30 group-hover:-translate-y-1">
-                <div className="flex justify-between items-center mb-wf-lg border-b border-wf-surface-variant/30 pb-wf-sm">
-                  <Typography className="text-2xl font-bold text-wf-primary">
+              <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 transition-all hover:shadow-lg hover:border-wf-primary/30 group-hover:-translate-y-1 w-full min-w-0">
+                <div className="flex justify-between items-center mb-3 sm:mb-wf-lg border-b border-wf-surface-variant/30 pb-2 sm:pb-wf-sm">
+                  <Typography className="text-xl sm:text-2xl font-bold text-wf-primary">
                     {heritage.year}
                   </Typography>
                   <div className="w-8 h-8 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-surface-tint group-hover:bg-wf-primary group-hover:text-wf-on-primary transition-colors">
@@ -60,7 +60,7 @@ export default function Heritages(props: {
                 <div className="space-y-wf-sm">
                   {heritage.balances.map((balance, i) => (
                     <div
-                      className="flex items-center justify-between p-wf-sm rounded-lg hover:bg-white/30 transition-colors"
+                      className="flex items-center justify-between p-2 sm:p-wf-sm rounded-lg hover:bg-wf-surface-container-low/50 transition-colors"
                       key={i}
                     >
                       <div className="flex items-center gap-wf-xs">
@@ -93,7 +93,7 @@ export default function Heritages(props: {
       </div>
 
       {data && data.length === 0 && (
-        <div className="bg-wf-on-primary backdrop-blur-md rounded-xl p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 text-center">
+        <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-6 sm:p-wf-xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 text-center">
           <span className="material-symbols-outlined text-wf-surface-tint text-5xl mb-wf-md block">
             account_balance
           </span>

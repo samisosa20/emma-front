@@ -50,30 +50,38 @@ export default function InvestmentsCreate(props: any) {
   return (
     <div className="space-y-wf-lg pb-wf-xl">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md mb-wf-xl">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md mb-6 sm:mb-wf-xl">
+        <div className="flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => router.back()}
-            className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-on-primary backdrop-blur-md shadow-sm border border-white/50 flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all"
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-wf-surface-container-lowest backdrop-blur-md shadow-sm border border-wf-outline-variant/30 flex items-center justify-center text-wf-primary hover:bg-wf-primary hover:text-wf-on-primary transition-all"
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div>
-            <h1 className="font-wf-headline-lg text-xl lg:text-[32px] text-wf-primary">
-              {title}
-            </h1>
-            <Typography className="text-wf-on-surface-variant font-wf-body-regular">
-              Detalles y evolución de tu activo de inversión.
-            </Typography>
+            <div className="flex items-center gap-3">
+              <h2 className="font-wf-headline-lg text-xl sm:text-2xl text-wf-primary font-bold">
+                {title}
+              </h2>
+              {data?.badge && (
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-wf-primary/10 text-wf-primary border border-wf-primary/20">
+                  {data.badge.code}
+                </span>
+              )}
+            </div>
+            <p className="font-wf-body-regular text-xs sm:text-sm text-wf-on-surface-variant">
+              Detalle y gestión del activo de inversión.
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-wf-sm">
+
+        <div className="flex items-center gap-2 sm:gap-wf-sm">
           {handleAppretiation && (
             <button
               onClick={handleAppretiation}
-              className="flex items-center gap-2 bg-wf-secondary text-wf-on-secondary px-wf-lg py-wf-md rounded-xl shadow-md hover:opacity-90 transition-all font-wf-label-caps text-[12px] uppercase tracking-wider font-bold"
+              className="flex items-center gap-1.5 sm:gap-2 bg-wf-secondary text-wf-on-secondary px-3.5 sm:px-wf-lg py-2 sm:py-wf-md rounded-xl shadow-md hover:opacity-90 transition-all font-wf-label-caps text-[11px] sm:text-[12px] uppercase tracking-wider font-bold"
             >
-              <span className="material-symbols-outlined text-[20px]">
+              <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
                 trending_up
               </span>
               Valorización
@@ -82,9 +90,9 @@ export default function InvestmentsCreate(props: any) {
           {handleDelete && (
             <button
               onClick={handleDelete}
-              className="flex items-center gap-2 bg-wf-error/10 text-wf-error border border-wf-error/20 px-wf-lg py-wf-md rounded-xl hover:bg-wf-error hover:text-white transition-all font-wf-label-caps text-[12px] uppercase tracking-wider font-bold"
+              className="flex items-center gap-1.5 sm:gap-2 bg-wf-error/10 text-wf-error border border-wf-error/20 px-3.5 sm:px-wf-lg py-2 sm:py-wf-md rounded-xl hover:bg-wf-error hover:text-white transition-all font-wf-label-caps text-[11px] sm:text-[12px] uppercase tracking-wider font-bold"
             >
-              <span className="material-symbols-outlined text-[20px]">
+              <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
                 delete
               </span>
               Eliminar
@@ -94,15 +102,15 @@ export default function InvestmentsCreate(props: any) {
       </div>
 
       {handleDelete && (
-        <div className="mb-wf-xl">
+        <div className="mb-6 sm:mb-wf-xl">
           <Cards title="Métricas de Rendimiento" data={metrics} />
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-wf-gutter">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-wf-gutter">
         {/* Main Form Section */}
-        <div className="lg:col-span-5 space-y-wf-lg">
-          <div className="bg-wf-on-primary backdrop-blur-md p-wf-xl rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50">
+        <div className="lg:col-span-5 space-y-4 sm:space-y-wf-lg">
+          <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 w-full min-w-0">
             <h3 className="text-wf-label-caps text-[12px] font-bold text-wf-primary uppercase tracking-widest mb-wf-lg border-b border-wf-surface-variant/20 pb-2">
               Información General
             </h3>
@@ -205,7 +213,7 @@ export default function InvestmentsCreate(props: any) {
                   {isSubmitting && (
                     <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                   )}
-                  {isSubmitting ? "Guardando..." : "Guardar Inversión"}
+                  {isSubmitting ? "Guardando..." : "Guardar"}
                 </button>
               </div>
             </form>
@@ -213,8 +221,8 @@ export default function InvestmentsCreate(props: any) {
 
           {/* History List */}
           {listAppretiations && listAppretiations.length > 0 && (
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 overflow-hidden">
-              <div className="p-wf-lg border-b border-wf-surface-variant/10 bg-wf-surface-container-low/30">
+            <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 overflow-hidden w-full min-w-0">
+              <div className="p-4 sm:p-wf-lg border-b border-wf-surface-variant/10 bg-wf-surface-container-low/30">
                 <h3 className="text-wf-label-caps text-[12px] font-bold text-wf-primary uppercase tracking-widest">
                   Historial de Valorización
                 </h3>
@@ -224,7 +232,7 @@ export default function InvestmentsCreate(props: any) {
                   <div
                     key={appretiation.id}
                     onClick={() => handleEditAppretiation(appretiation.id)}
-                    className="p-wf-md hover:bg-wf-surface-container-low/50 transition-colors cursor-pointer group flex items-center justify-between"
+                    className="p-3 sm:p-wf-md hover:bg-wf-surface-container-low/50 transition-colors cursor-pointer group flex items-center justify-between"
                   >
                     <div className="flex items-center gap-3">
                       <div
@@ -267,10 +275,10 @@ export default function InvestmentsCreate(props: any) {
         </div>
 
         {/* Charts & Movements Section */}
-        <div className="lg:col-span-7 space-y-wf-lg">
+        <div className="lg:col-span-7 space-y-4 sm:space-y-wf-lg w-full min-w-0">
           {listAppretiations && listAppretiations.length > 0 && (
-            <div className="bg-wf-on-primary backdrop-blur-md p-wf-lg rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 h-[380px] flex flex-col">
-              <div className="flex items-center justify-between mb-wf-md">
+            <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 h-[340px] sm:h-[380px] flex flex-col w-full min-w-0">
+              <div className="flex items-center justify-between mb-3 sm:mb-wf-md">
                 <h3 className="text-wf-label-caps text-[12px] font-bold text-wf-primary uppercase tracking-widest">
                   Curva de Valorización
                 </h3>
@@ -281,8 +289,8 @@ export default function InvestmentsCreate(props: any) {
                   </span>
                 </div>
               </div>
-              <div className="flex-1 min-h-0">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="flex-1 min-h-0 min-w-0 w-full">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <LineChart
                     data={listAppretiations.map((v: any) => ({
                       amount: v.amount,
@@ -341,7 +349,7 @@ export default function InvestmentsCreate(props: any) {
           )}
 
           {listMovements && listMovements.length > 0 && (
-            <div className="bg-wf-on-primary backdrop-blur-md rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-white/50 overflow-hidden">
+            <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-2xl shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 overflow-hidden w-full min-w-0">
               <div className="p-wf-lg border-b border-wf-surface-variant/10 bg-wf-surface-container-low/30">
                 <h3 className="text-wf-label-caps text-[12px] font-bold text-wf-primary uppercase tracking-widest">
                   Movimientos Asociados

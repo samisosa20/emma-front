@@ -12,13 +12,17 @@ const movementSchema = z
     }),
     amountEnd: z
       .string()
-      .refine((value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0 && isFinite(num);
-      }, {
-        message: "Debe ser un número positivo válido",
-      })
-      .optional(),
+      .optional()
+      .refine(
+        (value) => {
+          if (value === undefined || value === null || value === "") return true;
+          const num = Number(value);
+          return !isNaN(num) && num >= 0 && isFinite(num);
+        },
+        {
+          message: "Debe ser un número positivo válido",
+        }
+      ),
     account: z.object({
       value: z.union([z.string(), z.number()]),
       label: z.string(),

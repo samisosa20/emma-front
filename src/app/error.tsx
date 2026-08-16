@@ -17,8 +17,20 @@ export default function ErrorPage({
   }, [error]);
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary">
-      <div className="text-center w-11/12 max-w-[350px]">
-        <Image src={imgLogo} alt="Logo fiona" className="mx-auto mb-8" />
+      <div className="text-center w-11/12 max-w-[350px] flex flex-col items-center">
+        <Link href="/" className="flex items-center justify-center gap-3 group mb-8">
+          <Image
+            src={imgLogo}
+            alt="Logo Fiona"
+            width={40}
+            height={40}
+            className="w-10 h-10 object-contain group-hover:scale-105 transition-transform"
+            priority
+          />
+          <span className="font-wf-headline-md font-extrabold tracking-wider text-3xl text-white uppercase">
+            Fiona
+          </span>
+        </Link>
         <h1 className="text-xl text-white font-bold mb-8">
           ¡Error del Servidor Interno (500)!
         </h1>

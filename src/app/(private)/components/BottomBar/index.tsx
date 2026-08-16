@@ -20,7 +20,7 @@ export const linksMobile = [
   },
   {
     id: "moves",
-    name: "Transacciones",
+    name: "",
     link: "/moves",
     show: true,
     icon: "receipt_long",
@@ -53,25 +53,31 @@ const BottomBar = memo(function BottomBar() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Navegación móvil" className="lg:hidden fixed bottom-3 left-1/2 -translate-x-1/2 w-[94%] max-w-md z-40 bg-white/95 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(4,12,33,0.12)] rounded-3xl px-2 h-[54px] flex justify-around items-center">
+    <nav
+      aria-label="Navegación móvil"
+      className="lg:hidden fixed bottom-3 left-1/2 -translate-x-1/2 w-[94%] max-w-md z-40 bg-wf-surface/95 backdrop-blur-2xl border border-wf-outline-variant/40 shadow-[0_8px_30px_rgba(4,12,33,0.08)] rounded-3xl px-2 h-[56px] flex justify-around items-center"
+    >
       {shownLinksMobile.map((link) => {
         const isActive = pathname === link.link;
 
         if (link.isPrimary) {
           return (
-            <div key={link.id} className="relative flex flex-col items-center justify-center w-16 h-full">
+            <div
+              key={link.id}
+              className="relative flex flex-col items-center justify-center w-16 h-full"
+            >
               <Link
                 id={`fiona-menuBottom_${link.id}`}
                 href={link.link}
                 aria-current={isActive ? "page" : undefined}
                 aria-label="Ir a Transacciones"
-                className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center group"
+                className="absolute -top-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center group"
               >
                 <div
-                  className={`p-2.5 rounded-full shadow-md transition-all duration-200 border-[3px] border-white flex items-center justify-center active:scale-90 ${
+                  className={`p-2.5 rounded-full shadow-md transition-all duration-200 border-[3px] border-wf-surface flex items-center justify-center active:scale-90 ${
                     isActive
-                      ? "bg-gradient-to-tr from-wf-primary via-indigo-600 to-emerald-500 text-white shadow-wf-primary/40 scale-105"
-                      : "bg-wf-primary text-white shadow-wf-primary/30 hover:scale-105"
+                      ? "bg-wf-primary text-wf-on-primary shadow-wf-primary/40 scale-105"
+                      : "bg-wf-primary text-wf-on-primary shadow-wf-primary/25 hover:scale-105"
                   }`}
                 >
                   <span className="material-symbols-outlined text-2xl">
@@ -100,13 +106,13 @@ const BottomBar = memo(function BottomBar() {
             className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-2xl transition-all duration-200 active:scale-95 ${
               isActive
                 ? "text-wf-primary font-bold"
-                : "text-wf-outline hover:text-wf-on-surface"
+                : "text-wf-on-surface-variant hover:text-wf-primary"
             }`}
           >
             <span
               aria-hidden="true"
               className={`material-symbols-outlined text-xl transition-transform ${
-                isActive ? "filled scale-110" : ""
+                isActive ? "filled text-wf-primary scale-110" : "text-wf-surface-tint"
               }`}
             >
               {link.icon}

@@ -5,7 +5,6 @@ import {
 } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
-import * as PiIcons from "react-icons/pi";
 import { addWeeks, endOfISOWeek, startOfISOWeek, format } from "date-fns";
 
 export * from "./driver";
@@ -294,19 +293,6 @@ export const getCurrencyFormatter = (
 ) => {
   return currencyFormatter.format(value);
 };
-
-/**
- * ⚡ Bolt Optimization: Cached icon component lookups.
- * 🎯 Problem: Repeatedly searching the large PiIcons object (O(n) keys) is slow in large lists.
- * 📊 Impact: O(1) lookup after first access, significantly faster for long transaction lists.
- */
-const iconCache: Record<string, React.ElementType> = {};
-export function getIconComponent(name: string): React.ElementType {
-  if (iconCache[name]) return iconCache[name];
-  const Icon = PiIcons[name as keyof typeof PiIcons] || PiIcons["PiAcorn"];
-  iconCache[name] = Icon;
-  return Icon;
-}
 
 export const isEmptyObject = (obj: any) => {
   return (
