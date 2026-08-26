@@ -1,27 +1,50 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { MdClose } from "react-icons/md";
 
 // Interface
-import { ModalProps } from './Modal.interface';
+import { ModalProps } from "./Modal.interface";
 
 // Style
-import { useTheme } from './Modal.styles';
+import { useTheme } from "./Modal.styles";
 
-import Typography from '../Typography';
+import Typography from "../Typography";
 
 /**
- * ⚡ Bolt Optimization: Memoization and class merging optimization.
- * 🎯 Problem: Modal was missing memoization and using expensive twMerge for non-conflicting classes.
- * 📊 Impact: Prevents unnecessary re-renders and reduces CPU overhead by skipping twMerge parsing.
+ * ⚡ Bolt Optimization: Portal mounting to document.body and memoization.
+ * 🎯 Problem: When modals are rendered inside sticky/backdrop-blur headers or transformed elements,
+ *    CSS creates a new containing block trapping fixed modals at the top of the header.
+ * 📊 Impact: createPortal mounts the modal directly to document.body, guaranteeing perfect screen centering.
  */
 const Modal = memo((props: ModalProps) => {
   const { title, children, onClose, isOpen } = props;
-
   const { modal } = useTheme();
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  if (!mounted) return null;
+
+  const modalContent = (
     <div
       className={`${modal.container} ${
-        isOpen ? "opacity-100 pointer-events-auto visible" : "opacity-0 pointer-events-none invisible"
+        isOpen
+          ? "opacity-100 pointer-events-auto visible"
+          : "opacity-0 pointer-events-none invisible"
       }`}
       role="dialog"
       aria-modal="true"
@@ -49,11 +72,14 @@ const Modal = memo((props: ModalProps) => {
               </button>
             )}
           </div>
-          <div className="max-h-[75vh] overflow-y-auto">{children}</div>
+          <div className="overflow-y-auto flex-1 pt-3">{children}</div>
         </div>
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 });
 
+Modal.displayName = "Modal";
 export default Modal;

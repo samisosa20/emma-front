@@ -51,7 +51,8 @@ const EventCard = memo(
     return (
       <Link
         href={`/events/${event.id}`}
-        aria-label={`Ver detalles del evento ${event.name}, finaliza el ${mdyFormatter.format(new Date(event.endEvent))}`}
+        suppressHydrationWarning
+        aria-label={`Ver detalles del evento ${event.name}`}
         className={`bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 p-wf-md flex flex-col gap-wf-sm hover:border-wf-primary/50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ${
           isLarge ? "md:col-span-2 lg:col-span-2" : ""
         }`}
@@ -97,7 +98,7 @@ const EventCard = memo(
               * 🎯 Problem: date-fns format() is slower in render loops.
               * 📊 Impact: ~5-10x faster formatting during event grid renders.
               */}
-            <span>{mdyFormatter.format(new Date(event.endEvent))}</span>
+            <span suppressHydrationWarning>{mdyFormatter.format(new Date(event.endEvent))}</span>
           </div>
         </div>
 

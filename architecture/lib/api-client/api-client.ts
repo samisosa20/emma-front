@@ -32,6 +32,22 @@ async function handleRequestSuccess(request: InternalAxiosRequestConfig) {
   request.headers["Content-Type"] = "application/json";
   request.headers["Timezone"] = getTimezone();
 
+  if (typeof window !== "undefined") {
+    try {
+      const spaceStoreStr = localStorage.getItem("fiona-spaces-v2");
+      if (spaceStoreStr) {
+        const parsed = JSON.parse(spaceStoreStr);
+        const activeSpaceId = parsed?.state?.activeSpaceId;
+        if (activeSpaceId) {
+          request.headers["X-Space-Id"] = String(activeSpaceId);
+          request.headers["X-Shared-Space"] = "true";
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   if (typeof window === "undefined") {
     // Evitar headers prohibidos en fetch/http adapters
     request.headers.delete("host");

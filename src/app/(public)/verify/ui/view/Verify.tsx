@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 // Assets
 import imgLogo from "../../../../../../public/img/logo.png";

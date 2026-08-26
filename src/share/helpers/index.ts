@@ -140,6 +140,13 @@ export const links = [
     mobile: false,
   },
   {
+    name: "Finanzas en Pareja",
+    link: "/shared-spaces",
+    show: true,
+    icon: "diversity_3",
+    mobile: false,
+  },
+  {
     name: "Eventos",
     link: "/events",
     show: true,
@@ -445,3 +452,5 @@ export const accountTypesMap = Object.fromEntries(
 
 export const getAccountType = (typeName: string) =>
   accountTypesMap[typeName] ?? listAccountTypes[listAccountTypes.length - 1];
+
+export * from "./movementImportParser";

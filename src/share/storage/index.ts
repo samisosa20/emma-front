@@ -51,3 +51,5 @@ export const useUserStore = create<UserStore>()(
     }
   )
 );
+
+export * from "./spaceStore";

@@ -1,5 +1,6 @@
 "use client";
 import { memo, useState } from "react";
+import Link from "next/link";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -79,10 +80,20 @@ const Movements = memo(
       <main className="flex-1 flex flex-col items-center relative w-full min-w-0">
         <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-wf-surface-variant/30 flex items-center justify-center bg-wf-surface-container-low">
-            <h1 className="font-wf-headline-md text-wf-on-surface text-lg sm:text-xl md:text-2xl text-center font-bold">
+          <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-wf-surface-variant/30 flex items-center justify-between bg-wf-surface-container-low">
+            <h1 className="font-wf-headline-md text-wf-on-surface text-lg sm:text-xl md:text-2xl font-bold">
               {isEdit ? "Editar Transacción" : "Nueva Transacción"}
             </h1>
+
+            {!isEdit && (
+              <Link
+                href="/moves/import"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-wf-surface text-wf-primary border border-wf-outline-variant/40 hover:bg-wf-surface-container transition-all active:scale-95 shadow-xs"
+              >
+                <span className="material-symbols-outlined text-base">upload_file</span>
+                <span className="hidden sm:inline">Importar Excel/CSV</span>
+              </Link>
+            )}
           </div>
 
           <form

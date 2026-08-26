@@ -9,6 +9,8 @@ import imgLogo from "../../../../../public/img/logo.png";
 import { useSession } from "@/share/components/SessionProvider";
 import { useTheme } from "@/share/components/ThemeProvider";
 
+import { SpaceSwitcher } from "@/share/components/SpaceSwitcher";
+
 const navigationSections = [
   {
     title: "Principal",
@@ -16,6 +18,7 @@ const navigationSections = [
       { name: "Dashboard", link: "/dashboard", icon: "dashboard" },
       { name: "Transacciones", link: "/moves", icon: "receipt_long" },
       { name: "Cuentas", link: "/accounts", icon: "account_balance_wallet" },
+      { name: "Finanzas en Pareja", link: "/shared-spaces", icon: "diversity_3" },
     ],
   },
   {
@@ -103,8 +106,10 @@ const Header = memo(function Header() {
           </Link>
         </div>
 
-        {/* Right: Quick Action & Profile */}
+        {/* Right: Space Switcher, Theme & Profile */}
         <div className="flex items-center gap-2 md:gap-3">
+          <SpaceSwitcher />
+
           <button
             type="button"
             onClick={toggleTheme}

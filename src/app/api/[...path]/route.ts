@@ -279,6 +279,36 @@ async function handleRequest(
   const token = request.cookies.get("backend_token")?.value;
   if (token) {
     requestHeaders.set("Authorization", `Bearer ${token}`);
+    try {
+      const { memberTokensMap } = require("@/app/api/shared-spaces/store");
+      const parts = token.split(".");
+      if (parts.length === 3) {
+        const payloadBase64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+        const json = Buffer.from(payloadBase64, "base64").toString("utf8");
+        const payload = JSON.parse(json);
+        if (payload) {
+          const uId = payload.id || payload.sub || payload.userId;
+          const uEmail = payload.email;
+          if (uId) memberTokensMap.set(String(uId), token);
+          if (uEmail) memberTokensMap.set(String(uEmail).toLowerCase(), token);
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // Forward Shared Space context header (do not inject into query params to prevent Prisma unknown field errors)
+  const spaceId = request.headers.get("x-space-id") || request.nextUrl.searchParams.get("spaceId") || request.nextUrl.searchParams.get("space_id");
+  url.searchParams.delete("spaceId");
+  url.searchParams.delete("space_id");
+
+  if (spaceId) {
+    requestHeaders.set("X-Space-Id", spaceId);
+  }
+  const sharedSpace = request.headers.get("x-shared-space");
+  if (sharedSpace) {
+    requestHeaders.set("X-Shared-Space", sharedSpace);
   }
 
   try {
@@ -321,11 +351,239 @@ async function handleRequest(
     if (response.status === 204) {
       body = null;
     } else if (contentType?.includes("application/json")) {
-      const data = await response.json();
+      let data = await response.json();
 
       // Capture JWT token from successful authentication responses (CWE-522)
       if (isAuthPath && response.ok && data.token) {
         tokenToSet = data.token;
+      }
+
+      // Shared Space Resource Pooling & Cross-Partner Aggregation
+      if (spaceId) {
+        try {
+          const { getOrCreateSpaceStore, spacesRegistry, memberTokensMap } = require("@/app/api/shared-spaces/store");
+          const spaceStore = getOrCreateSpaceStore(spaceId);
+          const currentSpace = spacesRegistry.get(spaceId);
+
+          const getTargetResource = (pathStr: string) => {
+            if (pathStr === "accounts" || pathStr.startsWith("accounts/")) return "accounts";
+            if (pathStr === "movements" || pathStr.startsWith("movements/")) return "movements";
+            if (pathStr === "events" || pathStr.startsWith("events/")) return "events";
+            if (pathStr === "investments" || pathStr.startsWith("investments/")) return "investments";
+            if (pathStr === "budgets" || pathStr.startsWith("budgets/")) return "budgets";
+            if (pathStr === "categories" || pathStr.startsWith("categories/")) return "categories";
+            if (pathStr === "payments" || pathStr.startsWith("payments/")) return "payments";
+            if (pathStr === "heritages" || pathStr.startsWith("heritages/")) return "heritages";
+            if (pathStr.startsWith("reports/")) return "reports";
+            return null;
+          };
+
+          const resource = getTargetResource(targetPath);
+
+          // Populate primary user items into store
+          if (resource && resource !== "reports" && spaceStore) {
+            if (request.method === "GET") {
+              if (targetPath === resource) {
+                if (data && Array.isArray(data.content)) {
+                  data.content.forEach((item: any) => {
+                    if (item && (item.id || item.accountId || item.movementId)) {
+                      const id = String(item.id || item.accountId || item.movementId);
+                      spaceStore[resource].set(id, item);
+                    }
+                  });
+                } else if (Array.isArray(data)) {
+                  data.forEach((item: any) => {
+                    if (item && (item.id || item.accountId || item.movementId)) {
+                      const id = String(item.id || item.accountId || item.movementId);
+                      spaceStore[resource].set(id, item);
+                    }
+                  });
+                }
+              } else if (targetPath.startsWith(`${resource}/`)) {
+                if (response.ok && data) {
+                  const item = data.content || data.data || data;
+                  if (item && (item.id || item.accountId || item.movementId)) {
+                    spaceStore[resource].set(String(item.id || item.accountId || item.movementId), item);
+                  }
+                }
+              }
+            } else if (request.method === "POST") {
+              if (response.ok && data) {
+                const item = data.content || data.data || data;
+                if (item && (item.id || item.accountId || item.movementId)) {
+                  spaceStore[resource].set(String(item.id || item.accountId || item.movementId), item);
+                }
+              }
+            } else if (request.method === "DELETE") {
+              const id = targetPath.split("/")[1];
+              if (id) spaceStore[resource].delete(id);
+            }
+          }
+
+          // Query backend on behalf of other space members if tokens are available
+          if (request.method === "GET" && currentSpace) {
+            const tokensToQuery = new Set<string>();
+
+            if (currentSpace.members) {
+              for (const member of currentSpace.members) {
+                if (member.token && member.token !== token) tokensToQuery.add(member.token);
+                if (member.userId && memberTokensMap.has(member.userId)) {
+                  const t = memberTokensMap.get(member.userId);
+                  if (t && t !== token) tokensToQuery.add(t);
+                }
+                if (member.email && memberTokensMap.has(member.email.toLowerCase())) {
+                  const t = memberTokensMap.get(member.email.toLowerCase());
+                  if (t && t !== token) tokensToQuery.add(t);
+                }
+              }
+            }
+
+            for (const t of memberTokensMap.values()) {
+              if (t && t !== token) {
+                tokensToQuery.add(t);
+              }
+            }
+
+            for (const partnerToken of tokensToQuery) {
+              try {
+                const partnerHeaders = new Headers(requestHeaders);
+                partnerHeaders.set("Authorization", `Bearer ${partnerToken}`);
+                const partnerRes = await fetch(url.toString(), {
+                  method: "GET",
+                  headers: partnerHeaders,
+                });
+                if (partnerRes.ok && partnerRes.headers.get("content-type")?.includes("application/json")) {
+                  const partnerData = await partnerRes.json();
+                  if (targetPath.startsWith("reports/account/") && targetPath.endsWith("/balance")) {
+                    if (partnerData && (partnerData.code || partnerData.totalAmount !== 0)) {
+                      data = partnerData;
+                    }
+                  } else {
+                    const partnerItems = Array.isArray(partnerData.content) ? partnerData.content : (Array.isArray(partnerData) ? partnerData : (partnerData ? [partnerData] : []));
+                    if (resource && resource !== "reports" && partnerItems.length > 0) {
+                      partnerItems.forEach((pItem: any) => {
+                        if (pItem && (pItem.id || pItem.accountId || pItem.movementId)) {
+                          const pId = String(pItem.id || pItem.accountId || pItem.movementId);
+                          spaceStore[resource].set(pId, pItem);
+                        }
+                      });
+                    }
+                  }
+                }
+              } catch (pErr) {
+                // continue
+              }
+            }
+          }
+
+          // Format output for list endpoints
+          if (resource && spaceStore && request.method === "GET") {
+            if (resource === "movements") {
+              const accountId = request.nextUrl.searchParams.get("accountId");
+              const eventId = request.nextUrl.searchParams.get("eventId");
+              let allMoves = Array.from(spaceStore.movements.values());
+
+              if (accountId) {
+                allMoves = allMoves.filter((m: any) => m.accountId === accountId || m.account?.id === accountId);
+              }
+              if (eventId) {
+                allMoves = allMoves.filter((m: any) => m.eventId === eventId || m.event?.id === eventId);
+              }
+
+              allMoves.sort((a: any, b: any) => {
+                const dateA = new Date(a.datePurchase || a.createdAt || 0).getTime();
+                const dateB = new Date(b.datePurchase || b.createdAt || 0).getTime();
+                return dateB - dateA;
+              });
+
+              if (data && Array.isArray(data.content)) {
+                data.content = allMoves;
+                data.totalElements = allMoves.length;
+              } else if (Array.isArray(data)) {
+                data = allMoves;
+              } else {
+                data = {
+                  content: allMoves,
+                  totalElements: allMoves.length,
+                  page: 1,
+                  size: 10,
+                  totalPages: 1,
+                };
+              }
+            } else if (resource !== "reports" && targetPath === resource) {
+              const allItems = Array.from(spaceStore[resource].values());
+              if (data && Array.isArray(data.content)) {
+                data.content = allItems;
+                if (data.totalElements !== undefined) data.totalElements = allItems.length;
+              } else if (Array.isArray(data)) {
+                data = allItems;
+              }
+            } else if (resource !== "reports" && targetPath.startsWith(`${resource}/`)) {
+              const id = targetPath.split("/")[1];
+              if (id && (!response.ok || response.status === 404)) {
+                const cached = spaceStore[resource].get(id);
+                if (cached) {
+                  data = cached;
+                }
+              }
+            }
+          }
+
+          // Handle reports/account/:id/balance calculation & fallback
+          if (targetPath.startsWith("reports/account/") && targetPath.endsWith("/balance") && request.method === "GET") {
+            const pathParts = targetPath.split("/");
+            const accId = pathParts[2];
+            if (accId && (!data || (!data.code && Number(data.totalAmount || 0) === 0))) {
+              const acc = spaceStore.accounts.get(accId);
+              if (acc) {
+                const badge = acc.badge || acc.currency || {};
+                const code = (typeof badge === "string" ? badge : badge.code) || "USD";
+                const symbol = badge.symbol || "$";
+                const flag = badge.flag || "🇺🇸";
+                const bal = Number(acc.balance ?? acc.initialBalance ?? 0);
+                data = {
+                  code,
+                  symbol,
+                  flag,
+                  yearlyAmount: bal,
+                  monthlyAmount: bal,
+                  totalAmount: bal,
+                };
+              }
+            }
+          }
+
+          // Reports general-balance aggregation across all shared accounts
+          if (targetPath === "reports/general-balance" && request.method === "GET") {
+            const accounts = Array.from(spaceStore.accounts.values());
+            if (accounts.length > 0) {
+              const badgeTotals = new Map<string, { code: string; symbol: string; flag: string; amount: number }>();
+              accounts.forEach((acc: any) => {
+                const badge = acc.badge || acc.currency || {};
+                const code = (typeof badge === "string" ? badge : badge.code) || "USD";
+                const symbol = badge.symbol || "$";
+                const flag = badge.flag || "🇺🇸";
+                const bal = Number(acc.balance ?? acc.initialBalance ?? 0);
+
+                if (!badgeTotals.has(code)) {
+                  badgeTotals.set(code, { code, symbol, flag, amount: 0 });
+                }
+                badgeTotals.get(code)!.amount += bal;
+              });
+
+              if (badgeTotals.size > 0) {
+                const aggregated = Array.from(badgeTotals.values());
+                if (data && Array.isArray(data.content)) {
+                  data.content = aggregated;
+                } else if (Array.isArray(data)) {
+                  data = aggregated;
+                }
+              }
+            }
+          }
+        } catch (spaceErr) {
+          // ignore error to keep response stable
+        }
       }
 
       // Globally scrub sensitive tokens from body to prevent XSS exfiltration (CWE-200)
