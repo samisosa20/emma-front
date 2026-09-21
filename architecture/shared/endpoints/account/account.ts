@@ -642,34 +642,27 @@ export function usePutApiAccountsId<TData = Awaited<ReturnType<typeof putApiAcco
       >, request?: SecondParameter<typeof apiClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiAccountsId<TData = Awaited<ReturnType<typeof putApiAccountsId>>, TError = ErrorType<PutApiAccountsId400 | PutApiAccountsId401 | PutApiAccountsId500>>(
- id: string,
-    putApiAccountsIdBody: BodyType<PutApiAccountsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiAccountsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof putApiAccountsId>>,
-          TError,
-          Awaited<ReturnType<typeof putApiAccountsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePutApiAccountsId<TData = Awaited<ReturnType<typeof putApiAccountsId>>, TError = ErrorType<PutApiAccountsId400 | PutApiAccountsId401 | PutApiAccountsId500>>(
- id: string,
-    putApiAccountsIdBody: BodyType<PutApiAccountsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiAccountsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePutApiAccountsId<
+  TData = Awaited<ReturnType<typeof putApiAccountsId>>,
+  TError = ErrorType<PutApiAccountsId400 | PutApiAccountsId401 | PutApiAccountsId500>,
+  TVariables = { id: string; data: PutApiAccountsIdBody },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePutApiAccountsId<TData = Awaited<ReturnType<typeof putApiAccountsId>>, TError = ErrorType<PutApiAccountsId400 | PutApiAccountsId401 | PutApiAccountsId500>>(
- id: string,
-    putApiAccountsIdBody: BodyType<PutApiAccountsIdBody>, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof putApiAccountsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPutApiAccountsIdQueryOptions(id,putApiAccountsIdBody,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const id = variables.id;
+      const body = variables.data || variables.putApiAccountsIdBody || variables;
+      return putApiAccountsId(id, body, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -761,41 +754,26 @@ export type DeleteApiAccountsIdQueryResult = NonNullable<Awaited<ReturnType<type
 export type DeleteApiAccountsIdQueryError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>
 
 
-export function useDeleteApiAccountsId<TData = Awaited<ReturnType<typeof deleteApiAccountsId>>, TError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiAccountsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiAccountsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiAccountsId<TData = Awaited<ReturnType<typeof deleteApiAccountsId>>, TError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof deleteApiAccountsId>>,
-          TError,
-          Awaited<ReturnType<typeof deleteApiAccountsId>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useDeleteApiAccountsId<TData = Awaited<ReturnType<typeof deleteApiAccountsId>>, TError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useDeleteApiAccountsId<
+  TData = Awaited<ReturnType<typeof deleteApiAccountsId>>,
+  TError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function useDeleteApiAccountsId<TData = Awaited<ReturnType<typeof deleteApiAccountsId>>, TError = ErrorType<DeleteApiAccountsId400 | DeleteApiAccountsId401 | DeleteApiAccountsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getDeleteApiAccountsIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const id = typeof variables === "string" ? variables : variables.id;
+      return deleteApiAccountsId(id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -887,41 +865,26 @@ export type PatchApiAccountsIdDesactivateQueryResult = NonNullable<Awaited<Retur
 export type PatchApiAccountsIdDesactivateQueryError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>
 
 
-export function usePatchApiAccountsIdDesactivate<TData = Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>,
-          TError,
-          Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePatchApiAccountsIdDesactivate<TData = Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>,
-          TError,
-          Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePatchApiAccountsIdDesactivate<TData = Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePatchApiAccountsIdDesactivate<
+  TData = Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>,
+  TError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePatchApiAccountsIdDesactivate<TData = Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError = ErrorType<PatchApiAccountsIdDesactivate400 | PatchApiAccountsIdDesactivate401 | PatchApiAccountsIdDesactivate500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdDesactivate>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPatchApiAccountsIdDesactivateQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const id = typeof variables === "string" ? variables : variables.id;
+      return patchApiAccountsIdDesactivate(id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 
@@ -1013,41 +976,26 @@ export type PatchApiAccountsIdRestoreQueryResult = NonNullable<Awaited<ReturnTyp
 export type PatchApiAccountsIdRestoreQueryError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>
 
 
-export function usePatchApiAccountsIdRestore<TData = Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof patchApiAccountsIdRestore>>,
-          TError,
-          Awaited<ReturnType<typeof patchApiAccountsIdRestore>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePatchApiAccountsIdRestore<TData = Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof patchApiAccountsIdRestore>>,
-          TError,
-          Awaited<ReturnType<typeof patchApiAccountsIdRestore>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function usePatchApiAccountsIdRestore<TData = Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePatchApiAccountsIdRestore<
+  TData = Awaited<ReturnType<typeof patchApiAccountsIdRestore>>,
+  TError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>,
+  TVariables = { id: string },
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<TData, TError, TVariables, TContext>;
+    request?: SecondParameter<typeof apiClient>;
+  }
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  const { mutation: mutationOptions, request: requestOptions } = options || {};
 
-export function usePatchApiAccountsIdRestore<TData = Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError = ErrorType<PatchApiAccountsIdRestore400 | PatchApiAccountsIdRestore401 | PatchApiAccountsIdRestore500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof patchApiAccountsIdRestore>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getPatchApiAccountsIdRestoreQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return useMutation<TData, TError, TVariables, TContext>({
+    mutationFn: (variables: any) => {
+      const id = typeof variables === "string" ? variables : variables.id;
+      return patchApiAccountsIdRestore(id, requestOptions) as Promise<TData>;
+    },
+    ...mutationOptions,
+  });
 }
 
 

@@ -4,10 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import { heritageSchema } from "@/share/validation";
 
 import {
-  useGetApiHeritagesIdSuspense,
+  useGetApiHeritagesId,
   usePostApiHeritages,
   usePutApiHeritagesId,
   useDeleteApiHeritagesId,
@@ -17,6 +19,7 @@ import { authClient } from "@/share/lib/auth-client";
 export default function useHeritagesCreateViewModel() {
   const router = useRouter();
   const param = useParams();
+  const queryClient = useQueryClient();
   const { data: session } = authClient.useSession();
 
   const [title, setTitle] = useState("Creacion de Patrimonio");
@@ -41,13 +44,17 @@ export default function useHeritagesCreateViewModel() {
 
   const mutationDelete = useDeleteApiHeritagesId();
 
-  const { data, refetch } = useGetApiHeritagesIdSuspense(param.id ? String(param.id) : "");
+  const { data, refetch } = useGetApiHeritagesId(String(param?.id || ""), {
+    query: {
+      enabled: !!param?.id,
+    },
+  });
 
   useEffect(() => {
-    if (param.id) {
+    if (param?.id) {
       refetch();
     }
-  }, [param.id]);
+  }, [param?.id, refetch]);
 
   const onSubmit = (data: any) => {
     const formData = {
@@ -56,16 +63,17 @@ export default function useHeritagesCreateViewModel() {
       comercialAmount: Number(data.comercialAmount),
       legalAmount: Number(data.legalAmount),
     };
-    if (param.id) {
+    if (param?.id) {
       mutationEdit.mutate(
         { id: String(param.id), data: formData },
         {
           onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Patrimonio actualizado con exito");
             router.back();
           },
-          onError: () => {
-            toast.error("Error al actualizar el patrimonio");
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al actualizar el patrimonio");
           },
         },
       );
@@ -74,11 +82,12 @@ export default function useHeritagesCreateViewModel() {
         { data: formData },
         {
           onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Patrimonio creado con exito");
             router.back();
           },
-          onError: () => {
-            toast.error("Error al crear el patrimonio");
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al crear el patrimonio");
           },
         },
       );
@@ -86,22 +95,26 @@ export default function useHeritagesCreateViewModel() {
   };
 
   const handleDelete = () => {
+    if (!param?.id) return;
     mutationDelete.mutate(
       { id: String(param.id) },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries();
           toast.success("Patrimonio eliminado con exito");
           router.back();
         },
-        onError: () => {
-          toast.error("Error al eliminar el patrimonio");
+        onError: (error: any) => {
+          toast.error(error?.message || "Error al eliminar el patrimonio");
         },
       },
     );
   };
 
   useEffect(() => {
-    refetch();
+    if (param?.id) {
+      refetch();
+    }
     if (session?.badges) {
       setCurrencyOptions(
         session.badges.map((v) => {
@@ -112,10 +125,10 @@ export default function useHeritagesCreateViewModel() {
         }),
       );
     }
-    if (param.id) {
+    if (param?.id) {
       setTitle("Edicion de Patrimonio");
     }
-  }, [session, param.id]);
+  }, [session, param?.id, refetch]);
 
   useEffect(() => {
     if (data && Object.keys(data).length > 0) {

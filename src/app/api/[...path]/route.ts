@@ -347,9 +347,31 @@ async function handleRequest(
 
     let body;
     let tokenToSet: string | undefined;
+    let finalStatus = response.status;
 
     if (response.status === 204) {
       body = null;
+      if (spaceId && request.method === "DELETE") {
+        try {
+          const { getOrCreateSpaceStore } = require("@/app/api/shared-spaces/store");
+          const spaceStore = getOrCreateSpaceStore(spaceId);
+          const parts = targetPath.split("/");
+          const resource = parts[0];
+          const id = parts[1];
+          if (resource && id && spaceStore?.[resource]) {
+            spaceStore[resource].delete(id);
+            if (resource === "accounts" && spaceStore.movements) {
+              for (const [mId, m] of spaceStore.movements.entries()) {
+                if (m?.accountId === id) {
+                  spaceStore.movements.delete(mId);
+                }
+              }
+            }
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
     } else if (contentType?.includes("application/json")) {
       let data = await response.json();
 
@@ -407,16 +429,48 @@ async function handleRequest(
                   }
                 }
               }
-            } else if (request.method === "POST") {
+            } else if (request.method === "POST" || request.method === "PUT") {
               if (response.ok && data) {
                 const item = data.content || data.data || data;
                 if (item && (item.id || item.accountId || item.movementId)) {
-                  spaceStore[resource].set(String(item.id || item.accountId || item.movementId), item);
+                  const id = String(item.id || item.accountId || item.movementId);
+                  const existing = spaceStore[resource].get(id) || {};
+                  spaceStore[resource].set(id, { ...existing, ...item });
+                }
+              }
+            } else if (request.method === "PATCH") {
+              if (response.ok) {
+                const id = targetPath.split("/")[1];
+                if (id && resource === "accounts" && spaceStore.accounts) {
+                  if (targetPath.endsWith("/desactivate")) {
+                    const existing = spaceStore.accounts.get(id) || {};
+                    spaceStore.accounts.set(id, {
+                      ...existing,
+                      ...(data?.content || data?.data || (typeof data === "object" ? data : {})),
+                      deletedAt: new Date().toISOString(),
+                    });
+                  } else if (targetPath.endsWith("/restore")) {
+                    const existing = spaceStore.accounts.get(id) || {};
+                    spaceStore.accounts.set(id, {
+                      ...existing,
+                      ...(data?.content || data?.data || (typeof data === "object" ? data : {})),
+                      deletedAt: null,
+                    });
+                  }
                 }
               }
             } else if (request.method === "DELETE") {
               const id = targetPath.split("/")[1];
-              if (id) spaceStore[resource].delete(id);
+              if (id && spaceStore[resource]) {
+                spaceStore[resource].delete(id);
+                if (resource === "accounts" && spaceStore.movements) {
+                  for (const [mId, m] of spaceStore.movements.entries()) {
+                    if (m?.accountId === id) {
+                      spaceStore.movements.delete(mId);
+                    }
+                  }
+                }
+              }
             }
           }
 
@@ -524,6 +578,7 @@ async function handleRequest(
                 const cached = spaceStore[resource].get(id);
                 if (cached) {
                   data = cached;
+                  finalStatus = 200;
                 }
               }
             }
@@ -549,6 +604,7 @@ async function handleRequest(
                   monthlyAmount: bal,
                   totalAmount: bal,
                 };
+                finalStatus = 200;
               }
             }
           }
@@ -600,7 +656,7 @@ async function handleRequest(
     // Instanciamos la respuesta con las cabeceras estándar
     const res = applySecurityHeaders(
       new NextResponse(body, {
-        status: response.status,
+        status: finalStatus,
         headers: responseHeaders,
       }),
     );

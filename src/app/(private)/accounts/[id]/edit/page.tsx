@@ -15,6 +15,7 @@ const Page = () => {
     handleReActivate,
     isDesactivate,
     watchType,
+    isSubmitting,
   } = useAccountCreate();
 
   return (
@@ -29,6 +30,7 @@ const Page = () => {
       handleReActivate={handleReActivate}
       isDesactivate={isDesactivate}
       watchType={watchType}
+      isSubmitting={isSubmitting}
     />
   );
 };

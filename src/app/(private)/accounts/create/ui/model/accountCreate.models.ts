@@ -8,8 +8,9 @@ import { toast } from "react-toastify";
 import { accountSchema } from "@/share/validation";
 
 import { useUserStore } from "@/share/storage";
+import { useQueryClient } from "@tanstack/react-query";
 import {
-  useGetApiAccountsIdSuspense,
+  useGetApiAccountsId,
   useDeleteApiAccountsId,
   usePostApiAccounts,
   usePutApiAccountsId,
@@ -21,6 +22,7 @@ import { authClient } from "@/share/lib/auth-client";
 const useAccountCreate = () => {
   const router = useRouter();
   const param = useParams();
+  const queryClient = useQueryClient();
   const { data: session } = authClient.useSession();
 
   const [typeOptions, setTypeOptions] = useState<
@@ -48,7 +50,11 @@ const useAccountCreate = () => {
 
   const mutationRestore = usePatchApiAccountsIdRestore();
 
-  const { data } = useGetApiAccountsIdSuspense(String(param.id));
+  const { data } = useGetApiAccountsId(String(param?.id || ""), {
+    query: {
+      enabled: !!param?.id,
+    },
+  });
 
   const onSubmit = (data: any) => {
     const formData = {
@@ -64,9 +70,13 @@ const useAccountCreate = () => {
           data: formData,
         },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Cuenta actualizada correctamente");
             router.push("/accounts");
+          },
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al actualizar la cuenta");
           },
         }
       );
@@ -76,9 +86,13 @@ const useAccountCreate = () => {
           data: formData,
         },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Cuenta creada correctamente");
             router.push("/accounts");
+          },
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al crear la cuenta");
           },
         }
       );
@@ -92,9 +106,13 @@ const useAccountCreate = () => {
           id: String(param.id),
         },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Cuenta eliminada correctamente");
             router.push("/accounts");
+          },
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al eliminar la cuenta");
           },
         }
       );
@@ -104,9 +122,13 @@ const useAccountCreate = () => {
           id: String(param.id),
         },
         {
-          onSuccess: (result) => {
+          onSuccess: () => {
+            queryClient.invalidateQueries();
             toast.success("Cuenta desactivada correctamente");
             setIsDesactivate(true);
+          },
+          onError: (error: any) => {
+            toast.error(error?.message || "Error al desactivar la cuenta");
           },
         }
       );
@@ -119,9 +141,13 @@ const useAccountCreate = () => {
         id: String(param.id),
       },
       {
-        onSuccess: (result) => {
+        onSuccess: () => {
+          queryClient.invalidateQueries();
           toast.success("Cuenta reactivada correctamente");
           setIsDesactivate(false);
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Error al reactivar la cuenta");
         },
       }
     );
@@ -167,6 +193,13 @@ const useAccountCreate = () => {
     }
   }, [data]);
 
+  const isSubmitting =
+    mutation.isPending ||
+    mutationEdit.isPending ||
+    mutationDelete.isPending ||
+    mutationDesactive.isPending ||
+    mutationRestore.isPending;
+
   return {
     handleSubmit,
     onSubmit,
@@ -178,6 +211,7 @@ const useAccountCreate = () => {
     handleReActivate,
     isDesactivate,
     watchType,
+    isSubmitting,
   };
 };
 

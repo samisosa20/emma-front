@@ -48,9 +48,8 @@ const useAccounts = () => {
           search === "" ||
           account?.name?.toUpperCase()?.includes(search?.toUpperCase());
 
-        const matchesStatus = isChecked
-          ? account?.deletedAt === ""
-          : account?.deletedAt !== "";
+        const isDeleted = Boolean(account?.deletedAt);
+        const matchesStatus = isChecked ? !isDeleted : isDeleted;
 
         return matchesSearch && matchesStatus;
       }) || []

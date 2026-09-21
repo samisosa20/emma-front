@@ -4,7 +4,7 @@ import HeritageCreate from '@/app/(private)/heritages/create/ui/view/HeritagesCr
 import useHeritageViewModel from '@/app/(private)/heritages/create/ui/model/heritagesCreate.models';
 
 const Page = () => {
-  const { handleSubmit, onSubmit, control, title, currencyOptions, handleDelete } = useHeritageViewModel();
+  const { handleSubmit, onSubmit, control, title, currencyOptions, handleDelete, isSubmitting } = useHeritageViewModel();
 
   return (
     <HeritageCreate
@@ -14,6 +14,7 @@ const Page = () => {
       title={title}
       currencyOptions={currencyOptions}
       handleDelete={handleDelete}
+      isSubmitting={isSubmitting}
     />
   );
 };

@@ -11,15 +11,21 @@ export default async function middleware(request: NextRequest) {
   const apiUrl =
     process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin;
 
-  const { data: session } = await betterFetch<Session>(
-    "/api/v2/auth/get-session",
-    {
-      baseURL: apiUrl,
-      headers: {
-        cookie: request.headers.get("cookie") || "",
+  let session: Session | null = null;
+  try {
+    const { data } = await betterFetch<Session>(
+      "/api/v2/auth/get-session",
+      {
+        baseURL: apiUrl,
+        headers: {
+          cookie: request.headers.get("cookie") || "",
+        },
       },
-    },
-  );
+    );
+    session = data;
+  } catch (e) {
+    session = null;
+  }
 
   const isPublicRoute =
     request.nextUrl.pathname === "/" ||

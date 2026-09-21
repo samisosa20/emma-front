@@ -12,6 +12,7 @@ const Page = () => {
     currencyOptions,
     title,
     watchType,
+    isSubmitting,
   } = useAccountCreate();
 
   return (
@@ -23,6 +24,7 @@ const Page = () => {
       currencyOptions={currencyOptions}
       title={title}
       watchType={watchType}
+      isSubmitting={isSubmitting}
     />
   );
 };
