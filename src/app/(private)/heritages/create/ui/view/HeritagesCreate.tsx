@@ -38,7 +38,7 @@ export default function HeritagesCreate(props: any) {
                 {title}
               </h2>
               <p className="font-wf-body-regular text-xs sm:text-sm text-wf-on-surface-variant">
-                Registra y gestiona tu patrimonio.
+                Registra y gestiona tu patrimonio (permite valores negativos para deudas o créditos).
               </p>
             </div>
           </div>
@@ -85,7 +85,10 @@ export default function HeritagesCreate(props: any) {
               render={({ field: { onChange, onBlur, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Valor comercial
+                    Valor comercial{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (negativo para deudas)
+                    </span>
                   </label>
                   <Input
                     type="number"
@@ -107,7 +110,10 @@ export default function HeritagesCreate(props: any) {
               render={({ field: { onChange, onBlur, value }, fieldState }) => (
                 <FormControl fieldState={fieldState} withLabel={false}>
                   <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
-                    Valor legal
+                    Valor legal{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (negativo para deudas)
+                    </span>
                   </label>
                   <Input
                     type="number"
