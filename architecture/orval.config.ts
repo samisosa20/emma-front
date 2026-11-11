@@ -3,7 +3,7 @@ import { defineConfig } from 'orval';
 export default defineConfig({
   api: {
     input: {
-      target: "http://localhost:3002/docs/json",
+      target: "http://localhost:3050/docs/json",
       filters: {
         mode: "exclude",
         tags: ["Default", "Example"],
@@ -14,6 +14,7 @@ export default defineConfig({
           const newPaths: typeof paths = {};
 
           Object.keys(paths).forEach((key) => {
+            if (key.includes("{*}") || key.includes("/*")) return;
             const newKey = key.replace(/^\/api\/v2/, '/api');
             newPaths[newKey] = paths[key];
           });
@@ -40,8 +41,6 @@ export default defineConfig({
         },
         query: {
           useSuspenseQuery: true,
-          useQuery: true,
-          useMutation: true,
         },
       },
     },

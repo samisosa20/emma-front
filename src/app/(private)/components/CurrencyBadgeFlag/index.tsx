@@ -25,16 +25,16 @@ const CurrencyBadgeFlag = memo(({ badge }: CurrencyBadgeProps) => {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-800/60 border border-slate-700/60">
       <Image
         src={badge.flag}
-        width={20}
-        height={20}
-        className="rounded-full w-5 h-5 object-cover"
-        style={{ width: "20px", height: "20px" }}
+        width={16}
+        height={16}
+        className="rounded-full w-4 h-4 object-cover"
+        style={{ width: "16px", height: "16px" }}
         alt={badge.code}
       />
-      <Typography variant="h6" className="text-[10px]">
+      <Typography variant="h6" className="text-[10px] font-mono text-slate-300 font-bold">
         {badge.code}
       </Typography>
     </div>

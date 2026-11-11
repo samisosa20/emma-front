@@ -10,14 +10,13 @@ const useHeritageYear = () => {
 
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiHeritagesSuspense({
+  const { isLoading, data, isError } = useGetApiHeritagesSuspense({
     year: Number(param.id),
   });
 
   useEffect(() => {
-    refetch();
     if (isError) router.push("/login");
-  }, [isError]);
+  }, [isError, router]);
 
   return {
     data,

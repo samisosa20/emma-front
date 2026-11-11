@@ -11,6 +11,7 @@ const Page = () => {
     title,
     listAccounts,
     listCategories,
+    listInvestments,
     handleDelete,
     isSubmitting,
     watch,
@@ -25,6 +26,7 @@ const Page = () => {
       title={title}
       listAccounts={listAccounts}
       listCategories={listCategories}
+      listInvestments={listInvestments}
       handleDelete={handleDelete}
       isSubmitting={isSubmitting}
       watch={watch}

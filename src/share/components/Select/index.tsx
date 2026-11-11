@@ -16,8 +16,8 @@ const Select: React.FC<InputProps> = memo((props) => {
 
   const selectProps: any = {
     id,
-    className: `border rounded-lg w-full h-12 px-4 bg-wf-surface-container-lowest text-wf-on-surface border-wf-outline-variant focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all ${
-      iserror ? "border-wf-error" : ""
+    className: `border rounded-xl w-full h-11 px-3.5 bg-slate-900/70 text-slate-100 border-slate-800 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 outline-none transition-all text-sm ${
+      iserror ? "border-rose-500 focus:border-rose-500 focus:ring-rose-500/30" : ""
     } ${className}`,
     ...res,
   };
@@ -31,7 +31,7 @@ const Select: React.FC<InputProps> = memo((props) => {
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={id} className="block text-sm font-wf-label-caps text-wf-on-surface-variant uppercase tracking-wider mb-1">
+        <label htmlFor={id} className="block text-xs font-semibold text-slate-300 font-wf-body-regular mb-1.5">
           {label}
         </label>
       )}

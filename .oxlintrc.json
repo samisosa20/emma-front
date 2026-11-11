@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "react", "unicorn"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "unicorn/no-new-array": "off",
+    "react/set-state-in-effect": "warn",
+    "react/purity": "warn"
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "out/**",
+    "dist/**",
+    "node_modules/**",
+    "public/**"
+  ]
+}

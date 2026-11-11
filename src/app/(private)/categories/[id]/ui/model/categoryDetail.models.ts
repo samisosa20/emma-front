@@ -4,12 +4,12 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import {
-  useGetApiCategoriesIdSuspense,
+  useGetApiCategoriesId,
   usePutApiCategoriesId,
   useDeleteApiCategoriesId,
 } from "@@@/endpoints/category/category";
 import { useGetApiMovements } from "@@@/endpoints/movement/movement";
-import { useGetApiReportsCategoryIdStatsSuspense } from "@@@/endpoints/report/report";
+import { useGetApiReportsCategoryIdStats } from "@@@/endpoints/report/report";
 import { GetApiMovements200ContentItem } from "@@@/domain/models";
 import { toast } from "react-toastify";
 import { authClient } from "@/share/lib/auth-client";
@@ -41,11 +41,11 @@ export default function useCategoryDetailViewModel() {
     useForm();
 
   const {
-    isLoading,
+    isLoading: isLoadingCategory,
     data,
     isError,
     refetch: refetchCategory,
-  } = useGetApiCategoriesIdSuspense(String(param.id), {
+  } = useGetApiCategoriesId(String(param.id), {
     query: {
       queryKey: ["categoryDetail", param.id ?? 0],
     },
@@ -117,13 +117,13 @@ export default function useCategoryDetailViewModel() {
     }
   };
 
-  const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiReportsCategoryIdStatsSuspense(String(param.id));
+  const { isLoading: isLoadingBalance, data: dataBalance } =
+    useGetApiReportsCategoryIdStats(String(param.id));
+  const isLoading = isLoadingCategory || isLoadingBalance;
 
   const {
     isLoading: loadingMovement,
     data: dataMovements,
-    refetch: refreshMove,
   } = useGetApiMovements({
     categoryId: String(param.id),
     page: page.toString(),
@@ -140,8 +140,6 @@ export default function useCategoryDetailViewModel() {
   };
 
   useEffect(() => {
-    refreshMove();
-    refetchBalance();
     if (isError) router.push("/login");
   }, [isError, router]);
 

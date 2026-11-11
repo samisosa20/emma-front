@@ -12,8 +12,9 @@ import {
   usePutApiPlannedPaymentsId,
   usePostApiPlannedPayments,
 } from "@@@/endpoints/planned-payment/planned-payment";
-import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
-import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiAccounts } from "@@@/endpoints/account/account";
+import { useGetApiCategories } from "@@@/endpoints/category/category";
+import { useGetApiInvestments } from "@@@/endpoints/investment/investment";
 import { useSession } from "@/share/components/SessionProvider";
 import { GetApiPlannedPaymentsId200 } from "@@@/domain/models";
 
@@ -27,6 +28,7 @@ export default function usePaymentsCreateViewModel() {
   const [title, setTitle] = useState("Creacion de Pagos");
   const [listAccounts, setListAccounts] = useState<any>([]);
   const [listCategories, setListCategories] = useState<any>([]);
+  const [listInvestments, setListInvestments] = useState<any>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { handleSubmit, control, reset, watch, formState: { errors } } = useForm({
@@ -34,6 +36,8 @@ export default function usePaymentsCreateViewModel() {
     defaultValues: {
       account: undefined,
       category: undefined,
+      investment: undefined,
+      addWithdrawal: false,
       description: "",
       endDate: "",
       startDate: undefined,
@@ -48,7 +52,7 @@ export default function usePaymentsCreateViewModel() {
 
   const mutationDelete = useDeleteApiPlannedPaymentsId();
 
-  const { data, refetch } = useGetApiPlannedPaymentsId(
+  const { data } = useGetApiPlannedPaymentsId(
     String(param.id),
     {
       query: {
@@ -58,10 +62,13 @@ export default function usePaymentsCreateViewModel() {
   );
 
   const { data: dataListAccounts, isError: isErrorAccount } =
-    useGetApiAccountsSuspense();
+    useGetApiAccounts();
 
   const { data: dataListCategories, isError: isErrorCategory } =
-    useGetApiCategoriesSuspense();
+    useGetApiCategories();
+
+  const { data: dataListInvestments, isError: isErrorInvestments } =
+    useGetApiInvestments();
 
   const onSubmit = (data: any) => {
     try {
@@ -74,6 +81,10 @@ export default function usePaymentsCreateViewModel() {
         accountId: data.account.value,
         startDate: new Date(data.startDate).toISOString(),
         endDate: data.endDate ? new Date(data.endDate).toISOString() : null,
+        ...(data.investment !== undefined && {
+          investmentId: data.investment ? data.investment.value : null,
+        }),
+        addWithdrawal: Boolean(data.addWithdrawal),
       };
       if (param.id) {
         mutationEdit.mutate(
@@ -136,26 +147,34 @@ export default function usePaymentsCreateViewModel() {
   useEffect(() => {
     if (!user) {
       router.push("/login");
-    } else {
-      if (param.id) {
-        refetch();
-        setTitle("Edicion de Pagos");
-      }
+    } else if (param.id) {
+      setTitle("Edicion de Pagos");
     }
-  }, []);
+  }, [user, param.id, router]);
 
   useEffect(() => {
     if (data) {
-      const paymentData = data as any as GetApiPlannedPaymentsId200;
+      const paymentData = data as any;
       reset({
-        account: {
-          value: paymentData.account?.id,
-          label: `${paymentData.account?.name} - ${paymentData.account?.badge?.code}`,
-        },
-        category: {
-          value: paymentData.category?.id,
-          label: paymentData.category?.name,
-        },
+        account: paymentData.account
+          ? {
+              value: paymentData.account.id,
+              label: `${paymentData.account.name} - ${paymentData.account.badge?.code}`,
+            }
+          : undefined,
+        category: paymentData.category
+          ? {
+              value: paymentData.category.id,
+              label: paymentData.category.name,
+            }
+          : undefined,
+        investment: paymentData.investment
+          ? {
+              value: paymentData.investment.id,
+              label: `${paymentData.investment.name}${paymentData.investment.badge?.code ? ` (${paymentData.investment.badge.code})` : ""}`,
+            }
+          : undefined,
+        addWithdrawal: Boolean(paymentData.addWithdrawal),
         description: paymentData.description ? paymentData.description : "",
         endDate: paymentData.endDate ? paymentData.endDate.split("T")[0] : "",
         startDate: paymentData.startDate.split("T")[0],
@@ -196,6 +215,19 @@ export default function usePaymentsCreateViewModel() {
     }
   }, [dataListCategories]);
 
+  useEffect(() => {
+    if (dataListInvestments && Array.isArray(dataListInvestments.content)) {
+      setListInvestments(
+        dataListInvestments.content.map((investment) => {
+          return {
+            label: `${investment.name}${investment.badge?.code ? ` (${investment.badge.code})` : ""}`,
+            value: investment.id,
+          };
+        })
+      );
+    }
+  }, [dataListInvestments]);
+
   return {
     handleSubmit,
     onSubmit,
@@ -203,6 +235,7 @@ export default function usePaymentsCreateViewModel() {
     title,
     listCategories,
     listAccounts,
+    listInvestments,
     handleDelete,
     isSubmitting,
     watch,

@@ -49,9 +49,9 @@ const CategoryIcon = memo(({
 
   return (
     <div
-      className={`${selectedSize.container} rounded-full flex items-center justify-center shrink-0 ${className}`}
+      className={`${selectedSize.container} rounded-xl border border-white/10 shadow-xs flex items-center justify-center shrink-0 ${className}`}
       style={{
-        backgroundColor: `${color}20`,
+        backgroundColor: `${color}25`,
         color: color,
       }}
     >

@@ -156,11 +156,11 @@ class AuthApiAdapter implements AuthAdapter {
     return result;
   }
 
-  async postResendVerify(): Promise<{ error: boolean; message: string }> {
-    const result: any = await this.httpService.post(`/email/resend`, {});
+  async postResendVerify(email?: string): Promise<{ error: boolean; message: string }> {
+    const result: any = await this.httpService.post(`/email/resend`, { email });
     return {
-      error: !result.data,
-      message: result.message,
+      error: !result.data && !result.message,
+      message: result.message || "Correo de verificación reenviado",
     };
   }
   // Additional methods with error handling

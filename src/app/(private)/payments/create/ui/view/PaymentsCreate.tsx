@@ -7,7 +7,7 @@ import useComponents from "@/share/components";
 
 export default function PaymentsCreate(props: any) {
   const router = useRouter();
-  const { Button, Input, FormControl, AutoComplete } = useComponents();
+  const { Button, Input, FormControl, AutoComplete, Switch } = useComponents();
 
   const {
     handleSubmit,
@@ -17,12 +17,14 @@ export default function PaymentsCreate(props: any) {
     handleDelete,
     listAccounts,
     listCategories,
+    listInvestments,
     isSubmitting,
     watch,
     errors,
   } = props;
 
   const accountWatch = watch("account");
+  const investmentWatch = watch("investment");
   const currencyCode = accountWatch?.label?.split("-")?.[1]?.trim() || "USD";
 
   return (
@@ -167,6 +169,51 @@ export default function PaymentsCreate(props: any) {
                 </FormControl>
               )}
             />
+          </div>
+
+          {/* Investment & Withdrawal Group */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter items-center">
+            <Controller
+              name="investment"
+              control={control}
+              render={({ field: { onChange, value }, fieldState }) => (
+                <FormControl fieldState={fieldState} withLabel={false}>
+                  <label className="font-wf-label-caps text-[12px] text-wf-on-surface-variant uppercase tracking-wider block mb-1">
+                    Inversión Asociada{" "}
+                    <span className="text-wf-outline font-normal lowercase">
+                      (Opcional)
+                    </span>
+                  </label>
+                  <AutoComplete
+                    placeholder="Selecciona inversión (opcional)..."
+                    handleOnChange={onChange}
+                    options={listInvestments}
+                    iserror={!!fieldState.error}
+                    value={value}
+                    isClearable
+                  />
+                </FormControl>
+              )}
+            />
+
+            {/* Investment Switch */}
+            {!!investmentWatch && (
+              <div className="pt-2 md:pt-4">
+                <Controller
+                  name="addWithdrawal"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Switch
+                      id="addWithdrawal"
+                      label="¿Es un retiro o una adición/reinversión?"
+                      name="addWithdrawal"
+                      handleCheckboxChange={onChange}
+                      isChecked={!!value}
+                    />
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           {/* Day & Description Row */}

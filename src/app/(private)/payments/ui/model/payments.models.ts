@@ -6,13 +6,11 @@ import { useGetApiPlannedPaymentsSuspense } from "@@@/endpoints/planned-payment/
 
 export default function usePaymentsViewModel() {
   const router = useRouter();
-  const { isLoading, data, isError, refetch } =
-    useGetApiPlannedPaymentsSuspense();
+  const { isLoading, data, isError } = useGetApiPlannedPaymentsSuspense();
 
   useEffect(() => {
     if (isError) router.push("/login");
-    refetch();
-  }, [isError]);
+  }, [isError, router]);
 
   return {
     data,

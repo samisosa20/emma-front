@@ -1,13 +1,11 @@
-import { lazy } from "react";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const Header = lazy(() => import("./Header"));
-const Footer = lazy(() => import("./Footer"));
+const PUBLIC_COMPONENTS = {
+  Header,
+  Footer,
+};
 
-const useComponents = () => {
-    return {
-        Header,
-        Footer,
-    }
-}
+const useComponents = () => PUBLIC_COMPONENTS;
 
 export default useComponents;

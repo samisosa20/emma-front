@@ -9,7 +9,7 @@ export default function useCategoriesViewModel() {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiCategoriesSuspense();
+  const { isLoading, data, isError } = useGetApiCategoriesSuspense();
 
   /**
    * ⚡ Bolt Optimization: Stabilize toggle function reference.
@@ -20,9 +20,8 @@ export default function useCategoriesViewModel() {
   }, []);
 
   useEffect(() => {
-    refetch();
     if (isError) router.push("/login");
-  }, [isError, router, refetch]);
+  }, [isError, router]);
 
   /**
    * ⚡ Bolt Optimization: Memoize filtered categories.

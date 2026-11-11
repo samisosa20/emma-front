@@ -18,7 +18,7 @@ interface BudgetRepository {
       * @param {badge_id} number - The unique identifier of the todo.
       * @returns {Promise<BudgetReport>} A Promise containing the list of todos.
       */
-     getReporttPerYear({year: number, badge_id: number}): Promise<BudgetReport>,
+     getReporttPerYear(params: { year: number; badge_id: number }): Promise<BudgetReport>,
      /**
       * Retrieves a list of todos from the data source.
       * @param {id} number - The unique identifier of the todo.

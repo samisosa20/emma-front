@@ -1,32 +1,32 @@
 const theme = {
   button: {
-    base: `rounded-md font-semibold`,
+    base: `rounded-xl font-semibold tracking-wide transition-all duration-200 select-none`,
     block: `w-full`,
     contained: {
-      default: `bg-wf-primary text-wf-on-primary hover:bg-wf-primary-container`, // TODO: Add styles
-      dark: ``, // TODO: Add styles
-      light: ``, // TODO: Add styles
-      inherit: ``, // TODO: Add styles
+      default: `bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/30 active:scale-[0.98]`,
+      dark: `bg-slate-900 hover:bg-slate-800 text-slate-100 border border-slate-800`,
+      light: `bg-slate-800 hover:bg-slate-700 text-slate-100`,
+      inherit: `bg-inherit`,
     },
     outlined: {
-      default: `border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-white`, // TODO: Add styles
-      dark: ``, // TODO: Add styles
-      light: ``, // TODO: Add styles
-      inherit: ``, // TODO: Add styles
+      default: `border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-slate-200 hover:border-emerald-500/40 hover:text-white active:scale-[0.98]`,
+      dark: `border border-slate-800 bg-transparent text-slate-300 hover:bg-slate-900`,
+      light: `border border-slate-700 bg-transparent text-slate-200 hover:bg-slate-800`,
+      inherit: `border border-current`,
     },
     loading: {
-      contained: ``, // TODO: Add styles
-      outlined: ``, // TODO: Add styles
+      contained: `opacity-75 cursor-wait`,
+      outlined: `opacity-75 cursor-wait`,
     },
-    disabled: `bg-gray-300 hover:bg-gray-300 animate-pulse`,
+    disabled: `opacity-50 cursor-not-allowed bg-slate-800 text-slate-500 border border-slate-800 shadow-none pointer-events-none`,
     size: {
-      sm: `px-2 py-3`, // TODO: Add styles
-      md: `px-4 py-3`, // TODO: Add styles
-      lg: ` px-16 py-3`, // TODO: Add styles
+      sm: `px-3 py-1.5 text-xs`,
+      md: `px-4 py-2.5 text-sm`,
+      lg: `px-6 py-3.5 text-base`,
     },
     variant: {
-      contained: ``, // TODO: Add styles
-      outlined: ``, // TODO: Add styles
+      contained: ``,
+      outlined: ``,
     },
   },
 };

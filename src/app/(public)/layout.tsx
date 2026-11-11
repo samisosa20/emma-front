@@ -5,9 +5,9 @@ import useComponents from "./components";
 import ConditionalWrapper from "./components/ConditionalWrapper";
 
 export const metadata: Metadata = {
-  title: "Fiona | wallet",
+  title: "Fiona | Finanzas Personales, Patrimonio 360° y Multidivisa",
   description:
-    "Manejo de finanzas personales, tu aliado financiero gratuito. Con esta aplicación, gestionar tus finanzas personales se vuelve fácil y accesible. Registra tus ingresos y gastos de manera sencilla, crea presupuestos personalizados y recibe análisis detallados de tu actividad financiera.",
+    "Plataforma de alta tecnología para la gestión integral de finanzas personales, presupuestos inteligentes, seguimiento de inversiones y patrimonio neto consolidado con soporte multidivisa y privacidad criptográfica.",
 };
 
 export default function RootLayout({

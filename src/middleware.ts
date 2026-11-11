@@ -1,46 +1,116 @@
-import { betterFetch } from "@better-fetch/fetch";
 import { NextResponse, type NextRequest } from "next/server";
 
-interface Session {
-  user: any;
-  session: any;
+const CSP_HEADER = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com https://*.googleusercontent.com;
+    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://flagcdn.com https://lh3.googleusercontent.com https://*.googleusercontent.com;
+    frame-ancestors 'none';
+    form-action 'self';
+    object-src 'none';
+    base-uri 'self';
+    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
+  `
+  .replace(/\s{2,}/g, " ")
+  .trim();
+
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+const DIRECT_SESSION_URL = rawApiUrl
+  ? `${rawApiUrl.endsWith("/api/v2") ? rawApiUrl : `${rawApiUrl}/api/v2`}/auth/get-session`
+  : null;
+
+const SESSION_CACHE_TTL_MS = 5000;
+const MAX_SESSION_CACHE_SIZE = 500;
+const sessionCache = new Map<string, number>();
+const sessionInFlight = new Map<string, Promise<boolean>>();
+
+function extractSessionToken(cookieHeader: string): string | null {
+  const match = cookieHeader.match(
+    /(?:^|;\s*)(?:__Secure-)?better-auth\.session_token=([^;]+)/,
+  );
+  return match ? match[1] : null;
+}
+
+async function hasValidSession(
+  cookieHeader: string,
+  fallbackOrigin: string,
+): Promise<boolean> {
+  const sessionToken = extractSessionToken(cookieHeader);
+  if (!sessionToken) {
+    return false;
+  }
+
+  const now = Date.now();
+  const cachedUntil = sessionCache.get(sessionToken);
+  if (cachedUntil && cachedUntil > now) {
+    return true;
+  }
+  if (cachedUntil) {
+    sessionCache.delete(sessionToken);
+  }
+
+  const existingFlight = sessionInFlight.get(sessionToken);
+  if (existingFlight) {
+    return existingFlight;
+  }
+
+  const sessionUrl =
+    DIRECT_SESSION_URL || `${fallbackOrigin}/api/v2/auth/get-session`;
+
+  const checkPromise = (async () => {
+    try {
+      const res = await fetch(sessionUrl, {
+        headers: { cookie: cookieHeader },
+        cache: "no-store",
+      });
+      if (!res.ok) return false;
+      const data = await res.json();
+      const valid = Boolean(data?.user && data?.session);
+      if (valid) {
+        if (sessionCache.size >= MAX_SESSION_CACHE_SIZE) {
+          const oldestKey = sessionCache.keys().next().value;
+          if (oldestKey !== undefined) {
+            sessionCache.delete(oldestKey);
+          }
+        }
+        sessionCache.set(sessionToken, Date.now() + SESSION_CACHE_TTL_MS);
+      }
+      return valid;
+    } catch {
+      return false;
+    } finally {
+      sessionInFlight.delete(sessionToken);
+    }
+  })();
+
+  sessionInFlight.set(sessionToken, checkPromise);
+  return checkPromise;
 }
 
 export default async function middleware(request: NextRequest) {
-  // Check session against the backend auth endpoint via the proxy or directly
-  const apiUrl =
-    process.env.NEXT_PUBLIC_INTERNAL_API_URL || request.nextUrl.origin;
-
-  let session: Session | null = null;
-  try {
-    const { data } = await betterFetch<Session>(
-      "/api/v2/auth/get-session",
-      {
-        baseURL: apiUrl,
-        headers: {
-          cookie: request.headers.get("cookie") || "",
-        },
-      },
-    );
-    session = data;
-  } catch (e) {
-    session = null;
-  }
+  const { pathname } = request.nextUrl;
 
   const isPublicRoute =
-    request.nextUrl.pathname === "/" ||
-    request.nextUrl.pathname.startsWith("/login") ||
-    request.nextUrl.pathname.startsWith("/register") ||
-    request.nextUrl.pathname.startsWith("/forgot") ||
-    request.nextUrl.pathname.startsWith("/blogs") ||
-    request.nextUrl.pathname.startsWith("/verify-bolt") ||
-    request.nextUrl.pathname.startsWith("/verify-palette");
+    pathname === "/" ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot") ||
+    pathname.startsWith("/blogs") ||
+    pathname.startsWith("/verify-bolt") ||
+    pathname.startsWith("/verify-palette");
+
+  const cookieHeader = request.headers.get("cookie") || "";
+  const isAuthenticated = cookieHeader
+    ? await hasValidSession(cookieHeader, request.nextUrl.origin)
+    : false;
 
   let response: NextResponse;
 
-  if (!session && !isPublicRoute) {
+  if (!isAuthenticated && !isPublicRoute) {
     response = NextResponse.redirect(new URL("/login", request.url));
-  } else if (session && isPublicRoute && request.nextUrl.pathname !== "/") {
+  } else if (isAuthenticated && isPublicRoute && pathname !== "/") {
     response = NextResponse.redirect(new URL("/dashboard", request.url));
   } else {
     response = NextResponse.next();
@@ -72,24 +142,7 @@ export default async function middleware(request: NextRequest) {
     "Strict-Transport-Security",
     "max-age=31536000; includeSubDomains; preload",
   );
-
-  // Enhanced Content Security Policy (CSP) to mitigate XSS and data injection (CWE-79)
-  const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"};
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    img-src 'self' blob: data: https://flagcdn.com https://lh3.googleusercontent.com https://*.googleusercontent.com;
-    font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
-    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://flagcdn.com https://lh3.googleusercontent.com https://*.googleusercontent.com;
-    frame-ancestors 'none';
-    form-action 'self';
-    object-src 'none';
-    base-uri 'self';
-    ${process.env.NODE_ENV === "production" ? "upgrade-insecure-requests;" : ""}
-  `
-    .replace(/\s{2,}/g, " ")
-    .trim();
-  response.headers.set("Content-Security-Policy", cspHeader);
+  response.headers.set("Content-Security-Policy", CSP_HEADER);
 
   return response;
 }

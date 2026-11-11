@@ -182,6 +182,12 @@ const Payments = memo((props: any) => {
                   <p className="text-xs text-wf-outline font-medium mt-0.5">
                     {payment.account?.name}
                   </p>
+                  {payment.investment && (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-full mt-1.5">
+                      <span className="material-symbols-outlined text-[12px]">trending_up</span>
+                      {payment.investment.name} {payment.addWithdrawal ? "• Retiro" : "• Adición"}
+                    </span>
+                  )}
                 </div>
               </div>
               <span className="bg-wf-surface-container px-2 py-1 rounded text-xs font-semibold text-wf-on-surface-variant whitespace-nowrap">

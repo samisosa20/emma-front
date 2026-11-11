@@ -8,12 +8,12 @@ import { movementSchema } from "@/share/validation";
 
 import { getDateString, isEmptyObject } from "@/share/helpers";
 
-import { useGetApiInvestmentsSuspense } from "@@@/endpoints/investment/investment";
-import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
-import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
-import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
+import { useGetApiInvestments } from "@@@/endpoints/investment/investment";
+import { useGetApiEvents } from "@@@/endpoints/event/event";
+import { useGetApiCategories } from "@@@/endpoints/category/category";
+import { useGetApiAccounts } from "@@@/endpoints/account/account";
 import {
-  useGetApiMovementsIdSuspense,
+  useGetApiMovementsId,
   usePostApiMovements,
   usePutApiMovementsId,
   useDeleteApiMovementsId,
@@ -60,7 +60,7 @@ export default function useMovementsViewModel() {
       account: undefined,
       accountEnd: undefined,
       investment: undefined,
-      addWithdrawal: undefined,
+      addWithdrawal: false,
       amountEnd: undefined,
       event: undefined,
       category: undefined,
@@ -74,21 +74,23 @@ export default function useMovementsViewModel() {
   const accountWatch = watch("account");
   const investmentWatch = watch("investment");
 
-  const { data: detalMovement, refetch } = useGetApiMovementsIdSuspense(
-    String(param.id)
-  );
+  const { data: detalMovement } = useGetApiMovementsId(String(param.id), {
+    query: {
+      enabled: Boolean(param.id),
+    },
+  });
 
   const { data: dataListAccounts, isError: isErrorAccount } =
-    useGetApiAccountsSuspense();
+    useGetApiAccounts();
 
   const { data: dataListCategories, isError: isErrorCategory } =
-    useGetApiCategoriesSuspense();
+    useGetApiCategories();
 
   const { data: dataListEvents, isError: isErrorEvents } =
-    useGetApiEventsSuspense();
+    useGetApiEvents();
 
   const { data: dataListInvestments, isError: isErrorInvestments } =
-    useGetApiInvestmentsSuspense();
+    useGetApiInvestments();
 
   const mutation = usePostApiMovements();
   const mutationEdit = usePutApiMovementsId();
@@ -131,7 +133,7 @@ export default function useMovementsViewModel() {
           accountEndId: data.accountEnd?.value ?? data.accountEnd,
         }),
         description: data.description !== undefined && data.description !== null ? data.description : null,
-        addWithdrawal: data.addWithdrawal ?? false,
+        addWithdrawal: Boolean(data.addWithdrawal),
       };
       if (param.id) {
         mutationEdit.mutate(
@@ -188,11 +190,10 @@ export default function useMovementsViewModel() {
   }, [mutationDelete, param.id, router, setIsSubmitting]);
 
   useEffect(() => {
-    refetch();
     if (!user) {
       router.push("/login");
     }
-  }, []);
+  }, [user, router]);
 
   /**
    * ⚡ Bolt Optimization: Memoized data transformations

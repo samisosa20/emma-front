@@ -42,19 +42,19 @@ const SlideStepper = memo(({
   };
 
   return (
-    <div className="flex items-center gap-4 w-fit">
+    <div className="flex items-center gap-2 w-fit">
       <button
         type="button"
         onClick={handleDecrease}
         disabled={value <= min}
         aria-label={decreaseAriaLabel}
-        className="text-wf-outline hover:text-wf-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all focus-visible:ring-2 focus-visible:ring-wf-primary outline-none rounded-full p-0.5"
+        className="text-slate-400 hover:text-emerald-400 disabled:opacity-20 disabled:cursor-not-allowed transition-all focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none rounded-full p-0.5 active:scale-95"
       >
-        <MdChevronLeft className="w-6 h-6" />
+        <MdChevronLeft className="w-5 h-5" />
       </button>
 
       <div aria-live="polite">
-        <Typography className="font-medium text-sm min-w-[60px] text-center text-wf-on-surface">
+        <Typography className="font-mono font-bold text-xs min-w-[55px] text-center text-slate-100 whitespace-nowrap">
           {formatValue ? formatValue(value) : value}
         </Typography>
       </div>
@@ -64,9 +64,9 @@ const SlideStepper = memo(({
         onClick={handleIncrease}
         disabled={value >= max}
         aria-label={increaseAriaLabel}
-        className="text-wf-outline hover:text-wf-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all focus-visible:ring-2 focus-visible:ring-wf-primary outline-none rounded-full p-0.5"
+        className="text-slate-400 hover:text-emerald-400 disabled:opacity-20 disabled:cursor-not-allowed transition-all focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none rounded-full p-0.5 active:scale-95"
       >
-        <MdChevronRight className="w-6 h-6" />
+        <MdChevronRight className="w-5 h-5" />
       </button>
     </div>
   );

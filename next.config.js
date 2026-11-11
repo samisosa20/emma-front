@@ -1,18 +1,9 @@
 /** @type {import('next').NextConfig} */
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  reloadOnOnline: true,
-  swcMinify: true,
-  disable: process.env.NODE_ENV === "development",
-  workboxOptions: {
-    disableDevLogs: true,
-  },
-});
+const isProduction = process.env.NODE_ENV === "production";
 
-const nextConfig = withPWA({
+const baseConfig = {
   output: "standalone",
+  turbopack: {},
   images: {
     remotePatterns: [
       {
@@ -31,7 +22,7 @@ const nextConfig = withPWA({
       "react-icons/md",
       "react-icons/bi",
       "react-icons/go",
-      "@material-tailwind/react",
+      "react-icons/hi2",
       "date-fns",
       "recharts",
       "react-toastify",
@@ -41,5 +32,21 @@ const nextConfig = withPWA({
       "axios",
     ],
   },
-});
+};
+
+// Skip loading next-pwa (and its workbox/webpack dependency tree) in development so config loading stays sub-second.
+const nextConfig = isProduction
+  ? require("@ducanh2912/next-pwa").default({
+      dest: "public",
+      cacheOnFrontEndNav: true,
+      aggressiveFrontEndNavCaching: true,
+      reloadOnOnline: true,
+      swcMinify: true,
+      disable: false,
+      workboxOptions: {
+        disableDevLogs: true,
+      },
+    })(baseConfig)
+  : baseConfig;
+
 module.exports = nextConfig;

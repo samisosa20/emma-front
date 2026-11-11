@@ -3,8 +3,8 @@ import { useRouter } from "next/navigation";
 
 import { driverAccount } from "@/share/helpers";
 
-import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
-import { useGetApiReportsGeneralBalanceSuspense } from "@@@/endpoints/report/report";
+import { useGetApiAccounts } from "@@@/endpoints/account/account";
+import { useGetApiReportsGeneralBalance } from "@@@/endpoints/report/report";
 
 const useAccounts = () => {
   const router = useRouter();
@@ -12,11 +12,16 @@ const useAccounts = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [search, setSearch] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiAccountsSuspense({
-    deleted: '1'
+  const {
+    isLoading: isLoadingAccounts,
+    data,
+    isError,
+  } = useGetApiAccounts({
+    deleted: "1",
   });
-  const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiReportsGeneralBalanceSuspense();
+  const { isLoading: isLoadingBalance, data: dataBalance } =
+    useGetApiReportsGeneralBalance();
+  const isLoading = isLoadingAccounts || isLoadingBalance;
 
   const handleDrive = () => {
     driverAccount();
@@ -31,10 +36,8 @@ const useAccounts = () => {
   }, []);
 
   useEffect(() => {
-    refetch();
-    refetchBalance();
     if (isError) router.push("/login");
-  }, [isError, router, refetch, refetchBalance]);
+  }, [isError, router]);
 
   /**
    * ⚡ Bolt Optimization: Memoize filtered accounts.

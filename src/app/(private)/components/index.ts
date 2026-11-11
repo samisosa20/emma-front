@@ -1,37 +1,25 @@
-import { lazy, useMemo } from "react";
+import Cards from "./Cards";
+import ListItems from "./ListItems";
+import Filters from "./Filters";
+import ModalVerify from "./ModalVerify";
+import BottomBar from "./BottomBar";
+import ListMovements from "./ListMovements";
+import CurrencyBadgeFlag from "./CurrencyBadgeFlag";
+import ListMovementsDetail from "./ListMovementsDetail";
+import MetricCard from "./MetricCard";
 
-const Cards = lazy(() => import("./Cards"));
-const ListItems = lazy(() => import("./ListItems"));
-const Filters = lazy(() => import("./Filters"));
-const ModalVerify = lazy(() => import("./ModalVerify"));
-const BottomBar = lazy(() => import("./BottomBar"));
-const ListMovements = lazy(() => import("./ListMovements"));
-const CurrencyBadgeFlag = lazy(() => import("./CurrencyBadgeFlag"));
-const ListMovementsDetail = lazy(() => import("./ListMovementsDetail"));
-const MetricCard = lazy(() => import("./MetricCard"));
-
-/**
- * ⚡ Bolt Optimization: Stabilize component references in useComponents layout hook.
- * 🎯 Problem: Every call to useComponents returned a new object literal,
- *    causing re-renders in components that destructure it, even if memoized.
- * 📊 Impact: Ensures stable component references, allowing React.memo to
- *    effectively skip re-renders in the private view layer.
- */
-const useComponents = () => {
-  return useMemo(
-    () => ({
-      Cards,
-      ListItems,
-      Filters,
-      ModalVerify,
-      BottomBar,
-      ListMovements,
-      CurrencyBadgeFlag,
-      ListMovementsDetail,
-      MetricCard,
-    }),
-    [],
-  );
+const PRIVATE_COMPONENTS = {
+  Cards,
+  ListItems,
+  Filters,
+  ModalVerify,
+  BottomBar,
+  ListMovements,
+  CurrencyBadgeFlag,
+  ListMovementsDetail,
+  MetricCard,
 };
+
+const useComponents = () => PRIVATE_COMPONENTS;
 
 export default useComponents;

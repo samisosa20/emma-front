@@ -2,10 +2,10 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { useGetApiAccountsIdSuspense } from "@@@/endpoints/account/account";
-import { useGetApiMovementsSuspense } from "@@@/endpoints/movement/movement";
-import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
-import { useGetApiReportsAccountIdBalanceSuspense } from "@@@/endpoints/report/report";
+import { useGetApiAccountsId } from "@@@/endpoints/account/account";
+import { useGetApiMovements } from "@@@/endpoints/movement/movement";
+import { useGetApiEvents } from "@@@/endpoints/event/event";
+import { useGetApiReportsAccountIdBalance } from "@@@/endpoints/report/report";
 import { GetApiMovements200ContentItem } from "@@@/domain/models";
 
 const useAccount = () => {
@@ -38,23 +38,24 @@ const useAccount = () => {
     },
   });
 
-  const { isLoading, data, isError } = useGetApiAccountsIdSuspense(
-    String(param.id)
-  );
-  const { data: dataBalance, refetch: refetchBalance } =
-    useGetApiReportsAccountIdBalanceSuspense(String(param.id));
+  const {
+    isLoading: isLoadingAccount,
+    data,
+    isError,
+  } = useGetApiAccountsId(String(param.id));
+  const { isLoading: isLoadingBalance, data: dataBalance } =
+    useGetApiReportsAccountIdBalance(String(param.id));
+  const isLoading = isLoadingAccount || isLoadingBalance;
 
   const {
     isLoading: loadingMovement,
     data: dataMovements,
-    refetch: refreshMove,
-  } = useGetApiMovementsSuspense({
+  } = useGetApiMovements({
     accountId: String(param.id),
     page: page.toString(),
   });
 
-  const { data: dataListEvents, isError: isErrorEvents } =
-    useGetApiEventsSuspense();
+  const { data: dataListEvents, isError: isErrorEvents } = useGetApiEvents();
 
   /**
    * ⚡ Bolt Optimization: Stabilize form submission callback.
@@ -88,10 +89,8 @@ const useAccount = () => {
   }, [reset]);
 
   useEffect(() => {
-    refreshMove();
-    refetchBalance();
     if (isError || isErrorEvents) router.push("/login");
-  }, [isError, isErrorEvents, router, refreshMove, refetchBalance]);
+  }, [isError, isErrorEvents, router]);
 
   /**
    * ⚡ Bolt Optimization: Memoize events list.

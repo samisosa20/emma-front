@@ -292,7 +292,7 @@ export default function InvestmentsCreate(props: any) {
               <div className="flex-1 min-h-0 min-w-0 w-full">
                 <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
                   <LineChart
-                    data={listAppretiations.map((v: any) => ({
+                    data={[...listAppretiations].reverse().map((v: any) => ({
                       amount: v.amount,
                       date: v.dateAppreciation.split("T")[0],
                     }))}

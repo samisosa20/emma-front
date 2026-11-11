@@ -105,7 +105,7 @@ export default function useProfileViewModel() {
           customConfig: customConfigHeader(),
         }),
       );
-      const result = await postResendVerify();
+      const result = await postResendVerify(user?.email);
 
       if (result.error) {
         toast.error(result.message);

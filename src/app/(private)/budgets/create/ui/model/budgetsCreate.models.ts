@@ -9,9 +9,9 @@ import { budgetSchema } from "@/share/validation";
 
 import { useUserStore } from "@/share/storage";
 
-import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
+import { useGetApiCategories } from "@@@/endpoints/category/category";
 import {
-  useGetApiBudgetsIdSuspense,
+  useGetApiBudgetsId,
   usePostApiBudgets,
   usePutApiBudgetsId,
   useDeleteApiBudgetsId,
@@ -44,7 +44,7 @@ export default function useBudgetsCreateViewModel() {
     },
   });
 
-  const { data: dataListCategories } = useGetApiCategoriesSuspense();
+  const { data: dataListCategories } = useGetApiCategories();
 
   const mutation = usePostApiBudgets();
 
@@ -52,7 +52,11 @@ export default function useBudgetsCreateViewModel() {
 
   const mutationDelete = useDeleteApiBudgetsId();
 
-  const { data } = useGetApiBudgetsIdSuspense(String(param.id));
+  const { data } = useGetApiBudgetsId(String(param.id), {
+    query: {
+      enabled: Boolean(param.id),
+    },
+  });
 
   const onSubmit = (data: any) => {
     const formData = {

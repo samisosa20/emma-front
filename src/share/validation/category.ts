@@ -2,10 +2,10 @@ import * as z from "zod";
 
 const categorySchema = z.object({
   name: z.string().min(1, "Se requiere el nombre").max(50, "Máximo 50 caracteres"),
-  description: z.union([
-    z.null(),
-    z.string().max(255, "Máximo 255 caracteres"),
-  ]),
+  description: z
+    .string()
+    .max(255, "Máximo 255 caracteres")
+    .nullish(),
   groupId: z.union([
     z.string(),
     z.object({

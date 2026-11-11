@@ -8,7 +8,7 @@ import useComponents from "@/share/components";
 
 const AccountCreate = (props: any) => {
   const router = useRouter();
-  const { Typography, FormControl, Button, AutoComplete, Input } =
+  const { FormControl, Button, AutoComplete, Input } =
     useComponents();
 
   const {
@@ -62,7 +62,18 @@ const AccountCreate = (props: any) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-wf-lg">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          onKeyDown={(e) => {
+            if (
+              e.key === "Enter" &&
+              (e.target as HTMLElement)?.tagName === "INPUT"
+            ) {
+              e.preventDefault();
+            }
+          }}
+          className="space-y-wf-lg"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-wf-gutter">
             {/* Account Name */}
             <div className="md:col-span-2">
@@ -130,7 +141,7 @@ const AccountCreate = (props: any) => {
                         } text-wf-on-surface rounded-lg px-wf-md py-3 font-wf-body-regular focus:outline-none focus:border-wf-primary transition-all shadow-sm appearance-none`}
                         id="typeId"
                         onChange={onChange}
-                        value={value}
+                        value={value ?? ""}
                       >
                         <option value="" disabled>
                           Selecciona tipo

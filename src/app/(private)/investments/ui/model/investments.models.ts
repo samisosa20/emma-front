@@ -7,13 +7,11 @@ import { useGetApiInvestmentsSuspense } from "@@@/endpoints/investment/investmen
 export default function useInvestmentsViewModel() {
   const router = useRouter();
 
-  const { isLoading, data, isError, refetch } =
-    useGetApiInvestmentsSuspense();
+  const { isLoading, data, isError } = useGetApiInvestmentsSuspense();
 
   useEffect(() => {
-    refetch();
     if (isError) router.push("/login");
-  }, [isError]);
+  }, [isError, router]);
 
   /**
    * ⚡ Bolt Optimization: Stabilize return object reference.

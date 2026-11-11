@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "dark";
 
 interface ThemeContextValue {
   theme: Theme;
@@ -12,57 +12,32 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: "light",
+  theme: "dark",
   toggleTheme: () => {},
   setTheme: () => {},
-  mounted: false,
+  mounted: true,
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
-
-  const applyTheme = (targetTheme: Theme) => {
-    if (typeof document === "undefined") return;
-    const root = document.documentElement;
-    const body = document.body;
-    if (targetTheme === "dark") {
-      root.classList.add("dark");
-      body?.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-      body?.classList.remove("dark");
-    }
-  };
-
   useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem("fiona-theme") as Theme | null;
-    let initial: Theme = "light";
-    if (stored === "dark" || stored === "light") {
-      initial = stored;
-    } else if (
-      document.documentElement.classList.contains("dark") ||
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      initial = "dark";
+    if (typeof document !== "undefined") {
+      document.documentElement.classList.add("dark");
+      document.body?.classList.add("dark");
+      try {
+        localStorage.removeItem("fiona-theme");
+      } catch {}
     }
-    setThemeState(initial);
-    applyTheme(initial);
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem("fiona-theme", newTheme);
-    applyTheme(newTheme);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, mounted }}>
+    <ThemeContext.Provider
+      value={{
+        theme: "dark",
+        toggleTheme: () => {},
+        setTheme: () => {},
+        mounted: true,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

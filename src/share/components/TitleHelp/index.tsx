@@ -30,9 +30,9 @@ const TitleHelp = memo((props: TitleProps) => {
             id="fiona-btn_help"
             onClick={onClick}
             aria-label={`Ayuda sobre ${title}`}
-            className="p-1 hover:bg-sky-50 focus-visible:ring-2 focus-visible:ring-sky-500 outline-none transition-colors rounded-full flex items-center justify-center cursor-pointer border-none bg-transparent"
+            className="p-1 hover:bg-emerald-500/10 text-emerald-400 hover:text-emerald-300 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none transition-colors rounded-full flex items-center justify-center cursor-pointer border-none bg-transparent"
           >
-            <MdHelp className="w-4 h-4 text-sky-500" />
+            <MdHelp className="w-4 h-4" />
           </button>
         )}
       </Typography>

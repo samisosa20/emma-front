@@ -29,29 +29,29 @@ const Accounts = () => {
   }
 
   return (
-    <div className="flex flex-col gap-wf-xl">
+    <div className="flex flex-col gap-6">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <TitleHelp
             title={isChecked ? "Cuentas Activas" : "Cuentas Inactivas"}
             onClick={handleDrive}
-            className="font-wf-headline-lg text-[32px] text-wf-on-background mb-1"
+            className="font-wf-headline-lg text-2xl sm:text-3xl text-emerald-400 font-bold tracking-tight mb-1"
           />
-          <p className="font-wf-body-regular text-base text-wf-on-surface-variant">
+          <p className="font-wf-body-regular text-sm text-slate-400">
             Administra y monitorea la distribución de tu patrimonio.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2 sm:gap-wf-sm w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto">
           <div className="relative w-full sm:w-64 flex-1 sm:flex-initial min-w-[160px]">
             <span
-              className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-wf-outline text-[20px]"
+              className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]"
               aria-hidden="true"
             >
               search
             </span>
             <input
-              className="pl-10 pr-4 py-2 bg-wf-surface-container-lowest border border-wf-outline-variant rounded-full text-sm focus:border-wf-primary focus:ring-1 focus:ring-wf-primary outline-none transition-all w-full shadow-sm"
+              className="pl-10 pr-4 py-2 bg-slate-900/70 border border-slate-800 rounded-xl text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-slate-100 placeholder:text-slate-500 outline-none transition-all w-full shadow-xs"
               placeholder="Buscar cuentas..."
               aria-label="Buscar cuentas"
               type="text"
@@ -68,7 +68,7 @@ const Accounts = () => {
               ariaLabel="Filtrar por estado de cuenta"
             />
             <Link href={"/accounts/create"} className="sm:inline-flex">
-              <button className="flex items-center gap-1.5 sm:gap-2 bg-wf-primary text-wf-on-primary py-2 px-3 sm:px-5 rounded-full font-wf-label-caps text-[11px] sm:text-[12px] uppercase tracking-wider hover:bg-wf-primary-container transition-colors shadow-sm whitespace-nowrap">
+              <button className="flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 py-2 px-3.5 sm:px-4 rounded-xl font-bold text-xs uppercase tracking-wider shadow-md shadow-emerald-500/20 active:scale-[0.98] transition-all whitespace-nowrap">
                 <span
                   className="material-symbols-outlined text-[18px] sm:text-[20px]"
                   aria-hidden="true"
@@ -83,19 +83,19 @@ const Accounts = () => {
       </div>
 
       {dataBalance?.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {dataBalance
             .filter((balance) => balance.amount != 0)
             .map((balance, index: number) => (
               <div
                 key={index}
-                className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30"
+                className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80"
               >
-                <p className="font-wf-label-caps text-[10px] text-wf-on-surface-variant uppercase mb-2 tracking-wider">
+                <p className="font-mono text-[10px] text-slate-400 uppercase mb-2 tracking-widest font-bold">
                   {balance.title || "Balance"}
                 </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="font-wf-currency-display text-[24px] font-bold text-wf-on-surface">
+                  <span className="font-mono text-2xl font-bold text-emerald-400">
                     {balance.symbol}
                     {getCurrencyFormatter(balance.code, balance.amount)}
                   </span>
@@ -107,7 +107,7 @@ const Accounts = () => {
       )}
 
       {/* Bento Grid Layout for Accounts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-wf-gutter">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {filteredAccounts.map((account) => {
           /**
            * ⚡ Bolt Optimization: Loop Optimization
@@ -123,12 +123,12 @@ const Accounts = () => {
               href={`/accounts/${account?.id}`}
               key={account?.id}
               aria-label={`Ver detalles de la cuenta ${account?.name}, tipo: ${account?.type?.name}, balance: ${account?.badge?.symbol}${getCurrencyFormatter(account?.badge?.code, account.balance)}`}
-              className="bg-wf-surface-container-lowest rounded-xl p-wf-md shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 hover:border-wf-primary/50 transition-all hover:shadow-[0_8px_24px_rgba(4,12,33,0.08)] group relative overflow-hidden flex flex-col h-full"
+              className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80 hover:border-emerald-500/50 transition-all hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)] group relative overflow-hidden flex flex-col h-full"
             >
-              <div className="flex justify-between items-start mb-wf-md">
+              <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div
-                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                    className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border border-white/10"
                     style={{
                       backgroundColor: accountType.bgColor,
                       color: accountType.textColor,
@@ -142,11 +142,11 @@ const Accounts = () => {
                     </span>
                   </div>
                   <div>
-                    <h3 className="font-wf-headline-md text-base text-wf-on-surface font-semibold">
+                    <h3 className="font-wf-headline-md text-base text-slate-100 font-semibold group-hover:text-emerald-400 transition-colors">
                       {account?.name}
                     </h3>
                     <div className="flex items-center gap-1 mt-0.5">
-                      <p className="font-wf-label-caps text-[10px] text-wf-on-surface-variant uppercase tracking-tighter">
+                      <p className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">
                         {account?.type?.name}
                       </p>
                     </div>
@@ -155,7 +155,7 @@ const Accounts = () => {
                 <CurrencyBadgeFlag badge={account?.badge} />
               </div>
               <span
-                className={`font-wf-currency-display text-[24px] font-bold ${account?.balance < 0 ? "text-wf-error" : "text-wf-on-surface"}`}
+                className={`font-mono text-2xl font-bold ${account?.balance < 0 ? "text-rose-400" : "text-emerald-400"}`}
               >
                 {account?.badge?.symbol}
                 {getCurrencyFormatter(account?.badge?.code, account.balance)}
@@ -166,8 +166,8 @@ const Accounts = () => {
       </div>
 
       {filteredAccounts.length === 0 && (
-        <div className="bg-wf-surface-container-lowest rounded-xl p-wf-md text-center border border-dashed border-wf-outline-variant flex flex-col items-center gap-wf-sm shadow-sm">
-          <div className="w-16 h-16 rounded-full bg-wf-surface-container flex items-center justify-center text-wf-outline-variant">
+        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 text-center border border-dashed border-slate-800 flex flex-col items-center gap-3 shadow-xs">
+          <div className="w-16 h-16 rounded-2xl bg-slate-800/60 flex items-center justify-center text-slate-500 border border-slate-700/60">
             <span
               className="material-symbols-outlined text-[32px]"
               aria-hidden="true"
@@ -176,10 +176,10 @@ const Accounts = () => {
             </span>
           </div>
           <div>
-            <h3 className="font-wf-headline-md text-lg text-wf-on-surface font-semibold">
+            <h3 className="font-wf-headline-md text-lg text-slate-100 font-semibold">
               No se encontraron cuentas
             </h3>
-            <p className="font-wf-body-regular text-sm text-wf-on-surface-variant mt-1">
+            <p className="font-wf-body-regular text-sm text-slate-400 mt-1">
               {search
                 ? `No hay resultados para "${search}"`
                 : "Comienza agregando una nueva cuenta bancaria o billetera."}
@@ -187,7 +187,7 @@ const Accounts = () => {
           </div>
           {!search && (
             <Link href={"/accounts/create"} className="mt-2">
-              <button className="text-wf-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              <button className="text-emerald-400 font-semibold text-sm hover:underline flex items-center gap-1">
                 <span
                   className="material-symbols-outlined text-[18px]"
                   aria-hidden="true"

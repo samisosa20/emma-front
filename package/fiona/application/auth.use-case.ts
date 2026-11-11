@@ -33,8 +33,8 @@ class AuthUseCase implements AuthRepository {
     getVerifyEmail = (id: string, hash: string, expires: string, signature: string) => {
         return this.authAdapter.getVerifyEmail(id, hash, expires, signature);
     }
-    postResendVerify = () => {
-        return this.authAdapter.postResendVerify();
+    postResendVerify = (email?: string) => {
+        return this.authAdapter.postResendVerify(email);
     }
 }
 

@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  getOrCreateSpaceStore,
+  spacesRegistry,
+  memberTokensMap,
+} from "@/app/api/shared-spaces/store";
 
 /**
  * ⚡ Bolt Optimization: Module-level static configuration.
@@ -165,8 +170,8 @@ async function handleRequest(
     targetPath = "";
   }
 
-  // Identificador global para rutas de Better Auth
-  const isBetterAuthRoute = targetPath.startsWith("auth/");
+  // Identificador global para rutas de Better Auth y servicios de autenticación/email
+  const isBetterAuthRoute = targetPath.startsWith("auth/") || targetPath.startsWith("email/");
 
   // CSRF Protection: Verify Origin/Referer matches for state-changing requests (CWE-352)
   if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
@@ -228,8 +233,8 @@ async function handleRequest(
     }
   }
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-  if (!backendUrl) {
+  const rawBackendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+  if (!rawBackendUrl) {
     return applySecurityHeaders(
       NextResponse.json(
         { message: "Backend URL not configured" },
@@ -237,6 +242,11 @@ async function handleRequest(
       ),
     );
   }
+
+  // Fastify routes in fiona-back are registered with prefix /api/v2
+  const backendUrl = rawBackendUrl.endsWith("/api/v2")
+    ? rawBackendUrl
+    : `${rawBackendUrl}/api/v2`;
 
   const url = new URL(`${backendUrl}/${targetPath}${request.nextUrl.search}`);
 
@@ -280,7 +290,6 @@ async function handleRequest(
   if (token) {
     requestHeaders.set("Authorization", `Bearer ${token}`);
     try {
-      const { memberTokensMap } = require("@/app/api/shared-spaces/store");
       const parts = token.split(".");
       if (parts.length === 3) {
         const payloadBase64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
@@ -318,7 +327,7 @@ async function handleRequest(
       redirect: "manual",
       body:
         request.method !== "GET" && request.method !== "HEAD"
-          ? await request.blob()
+          ? await request.arrayBuffer()
           : undefined,
     });
 
@@ -353,7 +362,6 @@ async function handleRequest(
       body = null;
       if (spaceId && request.method === "DELETE") {
         try {
-          const { getOrCreateSpaceStore } = require("@/app/api/shared-spaces/store");
           const spaceStore = getOrCreateSpaceStore(spaceId);
           const parts = targetPath.split("/");
           const resource = parts[0];
@@ -383,7 +391,6 @@ async function handleRequest(
       // Shared Space Resource Pooling & Cross-Partner Aggregation
       if (spaceId) {
         try {
-          const { getOrCreateSpaceStore, spacesRegistry, memberTokensMap } = require("@/app/api/shared-spaces/store");
           const spaceStore = getOrCreateSpaceStore(spaceId);
           const currentSpace = spacesRegistry.get(spaceId);
 
@@ -498,36 +505,64 @@ async function handleRequest(
               }
             }
 
-            for (const partnerToken of tokensToQuery) {
-              try {
-                const partnerHeaders = new Headers(requestHeaders);
-                partnerHeaders.set("Authorization", `Bearer ${partnerToken}`);
-                const partnerRes = await fetch(url.toString(), {
-                  method: "GET",
-                  headers: partnerHeaders,
-                });
-                if (partnerRes.ok && partnerRes.headers.get("content-type")?.includes("application/json")) {
-                  const partnerData = await partnerRes.json();
-                  if (targetPath.startsWith("reports/account/") && targetPath.endsWith("/balance")) {
-                    if (partnerData && (partnerData.code || partnerData.totalAmount !== 0)) {
-                      data = partnerData;
-                    }
-                  } else {
-                    const partnerItems = Array.isArray(partnerData.content) ? partnerData.content : (Array.isArray(partnerData) ? partnerData : (partnerData ? [partnerData] : []));
-                    if (resource && resource !== "reports" && partnerItems.length > 0) {
-                      partnerItems.forEach((pItem: any) => {
-                        if (pItem && (pItem.id || pItem.accountId || pItem.movementId)) {
-                          const pId = String(pItem.id || pItem.accountId || pItem.movementId);
-                          spaceStore[resource].set(pId, pItem);
-                        }
-                      });
+            await Promise.all(
+              Array.from(tokensToQuery).map(async (partnerToken) => {
+                try {
+                  const partnerHeaders = new Headers(requestHeaders);
+                  partnerHeaders.set("Authorization", `Bearer ${partnerToken}`);
+                  const partnerRes = await fetch(url.toString(), {
+                    method: "GET",
+                    headers: partnerHeaders,
+                  });
+                  if (
+                    partnerRes.ok &&
+                    partnerRes.headers
+                      .get("content-type")
+                      ?.includes("application/json")
+                  ) {
+                    const partnerData = await partnerRes.json();
+                    if (
+                      targetPath.startsWith("reports/account/") &&
+                      targetPath.endsWith("/balance")
+                    ) {
+                      if (
+                        partnerData &&
+                        (partnerData.code || partnerData.totalAmount !== 0)
+                      ) {
+                        data = partnerData;
+                      }
+                    } else {
+                      const partnerItems = Array.isArray(partnerData.content)
+                        ? partnerData.content
+                        : Array.isArray(partnerData)
+                          ? partnerData
+                          : partnerData
+                            ? [partnerData]
+                            : [];
+                      if (
+                        resource &&
+                        resource !== "reports" &&
+                        partnerItems.length > 0
+                      ) {
+                        partnerItems.forEach((pItem: any) => {
+                          if (
+                            pItem &&
+                            (pItem.id || pItem.accountId || pItem.movementId)
+                          ) {
+                            const pId = String(
+                              pItem.id || pItem.accountId || pItem.movementId,
+                            );
+                            spaceStore[resource].set(pId, pItem);
+                          }
+                        });
+                      }
                     }
                   }
+                } catch {
+                  // continue
                 }
-              } catch (pErr) {
-                // continue
-              }
-            }
+              }),
+            );
           }
 
           // Format output for list endpoints

@@ -78,17 +78,17 @@ const Movements = memo(
 
     return (
       <main className="flex-1 flex flex-col items-center relative w-full min-w-0">
-        <div className="w-full max-w-2xl bg-wf-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(4,12,33,0.08)] border border-wf-outline-variant/30 flex flex-col overflow-hidden">
+        <div className="w-full max-w-2xl bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80 flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-wf-surface-variant/30 flex items-center justify-between bg-wf-surface-container-low">
-            <h1 className="font-wf-headline-md text-wf-on-surface text-lg sm:text-xl md:text-2xl font-bold">
+          <div className="px-5 sm:px-6 py-4 border-b border-slate-800/80 flex items-center justify-between bg-slate-950/40">
+            <h1 className="font-wf-headline-md text-slate-100 text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
               {isEdit ? "Editar Transacción" : "Nueva Transacción"}
             </h1>
 
             {!isEdit && (
               <Link
                 href="/moves/import"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-wf-surface text-wf-primary border border-wf-outline-variant/40 hover:bg-wf-surface-container transition-all active:scale-95 shadow-xs"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/40 transition-all active:scale-95 shadow-xs"
               >
                 <span className="material-symbols-outlined text-base">upload_file</span>
                 <span className="hidden sm:inline">Importar Excel/CSV</span>
@@ -106,7 +106,7 @@ const Movements = memo(
               <div
                 role="group"
                 aria-label="Tipo de transacción"
-                className="bg-wf-surface-container rounded-lg p-wf-xs flex gap-wf-xs"
+                className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-1 flex gap-1"
               >
                 <Controller
                   name="type"
@@ -118,10 +118,10 @@ const Movements = memo(
                         aria-pressed={value === "-1"}
                         disabled={isEdit && value === "0"}
                         onClick={() => onChange("-1")}
-                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                        className={`flex-1 py-2 rounded-lg font-mono text-xs uppercase font-semibold transition-all ${
                           value === "-1"
-                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                            ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 shadow-xs"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
                         }`}
                       >
                         Egreso
@@ -131,10 +131,10 @@ const Movements = memo(
                         aria-pressed={value === "1"}
                         disabled={isEdit && value === "0"}
                         onClick={() => onChange("1")}
-                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                        className={`flex-1 py-2 rounded-lg font-mono text-xs uppercase font-semibold transition-all ${
                           value === "1"
-                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                            ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-xs"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
                         }`}
                       >
                         Ingreso
@@ -144,10 +144,10 @@ const Movements = memo(
                         aria-pressed={value === "0"}
                         disabled={isEdit && value !== "0"}
                         onClick={() => onChange("0")}
-                        className={`flex-1 py-wf-sm rounded font-wf-label-caps text-xs uppercase transition-all ${
+                        className={`flex-1 py-2 rounded-lg font-mono text-xs uppercase font-semibold transition-all ${
                           value === "0"
-                            ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface border border-wf-outline-variant"
-                            : "text-wf-on-surface-variant hover:bg-wf-surface-container-high"
+                            ? "bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 shadow-xs"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
                         }`}
                       >
                         Transferencia
@@ -158,17 +158,17 @@ const Movements = memo(
               </div>
 
               {/* Amount Input */}
-              <div className="flex flex-col items-center gap-wf-xs py-wf-md">
+              <div className="flex flex-col items-center gap-1 py-4">
                 <label
                   htmlFor="amount"
-                  className="font-wf-label-caps text-xs text-wf-on-surface-variant uppercase cursor-pointer"
+                  className="font-mono text-xs text-slate-400 uppercase font-bold tracking-widest cursor-pointer"
                 >
                   Monto
                 </label>
-                <div className="flex items-baseline gap-wf-xs">
+                <div className="flex items-baseline gap-1">
                   <span
                     aria-hidden="true"
-                    className="font-wf-currency-display text-2xl text-wf-on-surface-variant"
+                    className="font-mono text-2xl text-slate-500 font-bold"
                   >
                     $
                   </span>
@@ -181,7 +181,7 @@ const Movements = memo(
                         type="text"
                         inputMode="decimal"
                         placeholder="0.00"
-                        className={`w-full max-w-md bg-transparent border-none text-center font-wf-currency-display text-5xl font-semibold text-wf-primary focus:ring-0 placeholder:text-wf-surface-tint p-0 m-0 leading-none outline-none ${fieldState.error ? "text-wf-error" : ""}`}
+                        className={`w-full max-w-md bg-transparent border-none text-center font-mono text-5xl font-bold text-emerald-400 focus:ring-0 placeholder:text-slate-600 p-0 m-0 leading-none outline-none ${fieldState.error ? "text-rose-400" : ""}`}
                         onChange={(e) => {
                           const val = cleanValue(
                             (e.target as HTMLInputElement).value,
@@ -197,7 +197,7 @@ const Movements = memo(
                   />
                 </div>
                 <div className="mt-1">
-                  <span className="text-wf-on-surface-variant font-wf-label-caps text-xs tracking-widest opacity-70">
+                  <span className="text-slate-500 font-mono text-xs tracking-widest">
                     {accountWatch?.badgeCode ?? "USD"}
                   </span>
                 </div>
@@ -458,12 +458,12 @@ const Movements = memo(
             </div>
 
             {/* Footer Actions */}
-            <div className="p-4 sm:p-6 border-t border-wf-surface-variant/30 bg-wf-surface-container-low flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-wf-md">
+            <div className="p-4 sm:p-6 border-t border-slate-800/80 bg-slate-950/40 flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4">
               {isEdit && (
                 <Button
                   variant="outlined"
                   type="button"
-                  className="border-wf-error text-wf-error hover:bg-wf-error-container/20 w-full sm:w-auto"
+                  className="border-rose-500/40 text-rose-400 hover:bg-rose-500/10 w-full sm:w-auto rounded-xl"
                   onClick={() => setIsDeleteModalOpen(true)}
                   disabled={isSubmitting}
                 >
@@ -473,7 +473,7 @@ const Movements = memo(
               <Button
                 variant="contained"
                 type="submit"
-                className="bg-wf-primary text-wf-on-primary hover:bg-wf-primary-container w-full sm:w-auto"
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold shadow-lg shadow-emerald-500/20 active:scale-[0.98] transition-all w-full sm:w-auto rounded-xl"
                 disabled={isSubmitting}
               >
                 {isSubmitting
@@ -492,7 +492,7 @@ const Movements = memo(
           onClose={() => setIsDeleteModalOpen(false)}
         >
           <div className="flex flex-col gap-4 p-4">
-            <Typography className="text-wf-on-surface-variant">
+            <Typography className="text-slate-300">
               ¿Estás seguro de que deseas eliminar esta transacción? Esta acción
               no se puede deshacer.
             </Typography>
@@ -500,13 +500,13 @@ const Movements = memo(
               <Button
                 variant="outlined"
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="border-wf-outline text-wf-on-surface-variant hover:bg-wf-surface-container"
+                className="border-slate-700 text-slate-300 hover:bg-slate-800"
               >
                 Cancelar
               </Button>
               <Button
                 onClick={handleDelete}
-                className="bg-wf-error text-white hover:bg-wf-error/90 shadow-sm"
+                className="bg-rose-500 hover:bg-rose-600 text-white font-bold shadow-md shadow-rose-500/25"
                 loading={isSubmitting}
               >
                 Eliminar

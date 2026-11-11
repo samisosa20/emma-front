@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { driverWelcome } from "@/share/helpers";
 
 import {
-  useGetApiReportsTypePeriodSuspense,
-  useGetApiReportsGeneralBalanceSuspense,
-  useGetApiReportsHistorySuspense,
+  useGetApiReportsTypePeriod,
+  useGetApiReportsGeneralBalance,
+  useGetApiReportsHistory,
   getApiReportsHistory,
 } from "@@@/endpoints/report/report";
 
@@ -106,7 +106,7 @@ export default function useDashboardViewModel() {
     },
   });
 
-  const { isLoading, data: rawData, isError } = useGetApiReportsTypePeriodSuspense(
+  const { isLoading, data: rawData, isError } = useGetApiReportsTypePeriod(
     typeReport,
     periodReport,
     {
@@ -137,8 +137,7 @@ export default function useDashboardViewModel() {
     [rawData],
   );
 
-  const { data: rawDataBalance, refetch: refetchBalance } =
-    useGetApiReportsGeneralBalanceSuspense();
+  const { data: rawDataBalance } = useGetApiReportsGeneralBalance();
 
   const dataBalance = useMemo(
     () =>
@@ -148,19 +147,19 @@ export default function useDashboardViewModel() {
     [rawDataBalance],
   );
 
-  const today = new Date();
+  const { startDateStr, endDateStr } = useMemo(() => {
+    const today = new Date();
+    return {
+      startDateStr: format(startOfMonth(today), "yyyy-MM-dd"),
+      endDateStr: format(endOfMonth(today), "yyyy-MM-dd"),
+    };
+  }, []);
 
-  // Fecha de inicio: el primer día del mes actual
-  const firstDayOfMonth = startOfMonth(today);
-
-  // Fecha de fin: el último día del mes actual
-  const lastDayOfMonth = endOfMonth(today);
-
-  // Llama a la API con las fechas formateadas
-  const { data: rawDataHistory } = useGetApiReportsHistorySuspense({
+  // Llama a la API con las fechas formateadas en paralelo con el resto de reportes
+  const { data: rawDataHistory } = useGetApiReportsHistory({
     ...(filters.badgeId && { badgeId: String(filters.badgeId) }),
-    startDate: format(firstDayOfMonth, "yyyy-MM-dd"),
-    endDate: format(lastDayOfMonth, "yyyy-MM-dd"),
+    startDate: startDateStr,
+    endDate: endDateStr,
   });
 
   /**
@@ -256,9 +255,8 @@ export default function useDashboardViewModel() {
   }, []);
 
   useEffect(() => {
-    refetchBalance();
     if (isError) router.push("/login");
-  }, [isError]);
+  }, [isError, router]);
 
   useEffect(() => {
     if (session?.user) {

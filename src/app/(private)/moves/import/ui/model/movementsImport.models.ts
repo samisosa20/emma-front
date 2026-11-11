@@ -1,10 +1,10 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useGetApiAccountsSuspense } from "@@@/endpoints/account/account";
-import { useGetApiCategoriesSuspense } from "@@@/endpoints/category/category";
-import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
-import { useGetApiInvestmentsSuspense } from "@@@/endpoints/investment/investment";
+import { useGetApiAccounts } from "@@@/endpoints/account/account";
+import { useGetApiCategories } from "@@@/endpoints/category/category";
+import { useGetApiEvents } from "@@@/endpoints/event/event";
+import { useGetApiInvestments } from "@@@/endpoints/investment/investment";
 import {
   parseMovementsFile,
   downloadMovementTemplate,
@@ -39,11 +39,11 @@ export default function useMovementsImportViewModel() {
   const [importSummary, setImportSummary] = useState<ImportSummary | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  // Fetch reference lists from backend
-  const { data: dataAccounts } = useGetApiAccountsSuspense();
-  const { data: dataCategories } = useGetApiCategoriesSuspense();
-  const { data: dataEvents } = useGetApiEventsSuspense();
-  const { data: dataInvestments } = useGetApiInvestmentsSuspense();
+  // Fetch reference lists from backend in parallel
+  const { data: dataAccounts } = useGetApiAccounts();
+  const { data: dataCategories } = useGetApiCategories();
+  const { data: dataEvents } = useGetApiEvents();
+  const { data: dataInvestments } = useGetApiInvestments();
 
   const accountsList = useMemo(() => {
     return (dataAccounts?.content || []).map((acc: any) => ({

@@ -67,7 +67,7 @@ interface AuthAdapter {
      * Retrieves a list of todos from the data source.
      * @returns {Promise<{error: boolean, message: string}>} A Promise containing the list of todos.
      */
-    postResendVerify(): Promise<{error: boolean, message: string}>,
+    postResendVerify(email?: string): Promise<{error: boolean, message: string}>,
 }
 
 export type { AuthAdapter };

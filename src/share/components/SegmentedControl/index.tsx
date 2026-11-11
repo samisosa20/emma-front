@@ -26,16 +26,16 @@ const SegmentedControl = memo(
       <div
         role="group"
         aria-label={ariaLabel}
-        className="flex items-center gap-2 bg-wf-surface-container-high p-1 rounded-full"
+        className="flex items-center gap-1 bg-slate-950/80 border border-slate-800 p-1 rounded-full shadow-inner"
       >
         <button
           type="button"
           aria-pressed={isChecked}
           onClick={() => !isChecked && handleToggle()}
-          className={`px-2 md:px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+          className={`px-3 md:px-4 py-1.5 rounded-full text-xs font-semibold font-mono tracking-wide transition-all ${
             isChecked
-              ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface"
-              : "text-wf-on-surface-variant hover:text-wf-on-surface"
+              ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200"
           }`}
         >
           {activeLabel}
@@ -44,10 +44,10 @@ const SegmentedControl = memo(
           type="button"
           aria-pressed={!isChecked}
           onClick={() => isChecked && handleToggle()}
-          className={`px-2 md:px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+          className={`px-3 md:px-4 py-1.5 rounded-full text-xs font-semibold font-mono tracking-wide transition-all ${
             !isChecked
-              ? "bg-wf-surface-container-lowest shadow-sm text-wf-on-surface"
-              : "text-wf-on-surface-variant hover:text-wf-on-surface"
+              ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200"
           }`}
         >
           {inactiveLabel}

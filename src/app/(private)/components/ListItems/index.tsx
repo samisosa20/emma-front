@@ -11,8 +11,6 @@ import {
   getCurrencyFormatter,
 } from "@/share/helpers";
 
-import useComponentsLayout from "@/app/(private)/components";
-
 /**
  * ⚡ Bolt Optimization: Memoization of ListDefault
  * 🎯 Problem: Part of the ListItems suite used in dashboards.
@@ -22,22 +20,22 @@ const ListDefault = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
-      <Typography className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs">
+    <div className="bg-slate-900/60 backdrop-blur-xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] rounded-2xl border border-slate-800/80 hover:border-slate-700/80 transition-all w-full min-w-0">
+      <Typography className="mb-3 font-bold text-emerald-400 uppercase tracking-widest text-xs font-mono">
         {title}
       </Typography>
-      <div className="h-[243px] overflow-y-auto space-y-wf-sm pr-1 custom-scrollbar">
+      <div className="h-[243px] overflow-y-auto space-y-2 pr-1 custom-scrollbar">
         {data?.map((card, index) => (
           <div
-            className="p-wf-sm rounded-lg bg-wf-surface-container-low/50 border border-wf-outline-variant/20 flex justify-between items-center transition-all hover:bg-wf-surface-container"
+            className="p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/60 flex justify-between items-center transition-all hover:bg-slate-800/60 hover:border-slate-700"
             key={"ListDefault" + index}
           >
-            <Typography className="font-wf-body-regular text-sm text-wf-on-surface">
+            <Typography className="font-wf-body-regular text-sm text-slate-200">
               {card.category}
             </Typography>
             <Typography
-              className={`font-wf-body-regular font-bold text-sm ${
-                card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
+              className={`font-wf-body-regular font-bold font-mono text-sm ${
+                card.amount >= 0 ? "text-emerald-400" : "text-rose-400"
               }`}
             >
               {getCurrencyFormatter("USD", card.amount)}
@@ -58,39 +56,39 @@ const ListUtil = memo((props: ListItemsProps) => {
   const { data, title } = props;
   const { Typography } = useComponents();
   return (
-    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
-      <Typography className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs">
+    <div className="bg-slate-900/60 backdrop-blur-xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] rounded-2xl border border-slate-800/80 hover:border-slate-700/80 transition-all w-full min-w-0">
+      <Typography className="mb-3 font-bold text-emerald-400 uppercase tracking-widest text-xs font-mono">
         {title}
       </Typography>
-      <div className="h-[243px] overflow-y-auto space-y-wf-md pr-1 custom-scrollbar">
+      <div className="h-[243px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
         {data?.map((card, index) => (
-          <div className="space-y-wf-xs" key={"ListUtil" + index}>
+          <div className="space-y-1.5" key={"ListUtil" + index}>
             <div className="flex justify-between items-center">
-              <Typography className="font-wf-body-regular text-sm font-semibold text-wf-on-surface">
+              <Typography className="font-wf-body-regular text-sm font-semibold text-slate-200">
                 {card.title} {card.father ? ` (${card.father})` : ""}
               </Typography>
-              <Typography className="font-wf-body-regular text-[11px] text-wf-surface-tint">
+              <Typography className="font-wf-body-regular text-[11px] text-slate-400 font-mono">
                 Límite: {getCurrencyFormatter("USD", card.limit ?? 0)}
               </Typography>
             </div>
             <div className="flex justify-between items-center text-[12px]">
-              <Typography className="font-wf-body-regular text-wf-on-surface-variant">
+              <Typography className="font-wf-body-regular text-slate-400 font-mono">
                 {getCurrencyFormatter("USD", card.value)}
               </Typography>
               <Typography
-                className={`font-bold ${Math.abs(card.percentage ?? 0) > 90 ? "text-wf-error" : "text-wf-secondary"}`}
+                className={`font-bold font-mono ${Math.abs(card.percentage ?? 0) > 90 ? "text-rose-400" : "text-emerald-400"}`}
               >
                 {Math.abs(card.percentage ?? 0)}%
               </Typography>
             </div>
-            <div className="w-full bg-wf-surface-container-high rounded-full h-2 overflow-hidden border border-wf-outline-variant/20 shadow-inner">
+            <div className="w-full bg-slate-800/80 rounded-full h-2 overflow-hidden border border-slate-700/50 shadow-inner">
               <div
-                className={`h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.1)] ${
+                className={`h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.2)] ${
                   Math.abs(card.percentage ?? 0) > 100
-                    ? "bg-wf-error"
+                    ? "bg-rose-500"
                     : Math.abs(card.percentage ?? 0) > 80
-                      ? "bg-wf-warning"
-                      : "bg-wf-secondary"
+                      ? "bg-amber-400"
+                      : "bg-gradient-to-r from-emerald-500 to-teal-400"
                 }`}
                 style={{
                   width: `${
@@ -134,39 +132,34 @@ const ListModal = memo((props: ListItemsProps) => {
   };
 
   return (
-    <div className="bg-wf-surface-container-lowest backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] rounded-xl border border-wf-outline-variant/30 w-full min-w-0">
+    <div className="bg-slate-900/60 backdrop-blur-xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] rounded-2xl border border-slate-800/80 hover:border-slate-700/80 transition-all w-full min-w-0">
       <TitleHelp
         title={title}
         variant="p"
-        className="mb-3 font-semibold text-wf-primary uppercase tracking-wider text-xs"
+        className="mb-3 font-bold text-emerald-400 uppercase tracking-widest text-xs font-mono"
         onClick={tooltip ? () => handleOnDrive(tooltipVariant) : undefined}
       />
-      <div className="max-h-[500px] overflow-y-auto space-y-wf-xs pr-1 custom-scrollbar">
+      <div className="max-h-[500px] overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
         {data?.map((card, index) => (
-          /**
-           * ⚡ Bolt Optimization: Dead code removal in render loop.
-           * 🎯 Problem: getIconComponent was called on every iteration but the Icon was unused.
-           * 📊 Impact: Saves O(1) lookup and variable allocation for every list item.
-           */
           <div
-            className="group p-wf-sm rounded-lg hover:bg-white/40 transition-all cursor-pointer border border-transparent hover:border-white/50"
+            className="group p-2.5 rounded-xl hover:bg-slate-800/60 transition-all cursor-pointer border border-transparent hover:border-slate-700/80"
             key={"ListModal" + index}
             onClick={() => handleSelectItem(card.categoryId)} // TODO: check if this is the correct ID
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-3 w-1/2">
                 <CategoryIcon icon={card.icon} color={card.color} size="sm" />
-                <Typography className="font-wf-body-regular text-sm text-wf-on-surface truncate">
+                <Typography className="font-wf-body-regular text-sm text-slate-200 truncate">
                   {card.category}
                 </Typography>
               </div>
               <div className="flex items-center gap-x-4">
-                <Typography className="font-wf-body-regular text-xs text-wf-surface-tint">
+                <Typography className="font-wf-body-regular text-xs text-slate-400 font-mono">
                   {card.participation}%
                 </Typography>
                 <Typography
-                  className={`font-wf-body-regular font-bold text-sm text-right min-w-[80px] ${
-                    card.amount >= 0 ? "text-wf-secondary" : "text-wf-error"
+                  className={`font-wf-body-regular font-bold font-mono text-sm text-right min-w-[80px] ${
+                    card.amount >= 0 ? "text-emerald-400" : "text-rose-400"
                   }`}
                 >
                   {card.symbol}

@@ -29,31 +29,46 @@ const accountParamsSchema = z.object({
 });
 
 const accountSchema = z.object({
-  name: z.string().max(50, "Máximo 50 caracteres"),
+  name: z
+    .string({ message: "El nombre es requerido" })
+    .min(1, "El nombre es requerido")
+    .max(50, "Máximo 50 caracteres"),
   description: z
     .string()
     .max(255, "Máximo 255 caracteres")
     .optional()
     .transform((e) => (e === "" ? undefined : e)),
-  typeId: z.string(),
-  badgeId: z.object({
-    value: z.union([z.string(), z.number()]),
-    label: z.string(),
-  }),
-  initAmount: z.string().refine(validateNumeric, "Debe ser un número válido"),
+  typeId: z
+    .string({ message: "El tipo de cuenta es requerido" })
+    .min(1, "El tipo de cuenta es requerido"),
+  badgeId: z.object(
+    {
+      value: z.union([z.string(), z.number()]),
+      label: z.string(),
+    },
+    { message: "La moneda es requerida" }
+  ),
+  initAmount: z
+    .union([z.string(), z.number()])
+    .refine(
+      (value) => String(value).trim() !== "" && validateNumeric(value),
+      "Debe ser un número válido"
+    ),
   limit: z
     .string()
     .optional()
     .transform((e) => (e === "" ? undefined : e))
     .refine(validateNumeric, "Debe ser un número válido"),
-  interest: z.union([
-    z
-      .string()
-      .optional()
-      .transform((e) => (e === "" ? undefined : e))
-      .refine(validateNumeric, "Debe ser un número válido"),
-    z.number().optional().refine(validateNumeric, "Debe ser un número válido"),
-  ]),
+  interest: z
+    .union([
+      z
+        .string()
+        .optional()
+        .transform((e) => (e === "" ? undefined : e))
+        .refine(validateNumeric, "Debe ser un número válido"),
+      z.number().optional().refine(validateNumeric, "Debe ser un número válido"),
+    ])
+    .optional(),
 });
 
 export type AccountParamsSchema = z.infer<typeof accountParamsSchema>;

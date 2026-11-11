@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { format } from "date-fns";
 import Link from "next/link";
 
 //components
@@ -8,7 +7,6 @@ import useComponents from "@/share/components";
 // Helpers
 import {
   dateFormatter,
-  formatCurrency,
   getCurrencyFormatter,
   ymdFormatter,
 } from "@/share/helpers";
@@ -60,7 +58,7 @@ const ListMovements = memo(({
                 <Typography
                   role="heading"
                   aria-level={3}
-                  className="sticky top-0 bg-white/80 backdrop-blur-md z-10 py-2 mb-2 px-2 font-semibold text-wf-surface-tint border-b border-wf-outline-variant/30 rounded-t-lg"
+                  className="sticky top-0 bg-slate-950/90 backdrop-blur-md z-10 py-2 mb-2 px-3 font-semibold text-xs text-slate-400 uppercase tracking-widest font-mono border-b border-slate-800/80 rounded-xl"
                 >
                   {humanDate}
                 </Typography>
@@ -69,25 +67,25 @@ const ListMovements = memo(({
                 href={`/moves/${movement.id}`}
                 aria-label={`Ver detalles de ${movement[keyTitle].name} por ${movement.account.badge?.symbol}${getCurrencyFormatter(movement.account.badge?.code, movement.amount)}`}
               >
-                <div className="shadow-sm bg-white rounded py-2 px-2 mb-2">
+                <div className="shadow-xs bg-slate-900/60 hover:bg-slate-800/70 border border-slate-800/80 hover:border-slate-700/80 rounded-xl py-3 px-3.5 mb-2 transition-all duration-150 group">
                   <div className="flex justify-between items-center">
-                    <div className={`flex items-center gap-x-2 w-1/2`}>
+                    <div className="flex items-center gap-x-2.5 w-1/2">
                       <CategoryIcon
                         icon={movement.category?.icon}
                         color={movement.category?.color}
                         size="sm"
                       />
-                      <Typography variant="h5" className="text-sm">
+                      <Typography variant="h5" className="text-sm font-medium text-slate-100 group-hover:text-emerald-400 transition-colors">
                         {movement[keyTitle].name}
                       </Typography>
                     </div>
                     <Typography
                       variant="h5"
-                      className={
+                      className={`font-mono text-sm font-bold ${
                         movement.amount > 0
-                          ? "text-green-500 text-sm"
-                          : "text-red-500 text-sm"
-                      }
+                          ? "text-emerald-400"
+                          : "text-rose-400"
+                      }`}
                     >
                       {movement.account.badge?.symbol}
                       {getCurrencyFormatter(
@@ -95,19 +93,23 @@ const ListMovements = memo(({
                         movement.amount
                       )}
                       {keyTitle === "account" && (
-                        <span className="text-[10px]">
+                        <span className="text-[10px] ml-1 opacity-70">
                           {movement.account.badge?.code}
                         </span>
                       )}
                     </Typography>
                   </div>
-                  <div className="flex justify-end items-center pb-1">
-                    <Typography>{movement?.event?.name}</Typography>
-                  </div>
+                  {movement?.event?.name && (
+                    <div className="flex justify-end items-center pt-1">
+                      <span className="text-[11px] text-slate-400 bg-slate-800/60 px-2 py-0.5 rounded-md font-mono">
+                        {movement.event.name}
+                      </span>
+                    </div>
+                  )}
                   {movement.description && (
-                    <div className="border-t pt-1 border-gray-300">
-                      <Typography variant="h5">
-                        {movement?.description}
+                    <div className="border-t pt-2 mt-2 border-slate-800/60">
+                      <Typography variant="p" className="text-xs text-slate-400">
+                        {movement.description}
                       </Typography>
                     </div>
                   )}
@@ -122,14 +124,16 @@ const ListMovements = memo(({
           <Button
             variant="outlined"
             onClick={() => setPage(meta.nextPage)}
-            className="border-wf-primary text-wf-primary hover:bg-wf-surface-container px-8"
+            className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 px-8 rounded-xl font-semibold transition-all"
           >
             Cargar más
           </Button>
         </div>
       )}
       {(!listMovements || listMovements?.length === 0) && (
-        <Typography className="text-center py-6">Sin resultados</Typography>
+        <Typography className="text-center py-8 text-sm text-slate-500">
+          Sin transacciones registradas
+        </Typography>
       )}
     </div>
   );

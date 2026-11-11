@@ -151,29 +151,30 @@ const Dashboard = memo((props: any) => {
   );
 
   return (
-    <div className="space-y-wf-gutter">
-      <div className="flex flex-col gap-wf-xs mb-wf-lg">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-1 mb-2 sm:mb-6">
         <TitleHelp
           title="Panel de Control"
           onClick={driverDash}
-          className="text-wf-primary font-wf-headline-lg"
+          className="text-emerald-400 font-wf-headline-lg font-bold text-2xl sm:text-3xl tracking-tight"
         />
-        <Typography className="text-wf-on-surface-variant font-wf-body-regular">
+        <Typography className="text-slate-400 font-wf-body-regular text-xs sm:text-sm">
           Visualiza el estado consolidado de tus finanzas en tiempo real.
         </Typography>
       </div>
 
-      <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 w-full min-w-0">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-wf-md border-b border-wf-surface-variant/30 pb-wf-md mb-wf-md">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-wf-md justify-center lg:justify-start">
+      <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-3.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80 w-full min-w-0 space-y-3 sm:space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 sm:gap-4 border-b border-slate-800/80 pb-3.5 sm:pb-4">
+          <div className="grid grid-cols-2 sm:inline-flex items-center bg-slate-950/70 p-1 rounded-full border border-slate-800/80 w-full sm:w-auto gap-1">
             {listOptionsTypeReport.map((type: any, index: number) => (
               <button
                 key={index}
+                type="button"
                 aria-pressed={type.value === typeReport}
-                className={`px-3 sm:px-wf-md py-1 rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                className={`px-3 sm:px-4 py-1.5 rounded-full font-mono text-[11px] uppercase tracking-wider transition-all font-semibold text-center ${
                   type.value === typeReport
-                    ? "bg-wf-primary text-wf-on-primary shadow-sm"
-                    : "text-wf-surface-tint hover:bg-wf-surface-container-low"
+                    ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
                 }`}
                 onClick={type.onClick}
               >
@@ -182,15 +183,16 @@ const Dashboard = memo((props: any) => {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-wf-sm justify-center lg:justify-start">
+          <div className="grid grid-cols-4 sm:inline-flex items-center bg-slate-950/70 p-1 rounded-full border border-slate-800/80 w-full sm:w-auto gap-1">
             {listOptionsPeriodReport.map((type: any, index: number) => (
               <button
                 key={index}
+                type="button"
                 aria-pressed={type.value === periodReport}
-                className={`px-3 sm:px-wf-md py-1 rounded-full font-wf-label-caps text-[11px] uppercase tracking-wider transition-all ${
+                className={`px-1.5 sm:px-3.5 py-1.5 rounded-full font-mono text-[10px] sm:text-[11px] uppercase tracking-wider transition-all font-semibold text-center truncate ${
                   type.value === periodReport
-                    ? "bg-wf-primary text-wf-on-primary shadow-sm"
-                    : "text-wf-surface-tint hover:bg-wf-surface-container-low"
+                    ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
                 }`}
                 onClick={type.onClick}
               >
@@ -200,9 +202,9 @@ const Dashboard = memo((props: any) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-wf-xl py-wf-sm">
-          <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
-            <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
+        <div className="grid grid-cols-[1fr_auto] md:flex md:flex-wrap md:items-center gap-2.5 sm:gap-4">
+          <div className="flex items-center justify-between md:justify-start gap-2 bg-slate-950/70 px-3.5 py-1.5 rounded-full border border-slate-800/80 shadow-xs min-w-0">
+            <span className="text-[10px] font-mono text-emerald-400 uppercase font-bold tracking-wider shrink-0">
               Año
             </span>
             <SlideStepper
@@ -216,44 +218,11 @@ const Dashboard = memo((props: any) => {
             />
           </div>
 
-          {periodReport === "monthly" && (
-            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
-              <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
-                Mes
-              </span>
-              <SlideStepper
-                value={monthIndex}
-                min={0}
-                max={11}
-                onChange={handleChangeSlideStepper}
-                type="month"
-                formatValue={formatMonth}
-                decreaseAriaLabel="Anterior mes"
-                increaseAriaLabel="Siguiente mes"
-              />
-            </div>
-          )}
-
-          {periodReport === "weekly" && (
-            <div className="flex items-center gap-wf-sm bg-wf-surface-container-low/50 px-3 sm:px-wf-md py-1 rounded-full border border-wf-outline-variant/30">
-              <span className="text-[10px] font-wf-label-caps text-wf-surface-tint uppercase">
-                Semana
-              </span>
-              <SlideStepper
-                value={selectedWeek}
-                min={1}
-                max={totalWeeks}
-                onChange={handleChangeSlideStepper}
-                type="week"
-                formatValue={formatWeek}
-                decreaseAriaLabel="Anterior semana"
-                increaseAriaLabel="Siguiente semana"
-              />
-            </div>
-          )}
-
-          <div className="w-full flex justify-center md:justify-end md:w-auto md:ml-auto">
-            <Filters>
+          <div className="md:order-last md:ml-auto flex items-center justify-end">
+            <Filters
+              label="Filtros"
+              buttonClassName="h-[34px] px-3 sm:px-3.5 rounded-full bg-slate-950/70 border border-slate-800/80 hover:border-emerald-500/40 hover:bg-slate-900 text-slate-300 hover:text-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none transition-all duration-200 flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider font-semibold"
+            >
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-wf-md p-wf-md"
@@ -312,16 +281,52 @@ const Dashboard = memo((props: any) => {
               </form>
             </Filters>
           </div>
+
+          {periodReport === "monthly" && (
+            <div className="col-span-2 md:col-span-1 flex items-center justify-between md:justify-start gap-2 bg-slate-950/70 px-3.5 py-1.5 rounded-full border border-slate-800/80 shadow-xs min-w-0">
+              <span className="text-[10px] font-mono text-emerald-400 uppercase font-bold tracking-wider shrink-0">
+                Mes
+              </span>
+              <SlideStepper
+                value={monthIndex}
+                min={0}
+                max={11}
+                onChange={handleChangeSlideStepper}
+                type="month"
+                formatValue={formatMonth}
+                decreaseAriaLabel="Anterior mes"
+                increaseAriaLabel="Siguiente mes"
+              />
+            </div>
+          )}
+
+          {periodReport === "weekly" && (
+            <div className="col-span-2 md:col-span-1 flex items-center justify-between md:justify-start gap-2 bg-slate-950/70 px-3.5 py-1.5 rounded-full border border-slate-800/80 shadow-xs min-w-0">
+              <span className="text-[10px] font-mono text-emerald-400 uppercase font-bold tracking-wider shrink-0">
+                Semana
+              </span>
+              <SlideStepper
+                value={selectedWeek}
+                min={1}
+                max={totalWeeks}
+                onChange={handleChangeSlideStepper}
+                type="week"
+                formatValue={formatWeek}
+                decreaseAriaLabel="Anterior semana"
+                increaseAriaLabel="Siguiente semana"
+              />
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-wf-gutter">
-        <div className="lg:col-span-7 bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 w-full min-w-0">
-          <div className="flex justify-between items-center mb-4 sm:mb-wf-lg">
-            <Typography className="font-wf-headline-md text-wf-primary text-sm sm:text-base font-semibold">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+        <div className="lg:col-span-7 bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80 w-full min-w-0">
+          <div className="flex flex-wrap justify-between items-center gap-2 mb-4 sm:mb-6">
+            <Typography className="font-wf-headline-md text-emerald-400 text-sm sm:text-base font-bold">
               Distribución de Movimientos
             </Typography>
-            <div className="px-wf-sm py-1 bg-wf-surface-container rounded-md text-[10px] font-wf-label-caps text-wf-surface-tint">
+            <div className="px-3 py-1 bg-slate-950/80 border border-slate-800 rounded-lg text-xs font-mono text-emerald-400 font-bold">
               TOTAL: {data[0]?.symbol}
               {getCurrencyFormatter(data[0]?.code, totalAmount)}
             </div>
@@ -348,11 +353,12 @@ const Dashboard = memo((props: any) => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      backgroundColor: "rgba(15, 23, 42, 0.95)",
                       borderRadius: "12px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                      backdropFilter: "blur(8px)",
+                      border: "1px solid rgba(51, 65, 85, 0.8)",
+                      boxShadow: "0 10px 25px -5px rgba(0,0,0,0.5)",
+                      backdropFilter: "blur(12px)",
+                      color: "#f8fafc",
                     }}
                     formatter={(value) => [
                       `${data[0]?.symbol}${getCurrencyFormatter(data[0]?.code, Number(value))}`,
@@ -367,7 +373,7 @@ const Dashboard = memo((props: any) => {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full w-full bg-wf-surface-container-lowest/50 animate-pulse rounded-lg" />
+              <div className="h-full w-full bg-slate-900/50 animate-pulse rounded-lg" />
             )}
           </div>
         </div>
@@ -385,31 +391,31 @@ const Dashboard = memo((props: any) => {
       </div>
 
       {dataBalance?.length > 0 && (
-        <div className="mt-4 sm:mt-wf-xl w-full min-w-0">
+        <div className="mt-4 sm:mt-6 w-full min-w-0">
           <Cards title="balance" data={dataBalance} />
         </div>
       )}
 
       {dataHistory && (
-        <div className="bg-wf-surface-container-lowest backdrop-blur-md rounded-xl p-4 sm:p-5 shadow-[0_4px_12px_rgba(4,12,33,0.05)] border border-wf-outline-variant/30 mt-4 sm:mt-wf-xl w-full min-w-0">
-          <div className="flex justify-between items-center mb-4 sm:mb-wf-lg">
-            <Typography className="font-wf-headline-md text-wf-primary text-sm sm:text-base font-semibold">
+        <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-slate-800/80 mt-4 sm:mt-6 w-full min-w-0">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4 sm:mb-6">
+            <Typography className="font-wf-headline-md text-emerald-400 text-sm sm:text-base font-bold">
               Historial de Balance
             </Typography>
-            <div className="flex gap-wf-sm">
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-[#8884d8]"></div>
-                <span className="text-[10px] text-wf-surface-tint">Actual</span>
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#10b981]"></div>
+                <span className="text-[11px] text-slate-400 font-mono">Actual</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-[#82ca9d]"></div>
-                <span className="text-[10px] text-wf-surface-tint">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#06b6d4]"></div>
+                <span className="text-[11px] text-slate-400 font-mono">
                   Anterior
                 </span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-[#ffc658]"></div>
-                <span className="text-[10px] text-wf-surface-tint">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></div>
+                <span className="text-[11px] text-slate-400 font-mono">
                   Año Pasado
                 </span>
               </div>
@@ -422,14 +428,14 @@ const Dashboard = memo((props: any) => {
                 <LineChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                   <CartesianGrid
                     strokeDasharray="3 3"
-                    stroke="rgba(0,0,0,0.05)"
+                    stroke="rgba(255, 255, 255, 0.06)"
                     vertical={false}
                   />
                   <XAxis
                     dataKey="day"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 10, fill: "#888" }}
+                    tick={{ fontSize: 10, fill: "#94a3b8" }}
                     type="number"
                     domain={[1, 31]}
                   />
@@ -437,15 +443,16 @@ const Dashboard = memo((props: any) => {
                     tickFormatter={formatYAxisTick}
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 10, fill: "#888" }}
+                    tick={{ fontSize: 10, fill: "#94a3b8" }}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      backgroundColor: "rgba(15, 23, 42, 0.95)",
                       borderRadius: "12px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                      backdropFilter: "blur(8px)",
+                      border: "1px solid rgba(51, 65, 85, 0.8)",
+                      boxShadow: "0 10px 25px -5px rgba(0,0,0,0.5)",
+                      backdropFilter: "blur(12px)",
+                      color: "#f8fafc",
                     }}
                     formatter={currencyFormatter}
                   />
@@ -454,7 +461,7 @@ const Dashboard = memo((props: any) => {
                     dataKey="cumulativeBalance"
                     name="Actual"
                     data={dataHistory.current}
-                    stroke="#8884d8"
+                    stroke="#10b981"
                     strokeWidth={3}
                     dot={{ r: 0 }}
                     activeDot={{ r: 6, strokeWidth: 0 }}
@@ -464,7 +471,7 @@ const Dashboard = memo((props: any) => {
                     dataKey="cumulativeBalance"
                     name="Anterior"
                     data={dataHistory.previousPeriod}
-                    stroke="#82ca9d"
+                    stroke="#06b6d4"
                     strokeWidth={2}
                     strokeDasharray="5 5"
                     dot={{ r: 0 }}
@@ -475,7 +482,7 @@ const Dashboard = memo((props: any) => {
                     dataKey="cumulativeBalance"
                     name="Año Pasado"
                     data={dataHistory.lastYear}
-                    stroke="#ffc658"
+                    stroke="#f59e0b"
                     strokeWidth={2}
                     strokeDasharray="3 3"
                     dot={{ r: 0 }}
@@ -484,7 +491,7 @@ const Dashboard = memo((props: any) => {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full w-full bg-wf-surface-container-lowest/50 animate-pulse rounded-lg" />
+              <div className="h-full w-full bg-slate-900/50 animate-pulse rounded-lg" />
             )}
           </div>
         </div>

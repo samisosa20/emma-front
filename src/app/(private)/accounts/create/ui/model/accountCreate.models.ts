@@ -17,13 +17,16 @@ import {
   usePatchApiAccountsIdRestore,
   usePatchApiAccountsIdDesactivate,
 } from "@@@/endpoints/account/account";
+import { useSession } from "@/share/components/SessionProvider";
 import { authClient } from "@/share/lib/auth-client";
 
 const useAccountCreate = () => {
   const router = useRouter();
   const param = useParams();
   const queryClient = useQueryClient();
-  const { data: session } = authClient.useSession();
+  const { session: contextSession } = useSession();
+  const { data: clientSession } = authClient.useSession();
+  const session = (contextSession || clientSession) as any;
 
   const [typeOptions, setTypeOptions] = useState<
     { label: string; value: string }[]
@@ -36,6 +39,15 @@ const useAccountCreate = () => {
 
   const { handleSubmit, control, reset, watch } = useForm({
     resolver: zodResolver(accountSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      typeId: "",
+      badgeId: undefined,
+      initAmount: "",
+      limit: "",
+      interest: "",
+    },
   });
 
   const watchType = watch("typeId");
@@ -58,9 +70,11 @@ const useAccountCreate = () => {
 
   const onSubmit = (data: any) => {
     const formData = {
-      ...data,
-      description: data.description ? data.description : "",
-      badgeId: data.badgeId.value,
+      name: String(data.name || "").trim(),
+      description: data.description ? String(data.description) : "",
+      typeId: String(data.typeId),
+      badgeId: String(data.badgeId?.value ?? data.badgeId),
+      initAmount: Number(data.initAmount || 0),
       limit: data.limit ? Number(data.limit) : 0,
     };
     if (param.id) {
@@ -76,7 +90,11 @@ const useAccountCreate = () => {
             router.push("/accounts");
           },
           onError: (error: any) => {
-            toast.error(error?.message || "Error al actualizar la cuenta");
+            const errMsg =
+              error?.response?.data?.message ||
+              error?.message ||
+              "Error al actualizar la cuenta";
+            toast.error(Array.isArray(errMsg) ? errMsg.join(", ") : errMsg);
           },
         }
       );
@@ -92,7 +110,11 @@ const useAccountCreate = () => {
             router.push("/accounts");
           },
           onError: (error: any) => {
-            toast.error(error?.message || "Error al crear la cuenta");
+            const errMsg =
+              error?.response?.data?.message ||
+              error?.message ||
+              "Error al crear la cuenta";
+            toast.error(Array.isArray(errMsg) ? errMsg.join(", ") : errMsg);
           },
         }
       );
@@ -156,7 +178,7 @@ const useAccountCreate = () => {
   useEffect(() => {
     if (session?.user) {
       setTypeOptions(
-        session?.accountTypes?.map((v) => {
+        (session?.accountTypes || []).map((v: any) => {
           return {
             label: String(v.name),
             value: String(v.id),
@@ -164,7 +186,7 @@ const useAccountCreate = () => {
         })
       );
       setCurrencyOptions(
-        session?.badges?.map((v) => {
+        (session?.badges || []).map((v: any) => {
           return {
             label: String(v.code),
             value: String(v.id),
@@ -175,7 +197,7 @@ const useAccountCreate = () => {
     if (param.id) {
       setTitle("Edicion de Cuentas");
     }
-  }, [param.id]);
+  }, [param.id, session]);
 
   useEffect(() => {
     if (data) {

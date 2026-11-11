@@ -12,6 +12,18 @@ const paymentsSchema = z.object({
     })
     .optional()
     .nullable(),
+  investment: z.union([
+    z.null(),
+    z.undefined(),
+    z.object({
+      value: z.union([z.string(), z.number()]),
+      label: z.string(),
+    }),
+  ]),
+  addWithdrawal: z
+    .boolean()
+    .optional()
+    .transform((e) => (typeof e !== "boolean" ? false : e)),
   description: z
     .string()
     .max(255, "Máximo 255 caracteres")

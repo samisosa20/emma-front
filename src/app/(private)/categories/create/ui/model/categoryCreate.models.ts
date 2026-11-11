@@ -12,7 +12,7 @@ import {
   usePostApiCategories,
   usePutApiCategoriesId,
   useDeleteApiCategoriesId,
-  useGetApiCategoriesIdSuspense,
+  useGetApiCategoriesId,
 } from "@@@/endpoints/category/category";
 import { authClient } from "@/share/lib/auth-client";
 
@@ -27,6 +27,8 @@ export default function useCategoryCreateViewModel() {
   const { handleSubmit, control, reset, watch, setValue } = useForm({
     resolver: zodResolver(categorySchema),
     defaultValues: {
+      name: "",
+      description: "",
       color: "#6bfe9c",
       icon: "category",
     }
@@ -38,7 +40,7 @@ export default function useCategoryCreateViewModel() {
 
   const mutationDelete = useDeleteApiCategoriesId();
 
-  const { data } = useGetApiCategoriesIdSuspense(param.id ? String(param.id) : "", {
+  const { data } = useGetApiCategoriesId(param.id ? String(param.id) : "", {
     query: {
       enabled: !!param.id,
       queryKey: ["categoryDetail", param.id ?? 0],
@@ -48,6 +50,7 @@ export default function useCategoryCreateViewModel() {
   const onSubmit = (data: CategorySchema) => {
     const payload = {
       ...data,
+      description: data.description ? String(data.description) : "",
       groupId: typeof data.groupId === "object" && data.groupId ? (data.groupId as any).value : data.groupId,
     };
     if (param.id) {

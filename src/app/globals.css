@@ -1,72 +1,68 @@
-@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
-
 @import "tailwindcss";
 @source inline("grid-cols-{0..9}");
 
 :root {
-  --wf-background: #ffffff;
-  --wf-on-background: #0f172a;
+  --wf-background: #020617;
+  --wf-on-background: #f8fafc;
 
-  --wf-surface: #ffffff;
-  --wf-on-surface: #0f172a;
-  --wf-on-surface-variant: #475569;
+  --wf-surface: #0f172a;
+  --wf-on-surface: #f8fafc;
+  --wf-on-surface-variant: #94a3b8;
 
-  --wf-surface-container-lowest: #ffffff;
-  --wf-surface-container-low: #f8fafc;
-  --wf-surface-container: #f1f5f9;
-  --wf-surface-container-high: #e2e8f0;
-  --wf-surface-container-highest: #cbd5e1;
-  --wf-surface-variant: #f1f5f9;
+  --wf-surface-container-lowest: #020617;
+  --wf-surface-container-low: #090d16;
+  --wf-surface-container: #0f172a;
+  --wf-surface-container-high: #1e293b;
+  --wf-surface-container-highest: #334155;
+  --wf-surface-variant: #1e293b;
 
   --wf-outline: #64748b;
-  --wf-outline-variant: #e2e8f0;
+  --wf-outline-variant: #334155;
 
-  --wf-primary: #040c21;
-  --wf-on-primary: #ffffff;
-  --wf-primary-container: #1e293b;
-  --wf-on-primary-container: #f8fafc;
+  --wf-primary: #10b981;
+  --wf-on-primary: #020617;
+  --wf-primary-container: #064e3b;
+  --wf-on-primary-container: #a7f3d0;
 
-  --wf-secondary: #059669;
-  --wf-on-secondary: #ffffff;
-  --wf-secondary-container: #d1fae5;
+  --wf-secondary: #06b6d4;
+  --wf-on-secondary: #020617;
+  --wf-secondary-container: #164e63;
 
-  --wf-error: #dc2626;
-  --wf-error-container: #fee2e2;
+  --wf-error: #f43f5e;
+  --wf-error-container: #881337;
 }
 
 html.dark,
 :root.dark,
 .dark {
-  --wf-background: #090d16;
-  --wf-on-background: #f3f4f6;
+  --wf-background: #020617;
+  --wf-on-background: #f8fafc;
 
-  --wf-surface: #111827;
-  --wf-on-surface: #f9fafb;
-  --wf-on-surface-variant: #9ca3af;
+  --wf-surface: #0f172a;
+  --wf-on-surface: #f8fafc;
+  --wf-on-surface-variant: #94a3b8;
 
-  --wf-surface-container-lowest: #111827;
-  --wf-surface-container-low: #1e293b;
-  --wf-surface-container: #1e293b;
-  --wf-surface-container-high: #334155;
-  --wf-surface-container-highest: #475569;
-  --wf-surface-variant: #334155;
+  --wf-surface-container-lowest: #020617;
+  --wf-surface-container-low: #090d16;
+  --wf-surface-container: #0f172a;
+  --wf-surface-container-high: #1e293b;
+  --wf-surface-container-highest: #334155;
+  --wf-surface-variant: #1e293b;
 
-  --wf-outline: #9ca3af;
-  --wf-outline-variant: #374151;
+  --wf-outline: #64748b;
+  --wf-outline-variant: #334155;
 
-  --wf-primary: #60a5fa;
-  --wf-on-primary: #111827;
-  --wf-primary-container: #1d4ed8;
-  --wf-on-primary-container: #bfdbfe;
+  --wf-primary: #10b981;
+  --wf-on-primary: #020617;
+  --wf-primary-container: #064e3b;
+  --wf-on-primary-container: #a7f3d0;
 
-  --wf-secondary: #10b981;
-  --wf-on-secondary: #ffffff;
-  --wf-secondary-container: #065f46;
+  --wf-secondary: #06b6d4;
+  --wf-on-secondary: #020617;
+  --wf-secondary-container: #164e63;
 
-  --wf-error: #f87171;
-  --wf-error-container: #7f1d1d;
+  --wf-error: #f43f5e;
+  --wf-error-container: #881337;
 }
 
 @theme {
@@ -75,8 +71,8 @@ html.dark,
   --font-manrope: "Manrope", sans-serif;
 
   --color-primary: var(--wf-primary);
-  --color-secondary: #ffe98a;
-  --color-wf-link: #2563eb;
+  --color-secondary: var(--wf-secondary);
+  --color-wf-link: #2dd4bf;
 
   --color-wf-background: var(--wf-background);
   --color-wf-on-background: var(--wf-on-background);
@@ -130,8 +126,9 @@ html.dark .bg-white,
 html.dark .bg-wf-on-primary,
 :root.dark .bg-wf-on-primary,
 .dark .bg-wf-on-primary {
-  background-color: #111827 !important;
-  color: #f9fafb !important;
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark .bg-white\/90,
@@ -140,23 +137,23 @@ html.dark .bg-white\/80,
 .dark .bg-white\/90,
 .dark .bg-white\/95,
 .dark .bg-white\/80 {
-  background-color: rgba(17, 24, 39, 0.95) !important;
+  background-color: rgba(15, 23, 42, 0.85) !important;
 }
 
 html.dark .text-slate-900,
 .dark .text-slate-900 {
-  color: #f9fafb !important;
+  color: #f8fafc !important;
 }
 
 html.dark .text-wf-primary,
 .dark .text-wf-primary {
-  color: #60a5fa !important;
+  color: #10b981 !important;
 }
 
 html.dark .text-wf-on-primary,
 :root.dark .text-wf-on-primary,
 .dark .text-wf-on-primary {
-  color: #f9fafb !important;
+  color: #020617 !important;
 }
 
 html.dark .border-wf-outline-variant\/30,
@@ -167,7 +164,7 @@ html.dark .border-white\/60,
 .dark .border-white\/50,
 .dark .border-white\/80,
 .dark .border-white\/60 {
-  border-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark input:not(.react-select__input):not([class*="react-select"]),
@@ -176,15 +173,15 @@ html.dark textarea,
 .dark input:not(.react-select__input):not([class*="react-select"]),
 .dark select,
 .dark textarea {
-  background-color: #1e293b !important;
+  background-color: #0b1120 !important;
   color: #f8fafc !important;
-  border-color: #334155 !important;
+  border-color: #1e293b !important;
 }
 
 html.dark .react-select__control,
 .dark .react-select__control {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
+  background-color: #0b1120 !important;
+  border-color: #1e293b !important;
   color: #f8fafc !important;
 }
 
@@ -201,7 +198,8 @@ html.dark input.react-select__input {
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
-  color: inherit !important;
+  color: #f8fafc !important;
+  opacity: 1 !important;
 }
 
 html.dark .react-select__single-value,
@@ -213,19 +211,28 @@ html.dark .react-select__input-container,
 
 html.dark .react-select__menu,
 .dark .react-select__menu {
-  background-color: #1e293b !important;
+  background-color: #0f172a !important;
   color: #f8fafc !important;
+  border: 1px solid #1e293b !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.dark .react-select__option,
 .dark .react-select__option {
-  background-color: #1e293b !important;
+  background-color: #0f172a !important;
   color: #f8fafc !important;
 }
 
 html.dark .react-select__option--is-focused,
 .dark .react-select__option--is-focused {
-  background-color: #334155 !important;
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+html.dark .react-select__option--is-selected,
+.dark .react-select__option--is-selected {
+  background-color: #10b981 !important;
+  color: #020617 !important;
 }
 
 .material-symbols-outlined {
@@ -278,6 +285,22 @@ html.dark .react-select__option--is-focused,
   @apply border-red-500;
 }
 
+/* Custom scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
 /* The container */
 .fiona-container-checkbox {
   @apply block relative cursor-pointer mb-3 pl-7 text-sm;
@@ -294,17 +317,17 @@ html.dark .react-select__option--is-focused,
 
 /* Create a custom checkbox */
 .checkmark {
-  @apply absolute top-0 left-0 h-5 w-5 border border-primary rounded;
+  @apply absolute top-0 left-0 h-5 w-5 border border-slate-700 bg-slate-900 rounded-md transition-all;
 }
 
-/* On mouse-over, add a grey background color */
+/* On mouse-over */
 .fiona-container-checkbox:hover input ~ .checkmark {
-  @apply bg-yellow-400 border-none;
+  @apply border-emerald-500/60 bg-slate-800;
 }
 
-/* When the checkbox is checked, add a blue background */
+/* When the checkbox is checked */
 .fiona-container-checkbox input:checked ~ .checkmark {
-  @apply bg-yellow-400 border-none;
+  @apply bg-emerald-500 border-emerald-500;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -320,12 +343,12 @@ html.dark .react-select__option--is-focused,
 
 /* Style the checkmark/indicator */
 .fiona-container-checkbox .checkmark:after {
-  left: 8px;
-  top: 4px;
+  left: 7px;
+  top: 3px;
   width: 5px;
   height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
+  border: solid #020617;
+  border-width: 0 2.5px 2.5px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -347,7 +370,7 @@ html.dark .react-select__option--is-focused,
 }
 
 .fiona-blog-content h2 {
-  @apply text-2xl text-yellow-400 font-bold;
+  @apply text-2xl text-emerald-400 font-bold;
 }
 
 .fiona-blog-content ol {
@@ -355,5 +378,5 @@ html.dark .react-select__option--is-focused,
 }
 
 .fiona-blog-content strong {
-  @apply text-yellow-400 font-bold;
+  @apply text-emerald-400 font-bold;
 }

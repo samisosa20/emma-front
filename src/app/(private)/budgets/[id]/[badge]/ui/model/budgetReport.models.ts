@@ -11,7 +11,7 @@ export default function useBudgetReportViewModel() {
 
   const [openCollapse, setOpenCollapse] = useState("");
 
-  const { isLoading, data, isError, refetch } = useGetApiBudgets({
+  const { isLoading, data, isError } = useGetApiBudgets({
     badgeId: String(params.badge),
     year: Number(params.id),
   });
@@ -23,8 +23,7 @@ export default function useBudgetReportViewModel() {
 
   useEffect(() => {
     if (isError) router.push("/login");
-    refetch();
-  }, [isError]);
+  }, [isError, router]);
 
   return {
     data,

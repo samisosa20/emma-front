@@ -16,7 +16,7 @@ const Checkbox = memo((props: CheckboxProps) => {
         onChange={handleCheckboxChange}
         className="peer"
       />
-      <span className="checkmark peer-focus-visible:ring-2 peer-focus-visible:ring-wf-primary/50 ring-offset-2"></span>
+      <span className="checkmark peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-500/50 ring-offset-2"></span>
     </label>
   );
 });

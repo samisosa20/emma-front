@@ -1,28 +1,5 @@
-'use client';
-//components
-import useComponents from '@/share/components';
-import Register from './ui/view/Register';
+import { redirect } from "next/navigation";
 
-
-import useRegister from './ui/model/register.models';
-
-
-export default function Page() {
-  const { isLoading, handleSubmit, onSubmit, control, currencyOptions, isSubmitting } =
-  useRegister();
-  const { Loading } = useComponents();
-
-  if (isLoading) {
-    return <Loading/>;
-  }
-
-  return (
-    <Register
-      control={control}
-      currencyOptions={currencyOptions}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      isSubmitting={isSubmitting}
-    />
-  );
+export default function RegisterPage() {
+  redirect("/login");
 }

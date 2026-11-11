@@ -6,7 +6,7 @@ import { useGetApiEventsSuspense } from "@@@/endpoints/event/event";
 
 const useEvents = () => {
   const router = useRouter();
-  const { isLoading, data, isError, refetch } = useGetApiEventsSuspense();
+  const { isLoading, data, isError } = useGetApiEventsSuspense();
 
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -20,9 +20,8 @@ const useEvents = () => {
   }, [search]);
 
   useEffect(() => {
-    refetch();
     if (isError) router.push("/login");
-  }, [isError, refetch, router]);
+  }, [isError, router]);
 
   /**
    * ⚡ Bolt Optimization: Memoize filtered events

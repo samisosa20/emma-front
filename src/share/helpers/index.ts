@@ -1,11 +1,4 @@
-import {
-  MdAttachMoney,
-  MdWallet,
-  MdEventNote,
-} from "react-icons/md";
-import { BiSolidCategoryAlt } from "react-icons/bi";
-import { GoHomeFill } from "react-icons/go";
-import { addWeeks, endOfISOWeek, startOfISOWeek, format } from "date-fns";
+import { addWeeks, endOfISOWeek, startOfISOWeek } from "date-fns";
 
 export * from "./driver";
 
@@ -227,46 +220,6 @@ export const links = [
   },
 ];
 
-export const linksMobile = [
-  {
-    id: "home",
-    name: "Home",
-    link: "/dashboard",
-    show: true,
-    icon: GoHomeFill,
-  },
-  {
-    id: "accounts",
-    name: "Cuentas",
-    link: "/accounts",
-    show: true,
-    icon: MdWallet,
-  },
-  {
-    id: "moves",
-    name: null,
-    link: "/moves",
-    show: true,
-    icon: MdAttachMoney,
-  },
-  {
-    id: "categories",
-    name: "Categorías",
-    link: "/categories",
-    show: true,
-    icon: BiSolidCategoryAlt,
-    mobile: false,
-  },
-  {
-    id: "events",
-    name: "Eventos",
-    link: "/events",
-    show: true,
-    icon: MdEventNote,
-    mobile: false,
-  },
-];
-
 export const colors = [
   "#36A2EB",
   "#FF6384",
@@ -452,5 +405,3 @@ export const accountTypesMap = Object.fromEntries(
 
 export const getAccountType = (typeName: string) =>
   accountTypesMap[typeName] ?? listAccountTypes[listAccountTypes.length - 1];
-
-export * from "./movementImportParser";

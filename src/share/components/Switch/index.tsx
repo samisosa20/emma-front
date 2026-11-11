@@ -19,17 +19,17 @@ const Switch = memo((props: SwitchProps) => {
           onChange={handleCheckboxChange}
         />
         <span
-          className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-wf-primary/50 ${
-            isChecked ? 'bg-wf-primary' : 'bg-wf-outline-variant'
+          className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-500/50 ${
+            isChecked ? 'bg-emerald-500 shadow-md shadow-emerald-500/25' : 'bg-slate-800 border border-slate-700'
           }`}
         >
           <span
-            className={`dot h-[18px] w-[18px] rounded-full bg-white shadow-sm duration-200 ${
-              isChecked ? 'translate-x-6' : ''
+            className={`dot h-[18px] w-[18px] rounded-full duration-200 transition-all ${
+              isChecked ? 'translate-x-6 bg-slate-950' : 'bg-slate-400'
             }`}
           ></span>
         </span>
-        <span className='label flex items-center text-sm font-medium text-wf-on-surface'>
+        <span className='label flex items-center text-sm font-medium text-slate-200 font-wf-body-regular'>
           {label}
         </span>
       </label>
