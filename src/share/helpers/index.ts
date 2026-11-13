@@ -254,6 +254,27 @@ export const getCurrencyFormatter = (
   return currencyFormatter.format(value);
 };
 
+/**
+ * Retorna la clase de color para tasas y porcentajes:
+ * verde para positivo, rojo para negativo, neutro para cero o no numérico.
+ */
+export const getRateColor = (
+  rate?: string | number | null,
+  fallbackZero: string = "text-slate-200"
+): string => {
+  if (rate === undefined || rate === null) return fallbackZero;
+  const num = typeof rate === "number" ? rate : parseFloat(rate);
+  if (!isNaN(num)) {
+    if (num < 0) return "text-rose-400";
+    if (num > 0) return "text-emerald-400";
+    return fallbackZero;
+  }
+  if (typeof rate === "string" && rate.trim().startsWith("-")) {
+    return "text-rose-400";
+  }
+  return fallbackZero;
+};
+
 export const isEmptyObject = (obj: any) => {
   return (
     obj &&

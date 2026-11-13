@@ -6,7 +6,11 @@ import useComponents from "@/share/components";
 import useComponentsLayout from "@/app/(private)/components";
 
 // Helpers
-import { getCurrencyFormatter, driverInvestment } from "@/share/helpers";
+import {
+  getCurrencyFormatter,
+  driverInvestment,
+  getRateColor,
+} from "@/share/helpers";
 import { GetApiInvestments200ContentItem } from "@@@/domain/models";
 
 /**
@@ -88,7 +92,11 @@ const Investments = memo((props: any) => {
                     <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
                       Val.
                     </span>
-                    <span className="text-xs font-mono font-bold text-slate-200">
+                    <span
+                      className={`text-xs font-mono font-bold ${getRateColor(
+                        investment.valorization,
+                      )}`}
+                    >
                       {investment.valorization}
                     </span>
                   </div>
@@ -96,7 +104,13 @@ const Investments = memo((props: any) => {
                     <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
                       Rend.
                     </span>
-                    <span className="text-xs font-mono font-bold text-slate-200">
+                    <span
+                      className={`text-xs font-mono font-bold ${
+                        investment.totalReturns < 0
+                          ? "text-rose-400"
+                          : "text-slate-200"
+                      }`}
+                    >
                       {getCurrencyFormatter(
                         investment.badge?.code,
                         investment.totalReturns,
@@ -107,7 +121,11 @@ const Investments = memo((props: any) => {
                     <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
                       Total
                     </span>
-                    <span className="text-xs font-mono font-bold text-emerald-400">
+                    <span
+                      className={`text-xs font-mono font-bold ${getRateColor(
+                        investment.totalRate,
+                      )}`}
+                    >
                       {investment.totalRate}
                     </span>
                   </div>

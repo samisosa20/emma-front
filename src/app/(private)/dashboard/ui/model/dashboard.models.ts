@@ -140,10 +140,17 @@ export default function useDashboardViewModel() {
   const { data: rawDataBalance } = useGetApiReportsGeneralBalance();
 
   const dataBalance = useMemo(
-    () =>
-      Array.isArray(rawDataBalance)
+    () => {
+      const items = Array.isArray(rawDataBalance)
         ? rawDataBalance
-        : (rawDataBalance as any)?.data ?? [],
+        : (rawDataBalance as any)?.data ?? [];
+      return items.filter(
+        (item: any) =>
+          item.amount !== null &&
+          item.amount !== undefined &&
+          Math.abs(Number(item.amount)) > 0.0001
+      );
+    },
     [rawDataBalance],
   );
 

@@ -58,7 +58,14 @@ export default function Heritages(props: {
                 </div>
 
                 <div className="space-y-wf-sm">
-                  {heritage.balances.map((balance, i) => (
+                  {heritage.balances
+                    ?.filter(
+                      (balance) =>
+                        balance.amount !== null &&
+                        balance.amount !== undefined &&
+                        Math.abs(Number(balance.amount)) > 0.0001
+                    )
+                    .map((balance, i) => (
                     <div
                       className="flex items-center justify-between p-2 sm:p-wf-sm rounded-lg hover:bg-wf-surface-container-low/50 transition-colors"
                       key={i}

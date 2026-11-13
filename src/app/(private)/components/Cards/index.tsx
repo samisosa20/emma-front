@@ -5,7 +5,7 @@ import useComponents from "@/share/components";
 
 // Interface
 import { CardsProps } from "./Cards.interface";
-import { getCurrencyFormatter } from "@/share/helpers";
+import { getCurrencyFormatter, getRateColor } from "@/share/helpers";
 import CurrencyBadgeFlag from "../CurrencyBadgeFlag";
 
 /**
@@ -74,7 +74,11 @@ const Cards = memo((props: CardsProps) => {
                 </Typography>
               )}
               {value.text && (
-                <Typography className="font-wf-body-regular text-sm text-slate-400">
+                <Typography
+                  className={`font-wf-body-regular font-bold text-sm font-mono ${
+                    value.className ?? getRateColor(value.text, "text-slate-400")
+                  }`}
+                >
                   {value.text}
                 </Typography>
               )}

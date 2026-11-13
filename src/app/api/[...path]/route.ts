@@ -663,7 +663,12 @@ async function handleRequest(
               });
 
               if (badgeTotals.size > 0) {
-                const aggregated = Array.from(badgeTotals.values());
+                const aggregated = Array.from(badgeTotals.values()).filter(
+                  (item) =>
+                    item.amount !== null &&
+                    item.amount !== undefined &&
+                    Math.abs(Number(item.amount)) > 0.0001
+                );
                 if (data && Array.isArray(data.content)) {
                   data.content = aggregated;
                 } else if (Array.isArray(data)) {

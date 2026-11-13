@@ -52,11 +52,25 @@ const HeritageYear = (props: any) => {
       <div
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6`}
       >
-        {data && data.balances?.length > 0 && (
-          <div className="mt-6">
-            <Cards title="balance" data={data.balances} />
-          </div>
-        )}
+        {data &&
+          data.balances?.filter(
+            (b: any) =>
+              b.amount !== null &&
+              b.amount !== undefined &&
+              Math.abs(Number(b.amount)) > 0.0001
+          ).length > 0 && (
+            <div className="mt-6">
+              <Cards
+                title="balance"
+                data={data.balances.filter(
+                  (b: any) =>
+                    b.amount !== null &&
+                    b.amount !== undefined &&
+                    Math.abs(Number(b.amount)) > 0.0001
+                )}
+              />
+            </div>
+          )}
         {data && data.investments?.length > 0 && (
           <div className="mt-6">
             <Cards title="Inversiones" data={data.investments} />
